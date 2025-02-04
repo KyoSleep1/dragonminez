@@ -14,9 +14,12 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 public class StatsCommand {
 
@@ -140,7 +143,8 @@ public class StatsCommand {
 
                         maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
-                        player.heal((float) maxVIDA);
+                        int nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.setHealth((float) nuevaMaxVida);
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -184,6 +188,10 @@ public class StatsCommand {
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
 
                         stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
+
+                        nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(nuevaMaxVida);
+                        player.setHealth((float) nuevaMaxVida);
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -248,6 +256,10 @@ public class StatsCommand {
                         maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
                         player.heal((float) maxVIDA);
+                        int nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(nuevaMaxVida);
+                        player.setHealth((float) nuevaMaxVida);
+
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
                                         .append(Component.translatable("command.dmzstats.constitution")).append(" ")
@@ -288,6 +300,9 @@ public class StatsCommand {
 
                         maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
+                        nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(nuevaMaxVida);
+                        player.setHealth((float) nuevaMaxVida);
 
                         stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 
@@ -367,6 +382,9 @@ public class StatsCommand {
                         maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
                         player.heal((float) maxVIDA);
+                        int nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(nuevaMaxVida);
+                        player.setHealth((float) nuevaMaxVida);
 
                         player.sendSystemMessage(
                                 Component.translatable("command.dmzstats.done").append(" ")
@@ -413,6 +431,9 @@ public class StatsCommand {
 
                         maxVIDA = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
                         stats.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
+						nuevaMaxVida = dmzdatos.calcularCON(raza, stats.getConstitution(), vidaMC, stats.getDmzClass());
+                        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(nuevaMaxVida);
+                        player.setHealth((float) nuevaMaxVida);
 
                         stats.setCurrentEnergy(dmzdatos.calcularENE(raza, stats.getEnergy(), stats.getDmzClass()));
 

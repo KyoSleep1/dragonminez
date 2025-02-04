@@ -20,6 +20,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -196,8 +198,10 @@ public class StatsEvents {
                     // Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
                     if (isDmzUser) {
                         if (curStamina > 0) {
+                            if (staminaCost <= 2) staminaCost = 2; // Mínimo 2 de Stamina
                             // Consumir Stamina proporcional al daño
                             int staminaToConsume = Math.min(curStamina, staminaCost); // Consume lo que se puede
+                            if (staminaCost <= 2) staminaToConsume = 2; // Mínimo 2 de Stamina
                             float damageMultiplier = (float) staminaToConsume / staminaCost; // Factor de daño basado en Stamina disponible
 
                             if (curStamina >= staminacost) {
@@ -278,15 +282,6 @@ public class StatsEvents {
                                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
                                 });
                             }
-                        }
-
-                        // FORZAR LA MUERTE SI LA VIDA BAJA DE 1 (Por alguna razón me pasó 2 veces q tenía 0hp y tuve q recibir daño d nuevo para morir)
-                        if (event.getEntity() instanceof Player jugador) {
-                            jugador.level().getServer().execute(() -> {
-                                if (jugador.getHealth() - event.getAmount() < 1) {
-                                    jugador.kill();
-                                }
-                            });
                         }
                     }
                 });

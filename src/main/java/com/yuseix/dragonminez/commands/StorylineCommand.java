@@ -44,8 +44,8 @@ public class StorylineCommand {
 	 */
 
 	public StorylineCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-		dispatcher.register(Commands.literal("storyline")
-				// /storyline set quest <id> <true|false>
+		dispatcher.register(Commands.literal("dmzstoryline")
+				// /dmzstoryline set quest <id> <true|false>
 				.then(Commands.literal("set")
 						.then(Commands.literal("saga")
 								.then(Commands.argument("id", StringArgumentType.string())
@@ -92,7 +92,7 @@ public class StorylineCommand {
 						)
 				)
 
-				// /storyline get saga <id>
+				// /dmzstoryline get saga <id>
 				.then(Commands.literal("get")
 
 						.then(Commands.literal("saga")
