@@ -406,25 +406,20 @@ public class ClientEvents {
 
 				// Si mantiene espacio, ascender
 				if (player.input.jumping) {
-					System.out.println("Jumping");
 					yVelocity = 0.1;
 				}
 				// Si mantiene shift, descender
 				else if (player.input.shiftKeyDown) {
-					System.out.println("Sneaking");
 					yVelocity = -0.1;
 				}
 				// Si no presiona nada, descenso lento
 				else {
-					System.out.println("Nothing");
 					if (yVelocity != -0.02) {
 						yVelocity = -0.02;
 					}
 				}
 
-				System.out.println("yVelocity antes: " + yVelocity);
 				player.setDeltaMovement(motion.x, yVelocity, motion.z);
-				System.out.println("yVelocity después: " + player.getDeltaMovement().y);
 				player.onUpdateAbilities();
 			}
 		});

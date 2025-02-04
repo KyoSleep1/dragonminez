@@ -1,7 +1,10 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -9,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -36,6 +40,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -67,6 +72,10 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 	public String getOwnerName() {
 		return this.entityData.get(OWNER_NAME);
+	}
+
+	public ServerPlayer getOwnerPlayer() {
+		return (ServerPlayer) this.level().getPlayerByUUID(UUID.fromString(this.getOwnerName()));
 	}
 
 	public int getDeseos() {
@@ -124,6 +133,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		if (this.getDeseos() == 0) {
 			tiempo--;
 		}
+
+		if (this.tickCount == 1) dragonBallPositions.clear();
 
 		if (tiempo == 0) {
 			this.discard();
@@ -190,6 +201,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
+					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
 					dragonBallsCapability.setHasDragonBalls(true);
 				}
 			});

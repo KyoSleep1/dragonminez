@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -123,6 +124,8 @@ public class PorungaEntity extends Mob implements GeoEntity {
 			tiempo--;
 		}
 
+		if (this.tickCount == 1) namekDragonBallPositions.clear();
+
 		if (tiempo == 0) {
 			this.discard();
 		}
@@ -186,6 +189,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
 
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+					RadarEvents.updateDragonBallsPositions(namekDragonBallPositions);
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
 				}
 			});
