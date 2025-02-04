@@ -9,6 +9,9 @@
     "PlayerMixin"
   ],
   "client": [
+    "ExperimentalLoadingInMixin",
+    "ExperimentalWorldCreationMixin",
+    "ServerWorldInfoMixin",
     "SoundManagerMixin",
     "TitleScreenMixin",
     "client.renderer.EntityRenderDispatcherMixin",
