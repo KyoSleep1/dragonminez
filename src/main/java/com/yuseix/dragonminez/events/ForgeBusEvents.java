@@ -120,10 +120,10 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (event.getObject().getCapability(INSTANCE).isPresent()) {
+			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent()) {
 				return;
 			}
-			//System.out.println("Añadiendo capability");
+
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider();
 

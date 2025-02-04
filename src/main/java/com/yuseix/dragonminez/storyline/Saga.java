@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.storyline;
 
+import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
 
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ public abstract class Saga {
 	private final List<Saga> sagaPrerequisites;
 
 	public Saga(String id, String name) {
-		IDRegistry.registerSagaId(id);
+		if (!StorylineManager.hasInitialized) {
+			IDRegistry.registerSagaId(id);
+		}
 		this.id = id;
 		this.name = name;
 		this.quests = new ArrayList<>();
