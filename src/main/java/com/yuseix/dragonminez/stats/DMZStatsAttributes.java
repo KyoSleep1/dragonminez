@@ -33,6 +33,7 @@ public class DMZStatsAttributes {
     private int dmzRelease = 5;
     private int dmzState = 0;
     private int dmzSenzuDaily = 0;
+    private int dmzBattlePower = 0;
 
     private int zpoints;
     private int KiPower = 5;
@@ -764,6 +765,24 @@ public class DMZStatsAttributes {
         }
     }
 
+    public boolean isCompactMenu() {
+        return compactMenu;
+    }
+
+    public void setCompactMenu(boolean compactMenu) {
+        this.compactMenu = compactMenu;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public int getDmzBattlePower() {
+        int damage = dmzdatos.calcularSTRCompleta(races, dmzState, strength, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
+        int kiDamage = dmzdatos.calcularPWRCompleta(races, dmzState, KiPower, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
+        int totalDefense = dmzdatos.calcularDEFCompleta(races, dmzState, defense, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
+        double release = (double) getDmzRelease() / 100;
+        dmzBattlePower = (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
+        return dmzBattlePower;
+    }
+
     public CompoundTag saveNBTData() {
 
         CompoundTag nbt = new CompoundTag();
@@ -801,6 +820,7 @@ public class DMZStatsAttributes {
         nbt.putInt("zpoints", zpoints);
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
+        nbt.putBoolean("compactMenu", compactMenu);
         nbt.putBoolean("isAuraOn", isauraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
@@ -879,6 +899,7 @@ public class DMZStatsAttributes {
         dmzAlignment = nbt.getInt("dmzAlignment");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
+        compactMenu = nbt.getBoolean("compactMenu");
         isauraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
@@ -914,13 +935,5 @@ public class DMZStatsAttributes {
             }
         }
 
-    }
-
-	public boolean isCompactMenu() {
-		return compactMenu;
-	}
-
-	public void setCompactMenu(boolean compactMenu) {
-        this.compactMenu = compactMenu;
     }
 }

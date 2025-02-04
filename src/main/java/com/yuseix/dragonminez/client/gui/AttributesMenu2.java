@@ -46,7 +46,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             "textures/gui/menulargo2.png");
 
 
-    private CustomButtons multiBoton; private DMZDatos dmzdatos = new DMZDatos();
+    private CustomButtons multiBoton, strBoton, defBoton, conBoton, pwrBoton, eneBoton; private DMZDatos dmzdatos = new DMZDatos();
     private DMZGuiButtons newMenuBoton;
 
     // Formateador de números con separadores (por ejemplo, "10.000.000")
@@ -81,6 +81,12 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
     }
 
     public void botonesStats(){
+        this.removeWidget(strBoton);
+        this.removeWidget(defBoton);
+        this.removeWidget(conBoton);
+        this.removeWidget(pwrBoton);
+        this.removeWidget(eneBoton);
+
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
             var tps = playerstats.getZpoints(); var str = playerstats.getStrength(); var def = playerstats.getDefense();
             var con = playerstats.getConstitution(); var kipower = playerstats.getKiPower(); var energy = playerstats.getEnergy();
@@ -97,45 +103,56 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
             this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat", anchoTexto - 3, alturaTexto + 63, Component.empty(), wa -> {
                 switch (multiplicadorTP) {
-                    case 1:
-                        multiplicadorTP = 10;
-                        break;
-                    case 10:
-                        multiplicadorTP = 100;
-                        break;
-                    case 100:
-                        multiplicadorTP = 1;
-                        break;
+                    case 1 -> multiplicadorTP = 10;
+                    case 10 -> multiplicadorTP = 100;
+                    case 100 -> multiplicadorTP = 1;
                 }
             }));
 
-            // Crear botones dinámicos para las estadísticas, solo si las estadísticas no están en su máximo y hay suficientes ZPoints
-            int[] stats = {str, def, con, kipower, energy};
+            int[] cantStats = {str, def, con, kipower, energy};
+            Arrays.sort(cantStats);
+            int maxStat = cantStats[4];
 
-            for (int i = 0; i < stats.length; i++) {
-                if (stats[i] < maxStats && tps >= baseCost) {
-                    int offsetY = i * 12;
-                    int finalI = i;
+            // Calcula el número de niveles a aumentar de forma uniforme
+            upgradeStatSTR = calcularNivelesAumentar(tps, baseCost, multiplicadorTP, maxStats);
+            upgradeStatDEF = calcularNivelesAumentar(tps, baseCost, multiplicadorTP, maxStats);
+            upgradeStatCON = calcularNivelesAumentar(tps, baseCost, multiplicadorTP, maxStats);
+            upgradeStatPWR = calcularNivelesAumentar(tps, baseCost, multiplicadorTP, maxStats);
+            upgradeStatENE = calcularNivelesAumentar(tps, baseCost, multiplicadorTP, maxStats);
 
-                    this.addRenderableWidget(new CustomButtons("stat", anchoTexto, alturaTexto + offsetY, Component.empty(), wa -> {
-                        // Recalcular valores dinámicamente al presionar el botón
-                        // Si el costo ajustado es mayor que los puntos totales, entonces se pueden aumentar las Stats al máximo posible con esos tps
-                        int statActual = stats[finalI];
-                        int adjustedCost = calcularCostoRecursivo(statActual, multiplicadorTP, baseCost, maxStats);
-                        int upgradeStat;
-                        int finalCost;
+            // Calcula el costo ajustado para cada stat
+            finalCostSTR = calcularCostoRecursivo(maxStat, upgradeStatSTR, baseCost, maxStats);
+            finalCostDEF = calcularCostoRecursivo(maxStat, upgradeStatDEF, baseCost, maxStats);
+            finalCostCON = calcularCostoRecursivo(maxStat, upgradeStatCON, baseCost, maxStats);
+            finalCostPWR = calcularCostoRecursivo(maxStat, upgradeStatPWR, baseCost, maxStats);
+            finalCostENE = calcularCostoRecursivo(maxStat, upgradeStatENE, baseCost, maxStats);
 
-                        if (adjustedCost > tps) {
-                            upgradeStat = calcularNivelesAumentar(statActual, tps, baseCost, maxStats);
-                            finalCost = calcularCostoRecursivo(statActual, upgradeStat, baseCost, maxStats);
-                        } else {
-                            upgradeStat = Math.min(multiplicadorTP, maxStats - statActual);
-                            finalCost = adjustedCost;
-                        }
-
-                        // Enviar los valores actualizados
-                        ModMessages.sendToServer(new ZPointsC2S(1, finalCost));
-                        ModMessages.sendToServer(new StatsC2S(finalI, upgradeStat));
+            int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
+            if(tps >= costoRecursivo){
+                if (str < maxStats) {
+                    this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostSTR));
+                        ModMessages.sendToServer(new StatsC2S(0, upgradeStatSTR));
+                    }));}
+                if (def < maxStats) {
+                    this.defBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 12,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostDEF));
+                        ModMessages.sendToServer(new StatsC2S(1,upgradeStatDEF));
+                    }));}
+                if (con < maxStats) {
+                    this.conBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 24,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostCON));
+                        ModMessages.sendToServer(new StatsC2S(2,upgradeStatCON));
+                    }));}
+                if (kipower < maxStats) {
+                    this.pwrBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 36,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostPWR));
+                        ModMessages.sendToServer(new StatsC2S(3,upgradeStatPWR));
+                    }));}
+                if (energy < maxStats) {
+                    this.eneBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat",anchoTexto, alturaTexto + 48,Component.empty(), wa -> {
+                        ModMessages.sendToServer(new ZPointsC2S(1, finalCostENE));
+                        ModMessages.sendToServer(new StatsC2S(4,upgradeStatENE));
                     }));
                 }
             }
@@ -185,15 +202,15 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
     }
 
     private int calcularNivelesAumentar(int statActual, int tps, int baseCost, int maxStats) {
+        int costoTotalEsperado = multiplicadorTP * baseCost;
         int nivelesAumentar = 0;
         int costoAcumulado = 0;
 
-        while (statActual + nivelesAumentar < maxStats) {
-            int costoNivel = baseCost + (int) Math.round(DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * (statActual + nivelesAumentar));
-            if (costoAcumulado + costoNivel > tps) break; // Si no hay suficientes puntos, detener
-            costoAcumulado += costoNivel;
+        while (nivelesAumentar < multiplicadorTP && costoAcumulado + baseCost <= costoTotalEsperado) {
+            costoAcumulado += baseCost;
             nivelesAumentar++;
         }
+
         return nivelesAumentar;
     }
 

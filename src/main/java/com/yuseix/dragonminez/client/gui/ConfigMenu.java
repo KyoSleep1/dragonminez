@@ -81,7 +81,6 @@ public class ConfigMenu extends Screen {
 			switchButton = new SwitchButton(isCompactMenu, anchoTexto + 80, altoTexto, Component.empty(), button -> {
 				boolean newValue = !isCompactMenu;
 				int newValueInt = newValue ? 1 : 0;
-				cap.setCompactMenu(newValue);
 				ModMessages.sendToServer(new CharacterC2S("isCompactMenu", newValueInt));
 			});
 			this.addRenderableWidget(switchButton);

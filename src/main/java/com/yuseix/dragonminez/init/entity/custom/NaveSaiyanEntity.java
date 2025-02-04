@@ -78,6 +78,8 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 				if (!player.isPassenger()) {
 					player.startRiding(this);
 					ModMessages.sendToServer(new PlanetSelectionC2S(0));
+					this.isTeleporting = false;
+					this.teleportCountdown = teleportTime;
 				}
 			}
 		}
@@ -176,6 +178,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 							}
 						}
 					}
+
 					// Reiniciar el estado del teletransporte
 					isTeleporting = false;
 					teleportCountdown = teleportTime;
@@ -222,6 +225,9 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 				return (LivingEntity) passenger;  // Devuelve el jugador que controla la nave
 			}
 		}
+		isTeleporting = false;
+		teleportCountdown = teleportTime;
+
 		return null;  // Devuelve null si no hay ningún jugador controlando la nave
 	}
 
