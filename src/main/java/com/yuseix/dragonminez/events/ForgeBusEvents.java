@@ -95,25 +95,46 @@ public class ForgeBusEvents {
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
-		ServerLevel serverWorld = event.getServer().getLevel(Level.OVERWORLD);
-		if (serverWorld == null) {
-			return;
-		}
-		if (!serverWorld.isClientSide()) {
-			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
-				boolean bhasDragonBalls = dragonBallsCapability.hasDragonBalls();
+		ServerLevel serverOverworld = event.getServer().getLevel(Level.OVERWORLD);
+		ServerLevel serverNamek = event.getServer().getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
 
-				if (!bhasDragonBalls) {
-					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+		if (serverOverworld == null) return;
+		if (!serverOverworld.isClientSide()) {
+			serverOverworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+
+				if (!dragonBallsCapability.hasDragonBalls()) {
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
+					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
 					dragonBallsCapability.setHasDragonBalls(true);
+				}
+			});
+		}
+
+		if (serverNamek == null) return;
+		if (!serverNamek.isClientSide()) {
+			serverNamek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				// Verifica si ya se han generado las Dragon Balls
+				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Quitar una vez se meta al Gran Patriarca xd
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+
+					// Indica que las Dragon Balls de Namek han sido generadas
+					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
+					namekDragonBallsCapability.setHasNamekDragonBalls(true);
 				}
 			});
 		}
@@ -179,25 +200,6 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) { //Dimension Habitación del Tiempo
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
-			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
-				LazyOptional<NamekDragonBallsCapability> namekDragonBallsCapability = serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY);
-				namekDragonBallsCapability.ifPresent(namekDragonBalls -> {
-					// Verifica si ya se han generado las Dragon Balls
-					if (!namekDragonBalls.hasNamekDragonBalls()) {
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Quitar una vez se meta al Gran Patriarca xd
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
-						spawnNamekDragonBall(serverLevel, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
-
-						// Indica que las Dragon Balls de Namek han sido generadas
-						namekDragonBalls.setNamekDragonBallPositions(namekDragonBallPositions);
-						namekDragonBalls.setHasNamekDragonBalls(true);
-					}
-				});
 			}
 		}
 	}

@@ -177,9 +177,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 					namekDragonBallsCapability.setHasNamekDragonBalls(false);
 				}
 
-				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
-
-				if (!hasNamekDragonBalls) {
+				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
@@ -189,7 +187,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
 
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
-					RadarEvents.updateDragonBallsPositions(namekDragonBallPositions);
+					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
 				}
 			});

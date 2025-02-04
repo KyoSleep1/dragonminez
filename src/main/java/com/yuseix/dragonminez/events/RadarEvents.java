@@ -31,11 +31,9 @@ import java.util.List;
 public class RadarEvents {
 	private static final ResourceLocation fondo = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/radar.png");
-	private static final ResourceLocation boton = new ResourceLocation(DragonMineZ.MOD_ID,
-			"textures/gui/buttons/characterbuttons.png");
-
 
 	private static List<BlockPos> closestDballPositions = new ArrayList<>();
+	private static List<BlockPos> closestNDballPositions = new ArrayList<>();
 	private static long lastUpdateTime = 0;
 	private static final int UPDATE_INTERVAL_TICKS = 20 * 5; // (20 Ticks * Cant Segundos) = Segundos en Minecraft, default 5.
 
@@ -46,6 +44,7 @@ public class RadarEvents {
 
 		Player player = mc.player;
 		if (player == null) return;
+
 		GuiGraphics gui = event.getGuiGraphics();
 		int radarSize = 140; // Radar tamañito (121x146 px)
 
@@ -82,7 +81,8 @@ public class RadarEvents {
 				}
 
 				// Renderizar posiciones si ya están actualizadas
-				renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
+				if (isOverworld) renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
+				else if (isNamek) renderDballRadar(gui, player, radarRange, closestNDballPositions, centerX, centerY);
 			} else if ((isOverworld && offhandRadarItem.getItem() instanceof DragonBallRadarItem) ||
 					(isNamek && offhandRadarItem.getItem() instanceof NamekDragonBallRadarItem)) {
 				// Get radar range from NBT or use default
@@ -112,7 +112,8 @@ public class RadarEvents {
 				}
 
 				// Renderizar posiciones si ya están actualizadas
-				renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
+				if (isOverworld) renderDballRadar(gui, player, radarRange, closestDballPositions, centerX, centerY);
+				else if (isNamek) renderDballRadar(gui, player, radarRange, closestNDballPositions, centerX, centerY);
 			}
 		}
 	}
@@ -144,17 +145,25 @@ public class RadarEvents {
 				// Draw yellow arrow
 				int arrowX = (int) (centerX + 61 - 50 * Math.cos(adjustedAngle));
 				int arrowY = (int) (centerY + 87 - 50 * Math.sin(adjustedAngle));
+				float arrowRotation = (float) (-adjustedAngle + Math.PI/2);
+
+
 				RenderSystem.setShaderTexture(0, fondo);
 				gui.pose().pushPose();
 				gui.pose().translate(arrowX, arrowY, 0);
-				gui.pose().mulPose(new Quaternionf().rotationZ((float) adjustedAngle));
-				gui.blit(fondo, 0, 0, 130, 8, 7, 6);
+				gui.pose().mulPose(new Quaternionf().rotationZ(arrowRotation));
+				gui.pose().translate(-3.5f, -3.0f, 0);
+				gui.blit(fondo, 0, + 2, 130, 8, 7, 6);
 				gui.pose().popPose();
 			}
 		}
 	}
 
-	public static void updateDragonBallsPositions(List<BlockPos> positions) {
-		closestDballPositions = positions;
+	public static void updateDragonBallsPositions(List<BlockPos> positionsDball) {
+		closestDballPositions = positionsDball;
+	}
+
+	public static void updateNamekDragonBallsPositions(List<BlockPos> positionsNDball) {
+		closestNDballPositions = positionsNDball;
 	}
 }

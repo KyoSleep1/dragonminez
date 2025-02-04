@@ -48,7 +48,7 @@ public class ClientEvents {
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v" + "1.2 - Story and Skills System!";
+	private static final String title = "DragonMine Z - Release v" + "1.2 || Storyline and Skills!";
 	private static boolean isDescending = false;
 
 	private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());

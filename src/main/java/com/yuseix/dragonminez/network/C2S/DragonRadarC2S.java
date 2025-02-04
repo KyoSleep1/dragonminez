@@ -2,9 +2,9 @@ package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
+import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,19 +32,24 @@ public class DragonRadarC2S {
 				Level level = player.level();
 				if (level.isClientSide()) return; // Solo manejar en el servidor
 
-				List<BlockPos> positions = null;
+				List<BlockPos> positionsDBall = null;
+				List<BlockPos> positionsNDball = null;
+
 				if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent()) {
-					positions = level.getCapability(DragonBallGenProvider.CAPABILITY)
+					positionsDBall = level.getCapability(DragonBallGenProvider.CAPABILITY)
 							.orElseThrow(() -> new IllegalStateException("DragonBallGenProvider not found"))
 							.DragonBallPositions();
 				} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
-					positions = level.getCapability(NamekDragonBallGenProvider.CAPABILITY)
+					positionsNDball = level.getCapability(NamekDragonBallGenProvider.CAPABILITY)
 							.orElseThrow(() -> new IllegalStateException("NamekDragonBallGenProvider not found"))
 							.namekDragonBallPositions();
 				}
 
-				if (positions != null) {
-					ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positions), player);
+				if (positionsDBall != null) {
+					ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positionsDBall), player);
+				}
+				if (positionsNDball != null) {
+					ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(positionsNDball), player);
 				}
 			}
 		});

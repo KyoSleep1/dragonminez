@@ -149,6 +149,11 @@ public class ModMessages {
 				.decoder(UpdateDragonRadarS2C::decode)
 				.consumerMainThread(UpdateDragonRadarS2C::handle)
 				.add();
+		net.messageBuilder(UpdateNamekDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(UpdateNamekDragonRadarS2C::encode)
+				.decoder(UpdateNamekDragonRadarS2C::decode)
+				.consumerMainThread(UpdateNamekDragonRadarS2C::handle)
+				.add();
 		net.messageBuilder(FlyToggleS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(FlyToggleS2C::encode)
 				.decoder(FlyToggleS2C::decode)

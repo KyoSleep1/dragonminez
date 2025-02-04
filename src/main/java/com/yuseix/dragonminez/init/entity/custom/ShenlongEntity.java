@@ -3,8 +3,6 @@ package com.yuseix.dragonminez.init.entity.custom;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -189,9 +187,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 					dragonBallsCapability.setHasDragonBalls(false);
 				}
 
-				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
-
-				if (!hasDragonBalls) {
+				if (!dragonBallsCapability.hasDragonBalls()) {
 					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());

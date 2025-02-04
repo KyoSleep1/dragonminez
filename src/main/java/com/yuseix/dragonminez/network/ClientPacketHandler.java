@@ -125,5 +125,8 @@ public class ClientPacketHandler {
 	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
 		Minecraft.getInstance().execute(() -> RadarEvents.updateDragonBallsPositions(positions));
 	}
+	public static void handleUpdateNamekDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+		Minecraft.getInstance().execute(() -> RadarEvents.updateNamekDragonBallsPositions(positions));
+	}
 
 }

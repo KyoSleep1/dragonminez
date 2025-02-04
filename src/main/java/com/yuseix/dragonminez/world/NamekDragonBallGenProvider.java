@@ -17,13 +17,13 @@ public class NamekDragonBallGenProvider implements ICapabilityProvider, INBTSeri
     });
     private final LazyOptional<NamekDragonBallsCapability> optional = LazyOptional.of(this::getNamekDballsBackend);
 
-    private NamekDragonBallsCapability Dballs = null;
+    private NamekDragonBallsCapability NDballs = null;
 
     private NamekDragonBallsCapability getNamekDballsBackend() {
-        if (this.Dballs == null) {
-            this.Dballs = new NamekDragonBallsCapability();
+        if (this.NDballs == null) {
+            this.NDballs = new NamekDragonBallsCapability();
         }
-        return this.Dballs;
+        return this.NDballs;
     }
 
     @Override

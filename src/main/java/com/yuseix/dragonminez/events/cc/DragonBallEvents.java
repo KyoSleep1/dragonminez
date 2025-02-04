@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
+import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.DragonBallsCapability;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -38,22 +39,26 @@ public class DragonBallEvents {
 		if (!isDragonBallBlock(block)) return;
 
 		// Actualizar posiciones en el servidor
-		List<BlockPos> positions = null;
+		List<BlockPos> positionsDBall = null;
+		List<BlockPos> positionsNDball = null;
 		if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent()) {
 			DragonBallsCapability capability = level.getCapability(DragonBallGenProvider.CAPABILITY)
 					.orElseThrow(() -> new IllegalStateException("DragonBallsCapability not found"));
 			capability.updateDragonBallPositions(level);
-			positions = capability.dragonBallPositions;
+			positionsDBall = capability.dragonBallPositions;
 		} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
 			NamekDragonBallsCapability capability = level.getCapability(NamekDragonBallGenProvider.CAPABILITY)
 					.orElseThrow(() -> new IllegalStateException("NamekDragonBallsCapability not found"));
 			capability.updateDragonBallPositions(level);
-			positions = capability.namekDragonBallPositions;
+			positionsNDball = capability.namekDragonBallPositions;
 		}
 
 		// Enviar nueva lista al cliente
-		if (positions != null) {
-			ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positions), player);
+		if (positionsDBall != null) {
+			ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positionsDBall), player);
+		}
+		if (positionsNDball != null) {
+			ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(positionsNDball), player);
 		}
 	}
 
@@ -101,7 +106,7 @@ public class DragonBallEvents {
 				capability.namekDragonBallPositions.removeIf(existingPos -> mismaDragonBall(level, existingPos, block));
 				capability.namekDragonBallPositions.add(pos);
 
-				ModMessages.sendToPlayer(new UpdateDragonRadarS2C(capability.namekDragonBallPositions), player);
+				ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(capability.namekDragonBallPositions), player);
 			});
 		}
 	}
@@ -131,7 +136,7 @@ public class DragonBallEvents {
 				capability.namekDragonBallPositions.remove(pos);
 
 				// Sincronizar con el cliente
-				ModMessages.sendToPlayer(new UpdateDragonRadarS2C(capability.namekDragonBallPositions), player);
+				ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(capability.namekDragonBallPositions), player);
 			});
 		}
 	}
