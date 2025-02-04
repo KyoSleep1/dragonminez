@@ -24,10 +24,12 @@ import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Mode
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
+import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.RaditzRenderer;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
@@ -113,6 +115,9 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Renderer::new);
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Renderer::new);
 			EntityRenderers.register(MainEntity.MORO_SOLDIER.get(), MoroSoldierRenderer::new);
+
+			//SAGAS
+			EntityRenderers.register(MainEntity.RADITZ_SAGA.get(), RaditzRenderer::new);
 
 			//FAKEPLAYERS
 			EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), (context) -> new FPBioAndroidRender(context, new BioAndroidModel<>(context.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
@@ -220,6 +225,8 @@ public class ModClientEvents {
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
+		//SAGAS
+		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);

@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -148,6 +149,14 @@ public class MainEntity {
                     () -> EntityType.Builder.of(PorungaEntity::new, MobCategory.AMBIENT)
                             .sized(2.5f, 20f)
                             .build(new ResourceLocation(DragonMineZ.MOD_ID, "porunga").toString())
+            );
+
+    //SAGAS
+    public static final RegistryObject<EntityType<RaditzEntity>> RADITZ_SAGA =
+            ENTITY_TYPES_REGISTER.register("saga_raditz",
+                    () -> EntityType.Builder.of(RaditzEntity::new, MobCategory.CREATURE)
+                            .sized(0.6f, 1.8f)
+                            .build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_raditz").toString())
             );
 
     //FAKEPLAYERS

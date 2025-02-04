@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -42,6 +43,10 @@ public class ModBusEvents {
 		event.put(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Entity.setAttributes());
 		event.put(MainEntity.MORO_SOLDIER.get(), MoroSoldierEntity.setAttributes());
 		event.put(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanEntity.setAttributes());
+
+		//SAGAS
+		event.put(MainEntity.RADITZ_SAGA.get(), RaditzEntity.setAttributes());
+
 
 		//FAKEPLAYERS
 		event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());
