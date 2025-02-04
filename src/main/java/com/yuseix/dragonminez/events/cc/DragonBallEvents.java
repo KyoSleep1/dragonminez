@@ -74,7 +74,7 @@ public class DragonBallEvents {
 		// Verificar si el bloque colocado es una Dragon Ball
 		if (!isDragonBallBlock(block)) return;
 
-		if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent()) {
+		if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent() && isEarthDB(block)) {
 			level.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				// Buscar si ya había una esfera con el mismo tipo en otra ubicación
 				capability.dragonBallPositions.stream()
@@ -93,7 +93,7 @@ public class DragonBallEvents {
 				// Sincronizar con el cliente
 				ModMessages.sendToPlayer(new UpdateDragonRadarS2C(capability.dragonBallPositions), player);
 			});
-		} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
+		} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent() && isNamekDB(block)) {
 			// Mismo proceso pero para Namek xd
 			level.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				capability.namekDragonBallPositions.stream()
@@ -101,6 +101,7 @@ public class DragonBallEvents {
 						.findFirst()
 						.ifPresent(existingPos -> {
 							level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
+							System.out.println("Removed existing Namek Dragon Ball at " + existingPos);
 						});
 
 				capability.namekDragonBallPositions.removeIf(existingPos -> mismaDragonBall(level, existingPos, block));
@@ -122,18 +123,20 @@ public class DragonBallEvents {
 		// Verificar si el bloque roto es una Dragon Ball
 		if (!isDragonBallBlock(block)) return;
 
-		if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent()) {
+		if (level.getCapability(DragonBallGenProvider.CAPABILITY).isPresent() && isEarthDB(block)) {
 			level.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				// Eliminar la posición
 				capability.dragonBallPositions.remove(pos);
+				System.out.println("Removed Dragon Ball at " + pos);
 
 				// Sincronizar con el cliente
 				ModMessages.sendToPlayer(new UpdateDragonRadarS2C(capability.dragonBallPositions), player);
 			});
-		} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
+		} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent() && isNamekDB(block)) {
 			level.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				// Eliminar la posición
 				capability.namekDragonBallPositions.remove(pos);
+				System.out.println("Removed Namek Dragon Ball at " + pos);
 
 				// Sincronizar con el cliente
 				ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(capability.namekDragonBallPositions), player);
@@ -144,6 +147,14 @@ public class DragonBallEvents {
 	private static boolean isDragonBallBlock(Block block) {
 		return block == MainBlocks.DBALL1_BLOCK.get() || block == MainBlocks.DBALL2_BLOCK.get() || block == MainBlocks.DBALL3_BLOCK.get() || block == MainBlocks.DBALL4_BLOCK.get() || block == MainBlocks.DBALL5_BLOCK.get() || block == MainBlocks.DBALL6_BLOCK.get() || block == MainBlocks.DBALL7_BLOCK.get() ||
 				block == MainBlocks.DBALL1_NAMEK_BLOCK.get() || block == MainBlocks.DBALL2_NAMEK_BLOCK.get() || block == MainBlocks.DBALL3_NAMEK_BLOCK.get() || block == MainBlocks.DBALL4_NAMEK_BLOCK.get() || block == MainBlocks.DBALL5_NAMEK_BLOCK.get() || block == MainBlocks.DBALL6_NAMEK_BLOCK.get() || block == MainBlocks.DBALL7_NAMEK_BLOCK.get();
+	}
+
+	private static boolean isEarthDB(Block block) {
+		return block == MainBlocks.DBALL1_BLOCK.get() || block == MainBlocks.DBALL2_BLOCK.get() || block == MainBlocks.DBALL3_BLOCK.get() || block == MainBlocks.DBALL4_BLOCK.get() || block == MainBlocks.DBALL5_BLOCK.get() || block == MainBlocks.DBALL6_BLOCK.get() || block == MainBlocks.DBALL7_BLOCK.get();
+	}
+
+	private static boolean isNamekDB(Block block) {
+		return block == MainBlocks.DBALL1_NAMEK_BLOCK.get() || block == MainBlocks.DBALL2_NAMEK_BLOCK.get() || block == MainBlocks.DBALL3_NAMEK_BLOCK.get() || block == MainBlocks.DBALL4_NAMEK_BLOCK.get() || block == MainBlocks.DBALL5_NAMEK_BLOCK.get() || block == MainBlocks.DBALL6_NAMEK_BLOCK.get() || block == MainBlocks.DBALL7_NAMEK_BLOCK.get();
 	}
 
 	private static boolean mismaDragonBall(Level level, BlockPos pos, Block block) {
