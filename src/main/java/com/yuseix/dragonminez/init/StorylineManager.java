@@ -54,7 +54,7 @@ public class StorylineManager {
 	 * @param sagaId The ID of the saga to check.
 	 * @return {@code True} if the saga is completed, {@code False} otherwise.
 	 */
-	@SuppressWarnings("unused") // Temporary suppression until I do something w/ it lmao
+	@SuppressWarnings("unused") // Temporary suppression until I do something w/ it lol
 	public boolean isSagaCompleted(String sagaId) {
 		Saga saga = sagas.get(sagaId);
 		return saga != null && saga.isCompleted();
@@ -109,7 +109,7 @@ public class StorylineManager {
 			addSaga(saga);
 		}
 
-		hasInitialized = true;
+		hasInitialized = true; //No addSaga calls after this point PLEASE
 	}
 
 	// Add a saga to the manager, local use only.
