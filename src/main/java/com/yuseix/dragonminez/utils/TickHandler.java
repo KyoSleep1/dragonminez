@@ -22,10 +22,7 @@ public class TickHandler {
         staminaRegenCounter++;
         if (staminaRegenCounter >= 20) {
             int maxStamina = dmzDatos.calcularSTM(playerStats.getRace(), playerStats.getMaxHealth());
-            System.out.println("Max Stamina CALC: " + Math.round(playerStats.getConstitution() * 0.5));
-            System.out.println("Max Stamina: " + maxStamina);
             int regenStamina = (int) Math.round(maxStamina / 12.0);
-            System.out.println("Regen Stamina: " + regenStamina);
             if (playerStats.getCurStam() < maxStamina) {
                 if (meditation != null) {
                     // Si tiene meditación, aumenta o reduce según el nivel de meditación (+10% por nivel)
@@ -33,10 +30,6 @@ public class TickHandler {
                     regenStamina += (int) Math.ceil(regenStamina * 0.1 * medLevel);
                 }
                 playerStats.addCurStam(regenStamina);
-                staminaRegenCounter = 0;
-                System.out.println("Stamina regen: " + regenStamina);
-            } else {
-                System.out.println("Current stamina: " + playerStats.getCurStam());
                 staminaRegenCounter = 0;
             }
         }
