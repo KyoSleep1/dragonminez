@@ -103,14 +103,32 @@ public class PlayerHudOverlay implements RenderEntityInv {
                         21,
                         20);
 
-                //Vida llena
-                guiGraphics.blit(hud,
-                        40,
-                        8,
-                        0,
-                        59,
-                        vida,
-                        12);
+                //Vida > 66% || < 66% y 33% > || < 33%
+                if (vidarestante >= (VidaMaxima * 0.66)) {
+                    guiGraphics.blit(hud,
+                            40,
+                            8,
+                            0,
+                            59,
+                            vida,
+                            12);
+                } else if (vidarestante < (VidaMaxima * 0.75) && vidarestante >= (VidaMaxima * 0.33)) {
+                    guiGraphics.blit(hud,
+                            40,
+                            8,
+                            0,
+                            91,
+                            vida,
+                            12);
+                } else if (vidarestante < (VidaMaxima * 0.33)) {
+                    guiGraphics.blit(hud,
+                            40,
+                            8,
+                            0,
+                            105,
+                            vida,
+                            12);
+                }
 
                 //Ki Lleno
             /*
@@ -153,7 +171,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 renderTempEffects(guiGraphics);
                 guiGraphics.pose().popPose();
 
-                guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xfddb1e);
+                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xd8786b);
 
 
                 Component porcentaje = Component.empty();

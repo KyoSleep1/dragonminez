@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.storyline;
 
+import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.utils.DebugUtils;
 
@@ -17,7 +18,9 @@ public class Quest {
 	private boolean completed;
 
 	public Quest(String id, String name, String description, List<Objective> objectives, List<Quest> prerequisites) {
-		IDRegistry.registerQuestId(id);
+		if (!StorylineManager.hasInitialized) {
+			IDRegistry.registerQuestId(id);
+		}
 		this.id = id;
 		this.name = name;
 		this.description = description;

@@ -24,6 +24,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -73,22 +74,23 @@ public class ForgeBusEvents {
 			"bbysixty",
 			"Onashi",
 			// Patreon
-			"Baby_Poop12311" // Cyanea capillata
+			"Baby_Poop12311", // Cyanea capillata
+			"Robberto10"
 	);
 
 	// Recordar comentar esto antes de Buildear una versión Pública.
 	// y Descomentar para el buildeo de versiones de Testing.
-//    @SubscribeEvent
-//    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-//        Player player = event.getEntity();
-//
-//        String username = player.getGameProfile().getName();
-//
-//        if (!ALLOWED_USERNAMES.contains(username)) {
-//            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
-//            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
-//        }
-//    }
+    @SubscribeEvent
+    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+
+        String username = player.getGameProfile().getName();
+
+        if (!ALLOWED_USERNAMES.contains(username)) {
+            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
+            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
+        }
+    }
 
 
 	@SubscribeEvent
@@ -120,10 +122,10 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (event.getObject().getCapability(INSTANCE).isPresent()) {
+			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent()) {
 				return;
 			}
-			//System.out.println("Añadiendo capability");
+
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider();
 

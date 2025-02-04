@@ -15,6 +15,7 @@ import static com.yuseix.dragonminez.registry.IDRegistry.sagaRegistry;
 
 public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
+	public static volatile boolean hasInitialized; //Thanks Gecko for the idea
 
 	/**
 	 * Constructor for the StorylineManager. Should never be called elsewhere than in PlayerStorylineProvider.
@@ -71,7 +72,7 @@ public class StorylineManager {
 	public List<Saga> getActiveSagas() {
 		return sagas.values().stream().filter(saga -> saga.canStart() && !saga.isCompleted()).toList();
 	}
-	
+
 	/**
 	 * Converts the {@link StorylineManager} data to a serializable format.
 	 *
@@ -107,6 +108,8 @@ public class StorylineManager {
 		for (Saga saga : sagaRegistry.values()) {
 			addSaga(saga);
 		}
+
+		hasInitialized = true;
 	}
 
 	// Add a saga to the manager, local use only.
