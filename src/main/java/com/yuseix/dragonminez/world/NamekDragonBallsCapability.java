@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -25,21 +26,20 @@ public class NamekDragonBallsCapability {
     }
 
     public List<BlockPos> namekDragonBallPositions() {
-        return namekDragonBallPositions;
+        return new ArrayList<>(namekDragonBallPositions);
     }
 
     public void setNamekDragonBallPositions(List<BlockPos> dragonBallPositions) {
+        this.namekDragonBallPositions.clear();
         this.namekDragonBallPositions = dragonBallPositions;
     }
 
     public void saveNBTData(CompoundTag nbt) {
-
         nbt.putBoolean("hasNamekDragonBalls", hasNamekDragonBalls);
 
         ListTag listTag = new ListTag();
         for (BlockPos pos : namekDragonBallPositions) {
-            CompoundTag subCompound = NbtUtils.writeBlockPos(pos);
-            listTag.add(subCompound);
+            listTag.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("namekDragonBallPositions", listTag);
 
@@ -51,11 +51,32 @@ public class NamekDragonBallsCapability {
 
         ListTag listTag = nbt.getList("namekDragonBallPositions", 10); // 10 is the NBT type for CompoundTag
         for (int i = 0; i < listTag.size(); i++) {
-            CompoundTag subCompound = listTag.getCompound(i);
-            BlockPos pos = NbtUtils.readBlockPos(subCompound);
-            namekDragonBallPositions.add(pos);
+            namekDragonBallPositions.add(NbtUtils.readBlockPos(listTag.getCompound(i)));
         }
+    }
 
+    public void loadFromSavedData(Level level) {
+        if (level instanceof ServerLevel serverLevel) {
+            NamekDragonBallSavedData data = serverLevel.getDataStorage().computeIfAbsent(
+                    NamekDragonBallSavedData::load,
+                    NamekDragonBallSavedData::new,
+                    "namek_dragon_balls"
+            );
+            data.getCapability().setHasNamekDragonBalls(hasNamekDragonBalls);
+            data.getCapability().setNamekDragonBallPositions(new ArrayList<>(this.namekDragonBallPositions));
+            data.setDirty();
+        }
+    }
+
+    public void saveToSavedData(ServerLevel level) {
+        NamekDragonBallSavedData data = level.getDataStorage().computeIfAbsent(
+                NamekDragonBallSavedData::load,
+                NamekDragonBallSavedData::new,
+                "namek_dragon_balls"
+        );
+        data.getCapability().setHasNamekDragonBalls(hasNamekDragonBalls);
+        data.getCapability().setNamekDragonBallPositions(new ArrayList<>(this.namekDragonBallPositions));
+        data.setDirty();
     }
 
     public void updateDragonBallPositions(Level level) {
