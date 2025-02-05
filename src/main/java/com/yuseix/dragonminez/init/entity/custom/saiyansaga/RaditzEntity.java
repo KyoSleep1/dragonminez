@@ -34,8 +34,8 @@ public class RaditzEntity extends SagaEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
+                .add(Attributes.ATTACK_DAMAGE, 80.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class RaditzEntity extends SagaEntity {
         if (target != null) {
             double distance = this.distanceTo(target);
 
-            // Si el jugador está a más de 10 bloques, el cooldown baja
-            if (distance > 6) {
+            // Si el jugador está a más de 6 bloques, el cooldown baja
+            if (distance > 3) {
                 if (cooldownKiAttack > 0) {
                     cooldownKiAttack--;
                 }
