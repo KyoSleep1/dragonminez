@@ -1,4 +1,28 @@
 {
+  "entity.frieza.s.ambient": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.ambient",
+    "sounds": [
+      "dragonminez:frieza_s_ambient"
+    ]
+  },
+  "entity.frieza.s.hurt": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.hurt",
+    "sounds": [
+      "dragonminez:frieza_s_hurt"
+    ]
+  },
+  "entity.frieza.s.death": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.death",
+    "sounds": [
+      "dragonminez:frieza_s_death"
+    ]
+  },
+  "entity.frieza.s.attack": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.attack",
+    "sounds": [
+      "dragonminez:frieza_s_attack"
+    ]
+  },
   "ui_menu_switch": {
     "subtitle": "sounds.dragonminez.ui_menu_switch",
     "sounds": [
