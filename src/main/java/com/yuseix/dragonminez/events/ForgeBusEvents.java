@@ -194,13 +194,16 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == Level.OVERWORLD) { //Dimension de overworld
 				// Obtener la capability
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
-
 				// Ejecutar la generación si la Torre aún no ha sido generada
 				capability.ifPresent(torreCap -> torreCap.generateKamisamaStructure(serverLevel));
+				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) { //Dimension Habitación del Tiempo
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
+			}
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) { //Dimension Namek
+				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 		}
 	}
@@ -238,7 +241,6 @@ public class ForgeBusEvents {
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
 		System.out.println("Dragon Ball spawned at " + posicionValida);
-		System.out.println("/execute in minecraft:overworld run tp @s " + posicionValida.getX() + " " + posicionValida.getY() + " " + posicionValida.getZ());
 
 		dragonBallPositions.add(posicionValida);
 	}
@@ -275,7 +277,6 @@ public class ForgeBusEvents {
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, namekDragonBall, 2);
 		System.out.println("Namekian Dragon Ball spawned at " + posicionValida);
-		System.out.println("/execute in dragonminez:namek run tp @s " + posicionValida.getX() + " " + posicionValida.getY() + " " + posicionValida.getZ());
 
 		namekDragonBallPositions.add(posicionValida);
 	}
