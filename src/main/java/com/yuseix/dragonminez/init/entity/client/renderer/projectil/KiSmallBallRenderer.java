@@ -32,7 +32,6 @@ public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
 
         pPoseStack.scale(1.0f,1.0f,1.0f);
 
-
         // Ajusta la rotación para que apunte en la dirección de movimiento (no recomendable)
         //pPoseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         //pPoseStack.mulPose(Axis.XP.rotationDegrees(180));

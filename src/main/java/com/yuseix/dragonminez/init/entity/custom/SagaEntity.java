@@ -2,6 +2,8 @@ package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class SagaEntity extends Monster {
+
 
     public SagaEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -41,6 +44,21 @@ public class SagaEntity extends Monster {
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+    }
+
+    protected int getRandomTalkCooldown() {
+        return this.random.nextInt(100) + 100; // Entre 100 y 200 ticks (~5 a 10 segundos)
+    }
+
+    protected void sayRandomPhrase() {
+        if (!(this.level() instanceof ServerLevel serverLevel)) return;
+
+        // Buscar jugadores en un radio de 15 bloques
+        for (Player player : serverLevel.players()) {
+            if (player.distanceTo(this) <= 15) {
+                player.sendSystemMessage(Component.literal("This is a line."));
+            }
+        }
     }
 
     @Override

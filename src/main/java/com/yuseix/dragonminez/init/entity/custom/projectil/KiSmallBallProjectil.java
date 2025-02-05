@@ -23,7 +23,6 @@ public class KiSmallBallProjectil extends ThrowableProjectile {
     private static final EntityDataAccessor<Float> DANO = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.FLOAT);
 
     private static final EntityDataAccessor<Float> VELOCIDAD = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.FLOAT);
-
     private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.OPTIONAL_UUID);
 
     public KiSmallBallProjectil(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
@@ -36,7 +35,6 @@ public class KiSmallBallProjectil extends ThrowableProjectile {
         this.entityData.define(DANO, 15.0f);
         this.entityData.define(VELOCIDAD, 0.15f);
         this.entityData.define(OWNER_UUID, Optional.empty());
-
     }
 
     public int getColor() {
@@ -63,6 +61,7 @@ public class KiSmallBallProjectil extends ThrowableProjectile {
     public void setVelocidad(float velocidad) {
         this.entityData.set(VELOCIDAD, velocidad);
     }
+
 
     public void setOwnerUUID(UUID uuid) {
         this.entityData.set(OWNER_UUID, Optional.of(uuid));

@@ -60,6 +60,12 @@
   "entity.dragonminez.soldier03": "Frieza's Soldier",
   "entity.dragonminez.moro_soldier": "Moro's Soldier",
 
+  "entity.dragonminez.saga_raditz": "Raditz",
+
+  "entity.dragonminez.saga_raditz.line1": "\u00A76Raditz: \u00A7fNot bad...",
+  "entity.dragonminez.saga_raditz.line2": "\u00A76Raditz: \u00A7fDie",
+  "entity.dragonminez.saga_raditz.die_line": "\u00A76Raditz: \u00A7fTwo Saiyans will come to Earth in approximately one year.",
+
   "item.dragonminez.dino_spawn_egg": "Dinosaur Spawn Egg",
   "item.dragonminez.namek_frog_spawn_egg": "Namekian Frog Spawn Egg",
   "item.dragonminez.yellow_frog_spawn_egg": "Yellow Namekian Frog Spawn Egg",
