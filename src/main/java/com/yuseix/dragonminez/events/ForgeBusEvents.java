@@ -56,7 +56,7 @@ public class ForgeBusEvents {
 	private static final List<String> ALLOWED_USERNAMES = Arrays.asList(
 			// Staff
 			"Dev",
-			"Yuseix",
+			"ImYuseix",
 			"ezShokkoh",
 			"MrBrunoh",
 			"Toji71",

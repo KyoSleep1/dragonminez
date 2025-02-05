@@ -16,12 +16,9 @@ import java.util.UUID;
 
 public class KiSmallBallProjectil extends KiAttacksEntity {
 
-
     public KiSmallBallProjectil(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
     }
-
-
 
 }
