@@ -178,5 +178,11 @@
     "sounds": [
       "dragonminez:turbo_loop"
     ]
+  },
+  "kiblast_shoot": {
+    "subtitle": "sounds.dragonminez.kiblast_shoot",
+    "sounds": [
+      "dragonminez:kiblast_shoot"
+    ]
   }
 }

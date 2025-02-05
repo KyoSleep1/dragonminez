@@ -51,6 +51,8 @@ public final class MainSounds {
 	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_DEATH = registerSoundEvent("entity.friezas.s.death");
 	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_ATTACK = registerSoundEvent("entity.friezas.s.attack");
 
+	public static final RegistryObject<SoundEvent> KIBLAST_ATTACK = registerSoundEvent("kiblast_shoot");
+
 	private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
 		ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
 

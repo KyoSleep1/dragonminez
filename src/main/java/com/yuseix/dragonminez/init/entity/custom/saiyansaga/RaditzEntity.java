@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom.saiyansaga;
 
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.Level;
 
 public class RaditzEntity extends SagaEntity {
 
-    private int cooldownKiAttack = 100; //ticks
+    private int cooldownKiAttack = 60; //ticks
     private int talkCooldown = getRandomTalkCooldown(); // Cooldown de frases aleatorias
 
     public RaditzEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
@@ -54,7 +55,7 @@ public class RaditzEntity extends SagaEntity {
 
             // Si el cooldown llega a 0, lanza el ataque
             if (cooldownKiAttack == 0) {
-                launchFireball();
+                launchKiAttack();
                 cooldownKiAttack = 120;
             }
         }
@@ -115,7 +116,7 @@ public class RaditzEntity extends SagaEntity {
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));}
 
-    private void launchFireball() {
+    private void launchKiAttack() {
         LivingEntity target = this.getTarget();
         if (target == null) return;
 
@@ -145,7 +146,8 @@ public class RaditzEntity extends SagaEntity {
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());
 
         // Configura la dirección del movimiento del proyectil hacia el objetivo
-        kiBlast.shoot(dx, dy, dz, kiBlast.getVelocidad(), 0); // `1.0F` es la velocidad; ajusta según sea necesario
+        kiBlast.shoot(dx, dy, dz, kiBlast.getVelocidad(), 0);
+        this.playSound(MainSounds.KIBLAST_ATTACK.get(), 1.0F, 1.0F);
 
         // Añade el proyectil al mundo
         this.level().addFreshEntity(kiBlast);
