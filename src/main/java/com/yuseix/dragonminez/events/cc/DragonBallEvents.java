@@ -83,11 +83,11 @@ public class DragonBallEvents {
 						.ifPresent(existingPos -> {
 							// Romper el bloque anterior y reemplazarlo con aire
 							level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-							System.out.println("Removed existing Dragon Ball at " + existingPos);
+							System.out.println("[DBallEvents] Removed existing Dragon Ball at " + existingPos);
+							capability.dragonBallPositions.remove(existingPos);
 						});
 
 				// Actualizar la posición actual
-				capability.dragonBallPositions.removeIf(existingPos -> mismaDragonBall(level, existingPos, block));
 				capability.dragonBallPositions.add(pos);
 
 				// Sincronizar con el cliente
@@ -101,10 +101,10 @@ public class DragonBallEvents {
 						.findFirst()
 						.ifPresent(existingPos -> {
 							level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-							System.out.println("Removed existing Namek Dragon Ball at " + existingPos);
+							System.out.println("[DBallEvents] Removed existing Namek Dragon Ball at " + existingPos);
+							capability.namekDragonBallPositions.remove(existingPos);
 						});
 
-				capability.namekDragonBallPositions.removeIf(existingPos -> mismaDragonBall(level, existingPos, block));
 				capability.namekDragonBallPositions.add(pos);
 
 				ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(capability.namekDragonBallPositions), player);
@@ -127,7 +127,6 @@ public class DragonBallEvents {
 			level.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				// Eliminar la posición
 				capability.dragonBallPositions.remove(pos);
-				System.out.println("Removed Dragon Ball at " + pos);
 
 				// Sincronizar con el cliente
 				ModMessages.sendToPlayer(new UpdateDragonRadarS2C(capability.dragonBallPositions), player);
@@ -136,7 +135,6 @@ public class DragonBallEvents {
 			level.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 				// Eliminar la posición
 				capability.namekDragonBallPositions.remove(pos);
-				System.out.println("Removed Namek Dragon Ball at " + pos);
 
 				// Sincronizar con el cliente
 				ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(capability.namekDragonBallPositions), player);

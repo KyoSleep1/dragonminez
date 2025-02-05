@@ -58,7 +58,9 @@ public class DragonBallsCapability {
                     DragonBallSavedData::new,
                     "dragon_balls"
             );
-            this.loadNBTData(data.save(new CompoundTag())); // Cargar desde los datos guardados
+            data.getCapability().setHasDragonBalls(hasDragonBalls);
+            data.getCapability().setDragonBallPositions(new ArrayList<>(this.dragonBallPositions));
+            data.setDirty();
         }
     }
 
@@ -75,5 +77,8 @@ public class DragonBallsCapability {
 
     public void updateDragonBallPositions(Level level) {
         dragonBallPositions.removeIf(pos -> !level.isLoaded(pos) || level.getBlockEntity(pos) == null);
+        if (level instanceof ServerLevel serverLevel) {
+            saveToSavedData(serverLevel);
+        }
     }
 }

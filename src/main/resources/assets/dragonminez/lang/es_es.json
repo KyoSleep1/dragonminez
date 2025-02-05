@@ -60,6 +60,13 @@
   "entity.dragonminez.soldier03": "Soldado de Freezer",
   "entity.dragonminez.moro_soldier": "Soldado de Moro",
 
+  "entity.dragonminez.saga_raditz": "Raditz",
+
+  "entity.dragonminez.saga_raditz.line1": "» \u00A76Raditz\u00A7f › Jajajaja, ¿qué es esto? ¿Una hormiga intentando desafiarme?",
+  "entity.dragonminez.saga_raditz.line2": "» \u00A76Raditz\u00A7f › ¡No tienes oportunidad contra mí! ¡Soy un Saiyano de clase baja, pero aún así soy más fuerte que tú!",
+  "entity.dragonminez.saga_raditz.die_line": "» \u00A76Raditz\u00A7f › Mis compañeros Saiyanos me vengarán... Dos de ellos, sé que vendrán... Y cuando lo hagan, ¡te harán pagar por lo que me hiciste!",
+
+
   "item.dragonminez.dino_spawn_egg": "Generar Dinosaurio",
   "item.dragonminez.namek_frog_spawn_egg": "Generar Rana Namekiana",
   "item.dragonminez.yellow_frog_spawn_egg": "Generar Rana Namekiana Amarilla",
@@ -628,5 +635,13 @@
   "advancements.dragonminez.pridetroopsarmor.title": "Las Tropas del Orgullo",
   "advancements.dragonminez.pridetroopsarmor.description": "Crea la Armadura de las Tropas del Orgullo del U11.",
   "advancements.dragonminez.hitarmor.title": "El Asesino Infalible",
-  "advancements.dragonminez.hitarmor.description": "Crea la Armadura de Asesino de Hit"
+  "advancements.dragonminez.hitarmor.description": "Crea la Armadura de Asesino de Hit",
+
+  "command.dmzstoryline.no_quest": "La Misión '{0}' no está activa para el jugador '{1}'.",
+  "command.dmzstoryline.quest_completed": "La Misión '{0}' ha sido completada.",
+  "command.dmzstoryline.quest_incompleted": "La Misión '{0}' ha sido marcada como incompleta.",
+  "command.dmzstoryline.no_found_quest": "No se encontró la Misión con ID '{0}'.",
+  "command.dmzstoryline.no_found_saga": "No se encontró la Saga con ID '{0}'.",
+  "command.dmzstoryline.saga_info": "Saga: {0} [{1}]",
+  "command.dmzstoryline.quest_info": "- {0}: {1} [{2}]"
 }
