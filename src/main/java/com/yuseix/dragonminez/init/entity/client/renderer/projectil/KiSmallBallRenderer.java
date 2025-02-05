@@ -30,7 +30,7 @@ public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
         // Escala de la entidad
         pPoseStack.pushPose();
 
-        pPoseStack.scale(1.0f,1.0f,1.0f);
+        pPoseStack.scale(1.3f,1.3f,1.3f);
 
         // Ajusta la rotación para que apunte en la dirección de movimiento (no recomendable)
         //pPoseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
@@ -39,7 +39,7 @@ public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
         VertexConsumer outlineConsumer = pBuffer.getBuffer(CustomRenderTypes.energy(this.getTextureLocation(pEntity)));
 
         pPoseStack.pushPose();
-        pPoseStack.scale(1.5f, 1.5f, 1.5f); // Cambia el tamaño aquí si deseas escalar el modelo
+        pPoseStack.scale(1.5f, 1.5f, 1.5f);
         pPoseStack.translate(0.0, -0.8, 0.0); // Ajuste en el eje Z para acercar el borde al modelo
 
         float rotationAngle = (pEntity.tickCount + pPartialTick) * 180; // Ajusta el multiplicador para cambiar la velocidad

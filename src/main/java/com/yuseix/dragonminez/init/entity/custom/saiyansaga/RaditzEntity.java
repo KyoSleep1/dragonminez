@@ -137,7 +137,7 @@ public class RaditzEntity extends SagaEntity {
         //Color de borde
         kiBlast.setColorBorde(3741278);
 
-        kiBlast.setVelocidad(0.7f);
+        kiBlast.setVelocidad(1.5f);
 
         kiBlast.setDamage(80.0F);
 

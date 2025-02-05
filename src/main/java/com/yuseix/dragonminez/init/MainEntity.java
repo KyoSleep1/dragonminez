@@ -198,7 +198,7 @@ public final class MainEntity {
 	public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_BLAST =
 			ENTITY_TYPES_REGISTER.register("ki_smallball",
 					() -> EntityType.Builder.of(KiSmallBallProjectil::new, MobCategory.MISC)
-							.sized(0.7f, 0.7f)
+							.sized(0.9f, 0.9f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_smallball").toString())
 			);
 
