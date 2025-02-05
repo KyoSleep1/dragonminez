@@ -1,9 +1,11 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
+import com.yuseix.dragonminez.world.NamekDragonBallsCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,6 +25,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -172,6 +175,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	private void onDespawn() {
 		if (this.level() instanceof ServerLevel serverWorld) {
 			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				namekDragonBallsCapability.loadFromSavedData(serverWorld);
 
 				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
 					namekDragonBallsCapability.setHasNamekDragonBalls(false);
@@ -189,29 +193,46 @@ public class PorungaEntity extends Mob implements GeoEntity {
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
 					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
+					namekDragonBallsCapability.saveToSavedData(serverWorld);
 				}
 			});
 		}
 	}
 
 	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		BlockPos posicionValida = new BlockPos(0, 0, 0); // Posición válida inicializada a 0, 0, 0
 
-		serverWorld.getChunk(x >> 4, z >> 4);
+		while (posicionValida.equals(new BlockPos(0, 0, 0))) {
+			// Generar posición aleatoria dentro de un rango de Xk bloques desde el spawn
+			int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+			int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
+			serverWorld.getChunk(x >> 4, z >> 4); // Cargar el chunk
 
-		int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			// Obtener la altura del terreno en esa posición
+			int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			BlockPos posiblePos = new BlockPos(x, y, z);
 
-		BlockPos pos = new BlockPos(x, y, z);
+			BlockState belowBlockState = serverWorld.getBlockState(posiblePos.below()); // Bloque debajo de la posición
+			BlockState belowBelowBlockState = serverWorld.getBlockState(posiblePos.below().below()); // Bloque debajo del bloque anterior
 
-		serverWorld.setBlock(pos, dragonBall, 2);
-		System.out.println("Namekian Dragon Ball spawned at " + pos);
+			// Validar que la posición no esté en agua ni aire
+			if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER) && !(belowBelowBlockState.getBlock() == MainBlocks.NAMEK_WATER_LIQUID.get()) &&
+					!belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER) && !(belowBelowBlockState.getBlock() == MainBlocks.NAMEK_WATER_LIQUID.get())) {
+				posicionValida = posiblePos; // Si es válida, asignamos la posición
+			}
+		}
 
-		namekDragonBallPositions.add(pos);
+		// Place a Dragon Ball block at the generated position
+		serverWorld.setBlock(posicionValida, dragonBall, 2);
+		System.out.println("[Porunga] Namekian Dragon Ball spawned at " + posicionValida);
+
+		namekDragonBallPositions.add(posicionValida);
 	}
 
 	@Override

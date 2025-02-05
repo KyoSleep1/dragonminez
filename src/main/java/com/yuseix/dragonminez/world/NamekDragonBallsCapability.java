@@ -81,5 +81,8 @@ public class NamekDragonBallsCapability {
 
     public void updateDragonBallPositions(Level level) {
         namekDragonBallPositions.removeIf(pos -> !level.isLoaded(pos) || level.getBlockEntity(pos) == null);
+        if (level instanceof ServerLevel serverLevel) {
+            saveToSavedData(serverLevel);
+        }
     }
 }

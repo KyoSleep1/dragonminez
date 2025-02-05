@@ -62,9 +62,9 @@
 
   "entity.dragonminez.saga_raditz": "Raditz",
 
-  "entity.dragonminez.saga_raditz.line1": "\u00A76Raditz: \u00A7fNot bad...",
-  "entity.dragonminez.saga_raditz.line2": "\u00A76Raditz: \u00A7fDie",
-  "entity.dragonminez.saga_raditz.die_line": "\u00A76Raditz: \u00A7fTwo Saiyans will come to Earth in approximately one year.",
+  "entity.dragonminez.saga_raditz.line1": "» \u00A76Raditz\u00A7f › Ha ha ha ha ha ha ha. Impressive. You actually managed to singe some of my leg hair.",
+  "entity.dragonminez.saga_raditz.line2": "» \u00A76Raditz\u00A7f › So you wanna die? Fine, I'll be happy to oblige.",
+  "entity.dragonminez.saga_raditz.die_line": "» \u00A76Raditz\u00A7f › My Saiyan comrades will avenge me... The two of them, I know they will... In one year, they will come... And when they do, you will pay for what you did to me...",
 
   "item.dragonminez.dino_spawn_egg": "Dinosaur Spawn Egg",
   "item.dragonminez.namek_frog_spawn_egg": "Namekian Frog Spawn Egg",
@@ -635,6 +635,7 @@
   "advancements.dragonminez.pridetroopsarmor.description": "Craft the Pride Trooper Armor of U11.",
   "advancements.dragonminez.hitarmor.title": "The Infalible Assassin",
   "advancements.dragonminez.hitarmor.description": "Craft the Assassin Armor of Hit.",
+
   "command.dmzstoryline.no_quest": "Quest '{0}' is not active for player '{1}'.",
   "command.dmzstoryline.quest_completed": "Quest '{0}' has been completed.",
   "command.dmzstoryline.quest_incompleted": "Quest '{0}' has been marked as incomplete.",

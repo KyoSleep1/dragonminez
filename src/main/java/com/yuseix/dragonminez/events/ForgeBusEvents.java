@@ -49,6 +49,7 @@ public class ForgeBusEvents {
 
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
+	private static boolean hasSpawnedDragonBalls = false, hasSpawnedNamekDragonBalls = false;
 
 	private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -91,8 +92,42 @@ public class ForgeBusEvents {
             LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
             throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
         }
+
+		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
+			if (serverLevel.dimension() == Level.OVERWORLD) {
+				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
+				});
+			}
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
+				});
+			}
+		}
     }
 
+	@SubscribeEvent
+	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		Player player = event.getEntity();
+
+		if (player.level() instanceof ServerLevel serverLevel) {
+			if (serverLevel.dimension() == Level.OVERWORLD) {
+				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
+				});
+			}
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
+				});
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onServerStarting(ServerStartingEvent event) {
@@ -102,6 +137,7 @@ public class ForgeBusEvents {
 		if (serverOverworld == null) return;
 		if (!serverOverworld.isClientSide()) {
 			serverOverworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+				dragonBallsCapability.loadFromSavedData(serverNamek);
 
 				if (!dragonBallsCapability.hasDragonBalls()) {
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
@@ -115,6 +151,7 @@ public class ForgeBusEvents {
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
 					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
 					dragonBallsCapability.setHasDragonBalls(true);
+					dragonBallsCapability.saveToSavedData(serverOverworld);
 				}
 			});
 		}
@@ -122,6 +159,8 @@ public class ForgeBusEvents {
 		if (serverNamek == null) return;
 		if (!serverNamek.isClientSide()) {
 			serverNamek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				namekDragonBallsCapability.loadFromSavedData(serverNamek);
+
 				// Verifica si ya se han generado las Dragon Balls
 				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
@@ -136,6 +175,7 @@ public class ForgeBusEvents {
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
 					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
+					namekDragonBallsCapability.saveToSavedData(serverNamek);
 				}
 			});
 		}
@@ -144,16 +184,13 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent()) {
-				return;
-			}
+			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent()) return;
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider();
 
 			event.addCapability(DMZStatsProvider.ID, provider);
 			event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
-
 		}
 	}
 
@@ -168,8 +205,6 @@ public class ForgeBusEvents {
 
 			if (!event.getObject().getCapability(StructuresProvider.CAPABILITY).isPresent())
 				event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "structures"), new StructuresProvider());
-
-
 		}
 	}
 
@@ -240,7 +275,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("Dragon Ball spawned at " + posicionValida);
+		System.out.println("[FirstSpawn] Dragon Ball spawned at " + posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}
@@ -276,7 +311,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, namekDragonBall, 2);
-		System.out.println("Namekian Dragon Ball spawned at " + posicionValida);
+		System.out.println("[FirstSpawn] Namekian Dragon Ball spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}
