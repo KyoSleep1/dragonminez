@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
 import com.yuseix.dragonminez.init.armor.PiccoloArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
+import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
 import com.yuseix.dragonminez.init.items.custom.*;
 import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -90,6 +91,12 @@ public final class MainItems {
     public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_CHESTPLATE = armorItem("gohan_super_armor_chestplate", ArmorItem.Type.CHESTPLATE, "gohan_dbs", false);
     public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_LEGGINGS = armorItem("gohan_super_armor_leggings", ArmorItem.Type.LEGGINGS, "gohan_dbs", false);
     public static final RegistryObject<Item> GOHAN_SUPER_ARMOR_BOOTS = armorItem("gohan_super_armor_boots", ArmorItem.Type.BOOTS, "gohan_dbs", false);
+    // GOHAN GREAT SAIYAMAN
+    public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_HELMET = piccoloArItem("great_saiyaman_armor_helmet", ArmorItem.Type.HELMET, "saiyaman_gi", false);
+    public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_CHESTPLATE = piccoloArItem("great_saiyaman_armor_chestplate", ArmorItem.Type.CHESTPLATE, "saiyaman_gi", false);
+    public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_LEGGINGS = piccoloArItem("great_saiyaman_armor_leggings", ArmorItem.Type.LEGGINGS, "saiyaman_gi", false);
+    public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_BOOTS = piccoloArItem("great_saiyaman_armor_boots", ArmorItem.Type.BOOTS, "saiyaman_gi", false);
+
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE = saiyArItem("vegeta_saiyan_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegeta_saiyan_armor", true);
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS = saiyArItem("vegeta_saiyan_armor_leggings", ArmorItem.Type.LEGGINGS, "vegeta_saiyan_armor", true);
@@ -327,7 +334,11 @@ public final class MainItems {
                 new SaiyanArmorItem(ModArmorMaterials.KIKONO, armorType,
                         new Item.Properties().fireResistant().stacksTo(1), itemId, isDamageOn));
     }
-
+    public static RegistryObject<Item> piccoloArItem(String name, ArmorItem.Type armorType, String itemId, boolean isDamageOn) {
+        return ITEM_REGISTER.register(name, () ->
+                new SaiyanCapeArmorItem(ModArmorMaterials.KIKONO, armorType,
+                        new Item.Properties().fireResistant().stacksTo(1), itemId, isDamageOn));
+    }
     public static void register(IEventBus bus) {
         ITEM_REGISTER.register(bus);
     }
