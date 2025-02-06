@@ -6,8 +6,11 @@ import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,11 +24,13 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.joml.Vector3f;
 
 public class RaditzEntity extends SagaEntity {
 
     private int cooldownKiAttack = 60; //ticks
     private int talkCooldown = getRandomTalkCooldown(); // Cooldown de frases aleatorias
+    private int preAttackCooldown = 40;
 
     public RaditzEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -43,14 +48,20 @@ public class RaditzEntity extends SagaEntity {
         super.tick();
 
         LivingEntity target = this.getTarget();
+
         if (target != null) {
+
+            double heightDifference = target.getY() - this.getY();
+
             double distance = this.distanceTo(target);
 
-            // Si el jugador está a más de 6 bloques, el cooldown baja
-            if (distance > 3) {
-                if (cooldownKiAttack > 0) {
-                    cooldownKiAttack--;
-                }
+            // Si el jugador está a más de 3 bloques, el cooldown baja
+            if (distance > 3 && cooldownKiAttack > 0) {
+                cooldownKiAttack--;
+            }
+
+            if(cooldownKiAttack < 30){
+                spawnPurpleParticles();
             }
 
             // Si el cooldown llega a 0, lanza el ataque
@@ -58,6 +69,29 @@ public class RaditzEntity extends SagaEntity {
                 launchKiAttack();
                 cooldownKiAttack = 120;
             }
+
+            if (heightDifference > 1.9) {
+                this.setNoGravity(true);
+
+                double targetX = target.getX();
+                double targetY = target.getY()-1.2; // Ajusta esto según la altura deseada
+                double targetZ = target.getZ();
+
+                double horizontalSpeedFactor = 0.003;
+                double horizontalSpeedX = (targetX - this.getX()) * horizontalSpeedFactor;
+                double horizontalSpeedZ = (targetZ - this.getZ()) * horizontalSpeedFactor;
+
+                this.getMoveControl().setWantedPosition(targetX, targetY, targetZ, 1.0);
+
+                double verticalSpeed = 0.01;
+                this.setDeltaMovement(this.getDeltaMovement().add(horizontalSpeedX, verticalSpeed, horizontalSpeedZ));
+
+            } else {
+                this.setNoGravity(false);
+                double verticalSpeedDown = -0.01;
+                this.setDeltaMovement(this.getDeltaMovement().add(0, verticalSpeedDown, 0));
+            }
+
         }
 
         if (talkCooldown > 0) {
@@ -65,6 +99,7 @@ public class RaditzEntity extends SagaEntity {
         } else {
             sayRandomPhrase();
             talkCooldown = getRandomTalkCooldown();
+            this.setNoGravity(false);
         }
     }
 
@@ -152,4 +187,15 @@ public class RaditzEntity extends SagaEntity {
         // Añade el proyectil al mundo
         this.level().addFreshEntity(kiBlast);
     }
+
+    private void spawnPurpleParticles() {
+        for (int i = 0; i < 10; i++) {
+            this.level().addParticle(ParticleTypes.SOUL_FIRE_FLAME,
+                    this.getX(),
+                    this.getY(),
+                    this.getZ(),
+                    0.0, 0.0, 0.0);
+        }
+    }
+
 }
