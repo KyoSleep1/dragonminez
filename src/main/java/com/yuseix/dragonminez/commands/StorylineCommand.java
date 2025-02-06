@@ -21,28 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class StorylineCommand {
 
-	/*TODO: Add translations:
-	 * - command.dmzstoryline.saga_completed
-	 * - command.dmzstoryline.quest_completed
-	 * - command.dmzstoryline.objective_completed
-	 * - command.dmzstoryline.saga_info
-	 * - command.dmzstoryline.quest_info
-	 * - command.dmzstoryline.objective_info
-	 * - command.dmzstoryline.no_found_saga
-	 * - command.dmzstoryline.no_found_quest
-	 * - command.dmzstoryline.no_quest
-	 * - command.dmzstoryline.no_objective
-	 * - command.dmzstoryline.saga_reset
-	 * - command.dmzstoryline.quest_reset
-	 * - command.dmzstoryline.all_reset
-	 * - command.dmzstoryline.saga_list
-	 * - command.dmzstoryline.quest_list
-	 * - command.dmzstoryline.objective_list
-	 * - command.dmzstoryline.quest_incompleted
-	 * - command.dmzstoryline.saga_started
-	 * - command.dmzstoryline.quest_started
-	 */
-
 	public StorylineCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("dmzstoryline")
 				// /dmzstoryline set quest <id> <true|false>
