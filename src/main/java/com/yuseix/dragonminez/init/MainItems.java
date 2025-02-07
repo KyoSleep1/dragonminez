@@ -121,7 +121,6 @@ public final class MainItems {
     public static final RegistryObject<Item> VEGETTO_ARMOR_CHESTPLATE = armorItem("vegetto_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegetto", false);
     public static final RegistryObject<Item> VEGETTO_ARMOR_LEGGINGS = armorItem("vegetto_armor_leggings", ArmorItem.Type.LEGGINGS, "vegetto", false);
     public static final RegistryObject<Item> VEGETTO_ARMOR_BOOTS = armorItem("vegetto_armor_boots", ArmorItem.Type.BOOTS, "vegetto", false);
-
     //PICCOLO
     public static final RegistryObject<Item> PICCOLO_ARMOR_HELMET = armorItem("piccolo_armor_helmet", ArmorItem.Type.HELMET, "piccolo_gi", false);
     public static final RegistryObject<Item> PICCOLO_ARMOR_CHESTPLATE_CAPE = ITEM_REGISTER.register("piccolo_armor_cape", () ->
@@ -240,6 +239,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_VEGETA_Z = regItem("pattern_vegeta_z");
     public static final RegistryObject<Item> PATTERN_VEGETA_BUU = regItem("pattern_vegeta_buu");
     public static final RegistryObject<Item> PATTERN_VEGETA_SUPER = regItem("pattern_vegeta_super");
+    public static final RegistryObject<Item> PATTERN_VEGETTO = regItem("pattern_vegetto");
     public static final RegistryObject<Item> PATTERN_PICCOLO = regItem("pattern_piccolo");
     public static final RegistryObject<Item> PATTERN_GOHAN1 = regItem("pattern_gohan1");
     public static final RegistryObject<Item> PATTERN_BARDOCK1 = regItem("pattern_bardock1");
@@ -252,8 +252,10 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_BROLY_Z = regItem("pattern_broly_z");
     public static final RegistryObject<Item> PATTERN_BROLY_SUPER = regItem("pattern_broly_super");
     public static final RegistryObject<Item> PATTERN_SHIN = regItem("pattern_shin");
+    public static final RegistryObject<Item> PATTERN_BLACK = regItem("pattern_black");
     public static final RegistryObject<Item> PATTERN_PRIDE_TROOPS = regItem("pattern_pride_troops");
     public static final RegistryObject<Item> PATTERN_HIT = regItem("pattern_hit");
+    public static final RegistryObject<Item> PATTERN_GAS = regItem("pattern_gas");
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",

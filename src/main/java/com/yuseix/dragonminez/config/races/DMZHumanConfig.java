@@ -4,6 +4,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZHumanConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Integer> KICHARGE_REGEN_BOOST;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -41,6 +44,14 @@ public class DMZHumanConfig {
     static {
 
         BUILDER.comment(" DRAGONMINEZ - HUMAN CLASS CONFIG ");
+
+        //PASIVA
+        BUILDER.push(" HUMAN PASSIVE SKILL:");
+
+        KICHARGE_REGEN_BOOST = BUILDER.comment("Ki Charge Regeneration Boost in percentage! (Min: 1 / Max: 100 / Default: 25)")
+                .defineInRange("Ki Charge Regen Boost: ", 25, 1, 100);
+
+        BUILDER.pop();
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");

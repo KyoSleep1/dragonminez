@@ -161,12 +161,18 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.SHIN_ARMOR_CHESTPLATE);
         armorItem(MainItems.SHIN_ARMOR_LEGGINGS);
         armorItem(MainItems.SHIN_ARMOR_BOOTS);
+        armorItem(MainItems.BLACK_ARMOR_CHESTPLATE);
+        armorItem(MainItems.BLACK_ARMOR_LEGGINGS);
+        armorItem(MainItems.BLACK_ARMOR_BOOTS);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_CHESTPLATE);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_LEGGINGS);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_BOOTS);
         armorItem(MainItems.HIT_ARMOR_CHESTPLATE);
         armorItem(MainItems.HIT_ARMOR_LEGGINGS);
         armorItem(MainItems.HIT_ARMOR_BOOTS);
+        armorItem(MainItems.GAS_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GAS_ARMOR_LEGGINGS);
+        armorItem(MainItems.GAS_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
@@ -199,8 +205,10 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_BROLY_Z);
         patternItem(MainItems.PATTERN_BROLY_SUPER);
         patternItem(MainItems.PATTERN_SHIN);
+        patternItem(MainItems.PATTERN_BLACK);
         patternItem(MainItems.PATTERN_PRIDE_TROOPS);
         patternItem(MainItems.PATTERN_HIT);
+        patternItem(MainItems.PATTERN_GAS);
 
         //Minerales
         simpleItem(MainItems.GETE_SCRAP);

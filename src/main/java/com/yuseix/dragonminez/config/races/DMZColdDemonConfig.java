@@ -4,6 +4,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZColdDemonConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Double> TP_MULTIPLER_PASSIVE;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -41,6 +44,14 @@ public class DMZColdDemonConfig {
     static {
 
         BUILDER.comment(" DRAGONMINEZ - COLD DEMON CLASS CONFIG ");
+
+        //Pasiva
+        BUILDER.push(" COLD DEMON PASSIVE SKILL:");
+
+        TP_MULTIPLER_PASSIVE = BUILDER.comment("Passive Training Points Gain Multiplier! (Min: 1.0 / Max: 3.0 / Default: 1.2)")
+                .defineInRange("TP Gain Multiplier: ", 1.2, 1.0, 3.0);
+
+        BUILDER.pop();
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");

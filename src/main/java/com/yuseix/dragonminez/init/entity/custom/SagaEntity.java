@@ -47,7 +47,7 @@ public class SagaEntity extends Monster {
     }
 
     protected int getRandomTalkCooldown() {
-        return this.random.nextInt(100) + 100; // Entre 100 y 200 ticks (~5 a 10 segundos)
+        return this.random.nextInt(100) + 300; // Entre 100 y 300 ticks (~5 a 15 segundos)
     }
 
     protected void sayRandomPhrase() {

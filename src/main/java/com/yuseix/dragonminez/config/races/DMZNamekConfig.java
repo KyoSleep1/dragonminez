@@ -4,6 +4,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZNamekConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Integer> PASSIVE_REGEN;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -41,6 +44,14 @@ public class DMZNamekConfig {
     static {
 
         BUILDER.comment(" DRAGONMINEZ - NAMEK CLASS CONFIG ");
+
+        //Pasiva
+        BUILDER.push(" NAMEK PASSIVE SKILL:");
+
+        PASSIVE_REGEN = BUILDER.comment("Ki Passive Regeneration Boost! (Min: 1 / Max: 100 / Default: 25)")
+                .defineInRange("Ki Passive Regen Boost: ", 25, 1, 100);
+
+        BUILDER.pop();
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");

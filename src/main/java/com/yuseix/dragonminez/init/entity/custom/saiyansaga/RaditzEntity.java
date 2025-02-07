@@ -10,6 +10,7 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +31,6 @@ public class RaditzEntity extends SagaEntity {
 
     private int cooldownKiAttack = 60; //ticks
     private int talkCooldown = getRandomTalkCooldown(); // Cooldown de frases aleatorias
-    private int preAttackCooldown = 40;
 
     public RaditzEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -50,7 +50,6 @@ public class RaditzEntity extends SagaEntity {
         LivingEntity target = this.getTarget();
 
         if (target != null) {
-
             double heightDifference = target.getY() - this.getY();
 
             double distance = this.distanceTo(target);
@@ -189,12 +188,17 @@ public class RaditzEntity extends SagaEntity {
     }
 
     private void spawnPurpleParticles() {
+        ServerLevel serverLevel = (ServerLevel) this.level();
         for (int i = 0; i < 10; i++) {
-            this.level().addParticle(ParticleTypes.SOUL_FIRE_FLAME,
+
+            serverLevel.sendParticles((ServerPlayer) this.getTarget(),
+                    ParticleTypes.SOUL_FIRE_FLAME,
+                    true,
                     this.getX(),
                     this.getY(),
                     this.getZ(),
-                    0.0, 0.0, 0.0);
+                    10,
+                    0.0, 0.0, 0.0, 0.0);
         }
     }
 

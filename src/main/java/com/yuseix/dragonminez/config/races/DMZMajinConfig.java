@@ -4,6 +4,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZMajinConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Double> PASSIVE_HEALTH_REGEN;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -41,6 +44,14 @@ public class DMZMajinConfig {
     static {
 
         BUILDER.comment(" DRAGONMINEZ - MAJIN CLASS CONFIG ");
+
+        //Pasiva
+        BUILDER.push(" MAJIN PASSIVE SKILL:");
+
+        PASSIVE_HEALTH_REGEN = BUILDER.comment("Passive Health Regeneration per second! (Min: 1.0 / Max: 10.0 / Default: 1.0)")
+                .defineInRange("Health Regen in percentage: ", 1.0, 1.0, 10.0);
+
+        BUILDER.pop();
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");

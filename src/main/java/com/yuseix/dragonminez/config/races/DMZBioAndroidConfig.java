@@ -4,6 +4,10 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZBioAndroidConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Integer> HALF_HEALTH_LIFESTEAL;
+    public static final ForgeConfigSpec.ConfigValue<Integer> QUARTER_HEALTH_LIFESTEAL;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -41,6 +45,17 @@ public class DMZBioAndroidConfig {
     static {
 
         BUILDER.comment(" DRAGONMINEZ - BIO ANDROID CLASS CONFIG ");
+
+        //Pasiva
+        BUILDER.push(" BIO ANDROID PASSIVE SKILL:");
+
+        HALF_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal per hit when below Half Health! (Min: 1 / Max: 50 / Default: 10)")
+                .defineInRange("Half Health Lifesteal: ", 10, 1, 50);
+
+        QUARTER_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal per hit when below Quarter Health! (Min: 1 / Max: 50 / Default: 5)")
+                .defineInRange("Quarter Health Lifesteal: ", 5, 1, 50);
+
+        BUILDER.pop();
 
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");

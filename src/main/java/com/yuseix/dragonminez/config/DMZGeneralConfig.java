@@ -32,10 +32,14 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> JUMP_TP_COST_LEVELS;
     public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_MASTER;
     public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_LEVELS;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_MASTER;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_LEVELS;
     public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_MASTER;
     public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDITATION_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDITATION_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_CONTROL_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_CONTROL_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_MANIPULATION_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_MANIPULATION_TP_COST_LEVELS;
 
 
 
@@ -114,26 +118,38 @@ public class DMZGeneralConfig {
         JUMP_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Jump Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
                 .defineInRange("Jump Buy: ", 400, 1, 1000000000);
 
-        JUMP_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Jump Skill (Min: 1 / Max: 1000000000 / Default: 10) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Jump Levels: ", 100, 1, 1000000000);
+        JUMP_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Jump Skill (Min: 1 / Max: 1000000000 / Default: 250) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Jump Levels: ", 250, 1, 1000000000);
 
-        FLY_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Fly Skill from Masters (Min: 1 / Max: 1000000000 / Default: 1000)")
-                .defineInRange("Fly Buy: ", 1000, 1, 1000000000);
+        FLY_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Fly Skill from Masters (Min: 1 / Max: 1000000000 / Default: 1750)")
+                .defineInRange("Fly Buy: ", 1750, 1, 1000000000);
 
-        FLY_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Fly Skill (Min: 1 / Max: 1000000000 / Default: 250) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Fly Levels: ", 250, 1, 1000000000);
-
-        SPRINT_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Sprint Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
-                .defineInRange("Sprint Buy: ", 400, 1, 1000000000);
-
-        SPRINT_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Sprint Skill (Min: 1 / Max: 1000000000 / Default: 100) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Sprint Levels: ", 100, 1, 1000000000);
+        FLY_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Fly Skill (Min: 1 / Max: 1000000000 / Default: 750) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Fly Levels: ", 750, 1, 1000000000);
 
         POTUNLOCK_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Potential Unlock Skill from Masters (Min: 1 / Max: 1000000000 / Default: 3500)")
                 .defineInRange("Potential Unlock Buy: ", 3500, 1, 1000000000);
 
         POTUNLOCK_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Potential Unlock Skill (Min: 1 / Max: 1000000000 / Default: 600) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Potential Unlock Levels: ", 600, 1, 1000000000);
+                .defineInRange("Potential Unlock Levels: ", 1300, 1, 1000000000);
+
+        MEDITATION_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Meditation Skill from Masters (Min: 1 / Max: 1000000000 / Default: 500)")
+                .defineInRange("Meditation Buy: ", 500, 1, 1000000000);
+
+        MEDITATION_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Meditation Skill (Min: 1 / Max: 1000000000 / Default: 150) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Meditation Levels: ", 150, 1, 1000000000);
+
+        KI_CONTROL_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Ki Control Skill from Masters (Min: 1 / Max: 1000000000 / Default: 500)")
+                .defineInRange("Ki Control Buy: ", 500, 1, 1000000000);
+
+        KI_CONTROL_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Ki Control Skill (Min: 1 / Max: 1000000000 / Default: 100) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Ki Control Levels: ", 100, 1, 1000000000);
+
+        KI_MANIPULATION_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Ki Manipulation Skill from Masters (Min: 1 / Max: 1000000000 / Default: 12500)")
+                .defineInRange("Ki Manipulation Buy: ", 12500, 1, 1000000000);
+
+        KI_MANIPULATION_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Ki Manipulation Skill (Min: 1 / Max: 1000000000 / Default: 5000) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Ki Manipulation Levels: ", 5000, 1, 1000000000);
 
         SPEC = BUILDER.build();
     }

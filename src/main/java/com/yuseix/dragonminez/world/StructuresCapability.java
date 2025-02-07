@@ -99,9 +99,9 @@ public class StructuresCapability {
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
             while (posicionValida.equals(new BlockPos(0, 0, 0))) {
-                // Generar posición aleatoria dentro de un rango de 2000 bloques a cada lado desde el spawn
-                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
-                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
+                // Generar posición aleatoria dentro de un rango de 1200 bloques a cada lado desde el spawn
+                int x = spawnPos.getX() + random.nextInt(2400) - 1200;
+                int z = spawnPos.getZ() + random.nextInt(2400) - 1200;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 

@@ -201,8 +201,10 @@ public class SkillMenu extends Screen {
                 double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
                 int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get();
                 int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
-                int sprintCost = DMZGeneralConfig.SPRINT_TP_COST_LEVELS.get();
                 int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
+                int meditationCost = DMZGeneralConfig.MEDITATION_TP_COST_LEVELS.get();
+                int kiControlCost = DMZGeneralConfig.KI_CONTROL_TP_COST_LEVELS.get();
+                int kiManipulationCost = DMZGeneralConfig.KI_MANIPULATION_TP_COST_LEVELS.get();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "potential_unlock":
@@ -333,15 +335,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (flyCost * 2 * mult),
-                                        3, (int) (flyCost * 3 * mult),
-                                        4, (int) (flyCost * 4 * mult),
-                                        5, (int) (flyCost * 5 * mult),
-                                        6, (int) (flyCost * 6 * mult),
-                                        7, (int) (flyCost * 7 * mult),
-                                        8, (int) (flyCost * 8 * mult),
-                                        9, (int) (flyCost * 9 * mult),
-                                        10, (int) (flyCost * 10 * mult)
+                                        2, (int) (kiControlCost * 2 * mult),
+                                        3, (int) (kiControlCost * 3 * mult),
+                                        4, (int) (kiControlCost * 4 * mult),
+                                        5, (int) (kiControlCost * 5 * mult),
+                                        6, (int) (kiControlCost * 6 * mult),
+                                        7, (int) (kiControlCost * 7 * mult),
+                                        8, (int) (kiControlCost * 8 * mult),
+                                        9, (int) (kiControlCost * 9 * mult),
+                                        10, (int) (kiControlCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -369,15 +371,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (flyCost * 2 * mult),
-                                        3, (int) (flyCost * 3 * mult),
-                                        4, (int) (flyCost * 4 * mult),
-                                        5, (int) (flyCost * 5 * mult),
-                                        6, (int) (flyCost * 6 * mult),
-                                        7, (int) (flyCost * 7 * mult),
-                                        8, (int) (flyCost * 8 * mult),
-                                        9, (int) (flyCost * 9 * mult),
-                                        10, (int) (flyCost * 10 * mult)
+                                        2, (int) (meditationCost * 2 * mult),
+                                        3, (int) (meditationCost * 3 * mult),
+                                        4, (int) (meditationCost * 4 * mult),
+                                        5, (int) (meditationCost * 5 * mult),
+                                        6, (int) (meditationCost * 6 * mult),
+                                        7, (int) (meditationCost * 7 * mult),
+                                        8, (int) (meditationCost * 8 * mult),
+                                        9, (int) (meditationCost * 9 * mult),
+                                        10, (int) (meditationCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -428,15 +430,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (jumpCost * 2 * mult),
-                                        3, (int) (jumpCost * 3 * mult),
-                                        4, (int) (jumpCost * 4 * mult),
-                                        5, (int) (jumpCost * 5 * mult),
-                                        6, (int) (jumpCost * 6 * mult),
-                                        7, (int) (jumpCost * 7 * mult),
-                                        8, (int) (jumpCost * 8 * mult),
-                                        9, (int) (jumpCost * 9 * mult),
-                                        10, (int) (jumpCost * 10 * mult)
+                                        2, (int) (kiManipulationCost * 2 * mult),
+                                        3, (int) (kiManipulationCost * 3 * mult),
+                                        4, (int) (kiManipulationCost * 4 * mult),
+                                        5, (int) (kiManipulationCost * 5 * mult),
+                                        6, (int) (kiManipulationCost * 6 * mult),
+                                        7, (int) (kiManipulationCost * 7 * mult),
+                                        8, (int) (kiManipulationCost * 8 * mult),
+                                        9, (int) (kiManipulationCost * 9 * mult),
+                                        10, (int) (kiManipulationCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
