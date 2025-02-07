@@ -25,13 +25,12 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class DendeEntity extends Mob implements GeoEntity {
+public class DendeEntity extends MastersEntity implements GeoEntity {
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
 	public DendeEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);
 		this.setPersistenceRequired();
-		this.setNoGravity(true);
 	}
 
 	public static AttributeSupplier setAttributes() {
@@ -42,13 +41,6 @@ public class DendeEntity extends Mob implements GeoEntity {
 				.add(Attributes.MOVEMENT_SPEED, 0.18F).build();
 	}
 
-	@Override
-	protected void registerGoals() {
-		this.goalSelector.addGoal(1, new FloatGoal(this));
-		this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 1.0f));
-		this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
-
-	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
@@ -81,41 +73,4 @@ public class DendeEntity extends Mob implements GeoEntity {
 		return cache;
 	}
 
-	@Override
-	public boolean canBeCollidedWith() {
-		return false;
-	}
-
-	@Override
-	public boolean canCollideWith(Entity entity) {
-		return !(entity instanceof Player); // Evita colisión con jugadores
-	}
-
-	@Override
-	public boolean canBeHitByProjectile() {
-		return false;
-	}
-
-
-	@Override
-	public boolean isPushable() {
-		return false;
-	}
-
-	@Override
-	public boolean isPersistenceRequired() {
-		return true;
-	}
-
-	@Override
-	public void checkDespawn() {
-	}
-
-	@Override
-	public boolean hurt(DamageSource pSource, float pAmount) {
-		if ("generic_kill".equals(pSource.getMsgId()) || "generic".equals(pSource.getMsgId()) || "out_of_world".equals(pSource.getMsgId()) || "genericKill".equals(pSource.getMsgId())) {
-			return super.hurt(pSource, pAmount);
-		}
-		return false;
-	}
 }
