@@ -191,12 +191,21 @@ public class RaditzEntity extends SagaEntity {
         ServerLevel serverLevel = (ServerLevel) this.level();
         for (int i = 0; i < 10; i++) {
 
+            double offsetX = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje X
+            double offsetY = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje Y
+            double offsetZ = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje Z
+
+
+            DustParticleOptions dustOptions = new DustParticleOptions(
+                    new Vector3f(66f /255f, 33f /255f, 110f /255f), // Color morado (RGB)
+                    1.0f  // Tamaño de la partícula
+            );
             serverLevel.sendParticles((ServerPlayer) this.getTarget(),
-                    ParticleTypes.SOUL_FIRE_FLAME,
+                    dustOptions,
                     true,
-                    this.getX(),
-                    this.getY(),
-                    this.getZ(),
+                    this.getX() + offsetX,
+                    this.getY() + offsetY + 1.0,  // Asegúrate de que las partículas sean visibles
+                    this.getZ() + offsetZ,
                     10,
                     0.0, 0.0, 0.0, 0.0);
         }
