@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.events.cc;
+package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;

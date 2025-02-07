@@ -1,8 +1,9 @@
-package com.yuseix.dragonminez.events.cc;
+package com.yuseix.dragonminez.events.characters;
 
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.DMZBioAndroidConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
@@ -20,8 +21,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -81,39 +80,41 @@ public class StatsEvents {
 
                 int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
 
-                // Ajustar la salud máxima del jugador
+                // Verificar que haya creado su personaje antes de comenzar a hacer cosas referentes a las stats
                 if (isDmzUser) {
                     serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                    // Tickhandler
+                    tickHandler.tickRegenConsume(playerstats, dmzdatos);
+
+                    // Pasiva Majin
+                    tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
+
+                    // Consumo de Ki del Fly
+                    tickHandler.manejarFlyConsume(playerstats, maxenergia);
+
+                    //Aca manejamos la carga de aura
+                    tickHandler.manejarCargaDeAura(playerstats, maxenergia);
+
+                    //Restar el tiempo que se pone en el comando dmztempeffect
+                    updateTemporaryEffects(serverPlayer);
+                    DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
+
+                    if (flySkill != null) {
+                        if (flySkill.isActive()) {
+                            if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+                                playerstats.setSkillActive("fly", false);
+                                player.getAbilities().flying = false;
+                                player.fallDistance = 0; // Resetear daño de caída
+                                player.onUpdateAbilities();
+                            }
+                        }
+                    }
                 } else {
                     serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
                 }
 
-                // Tickhandler
-                tickHandler.tickRegenConsume(playerstats, dmzdatos);
-
-                // Consumo de Ki del Fly
-                tickHandler.manejarFlyConsume(playerstats, maxenergia);
-
                 //Tiempo para reclamar una senzu
                 playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
-
-                //Aca manejamos la carga de aura
-                tickHandler.manejarCargaDeAura(playerstats, maxenergia);
-
-                //Restar el tiempo que se pone en el comando dmztempeffect
-                updateTemporaryEffects(serverPlayer);
-                DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
-
-                if (flySkill != null) {
-                    if (flySkill.isActive()) {
-                        if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                            playerstats.setSkillActive("fly", false);
-                            player.getAbilities().flying = false;
-                            player.fallDistance = 0; // Resetear daño de caída
-                            player.onUpdateAbilities();
-                        }
-                    }
-                }
             });
     }
 
@@ -207,13 +208,26 @@ public class StatsEvents {
                             if (curStamina >= staminacost) {
                                 // Aplicar daño ajustado si la Stamina no alcanza
                                 float adjustedDamage = maxDamage * damageMultiplier;
+                                if (cap.getRace() == 3) {
+                                    if (atacante.getHealth() < (cap.getMaxHealth() * 0.25)) {
+                                        float passiveBioAndroid = (float) DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get() / 100;
+                                        float lifesteal = adjustedDamage * passiveBioAndroid;
+                                        if (lifesteal < 1) lifesteal = 1;
+                                        atacante.heal(lifesteal);
+                                    } else if (atacante.getHealth() < (cap.getMaxHealth() * 0.50)) {
+                                        float passiveBioAndroid = (float) DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get() / 100;
+                                        float lifesteal = adjustedDamage * passiveBioAndroid;
+                                        if (lifesteal < 1) lifesteal = 1;
+                                        atacante.heal(lifesteal);
+                                    }
+                                }
                                 // Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
                                 if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
                                     if (cap.getKiWeaponId().equals("scythe")) {
-                                        float dañoFinal = adjustedDamage + (danoKiWeapon / 4);
+                                        float danoFinal = adjustedDamage + (danoKiWeapon / 4);
                                         int kiCost = (int) (maxKi * 0.10);
                                         if (currKi > kiCost) {
-                                            event.setAmount(dañoFinal);
+                                            event.setAmount(danoFinal);
                                             cap.removeCurEnergy(kiCost);
                                         } else {
                                             event.setAmount(adjustedDamage);
@@ -337,64 +351,67 @@ public class StatsEvents {
 
         LocalPlayer player = Minecraft.getInstance().player;
 
-        //Cargar Ki
-        if (isKiChargeKeyPressed && !previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
-            previousKiChargeState = true; // Actualiza el estado previo
-            playSoundOnce(MainSounds.AURA_START.get());
-            startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
-        } else if (!isKiChargeKeyPressed && previousKiChargeState) {
-            ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-            previousKiChargeState = false; // Actualiza el estado previo
-            stopLoopSound(true);
-        }
-
-        //Turbo
         if (player != null) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
                 int curEne = stats.getCurrentEnergy();
                 int maxEne = stats.getMaxEnergy();
                 int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
 
-                if (isTurboKeypressed) {
-                    if (!turboOn && porcentaje > 10) {
-                        // Solo activar Turbo si tiene más del 10% de energía
-                        turboOn = true;
-                        ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
-                        ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                if (stats.isAcceptCharacter()) {
+
+                    //Cargar Ki
+                    if (isKiChargeKeyPressed && !previousKiChargeState) {
+                        ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+                        previousKiChargeState = true; // Actualiza el estado previo
                         playSoundOnce(MainSounds.AURA_START.get());
-                        startLoopSound(MainSounds.TURBO_LOOP.get(), false);
-                        setTurboSpeed(player, true);
-                    } else if (turboOn) {
-                        // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                        startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+                    } else if (!isKiChargeKeyPressed && previousKiChargeState) {
+                        ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+                        previousKiChargeState = false; // Actualiza el estado previo
+                        stopLoopSound(true);
+                    }
+
+                    // Descender de ki
+                    if (isDescendKeyPressed && !previousKeyDescendState) {
+                        ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
+                        previousKeyDescendState = true; // Actualiza el estado previo
+                    } else if (!isDescendKeyPressed && previousKeyDescendState) {
+                        ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
+                        previousKeyDescendState = false; // Actualiza el estado previo
+                    }
+
+                    //Turbo
+                    if (isTurboKeypressed) {
+                        if (!turboOn && porcentaje > 10) {
+                            // Solo activar Turbo si tiene más del 10% de energía
+                            turboOn = true;
+                            ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
+                            ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
+                            playSoundOnce(MainSounds.AURA_START.get());
+                            startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+                            setTurboSpeed(player, true);
+                        } else if (turboOn) {
+                            // Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
+                            turboOn = false;
+                            ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
+                            ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
+                            stopLoopSound(false);
+                            setTurboSpeed(player, false);
+                        } else {
+                            player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
+                        }
+                    }
+
+                    // Desactivar Turbo automáticamente si la energía llega a 1
+                    if (turboOn && curEne <= 1) {
                         turboOn = false;
                         ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                         ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                         stopLoopSound(false);
                         setTurboSpeed(player, false);
-                    } else {
-                        player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                     }
                 }
-
-                // Desactivar Turbo automáticamente si la energía llega a 1
-                if (turboOn && curEne <= 1) {
-                    turboOn = false;
-                    ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
-                    ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-                    stopLoopSound(false);
-                    setTurboSpeed(player, false);
-                }
             });
-
-            // Descender de ki
-            if (isDescendKeyPressed && !previousKeyDescendState) {
-                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 1));
-                previousKeyDescendState = true; // Actualiza el estado previo
-            } else if (!isDescendKeyPressed && previousKeyDescendState) {
-                ModMessages.sendToServer(new CharacterC2S("isDescendOn", 0));
-                previousKeyDescendState = false; // Actualiza el estado previo
-            }
         }
     }
 

@@ -45,10 +45,7 @@ public class ResetCharacterCommand {
             );
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-
-                var raza = playerstats.getRace();
-                int energiacurrent = 0;
-                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                player.setHealth(20);
 
                 playerstats.setAcceptCharacter(false);
                 //Luego cambiar cuando decidamos las stats
@@ -59,8 +56,8 @@ public class ResetCharacterCommand {
                 playerstats.setEnergy(5);
                 playerstats.setZpoints(0);
 
-                energiacurrent = dmzdatos.calcularENE(raza, playerstats.getEnergy(), playerstats.getDmzClass());
-                playerstats.setCurrentEnergy(energiacurrent);
+                playerstats.setCurrentEnergy(0);
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
 
 
             });

@@ -9,7 +9,6 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;

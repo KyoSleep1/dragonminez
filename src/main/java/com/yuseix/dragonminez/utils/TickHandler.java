@@ -1,9 +1,13 @@
 package com.yuseix.dragonminez.utils;
 
+import com.yuseix.dragonminez.config.races.DMZHumanConfig;
+import com.yuseix.dragonminez.config.races.DMZMajinConfig;
+import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import net.minecraft.server.level.ServerPlayer;
 
 public class TickHandler {
     private int energyRegenCounter = 0;
@@ -11,12 +15,14 @@ public class TickHandler {
     private int energyConsumeCounter = 0;
     private int chargeTimer = 0; // Aca calculamos el tiempo de espera
     private int flyTimer = 0;
+    private int passiveMajinCounter = 0;
 
     private final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
 
     public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
         DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
         DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
+        var raza = playerStats.getRace();
 
         // Regeneración de stamina cada 1 segundo
         staminaRegenCounter++;
@@ -50,7 +56,9 @@ public class TickHandler {
                 }
                 playerStats.removeCurEnergy(consumeEnergy);
             } else if (!playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
-                if (flySkill == null || flySkill.getLevel() >= 8) {
+                if (flySkill != null && flySkill.getLevel() <= 7 || flySkill != null && flySkill.isActive()) {
+                    // No hacer nada
+                } else {
                     // Si el turbo no está activo, regeneración de energía
                     int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
                     if (regenEnergy < 1) regenEnergy = 1;
@@ -60,18 +68,38 @@ public class TickHandler {
                         int medLevel = meditation.getLevel();
                         regenEnergy += (int) Math.ceil(regenEnergy * 0.1 * medLevel);
                     }
+                    if (raza == 2) {
+                        float passiveNamek = (float) DMZNamekConfig.PASSIVE_REGEN.get() / 100;
+                        // Aumenta 25% (default) de la regeneración por ser Namek
+                        regenEnergy += (int) Math.ceil(regenEnergy * passiveNamek);
+                    }
+
                     playerStats.addCurEnergy(regenEnergy);
                 }
             }
             energyRegenCounter = 0;
         }
 
-        // Consumo de energía cada 3 segundos
+        // Consumo de energía cada 1 segundo
         energyConsumeCounter++;
-        if (energyConsumeCounter >= 20 * 3) {
-            int consumeEnergy = dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState());
+        if (energyConsumeCounter >= 20) {
+            int consumeEnergy = (dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState()) / 3);
             playerStats.removeCurEnergy(consumeEnergy);
             energyConsumeCounter = 0;
+        }
+    }
+
+    public void manejarPasivaMajin(DMZStatsAttributes playerstats, ServerPlayer player) {
+        // Pasiva del Majin: Regen de HP
+        passiveMajinCounter++;
+        if (passiveMajinCounter >= 20) {
+            if (playerstats.getRace() == 5 && player.getHealth() < playerstats.getMaxHealth()) {
+                double passiveMajin = DMZMajinConfig.PASSIVE_HEALTH_REGEN.get() / 100;
+                int regenHP = (int) Math.ceil(playerstats.getMaxHealth() * passiveMajin);
+                if (regenHP < 1) regenHP = 1;
+                player.heal(regenHP);
+            }
+            passiveMajinCounter = 0;
         }
     }
 
@@ -86,6 +114,7 @@ public class TickHandler {
         DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
         int potUnlockLevel = potUnlock != null ? potUnlock.getLevel() : 0;
         int maxRelease = 50 + (potUnlockLevel * 5);
+        var raza = playerstats.getRace();
 
         if (chargeTimer >= CHARGE_INTERVAL) {
             if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
@@ -102,22 +131,29 @@ public class TickHandler {
                         playerstats.setDmzRelease(maxRelease);
                     }
                 }
-                if (!playerstats.isTurbonOn() && flySkill != null && flySkill.getLevel() >= 8) {
+                if (!playerstats.isTurbonOn()) {
                     if (playerstats.getCurrentEnergy() < maxenergia) {
+                        if (flySkill != null && flySkill.getLevel() <= 7 || flySkill != null && flySkill.isActive()) {
+                            // No hacer nada
+                        } else {
                         int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
                         if (meditation != null) {
                             kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
+                        }
+                        if (raza == 0) {
+                            float passiveHuman = (float) DMZHumanConfig.KICHARGE_REGEN_BOOST.get() / 100;
+                            // Aumenta 25% (default) de la regeneración por ser humano
+                            kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
                         }
                         playerstats.addCurEnergy(kiRegen);
                     }
                 }
             }
-
-            if (playerstats.isTurbonOn() && playerstats.getCurrentEnergy() <= 1) {
-                playerstats.setDmzRelease(0);
+                if (playerstats.isTurbonOn() && playerstats.getCurrentEnergy() <= 1) {
+                    playerstats.setDmzRelease(0);
+                }
+                chargeTimer = 0;
             }
-
-            chargeTimer = 0;
         }
     }
 

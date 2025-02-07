@@ -1,16 +1,11 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 

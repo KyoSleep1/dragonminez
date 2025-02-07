@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.events.cc;
+package com.yuseix.dragonminez.events.characters;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
@@ -57,12 +57,12 @@ public class TimeChamberEvents {
 			double jumpMultiplier = 1.0;
 			double foodMultiplier = 1.0;
 
-			// Penalizaciones basadas según stats al 30% o 50% del máximo xd
-			if (level < (maxStats * 0.3)) {
+			// Penalizaciones basadas según stats al 15% o 25% del máximo xd
+			if (level < (maxStats * 0.15)) {
 				speedMultiplier = 0.5; // Reducir velocidad un 50%
 				jumpMultiplier = 0.5;  // Reducir salto un 50%
 				foodMultiplier = penaltyLow; // Aumentar consumo de comida
-			} else if (level < (maxStats * 0.5)) {
+			} else if (level < (maxStats * 0.25)) {
 				speedMultiplier = 0.75; // 25%
 				jumpMultiplier = 0.75; // 25%
 				foodMultiplier = penaltyHigh;

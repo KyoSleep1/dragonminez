@@ -1,7 +1,8 @@
-package com.yuseix.dragonminez.events.cc;
+package com.yuseix.dragonminez.events.characters;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.DMZColdDemonConfig;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
@@ -25,20 +26,18 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
@@ -92,12 +91,15 @@ public class EntityEvents {
 					calculoTps *= DMZGeneralConfig.MULTIPLIER_ZPOINTS_HTC.get();
 				}
 
-				int finalTps = (int) Math.round(calculoTps);
+				int finalCalculoTps = calculoTps;
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					boolean isDmzUser = cap.isAcceptCharacter();
+					int finalTps = Math.round(finalCalculoTps);
 
-					if (isDmzUser) { cap.addZpoints(finalTps); }
+					if (cap.getRace() == 4)  finalTps *= DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
+
+					if (isDmzUser) cap.addZpoints(finalTps);
 					// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
@@ -128,10 +130,12 @@ public class EntityEvents {
 				baseTps *= DMZGeneralConfig.MULTIPLIER_ZPOINTS_HTC.get();
 			}
 
-			int finalTps = (int) Math.round(baseTps);
+			double finalBaseTps = baseTps;
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				boolean isDmzUser = cap.isAcceptCharacter();
+				int finalTps = (int) Math.round(finalBaseTps);
+				if (cap.getRace() == 4) finalTps = (int) (finalTps * DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get());
 				if (isDmzUser) { cap.addZpoints(finalTps); }
 
 				// Testing

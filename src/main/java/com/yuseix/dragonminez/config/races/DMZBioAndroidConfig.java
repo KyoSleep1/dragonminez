@@ -49,11 +49,11 @@ public class DMZBioAndroidConfig {
         //Pasiva
         BUILDER.push(" BIO ANDROID PASSIVE SKILL:");
 
-        HALF_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal per hit when below Half Health! (Min: 1 / Max: 50 / Default: 10)")
-                .defineInRange("Half Health Lifesteal: ", 10, 1, 50);
+        HALF_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Half Health! (Min: 1 / Max: 50 / Default: 5)")
+                .defineInRange("Half Health Lifesteal: ", 5, 1, 50);
 
-        QUARTER_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal per hit when below Quarter Health! (Min: 1 / Max: 50 / Default: 5)")
-                .defineInRange("Quarter Health Lifesteal: ", 5, 1, 50);
+        QUARTER_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Quarter Health! (Min: 1 / Max: 50 / Default: 10)")
+                .defineInRange("Quarter Health Lifesteal: ", 10, 1, 50);
 
         BUILDER.pop();
 

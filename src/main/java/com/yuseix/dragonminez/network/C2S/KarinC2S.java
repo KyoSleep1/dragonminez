@@ -1,13 +1,9 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.MenuS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
