@@ -25,17 +25,13 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-/*
- * This file uses GeckoLib, licensed under the MIT License.
- * Copyright © 2024 GeckoThePecko.
- */
-
 public class DendeEntity extends Mob implements GeoEntity {
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
 	public DendeEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);
 		this.setPersistenceRequired();
+		this.setNoGravity(true);
 	}
 
 	public static AttributeSupplier setAttributes() {
