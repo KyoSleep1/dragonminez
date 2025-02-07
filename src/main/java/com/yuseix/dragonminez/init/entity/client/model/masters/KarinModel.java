@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.entity.client.model;
+package com.yuseix.dragonminez.init.entity.client.model.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import software.bernie.geckolib.constant.DataTickets;
@@ -9,11 +9,6 @@ import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
-
-/*
- * This file uses GeckoLib, licensed under the MIT License.
- * Copyright © 2024 GeckoThePecko.
- */
 
 public class KarinModel extends GeoModel<KarinEntity> {
 	@Override

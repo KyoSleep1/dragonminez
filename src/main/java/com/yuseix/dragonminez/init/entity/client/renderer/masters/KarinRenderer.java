@@ -1,8 +1,8 @@
-package com.yuseix.dragonminez.init.entity.client.renderer;
+package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.client.model.KarinModel;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.init.entity.client.model.masters.KarinModel;
+import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;

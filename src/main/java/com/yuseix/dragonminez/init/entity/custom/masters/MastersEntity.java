@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.init.entity.custom;
+package com.yuseix.dragonminez.init.entity.custom.masters;
 
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;

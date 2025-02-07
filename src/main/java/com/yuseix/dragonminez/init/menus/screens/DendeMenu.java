@@ -10,7 +10,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.DendeEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import com.yuseix.dragonminez.network.C2S.DendeC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.ChatFormatting;

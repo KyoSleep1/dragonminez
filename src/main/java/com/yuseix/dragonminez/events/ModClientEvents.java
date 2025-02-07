@@ -27,6 +27,9 @@ import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.client.renderer.masters.DendeRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.masters.KarinRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.masters.RoshiRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.RaditzRenderer;
@@ -95,11 +98,14 @@ public class ModClientEvents {
 			//ENTIDADES
 			EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
 			EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
-			EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
 			EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
 			EntityRenderers.register(MainEntity.PORUNGA.get(), PorungaRenderer::new);
-			EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
 			EntityRenderers.register(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanRenderer::new);
+
+			//MAESTROS
+			EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
+			EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
+			EntityRenderers.register(MainEntity.MASTER_ROSHI.get(), RoshiRenderer::new);
 
 			EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
 			EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);

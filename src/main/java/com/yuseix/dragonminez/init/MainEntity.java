@@ -3,6 +3,9 @@ package com.yuseix.dragonminez.init;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
+import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.RoshiEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
@@ -128,9 +131,16 @@ public final class MainEntity {
 	public static final RegistryObject<EntityType<DendeEntity>> MASTER_DENDE =
 			ENTITY_TYPES_REGISTER.register("dende",
 					() -> EntityType.Builder.of(DendeEntity::new, MobCategory.CREATURE)
-							.sized(1.1f, 2.1f)
+							.sized(0.6f, 1.8f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "dende").toString())
 			);
+	public static final RegistryObject<EntityType<RoshiEntity>> MASTER_ROSHI =
+			ENTITY_TYPES_REGISTER.register("roshi",
+					() -> EntityType.Builder.of(RoshiEntity::new, MobCategory.CREATURE)
+							.sized(0.6f, 1.8f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "roshi").toString())
+			);
+
 	public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
 			ENTITY_TYPES_REGISTER.register("nube",
 					() -> EntityType.Builder.of(NubeEntity::new, MobCategory.AMBIENT)

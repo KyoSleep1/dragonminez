@@ -1,7 +1,7 @@
-package com.yuseix.dragonminez.init.entity.client.model;
+package com.yuseix.dragonminez.init.entity.client.model.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.entity.custom.DendeEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import software.bernie.geckolib.constant.DataTickets;
