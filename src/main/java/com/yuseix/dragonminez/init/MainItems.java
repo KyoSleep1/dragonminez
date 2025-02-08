@@ -96,7 +96,6 @@ public final class MainItems {
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_CHESTPLATE = piccoloArItem("great_saiyaman_armor_chestplate", ArmorItem.Type.CHESTPLATE, "saiyaman_gi", false);
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_LEGGINGS = piccoloArItem("great_saiyaman_armor_leggings", ArmorItem.Type.LEGGINGS, "saiyaman_gi", false);
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_BOOTS = piccoloArItem("great_saiyaman_armor_boots", ArmorItem.Type.BOOTS, "saiyaman_gi", false);
-
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE = saiyArItem("vegeta_saiyan_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegeta_saiyan_armor", true);
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS = saiyArItem("vegeta_saiyan_armor_leggings", ArmorItem.Type.LEGGINGS, "vegeta_saiyan_armor", true);
@@ -234,6 +233,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_GOTEN = regItem("pattern_goten");
     public static final RegistryObject<Item> PATTERN_GOTEN_SUPER = regItem("pattern_goten_super");
     public static final RegistryObject<Item> PATTERN_GOHAN_SUPER = regItem("pattern_gohan_super");
+    public static final RegistryObject<Item> PATTERN_GREAT_SAIYAMAN = regItem("pattern_great_saiyaman");
     public static final RegistryObject<Item> PATTERN_VEGETA1 = regItem("pattern_vegeta1");
     public static final RegistryObject<Item> PATTERN_VEGETA2 = regItem("pattern_vegeta2");
     public static final RegistryObject<Item> PATTERN_VEGETA_Z = regItem("pattern_vegeta_z");

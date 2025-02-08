@@ -90,8 +90,11 @@ public class StatsEvents {
                         // Pasiva Majin
                         tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
                     } else if (raza == 1) {
-                        // Pasiva Saiyan
-                        tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
+                        playerstats.setSaiyanZenkaiTimer(zenkaiContador(playerstats.getSaiyanZenkaiTimer()));
+                        if (playerstats.getSaiyanZenkaiTimer() == 0 && player.getHealth() < (playerstats.getMaxHealth() * 0.10)) {
+                            // Pasiva Saiyan
+                            tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
+                        }
                     }
 
                     // Consumo de Ki del Fly
@@ -504,6 +507,13 @@ public class StatsEvents {
     }
 
     public static int senzuContador(int segundos) {
+        if (segundos > 0) {
+            return segundos - 1; // si es mayor a 0 resta
+        }
+        return 0; // Si es 0 o menor, retorna 0
+    }
+
+    public static int zenkaiContador(int segundos) {
         if (segundos > 0) {
             return segundos - 1; // si es mayor a 0 resta
         }

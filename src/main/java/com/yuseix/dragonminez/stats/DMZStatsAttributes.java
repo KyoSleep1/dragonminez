@@ -32,7 +32,7 @@ public class DMZStatsAttributes {
 
     private int dmzRelease = 5;
     private int dmzState = 0;
-    private int dmzSenzuDaily = 0;
+    private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0;
     private int dmzBattlePower = 0;
 
     private int zpoints;
@@ -48,8 +48,6 @@ public class DMZStatsAttributes {
     private String dmzKiWeapon = "sword";
 
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
-
-
 
     private final Player player;
 
@@ -81,7 +79,6 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
 
     }
-
 
     public int getDmzSenzuDaily() {
         return dmzSenzuDaily;
@@ -783,6 +780,15 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public int getSaiyanZenkaiTimer() {
+        return saiyanZenkaiTimer;
+    }
+
+    public void setSaiyanZenkaiTimer(int saiyanZenkaiTimer) {
+        this.saiyanZenkaiTimer = saiyanZenkaiTimer;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public int getDmzBattlePower() {
         int damage = dmzdatos.calcularSTRCompleta(races, dmzState, strength, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
         int kiDamage = dmzdatos.calcularPWRCompleta(races, dmzState, KiPower, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
@@ -831,6 +837,7 @@ public class DMZStatsAttributes {
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("compactMenu", compactMenu);
         nbt.putInt("zenkaiCount", zenkaiCount);
+        nbt.putInt("zenkaiTimer", saiyanZenkaiTimer);
         nbt.putBoolean("isAuraOn", isauraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
@@ -911,6 +918,7 @@ public class DMZStatsAttributes {
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         compactMenu = nbt.getBoolean("compactMenu");
         zenkaiCount = nbt.getInt("zenkaiCount");
+        saiyanZenkaiTimer = nbt.getInt("zenkaiTimer");
         isauraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");

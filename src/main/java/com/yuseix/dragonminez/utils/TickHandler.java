@@ -72,7 +72,7 @@ public class TickHandler {
                     }
                     if (raza == 2) {
                         float passiveNamek = (float) DMZNamekConfig.PASSIVE_REGEN.get() / 100;
-                        // Aumenta 25% (default) de la regeneración por ser Namek
+                        // Aumenta 40% (default) de la regeneración por ser Namek
                         regenEnergy += (int) Math.ceil(regenEnergy * passiveNamek);
                     }
 
@@ -126,6 +126,7 @@ public class TickHandler {
                 playerstats.setEnergy((int) (playerstats.getEnergy() + (playerstats.getEnergy() * zenkaiStatBoost)));
 
                 ModMessages.sendToServer(new CharacterC2S("zenkaiCount", playerstats.getZenkaiCount() + 1));
+                ModMessages.sendToServer(new CharacterC2S("zenkaiCooldown", zenkaiCooldown));
                 passiveSaiyanCounter = 0;
             }
         } else {

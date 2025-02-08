@@ -44,15 +44,15 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         oreSmelting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 200, "coal");
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_campfire"));
 
@@ -102,15 +102,15 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.DBALL_RADAR_ITEM.get(), 1)
-                 .pattern("OPO")
-                 .pattern("PGP")
-                 .pattern("CPC")
-                 .define('O', Items.OBSERVER)
-                 .define('G', MainItems.T1_RADAR_CPU.get())
-                 .define('C', MainItems.T1_RADAR_CHIP.get())
-                 .define('P', MainItems.RADAR_PIECE.get())
-                 .unlockedBy(getHasName(MainItems.T1_RADAR_CPU.get()), has(MainItems.T1_RADAR_CPU.get()))
-                 .group("dragonminez").save(pWriter);
+                .pattern("OPO")
+                .pattern("PGP")
+                .pattern("CPC")
+                .define('O', Items.OBSERVER)
+                .define('G', MainItems.T1_RADAR_CPU.get())
+                .define('C', MainItems.T1_RADAR_CHIP.get())
+                .define('P', MainItems.RADAR_PIECE.get())
+                .unlockedBy(getHasName(MainItems.T1_RADAR_CPU.get()), has(MainItems.T1_RADAR_CPU.get()))
+                .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.T2_RADAR_CHIP.get(), 1)
                 .pattern("ROR")
@@ -324,6 +324,18 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
                 .group("dragonminez").save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETTO.get(), 1)
+                .pattern("B#B")
+                .pattern("BOB")
+                .pattern("WCW")
+                .define('B', Items.BLUE_DYE)
+                .define('W', Items.WHITE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('C', Items.CYAN_DYE)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PICCOLO.get(), 1)
                 .pattern("P#P")
                 .pattern("PPP")
@@ -455,6 +467,17 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
                 .group("dragonminez").save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BLACK.get(), 1)
+                .pattern("B#B")
+                .pattern("GBG")
+                .pattern("RGR")
+                .define('B', Items.BLACK_DYE)
+                .define('G', Items.GRAY_DYE)
+                .define('R', Items.RED_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PRIDE_TROOPS.get(), 1)
                 .pattern("B#B")
                 .pattern("RBR")
@@ -472,6 +495,17 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', Items.PURPLE_DYE)
                 .define('C', Items.CYAN_DYE)
                 .define('Y', Items.YELLOW_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAS.get(), 1)
+                .pattern("Y#Y")
+                .pattern("RYR")
+                .pattern("RWR")
+                .define('Y', Items.YELLOW_DYE)
+                .define('R', Items.RED_DYE)
+                .define('W', Items.WHITE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
                 .group("dragonminez").save(pWriter);

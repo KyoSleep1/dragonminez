@@ -132,6 +132,9 @@ public class CharacterC2S {
                         case "zenkaiCount":
                             playerstats.setZenkaiCount(packet.cantidad);
                             break;
+                        case "zenkaiCooldown":
+                            playerstats.setSaiyanZenkaiTimer(packet.cantidad * 20 * 60); // Ticks * Segundos * Minutos
+                            break;
                         case "isCompactMenu":
                             if (packet.cantidad == 1) {
                                 playerstats.setCompactMenu(true);
