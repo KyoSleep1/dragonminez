@@ -15,6 +15,8 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 
 public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> extends RenderLayer<T, M> {
@@ -62,7 +64,12 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
             colorB = (hairColor & 0xff) / 255.0f;
 
-            if (hairId == 0 && raza !=2) return;
+            // Si el pelo es 0 y no es Namek, no renderizamos nada.
+            if (hairId == 0 && (raza != 2)) return;
+            // Si el jugador tiene invisibilidad, no renderizamos nada.
+            if (Minecraft.getInstance().player.hasEffect(MobEffects.INVISIBILITY)) return;
+            // Si el jugador tiene un casco, no renderizamos nada.
+            if (!(Minecraft.getInstance().player.getItemBySlot(EquipmentSlot.HEAD).isEmpty())) return;
 
             switch (raza){
                 case 0: //Humano
