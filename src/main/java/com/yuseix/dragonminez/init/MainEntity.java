@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.GokuMasterEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.RoshiEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
@@ -139,6 +140,12 @@ public final class MainEntity {
 					() -> EntityType.Builder.of(RoshiEntity::new, MobCategory.CREATURE)
 							.sized(0.6f, 1.8f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "roshi").toString())
+			);
+	public static final RegistryObject<EntityType<GokuMasterEntity>> MASTER_GOKU =
+			ENTITY_TYPES_REGISTER.register("master_goku",
+					() -> EntityType.Builder.of(GokuMasterEntity::new, MobCategory.CREATURE)
+							.sized(0.6f, 1.8f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "master_goku").toString())
 			);
 
 	public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =

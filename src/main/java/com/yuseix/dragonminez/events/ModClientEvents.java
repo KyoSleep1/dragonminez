@@ -20,6 +20,7 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.masters.GokuMasterModel;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
@@ -28,6 +29,7 @@ import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.DendeRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.masters.GokuMasterRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.KarinRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.RoshiRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
@@ -106,6 +108,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.MASTER_DENDE.get(), DendeRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_ROSHI.get(), RoshiRenderer::new);
+			EntityRenderers.register(MainEntity.MASTER_GOKU.get(), GokuMasterRenderer::new);
 
 			EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
 			EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);
@@ -213,6 +216,9 @@ public class ModClientEvents {
 
 		e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
 		e.registerLayerDefinition(KiBallModel.LAYER_LOCATION, KiBallModel::createBodyLayer);
+
+		//MAESTROS
+		e.registerLayerDefinition(GokuMasterModel.LAYER_LOCATION, GokuMasterModel::createBodyLayer);
 
 		//CABELLOS
 		e.registerLayerDefinition(GokuHairModel.LAYER_LOCATION, GokuHairModel::createBodyLayer);
