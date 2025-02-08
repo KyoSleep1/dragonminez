@@ -29,6 +29,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
@@ -41,6 +42,7 @@ import java.util.Random;
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeBusEvents {
 
 	public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
@@ -149,7 +151,6 @@ public class ForgeBusEvents {
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
-					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
 					dragonBallsCapability.setHasDragonBalls(true);
 					dragonBallsCapability.saveToSavedData(serverOverworld);
 				}
@@ -173,7 +174,6 @@ public class ForgeBusEvents {
 
 					// Indica que las Dragon Balls de Namek han sido generadas
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
-					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
 					namekDragonBallsCapability.saveToSavedData(serverNamek);
 				}
