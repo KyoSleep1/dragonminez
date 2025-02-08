@@ -54,6 +54,7 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             null, FrameType.GOAL, true, true, false
                     ).addCriterion("kamilookout",
                             // Criterio para que se active el logro al llegar a cualquier coordenada entre 2147482 y 2147483 (Muy lejos xd)
+                            // Esto es para que el logro sea imposible de obtener de manera normal, y lo damos mediante un evento al encontrar la Estructura.
                             PlayerTrigger.TriggerInstance.located(
                                     EntityPredicate.Builder.entity()
                                             .of(EntityType.PLAYER)
@@ -237,6 +238,20 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.GOTEN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:gotenarmor");
 
+            Advancement greatsaiyamanarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.greatsaiyamanarmor.title"),
+                            Component.translatable("advancements.dragonminez.greatsaiyamanarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("greatsaiyamanarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GREAT_SAIYAMAN_ARMOR_HELMET.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_LEGGINGS.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:greatsaiyamanarmor");
+
             Advancement vegetaarmor = Advancement.Builder.advancement()
                     .parent(patternz)
                     .display(
@@ -249,6 +264,19 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS.get(),
                                     MainItems.VEGETA_SAIYAN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:vegetaarmor");
+
+            Advancement vegettoarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.VEGETTO_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.vegettoarmor.title"),
+                            Component.translatable("advancements.dragonminez.vegettoarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("vegettoarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.VEGETTO_ARMOR_CHESTPLATE.get(),
+                                    MainItems.VEGETTO_ARMOR_LEGGINGS.get(),
+                                    MainItems.VEGETTO_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:vegettoarmor");
 
             Advancement piccoloarmor = Advancement.Builder.advancement()
                     .parent(patternz)
@@ -355,6 +383,19 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.SHIN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:shinarmor");
 
+            Advancement blackarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.BLACK_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.blackarmor.title"),
+                            Component.translatable("advancements.dragonminez.blackarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("blackarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.BLACK_ARMOR_CHESTPLATE.get(),
+                                    MainItems.BLACK_ARMOR_LEGGINGS.get(),
+                                    MainItems.BLACK_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:blackarmor");
+
             Advancement pridetrooparmor = Advancement.Builder.advancement()
                     .parent(patternsuper)
                     .display(
@@ -380,6 +421,19 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.HIT_ARMOR_LEGGINGS.get(),
                                     MainItems.HIT_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:hitarmor");
+
+            Advancement gasarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.GAS_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gasarmor.title"),
+                            Component.translatable("advancements.dragonminez.gasarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gasarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GAS_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAS_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAS_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gasarmor");
         }
     }
 }

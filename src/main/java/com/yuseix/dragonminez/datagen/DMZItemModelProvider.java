@@ -108,6 +108,13 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOHAN_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOHAN_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.GOHAN_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_HELMET);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_LEGGINGS);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_BOOTS);
+//        armorItem(MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE);
+//        armorItem(MainItems.FUTURE_GOHAN_ARMOR_LEGGINGS);
+//        armorItem(MainItems.FUTURE_GOHAN_ARMOR_BOOTS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_BOOTS);
@@ -123,6 +130,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.VEGETA_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETTO_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETTO_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETTO_ARMOR_BOOTS);
         armorItem(MainItems.PICCOLO_ARMOR_HELMET);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
@@ -173,6 +183,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GAS_ARMOR_CHESTPLATE);
         armorItem(MainItems.GAS_ARMOR_LEGGINGS);
         armorItem(MainItems.GAS_ARMOR_BOOTS);
+//        armorItem(MainItems.MAJIN_BUU_ARMOR_CHESTPLATE);
+//        armorItem(MainItems.MAJIN_BUU_ARMOR_LEGGINGS);
+//        armorItem(MainItems.MAJIN_BUU_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
@@ -188,11 +201,14 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_GOTEN);
         patternItem(MainItems.PATTERN_GOTEN_SUPER);
         patternItem(MainItems.PATTERN_GOHAN_SUPER);
+        patternItem(MainItems.PATTERN_GREAT_SAIYAMAN);
+        patternItem(MainItems.PATTERN_FUTURE_GOHAN);
         patternItem(MainItems.PATTERN_VEGETA1);
         patternItem(MainItems.PATTERN_VEGETA2);
         patternItem(MainItems.PATTERN_VEGETA_Z);
         patternItem(MainItems.PATTERN_VEGETA_BUU);
         patternItem(MainItems.PATTERN_VEGETA_SUPER);
+        patternItem(MainItems.PATTERN_VEGETTO);
         patternItem(MainItems.PATTERN_PICCOLO);
         patternItem(MainItems.PATTERN_GOHAN1);
         patternItem(MainItems.PATTERN_BARDOCK1);
@@ -209,6 +225,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_PRIDE_TROOPS);
         patternItem(MainItems.PATTERN_HIT);
         patternItem(MainItems.PATTERN_GAS);
+        patternItem(MainItems.PATTERN_MAJIN_BUU);
 
         //Minerales
         simpleItem(MainItems.GETE_SCRAP);

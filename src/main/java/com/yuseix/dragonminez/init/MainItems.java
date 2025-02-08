@@ -96,6 +96,10 @@ public final class MainItems {
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_CHESTPLATE = piccoloArItem("great_saiyaman_armor_chestplate", ArmorItem.Type.CHESTPLATE, "saiyaman_gi", false);
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_LEGGINGS = piccoloArItem("great_saiyaman_armor_leggings", ArmorItem.Type.LEGGINGS, "saiyaman_gi", false);
     public static final RegistryObject<Item> GREAT_SAIYAMAN_ARMOR_BOOTS = piccoloArItem("great_saiyaman_armor_boots", ArmorItem.Type.BOOTS, "saiyaman_gi", false);
+    // FUTURE GOHAN (DESCOMENTAR CUANDO SE IMPLEMENTE LA ROPA)
+    //public static final RegistryObject<Item> FUTURE_GOHAN_ARMOR_CHESTPLATE = armorItem("future_gohan_armor_chestplate", ArmorItem.Type.CHESTPLATE, "future_gohan", false);
+    //public static final RegistryObject<Item> FUTURE_GOHAN_ARMOR_LEGGINGS = armorItem("future_gohan_armor_leggings", ArmorItem.Type.LEGGINGS, "future_gohan", false);
+    //public static final RegistryObject<Item> FUTURE_GOHAN_ARMOR_BOOTS = armorItem("future_gohan_armor_boots", ArmorItem.Type.BOOTS, "future_gohan", false);
     //VEGETA SAGA SAIYAJIN ARMADURA
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_CHESTPLATE = saiyArItem("vegeta_saiyan_armor_chestplate", ArmorItem.Type.CHESTPLATE, "vegeta_saiyan_armor", true);
     public static final RegistryObject<Item> VEGETA_SAIYAN_ARMOR_LEGGINGS = saiyArItem("vegeta_saiyan_armor_leggings", ArmorItem.Type.LEGGINGS, "vegeta_saiyan_armor", true);
@@ -187,6 +191,10 @@ public final class MainItems {
     public static final RegistryObject<Item> GAS_ARMOR_CHESTPLATE = armorItem("gas_armor_chestplate", ArmorItem.Type.CHESTPLATE, "gas", false);
     public static final RegistryObject<Item> GAS_ARMOR_LEGGINGS = armorItem("gas_armor_leggings", ArmorItem.Type.LEGGINGS, "gas", false);
     public static final RegistryObject<Item> GAS_ARMOR_BOOTS = armorItem("gas_armor_boots", ArmorItem.Type.BOOTS, "gas", false);
+    // MAJIN BUU (REEMPLAZAR ESTO POR LAS TEXTURAS CORRECTAS, TAMBIÉN CAMBIAR "armorItem" POR "piccoloArItem" SI TIENE CAPA)
+    //public static final RegistryObject<Item> MAJIN_BUU_ARMOR_CHESTPLATE = armorItem("majin_buu_armor_chestplate", ArmorItem.Type.CHESTPLATE, "majin_buu", false);
+    //public static final RegistryObject<Item> MAJIN_BUU_ARMOR_LEGGINGS = armorItem("majin_buu_armor_leggings", ArmorItem.Type.LEGGINGS, "majin_buu", false);
+    //public static final RegistryObject<Item> MAJIN_BUU_ARMOR_BOOTS = armorItem("majin_buu_armor_boots", ArmorItem.Type.BOOTS, "majin_buu", false);
 
     //LÍQUIDOS
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
@@ -234,6 +242,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_GOTEN_SUPER = regItem("pattern_goten_super");
     public static final RegistryObject<Item> PATTERN_GOHAN_SUPER = regItem("pattern_gohan_super");
     public static final RegistryObject<Item> PATTERN_GREAT_SAIYAMAN = regItem("pattern_great_saiyaman");
+    public static final RegistryObject<Item> PATTERN_FUTURE_GOHAN = regItem("pattern_future_gohan");
     public static final RegistryObject<Item> PATTERN_VEGETA1 = regItem("pattern_vegeta1");
     public static final RegistryObject<Item> PATTERN_VEGETA2 = regItem("pattern_vegeta2");
     public static final RegistryObject<Item> PATTERN_VEGETA_Z = regItem("pattern_vegeta_z");
@@ -256,6 +265,7 @@ public final class MainItems {
     public static final RegistryObject<Item> PATTERN_PRIDE_TROOPS = regItem("pattern_pride_troops");
     public static final RegistryObject<Item> PATTERN_HIT = regItem("pattern_hit");
     public static final RegistryObject<Item> PATTERN_GAS = regItem("pattern_gas");
+    public static final RegistryObject<Item> PATTERN_MAJIN_BUU = regItem("pattern_majin_buu");
 
     //DRAGON BALLS
     public static final RegistryObject<Item> DBALL1_BLOCK_ITEM = ITEM_REGISTER.register("dball1",
