@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZBioAndroidConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -110,10 +111,7 @@ public class StatsEvents {
                     if (flySkill != null) {
                         if (flySkill.isActive()) {
                             if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                                playerstats.setSkillActive("fly", false);
-                                player.getAbilities().flying = false;
-                                player.fallDistance = 0; // Resetear daño de caída
-                                player.onUpdateAbilities();
+                                ModMessages.sendToServer(new FlyToggleC2S(false));
                             }
                         }
                     }

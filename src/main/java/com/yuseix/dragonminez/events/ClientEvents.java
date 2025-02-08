@@ -374,7 +374,7 @@ public class ClientEvents {
 						isDescending = true;
 					});
 				} else {
-					ModMessages.sendToServer(new FlyToggleC2S());
+					ModMessages.sendToServer(new FlyToggleC2S(true));
 				}
 			}
 		}
@@ -388,7 +388,7 @@ public class ClientEvents {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
 				isDescending = false;
-				ModMessages.sendToServer(new FlyToggleC2S());
+				ModMessages.sendToServer(new FlyToggleC2S(true));
 			}
 
 			DMZSkill flySkill = cap.getDMZSkills().get("fly");
