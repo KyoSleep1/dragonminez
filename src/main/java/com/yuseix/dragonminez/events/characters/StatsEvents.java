@@ -86,8 +86,13 @@ public class StatsEvents {
                     // Tickhandler
                     tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
-                    // Pasiva Majin
-                    tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
+                    if (raza == 5) {
+                        // Pasiva Majin
+                        tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
+                    } else if (raza == 1) {
+                        // Pasiva Saiyan
+                        tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
+                    }
 
                     // Consumo de Ki del Fly
                     tickHandler.manejarFlyConsume(playerstats, maxenergia);
@@ -317,9 +322,10 @@ public class StatsEvents {
                     boolean isDmzUser = stats.isAcceptCharacter();
 
                     DMZSkill jump = stats.getDMZSkills().get("jump");
+                    DMZSkill fly = stats.getDMZSkills().get("fly");
 
-                    if (jump != null && jump.isActive()) {
-                        // No hacer nada xd
+                    if (jump != null && jump.isActive() || fly != null && fly.isActive()) {
+                        event.setCanceled(true);
                     } else {
                         int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
 

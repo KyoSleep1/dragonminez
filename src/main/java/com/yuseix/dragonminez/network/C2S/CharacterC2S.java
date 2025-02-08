@@ -129,6 +129,9 @@ public class CharacterC2S {
                                 playerstats.setDescendKey(true);
                             }
                             break;
+                        case "zenkaiCount":
+                            playerstats.setZenkaiCount(packet.cantidad);
+                            break;
                         case "isCompactMenu":
                             if (packet.cantidad == 1) {
                                 playerstats.setCompactMenu(true);

@@ -36,7 +36,7 @@ public class DMZStatsAttributes {
     private int dmzBattlePower = 0;
 
     private int zpoints;
-    private int KiPower = 5;
+    private int KiPower = 5, zenkaiCount = 0;
 
     private int energy = 5, currentEnergy;
     private int dmzAlignment = 100;
@@ -774,6 +774,15 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public int getZenkaiCount() {
+        return zenkaiCount;
+    }
+
+    public void setZenkaiCount(int zenkaiCount) {
+        this.zenkaiCount = zenkaiCount;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public int getDmzBattlePower() {
         int damage = dmzdatos.calcularSTRCompleta(races, dmzState, strength, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
         int kiDamage = dmzdatos.calcularPWRCompleta(races, dmzState, KiPower, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
@@ -821,6 +830,7 @@ public class DMZStatsAttributes {
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
         nbt.putBoolean("acceptCharacter", AcceptCharacter);
         nbt.putBoolean("compactMenu", compactMenu);
+        nbt.putInt("zenkaiCount", zenkaiCount);
         nbt.putBoolean("isAuraOn", isauraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
@@ -900,6 +910,7 @@ public class DMZStatsAttributes {
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         compactMenu = nbt.getBoolean("compactMenu");
+        zenkaiCount = nbt.getInt("zenkaiCount");
         isauraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");

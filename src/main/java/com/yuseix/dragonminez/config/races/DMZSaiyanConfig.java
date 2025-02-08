@@ -6,6 +6,7 @@ public class DMZSaiyanConfig {
 
     //PASIVA
     public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_CANT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_HEALTH_REGEN;
     public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_STAT_BOOST;
     public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_COOLDOWN;
 
@@ -54,7 +55,10 @@ public class DMZSaiyanConfig {
         ZENKAI_CANT = BUILDER.comment("Quantity of Zenkai Activations! (Min: 1 / Max: 10 / Default: 2)")
                 .defineInRange("Zenkai Activations: ", 2, 1, 10);
 
-        ZENKAI_STAT_BOOST = BUILDER.comment("Stat Boost for Zenkais in percentage! (Min: 1 / Max: 100 / Default: 100)")
+        ZENKAI_HEALTH_REGEN = BUILDER.comment("Health Regen for Zenkais in percentage! (Min: 1 / Max: 100 / Default: 25)")
+                .defineInRange("Zenkai Health Regen: ", 25, 1, 100);
+
+        ZENKAI_STAT_BOOST = BUILDER.comment("Stat Boost for Zenkais in percentage! (Min: 1 / Max: 100 / Default: 10)")
                 .defineInRange("Zenkai Stat Boost: ", 10, 1, 100);
 
         ZENKAI_COOLDOWN = BUILDER.comment("Cooldown for Zenkai in minutes! (Min: 1 / Max: 600 / Default: 45)")

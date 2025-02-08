@@ -3,6 +3,8 @@ package com.yuseix.dragonminez.utils;
 import com.yuseix.dragonminez.config.races.DMZHumanConfig;
 import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
+import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
@@ -15,7 +17,7 @@ public class TickHandler {
     private int energyConsumeCounter = 0;
     private int chargeTimer = 0; // Aca calculamos el tiempo de espera
     private int flyTimer = 0;
-    private int passiveMajinCounter = 0;
+    private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
 
     private final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
 
@@ -100,6 +102,34 @@ public class TickHandler {
                 player.heal(regenHP);
             }
             passiveMajinCounter = 0;
+        }
+    }
+
+    public void manejarPasivaSaiyan(DMZStatsAttributes playerstats, ServerPlayer player) {
+        // Pasiva del Saiyan: Zenkai
+        /* Si el jugador permanece debajo del 10% de vida, durante 6 segundos, recupera 25% (config) de vida
+         * y obtiene un aumento de stats del 10% (config) actuales. Esto tiene un cooldown de 45 minutos (config).
+         */
+        float zenkaiHealth = (float) DMZSaiyanConfig.ZENKAI_HEALTH_REGEN.get() / 100;
+        float zenkaiStatBoost = (float) DMZSaiyanConfig.ZENKAI_STAT_BOOST.get() / 100;
+        int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get();
+        int zenkaiCooldown = DMZSaiyanConfig.ZENKAI_COOLDOWN.get();
+
+        if (player.getHealth() < (playerstats.getMaxHealth() * 0.10)) {
+            passiveSaiyanCounter++;
+            if (passiveSaiyanCounter >= 20 * 6 && playerstats.getZenkaiCount() < zenkaiCant) {
+                player.heal((int) Math.ceil(playerstats.getMaxHealth() * zenkaiHealth));
+                playerstats.setStrength((int) (playerstats.getStrength() + (playerstats.getStrength() * zenkaiStatBoost)));
+                playerstats.setDefense((int) (playerstats.getDefense() + (playerstats.getDefense() * zenkaiStatBoost)));
+                playerstats.setConstitution((int) (playerstats.getConstitution() + (playerstats.getConstitution() * zenkaiStatBoost)));
+                playerstats.setKiPower((int) (playerstats.getKiPower() + (playerstats.getKiPower() * zenkaiStatBoost)));
+                playerstats.setEnergy((int) (playerstats.getEnergy() + (playerstats.getEnergy() * zenkaiStatBoost)));
+
+                ModMessages.sendToServer(new CharacterC2S("zenkaiCount", playerstats.getZenkaiCount() + 1));
+                passiveSaiyanCounter = 0;
+            }
+        } else {
+            passiveSaiyanCounter = 0;
         }
     }
 
