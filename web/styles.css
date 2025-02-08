@@ -1,0 +1,194 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('img/test_imag.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropbtn:hover {
+    background-color: #45a049;
+}
+
+.discord-button {
+    background-color: #7289da;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.discord-button:hover {
+    background-color: #5b6eae;
+}
+
+.landing-page {
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+    animation-delay: 0.25s;
+}
+
+.logo {
+    width: 70%;
+    max-width: 600px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.download-button {
+    background-color: #ff4500;
+}
+
+.download-button:hover {
+    background-color: #e03e00;
+}
+
+.github-button {
+    background-color: #333;
+}
+
+.github-button:hover {
+    background-color: #555;
+}
+
+.button-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.button-curseforge {
+    width: 30px;
+    height: 15px;
+    margin-right: 1px;
+}
+
+.button-modrinth {
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
+}
+
+.content {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100%;
+    text-align: center;
+}
+
+section {
+    padding: 20px;
+    margin: 20px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section:nth-child(odd) {
+    animation-delay: 0.15s;
+}
+
+section:nth-child(even) {
+    animation-delay: 0.3s;
+}
+
+section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+section p {
+    font-size: 18px;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
