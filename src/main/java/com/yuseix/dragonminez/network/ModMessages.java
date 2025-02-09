@@ -97,7 +97,6 @@ public class ModMessages {
 				.encoder(FlyToggleC2S::encode)
 				.consumerMainThread(FlyToggleC2S::handle)
 				.add();
-
 		net.messageBuilder(DragonRadarC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
 				.decoder(DragonRadarC2S::decode)
 				.encoder(DragonRadarC2S::encode)

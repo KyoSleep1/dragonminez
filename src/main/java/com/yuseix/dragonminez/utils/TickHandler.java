@@ -163,20 +163,22 @@ public class TickHandler {
                     }
                 }
                 if (!playerstats.isTurbonOn()) {
+                    System.out.println("Curr Energy: " + playerstats.getCurrentEnergy() + " Max Energy: " + maxenergia);
                     if (playerstats.getCurrentEnergy() < maxenergia) {
+                        if (flySkill != null) System.out.println("FlySkill: " + flySkill.getLevel() + "Active: " + flySkill.isActive());
                         if (flySkill != null && flySkill.getLevel() <= 7 || flySkill != null && flySkill.isActive()) {
                             // No hacer nada
                         } else {
-                        int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
-                        if (meditation != null) {
-                            kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
-                        }
-                        if (raza == 0) {
-                            float passiveHuman = (float) DMZHumanConfig.KICHARGE_REGEN_BOOST.get() / 100;
-                            // Aumenta 25% (default) de la regeneración por ser humano
-                            kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
-                        }
-                        playerstats.addCurEnergy(kiRegen);
+                            int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
+                            if (meditation != null) {
+                                kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
+                            }
+                            if (raza == 0) {
+                                float passiveHuman = (float) DMZHumanConfig.KICHARGE_REGEN_BOOST.get() / 100;
+                                // Aumenta 25% (default) de la regeneración por ser humano
+                                kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
+                             }
+                            playerstats.addCurEnergy(kiRegen);
                     }
                 }
             }
@@ -188,12 +190,12 @@ public class TickHandler {
         }
     }
 
-    public void manejarFlyConsume(DMZStatsAttributes playerStats, int maxEnergy) {
+    public void manejarFlyConsume(DMZStatsAttributes playerStats, int maxEnergy, ServerPlayer player) {
         DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
         int flyLevel = flySkill != null ? flySkill.getLevel() : 0;
 
         // Solo consume Ki si la habilidad está a nivel 7 o menos. A partir de nivel 8, no consume Ki.
-        if (flySkill != null && flyLevel > 0 && flyLevel <= 7 && flySkill.isActive()) {
+        if (flyLevel > 0 && flyLevel <= 7 && flySkill.isActive()) {
             flyTimer++;
 
             if (flyTimer >= 20) {
@@ -205,11 +207,16 @@ public class TickHandler {
                 }
 
                 if (playerStats.getCurrentEnergy() < consumeEnergy) {
-                    ModMessages.sendToServer(new FlyToggleC2S());
+                    if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
+
+                    player.getAbilities().flying = false;
+                    player.fallDistance = 0;
+                    player.onUpdateAbilities();
+                    flySkill.setActive(false);
+                } else {
                     playerStats.removeCurEnergy(consumeEnergy);
                     flyTimer = 0;
                 }
-
             }
         }
     }

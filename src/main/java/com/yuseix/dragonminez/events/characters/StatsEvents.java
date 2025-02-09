@@ -72,71 +72,61 @@ public class StatsEvents {
 
         TickHandler tickHandler = playerTickHandlers.computeIfAbsent(player.getUUID(), uuid -> new TickHandler());
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
-                var vidaMC = 20;
-                var con = playerstats.getConstitution();
-                var raza = playerstats.getRace();
-                var energia = playerstats.getEnergy();
-                boolean isDmzUser = playerstats.isAcceptCharacter();
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
+            var vidaMC = 20;
+            var con = playerstats.getConstitution();
+            var raza = playerstats.getRace();
+            var energia = playerstats.getEnergy();
+            boolean isDmzUser = playerstats.isAcceptCharacter();
 
-                int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
+            int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
 
-                // Verificar que haya creado su personaje antes de comenzar a hacer cosas referentes a las stats
-                if (isDmzUser) {
-                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
-                    // Tickhandler
-                    tickHandler.tickRegenConsume(playerstats, dmzdatos);
+            // Verificar que haya creado su personaje antes de comenzar a hacer cosas referentes a las stats
+            if (isDmzUser) {
+                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                // Tickhandler
+                tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
-                    if (raza == 5) {
-                        // Pasiva Majin
-                        tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
-                    } else if (raza == 1) {
-                        playerstats.setSaiyanZenkaiTimer(zenkaiContador(playerstats.getSaiyanZenkaiTimer()));
-                        if (playerstats.getSaiyanZenkaiTimer() == 0 && player.getHealth() < (playerstats.getMaxHealth() * 0.10)) {
-                            // Pasiva Saiyan
-                            tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
+                if (raza == 5) {
+                    // Pasiva Majin
+                    tickHandler.manejarPasivaMajin(playerstats, serverPlayer);
+                } else if (raza == 1) {
+                    playerstats.setSaiyanZenkaiTimer(zenkaiContador(playerstats.getSaiyanZenkaiTimer()));
+                    if (playerstats.getSaiyanZenkaiTimer() == 0 && player.getHealth() < (playerstats.getMaxHealth() * 0.10)) {
+                        // Pasiva Saiyan
+                        tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
+                    }
+                }
+
+                //Aca manejamos la carga de aura
+                tickHandler.manejarCargaDeAura(playerstats, maxenergia);
+
+                //Restar el tiempo que se pone en el comando dmztempeffect
+                updateTemporaryEffects(serverPlayer);
+                DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
+
+                if (flySkill != null) {
+                    if (flySkill.isActive()) {
+                        // Consumo de Ki del Fly
+                        tickHandler.manejarFlyConsume(playerstats, maxenergia, serverPlayer);
+
+                        if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+                            flySkill.setActive(false);
+                            if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
+                            player.getAbilities().flying = false;
+                            player.fallDistance = 0;
+                            player.onUpdateAbilities(); // IMPORTANTE: Aplicar cambios de habilidades
                         }
                     }
-
-                    // Consumo de Ki del Fly
-                    tickHandler.manejarFlyConsume(playerstats, maxenergia);
-
-                    //Aca manejamos la carga de aura
-                    tickHandler.manejarCargaDeAura(playerstats, maxenergia);
-
-                    //Restar el tiempo que se pone en el comando dmztempeffect
-                    updateTemporaryEffects(serverPlayer);
-                    DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
-
-                    if (flySkill != null) {
-                        if (flySkill.isActive()) {
-                            if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                                System.out.println("Se desactiva el vuelo correctamente");
-                                flySkill.setActive(false);
-
-                                if (!player.isCreative() && !player.isSpectator()) {
-                                    player.getAbilities().mayfly = false;
-                                }
-
-                                player.getAbilities().flying = false;
-                                player.fallDistance = 0;
-                                player.onUpdateAbilities(); // IMPORTANTE: Aplicar cambios de habilidades
-                            }
-                        } else if (!player.onGround() && player.getFeetBlockState().isAir()) { // Solo activar si está en el aire
-                            flySkill.setActive(true);
-                            player.getAbilities().mayfly = true;
-                            player.getAbilities().flying = true;
-                            player.onUpdateAbilities(); // Aplicar cambios
-                        }
-                    }
+                }
 
                 } else {
                     serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
                 }
 
-                //Tiempo para reclamar una senzu
-                playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
-            });
+            //Tiempo para reclamar una senzu
+            playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
+        });
     }
 
     @SubscribeEvent
@@ -380,6 +370,7 @@ public class StatsEvents {
                 int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
 
                 if (stats.isAcceptCharacter()) {
+
                     //Cargar Ki
                     if (isKiChargeKeyPressed && !previousKiChargeState) {
                         ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
