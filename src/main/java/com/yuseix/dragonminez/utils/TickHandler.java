@@ -58,7 +58,7 @@ public class TickHandler {
                 }
                 playerStats.removeCurEnergy(consumeEnergy);
             } else if (!playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
-                if (flySkill != null && flySkill.getLevel() <= 7 || flySkill != null && flySkill.isActive()) {
+                if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
                     // No hacer nada
                 } else {
                     // Si el turbo no está activo, regeneración de energía
@@ -162,11 +162,10 @@ public class TickHandler {
                         playerstats.setDmzRelease(maxRelease);
                     }
                 }
+                System.out.println("Turbo: " + playerstats.isTurbonOn());
                 if (!playerstats.isTurbonOn()) {
-                    System.out.println("Curr Energy: " + playerstats.getCurrentEnergy() + " Max Energy: " + maxenergia);
                     if (playerstats.getCurrentEnergy() < maxenergia) {
-                        if (flySkill != null) System.out.println("FlySkill: " + flySkill.getLevel() + "Active: " + flySkill.isActive());
-                        if (flySkill != null && flySkill.getLevel() <= 7 || flySkill != null && flySkill.isActive()) {
+                        if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
                             // No hacer nada
                         } else {
                             int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
