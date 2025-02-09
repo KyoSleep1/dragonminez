@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
+import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -388,6 +389,15 @@ public class ClientEvents {
 							ModMessages.sendToServer(new FlyToggleC2S());
 						}
 					}
+
+					if(flySkill.isActive()){
+						ModMessages.sendToServer(new PermaEffC2S("remove", "fly", 1));
+					} else {
+						ModMessages.sendToServer(new PermaEffC2S("add", "fly", 1));
+
+					}
+
+
 				});
 			}
 		}

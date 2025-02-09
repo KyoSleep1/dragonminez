@@ -116,6 +116,8 @@ public class StatsEvents {
                             player.getAbilities().flying = false;
                             player.fallDistance = 0;
                             player.onUpdateAbilities(); // IMPORTANTE: Aplicar cambios de habilidades
+                            playerstats.removePermanentEffect("fly");
+
                         }
                     }
                 }
@@ -166,7 +168,7 @@ public class StatsEvents {
                 Map.Entry<String, Integer> entry = iterator.next();
                 int timeLeft = entry.getValue() - 1;  // Reducir en 1 tick cada vez
                 if (timeLeft <= 0) {
-                    playerstats.removeTemporalEffect(entry.getKey());  // Usa el método para eliminar el efecto
+                    playerstats.removeTemporalEffect(entry.getKey());  // Usalo para eliminar el efecto
                 } else {
                     entry.setValue(timeLeft);  // Actualiza el tiempo restante
                 }
