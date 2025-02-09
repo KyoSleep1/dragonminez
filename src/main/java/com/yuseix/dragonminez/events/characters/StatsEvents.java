@@ -111,10 +111,25 @@ public class StatsEvents {
                     if (flySkill != null) {
                         if (flySkill.isActive()) {
                             if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                                ModMessages.sendToServer(new FlyToggleC2S());
+                                System.out.println("Se desactiva el vuelo correctamente");
+                                flySkill.setActive(false);
+
+                                if (!player.isCreative() && !player.isSpectator()) {
+                                    player.getAbilities().mayfly = false;
+                                }
+
+                                player.getAbilities().flying = false;
+                                player.fallDistance = 0;
+                                player.onUpdateAbilities(); // IMPORTANTE: Aplicar cambios de habilidades
                             }
+                        } else if (!player.onGround() && player.getFeetBlockState().isAir()) { // Solo activar si está en el aire
+                            flySkill.setActive(true);
+                            player.getAbilities().mayfly = true;
+                            player.getAbilities().flying = true;
+                            player.onUpdateAbilities(); // Aplicar cambios
                         }
                     }
+
                 } else {
                     serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(vidaMC);
                 }
@@ -365,7 +380,6 @@ public class StatsEvents {
                 int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
 
                 if (stats.isAcceptCharacter()) {
-
                     //Cargar Ki
                     if (isKiChargeKeyPressed && !previousKiChargeState) {
                         ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));

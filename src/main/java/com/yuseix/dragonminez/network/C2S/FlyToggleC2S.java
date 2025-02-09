@@ -30,7 +30,6 @@ public class FlyToggleC2S {
 					if (flySkill != null) {
 						int flyLevel = flySkill.getLevel();
 						if (flyLevel > 0) {
-
 							if (!flySkill.isActive()) {
 								flySkill.setActive(true);
 								player.getAbilities().mayfly = true;
