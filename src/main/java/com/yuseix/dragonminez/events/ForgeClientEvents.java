@@ -33,7 +33,6 @@ public class ForgeClientEvents {
 
 	@SubscribeEvent
 	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		LocalPlayer player = (LocalPlayer) event.getEntity();
 
 		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
 			if (serverLevel.dimension() == Level.OVERWORLD) {

@@ -348,34 +348,32 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public static void onKeyPress(InputEvent.Key event) {
-		if (EffectiveSide.get().isClient()) {
-			if (Keys.FLY_KEY.consumeClick()) {
-				LocalPlayer player = Minecraft.getInstance().player;
+		if (Keys.FLY_KEY.consumeClick()) {
+			LocalPlayer player = Minecraft.getInstance().player;
 
-				if (player != null && player.onGround()) {
-					// Aplicar el salto inicial
-					player.jumpFromGround();
+			if (player != null && player.onGround()) {
+				// Aplicar el salto inicial
+				player.jumpFromGround();
 
-					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-						DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+					DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
 
-						// Si el jugador tiene habilidad de salto, potenciamos el salto
-						if (jumpSkill != null && jumpSkill.isActive()) {
-							int jumpLevel = jumpSkill.getLevel();
-							if (jumpLevel > 0) {
-								float jumpBoost = 0.1f * jumpLevel;
-								player.setDeltaMovement(player.getDeltaMovement().add(0, jumpBoost, 0));
-							}
+					// Si el jugador tiene habilidad de salto, potenciamos el salto
+					if (jumpSkill != null && jumpSkill.isActive()) {
+						int jumpLevel = jumpSkill.getLevel();
+						if (jumpLevel > 0) {
+							float jumpBoost = 0.1f * jumpLevel;
+							player.setDeltaMovement(player.getDeltaMovement().add(0, jumpBoost, 0));
 						}
-						// Si no tiene habilidad de salto, salta normalmente
-						else {
-							player.setDeltaMovement(player.getDeltaMovement().x, 0.42D, player.getDeltaMovement().z);
-						}
-						isDescending = true;
-					});
-				} else {
-					ModMessages.sendToServer(new FlyToggleC2S(true));
-				}
+					}
+					// Si no tiene habilidad de salto, salta normalmente
+					else {
+						player.setDeltaMovement(player.getDeltaMovement().x, 0.42D, player.getDeltaMovement().z);
+					}
+					isDescending = true;
+				});
+			} else {
+				ModMessages.sendToServer(new FlyToggleC2S());
 			}
 		}
 	}
@@ -388,7 +386,7 @@ public class ClientEvents {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
 				isDescending = false;
-				ModMessages.sendToServer(new FlyToggleC2S(true));
+				ModMessages.sendToServer(new FlyToggleC2S());
 			}
 
 			DMZSkill flySkill = cap.getDMZSkills().get("fly");

@@ -12,18 +12,12 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class FlyToggleC2S {
-	private boolean newFlyState = false;
-
-	public FlyToggleC2S(boolean newFlyState) {
-		this.newFlyState = newFlyState;
-	}
 
 	public static void encode(FlyToggleC2S msg, FriendlyByteBuf buf) {
-		buf.writeBoolean(msg.newFlyState);
 	}
 
 	public static FlyToggleC2S decode(FriendlyByteBuf buf) {
-		return new FlyToggleC2S(buf.readBoolean());
+		return new FlyToggleC2S();
 	}
 
 	public static void handle(FlyToggleC2S msg, Supplier<NetworkEvent.Context> ctx) {
@@ -32,8 +26,6 @@ public class FlyToggleC2S {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					DMZSkill flySkill = cap.getDMZSkills().get("fly");
-					DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
-					boolean flyActive = false;
 
 					if (flySkill != null) {
 						int flyLevel = flySkill.getLevel();
@@ -43,17 +35,15 @@ public class FlyToggleC2S {
 								flySkill.setActive(true);
 								player.getAbilities().mayfly = true;
 								player.getAbilities().flying = true;
-								flyActive = true;
 							} else {
 								flySkill.setActive(false);
 								if (!player.isCreative() || !player.isSpectator()) player.getAbilities().mayfly = false;
 								player.getAbilities().flying = false;
 								player.fallDistance = 0;
-								flyActive = false;
 							}
 
 							player.onUpdateAbilities();
-							ModMessages.sendToPlayer(new FlyToggleS2C(flyActive), player);
+							ModMessages.sendToPlayer(new FlyToggleS2C(flySkill.isActive()), player);
 						}
 					}
 				});

@@ -204,7 +204,7 @@ public class TickHandler {
                     consumeEnergy = (int) Math.ceil(maxEnergy * 0.02);
                 }
 
-                if (playerStats.getCurrentEnergy() < consumeEnergy) ModMessages.sendToServer(new FlyToggleC2S(false));
+                if (playerStats.getCurrentEnergy() < consumeEnergy) ModMessages.sendToServer(new FlyToggleC2S());
                 playerStats.removeCurEnergy(consumeEnergy);
                 flyTimer = 0;
             }

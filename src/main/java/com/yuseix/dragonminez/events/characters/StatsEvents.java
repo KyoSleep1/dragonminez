@@ -111,7 +111,7 @@ public class StatsEvents {
                     if (flySkill != null) {
                         if (flySkill.isActive()) {
                             if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
-                                ModMessages.sendToServer(new FlyToggleC2S(false));
+                                ModMessages.sendToServer(new FlyToggleC2S());
                             }
                         }
                     }
