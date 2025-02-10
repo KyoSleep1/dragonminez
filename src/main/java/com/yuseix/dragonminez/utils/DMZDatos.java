@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.utils;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.config.races.transformations.*;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -10,7 +11,17 @@ import net.minecraft.world.entity.player.Player;
 public class DMZDatos implements IDMZDatos{
 
     @Override
-    public int calcularSTR(int raza, int StatSTR, float danoJugador, int transformation, int porcentaje, String clase, boolean majinOn, boolean mightfruit) {
+    public int calcularSTR(DMZStatsAttributes stats) {
+
+        boolean majinOn = stats.hasDMZPermaEffect("majin");
+        boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
+        String clase = stats.getDmzClass();
+        int danoJugador = 1;
+        int raza = stats.getRace();
+        int StatSTR = stats.getStrength();
+        int porcentaje = stats.getDmzRelease();
+        int transformation = stats.getDmzState();
+
         double maxStr = 0;
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;

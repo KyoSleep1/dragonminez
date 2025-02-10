@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.races.DMZHumanConfig;
 import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
+import com.yuseix.dragonminez.events.characters.StatsEvents;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -16,6 +17,7 @@ public class TickHandler {
     private int staminaRegenCounter = 0;
     private int energyConsumeCounter = 0;
     private int chargeTimer = 0; // Aca calculamos el tiempo de espera
+    private int dmzformTimer = 0; // Aca calculamos el tiempo de espera
     private int flyTimer = 0;
     private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
 
@@ -162,7 +164,6 @@ public class TickHandler {
                         playerstats.setDmzRelease(maxRelease);
                     }
                 }
-                System.out.println("Turbo: " + playerstats.isTurbonOn());
                 if (!playerstats.isTurbonOn()) {
                     if (playerstats.getCurrentEnergy() < maxenergia) {
                         if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
@@ -187,6 +188,20 @@ public class TickHandler {
                 chargeTimer = 0;
             }
         }
+    }
+
+    public void manejarCargaForma(DMZStatsAttributes playerstats){
+        dmzformTimer++;
+        System.out.println(dmzformTimer);
+        if(dmzformTimer >= 20){ //Aca ajustar el intervalo segun la forma por ejemplo verificar que raza es y a que nivel tiene la skillform
+            if(playerstats.isTransforming()){
+                playerstats.setFormRelease(playerstats.getFormRelease() + 5);
+            } else {
+                playerstats.setFormRelease(playerstats.getFormRelease() - 10);
+            }
+            dmzformTimer = 0;
+        }
+
     }
 
     public void manejarFlyConsume(DMZStatsAttributes playerStats, int maxEnergy, ServerPlayer player) {

@@ -1,11 +1,12 @@
 package com.yuseix.dragonminez.utils;
 
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraft.world.entity.player.Player;
 
 public interface IDMZDatos {
 
-    int calcularSTR(int raza, int StatSTR, float danoJugador, int transformation, int porcentaje, String clase,
-                                  boolean majinOn, boolean mightfruit);
+    int calcularSTR(DMZStatsAttributes stats);
 
     int calcularDEF(Player player, int raza, int StatDEF, int Transformation, int powerRelease, String clase, boolean majinOn,
                     boolean mightfruit);

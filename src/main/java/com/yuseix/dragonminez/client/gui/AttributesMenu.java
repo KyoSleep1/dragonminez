@@ -471,7 +471,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var kpw = playerstats.getKiPower(); var enr = playerstats.getEnergy();
             var clase = playerstats.getDmzClass(); var transf = playerstats.getDmzState(); var release = playerstats.getDmzRelease();
 
-            var strMax = dmzdatos.calcularSTR(raza, str, 1, transf,release,clase, majinOn, frutaOn);
+            var strMax = dmzdatos.calcularSTR(playerstats);
             var defMax = dmzdatos.calcularDEF(Minecraft.getInstance().player,raza,def, transf,release, clase, majinOn, frutaOn);
             var conMax = dmzdatos.calcularCON(raza, con, 20, clase);
             var stmMax = dmzdatos.calcularSTM(raza, conMax);

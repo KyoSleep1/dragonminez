@@ -25,5 +25,6 @@ public class Keys {
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, CATEGORY);
     public static final KeyMapping SELECT_DOWN = new KeyMapping("key.dragonminez.select_down",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, CATEGORY);
-
+    public static final KeyMapping TRANSFORM = new KeyMapping("key.dragonminez.transform",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY);
 }

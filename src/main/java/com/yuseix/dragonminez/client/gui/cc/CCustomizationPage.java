@@ -1377,7 +1377,7 @@ public class CCustomizationPage extends Screen {
             var majinOn = cap.hasDMZPermaEffect("majin");
             var fruta = cap.hasDMZTemporalEffect("mightfruit");
 
-            var strMax = dmzdatos.calcularSTR(cap.getRace(), cap.getStrength(), 1, cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
+            var strMax = dmzdatos.calcularSTR(cap);
             var defMax = dmzdatos.calcularDEF(minecraft.player,cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
             var conMax = dmzdatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
             var stmMax = dmzdatos.calcularSTM(cap.getRace(), conMax);

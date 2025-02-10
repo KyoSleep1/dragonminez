@@ -42,18 +42,59 @@ public class DMZStatsAttributes {
     private int dmzAlignment = 100;
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
+    private int FormRelease;
 
     private String gender = "Male";
     private String dmzClass = "Warrior";
     private String dmzKiWeapon = "sword";
+    private String dmzForm = "";
+    private String dmzGroupForm = "";
 
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
+    private boolean isTransforming = false;
 
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
     }
+
+    public boolean isTransforming() {
+        return isTransforming;
+    }
+
+    public void setTransforming(boolean transforming) {
+        isTransforming = transforming;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public int getFormRelease() {
+        return FormRelease;
+    }
+
+    public void setFormRelease(int formRelease) {
+        this.FormRelease = Math.max(0, Math.min(100, formRelease));
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public String getDmzForm() {
+        return dmzForm;
+    }
+
+    public void setDmzForm(String dmzForm) {
+        this.dmzForm = dmzForm;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public String getDmzGroupForm() {
+        return dmzGroupForm;
+    }
+
+    public void setDmzGroupForm(String dmzGroupForm) {
+        this.dmzGroupForm = dmzGroupForm;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public boolean isTurbonOn() {
         return isTurbonOn;
     }
@@ -623,7 +664,6 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncSkills(player);
 
     }
-    // Método para verificar si una habilidad existe en el mapa
     public boolean hasSkill(String name) {
         return DMZSkills.containsKey(name);
     }
@@ -631,7 +671,6 @@ public class DMZStatsAttributes {
         return DMZSkills;
 
     }
-    // Método para remover una habilidad del mapa
     public void removeSkill(String name) {
         DMZSkill skill = DMZSkills.get(name);
 
@@ -827,10 +866,13 @@ public class DMZStatsAttributes {
         nbt.putInt("eye2Color", eye2Color);
         nbt.putInt("auraColor", auraColor);
         nbt.putInt("dmzAlignment",dmzAlignment);
+        nbt.putInt("formRelease", FormRelease);
 
         nbt.putString("gender", gender);
         nbt.putString("dmzClass", dmzClass);
         nbt.putString("dmzskiweapon", dmzKiWeapon);
+        nbt.putString("dmzForm", dmzForm);
+        nbt.putString("dmzGroupForm", dmzGroupForm);
 
         nbt.putInt("zpoints", zpoints);
         nbt.putInt("dmzSenzuDaily", dmzSenzuDaily);
@@ -841,6 +883,7 @@ public class DMZStatsAttributes {
         nbt.putBoolean("isAuraOn", isauraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
+        nbt.putBoolean("isTransfKey", isTransforming);
 
         CompoundTag permanentEffectsTag = new CompoundTag();
         for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
@@ -901,6 +944,7 @@ public class DMZStatsAttributes {
         curStam = nbt.getInt("currentStamina");
         dmzState = nbt.getInt("dmzState");
         dmzRelease = nbt.getInt("dmzRelease");
+        FormRelease = nbt.getInt("formRelease");
 
         bodyColor = nbt.getInt("bodyColor");
         bodyColor2 = nbt.getInt("bodyColor2");
@@ -914,6 +958,8 @@ public class DMZStatsAttributes {
         dmzKiWeapon = nbt.getString("dmzskiweapon");
         dmzClass = nbt.getString("dmzClass");
         dmzAlignment = nbt.getInt("dmzAlignment");
+        dmzForm = nbt.getString("dmzForm");
+        dmzGroupForm = nbt.getString("dmzGroupForm");
 
         AcceptCharacter = nbt.getBoolean("acceptCharacter");
         compactMenu = nbt.getBoolean("compactMenu");
@@ -922,6 +968,7 @@ public class DMZStatsAttributes {
         isauraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
+        isTransforming = nbt.getBoolean("isTransfKey");
 
         CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
         for (String effectName : permanentEffects.getAllKeys()) {

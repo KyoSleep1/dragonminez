@@ -122,6 +122,13 @@ public class CharacterC2S {
                                 playerstats.setTurboOn(true);
                             }
                             break;
+                        case "isTransform":
+                            if (packet.cantidad == 0) {
+                                playerstats.setTransforming(false);
+                            } else {
+                                playerstats.setTransforming(true);
+                            }
+                            break;
                         case "isDescendOn":
                             if (packet.cantidad == 0) {
                                 playerstats.setDescendKey(false);

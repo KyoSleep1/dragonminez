@@ -48,6 +48,7 @@ public class StatsEvents {
     private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
     private static boolean turboOn = false;
+    private static boolean transformOn = false;
 
     //Sonidos
     private static SimpleSoundInstance kiChargeLoop;
@@ -100,6 +101,8 @@ public class StatsEvents {
 
                 //Aca manejamos la carga de aura
                 tickHandler.manejarCargaDeAura(playerstats, maxenergia);
+                //Aca manejamos la carga de la transformacion
+                tickHandler.manejarCargaForma(playerstats);
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
@@ -196,8 +199,7 @@ public class StatsEvents {
                     float danoDefault = event.getAmount(); // Capturamos el daño original
 
                     // Calcular el daño basado en la fuerza del atacante
-                    int maxDamage = dmzdatos.calcularSTR(raza, cap.getStrength(), danoDefault, cap.getDmzState(),
-                            cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                    int maxDamage = dmzdatos.calcularSTR(cap);
 
                     int staminacost = maxDamage / 12;
                     int danoKiWeapon = dmzdatos.calcularKiPower(raza, cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
@@ -362,6 +364,7 @@ public class StatsEvents {
         boolean isKiChargeKeyPressed = Keys.KI_CHARGE.isDown();
         boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
         boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
+        boolean isTransformKeyPressed = Keys.TRANSFORM.isDown();
 
         LocalPlayer player = Minecraft.getInstance().player;
 
@@ -424,6 +427,15 @@ public class StatsEvents {
                         stopLoopSound(false);
                         setTurboSpeed(player, false);
                     }
+
+                    if(isTransformKeyPressed){
+                        transformOn = true;
+                        ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
+                    } else {
+                        transformOn = false;
+                        ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+                    }
+
                 }
             });
         }

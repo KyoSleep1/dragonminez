@@ -59,8 +59,11 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
                 energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
 
-                int curEnergia = playerstats.getCurrentEnergy(); int TransfActual = 100;  // TODO: Modificar esto para que vaya aumentando al presionar X botón, hasta llegar al 100% y transformarte.
-                int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113); int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
+                int curEnergia = playerstats.getCurrentEnergy();
+                int TransfActual = playerstats.getFormRelease();
+                int staminatotal = Math.min(((113 * curStamina) / StaminaMax), 113);
+                int energiatotal = Math.min(((132 * curEnergia) / energiaMax), 132);
+                int transftotal = Math.min(((21 * TransfActual) / 100), 21);
 
                 RenderSystem.enableBlend();
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -155,12 +158,12 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 //Transformacion llena
                 // NOTA: Reemplazar el 47 por la variable de la TransfActual
                 guiGraphics.blit(hud,
-                        5,
-                        35,
-                        27,
+                        7,
                         37,
-                        21,
-                        20);
+                        28,
+                        39,
+                        transftotal,
+                        21);
 
 
                 guiGraphics.pose().popPose();
