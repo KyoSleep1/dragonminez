@@ -329,6 +329,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
             case "majin": return new int[] {0, 0};       // Coordenadas de la textura
             case "kaioken": return new int[] {20, 0};
             case "turbo": return new int[] {40, 0};
+            case "fly": return new int[] {60,0};
             default: return null;
         }
     }
