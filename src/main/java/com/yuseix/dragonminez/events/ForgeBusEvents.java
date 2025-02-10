@@ -117,13 +117,11 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == Level.OVERWORLD) {
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
 					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
 				});
 			}
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
 					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
 				});
 			}
 		}
