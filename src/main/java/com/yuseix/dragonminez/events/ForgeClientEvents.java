@@ -12,6 +12,7 @@ import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -32,9 +33,29 @@ public class ForgeClientEvents {
 	}
 
 	@SubscribeEvent
-	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+	public static void clientOnPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 
 		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
+			if (serverLevel.dimension() == Level.OVERWORLD) {
+				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
+				});
+			}
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(serverLevel);
+					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
+				});
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void clientOnPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		Player player = event.getEntity();
+
+		if (player.level() instanceof ServerLevel serverLevel) {
 			if (serverLevel.dimension() == Level.OVERWORLD) {
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
 					cap.loadFromSavedData(serverLevel);
