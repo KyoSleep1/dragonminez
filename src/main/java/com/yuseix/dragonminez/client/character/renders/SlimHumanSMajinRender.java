@@ -188,7 +188,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                         if(raza == 0 || raza == 1){
                             if (bodyType == 0) {
                                 if(pEntity.getModelName().equals("default")){
-
                                 } else {
                                     renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                                 }
@@ -250,10 +249,6 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
     }
 
-    /**
-     * Este metodo puede utilizarse para renderizar cualquier cosa en el mundo pero se aplicarán las rotaciones correspondientes al jugador
-     * {@link  com.yuseix.dragonminez.events.ClientEvents#onRenderLevelLast(RenderLevelStageEvent)}
-     */
     public void renderOnWorld(AbstractClientPlayer entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
 
         poseStack.pushPose();
