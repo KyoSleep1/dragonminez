@@ -28,10 +28,7 @@ import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
-import com.yuseix.dragonminez.init.entity.client.renderer.masters.DendeRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.masters.GokuMasterRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.masters.KarinRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.masters.RoshiRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.RaditzRenderer;
@@ -109,6 +106,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.MASTER_KARIN.get(), KarinRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_ROSHI.get(), RoshiRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_GOKU.get(), GokuMasterRenderer::new);
+			EntityRenderers.register(MainEntity.MASTER_KAIOSAMA.get(), KaiosamaRenderer::new);
 
 			EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
 			EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);

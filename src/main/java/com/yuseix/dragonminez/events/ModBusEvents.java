@@ -4,10 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
-import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
-import com.yuseix.dragonminez.init.entity.custom.masters.GokuMasterEntity;
-import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
-import com.yuseix.dragonminez.init.entity.custom.masters.RoshiEntity;
+import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
@@ -33,6 +30,7 @@ public class ModBusEvents {
 		event.put(MainEntity.MASTER_KARIN.get(), KarinEntity.setAttributes());
 		event.put(MainEntity.MASTER_ROSHI.get(), RoshiEntity.setAttributes());
 		event.put(MainEntity.MASTER_GOKU.get(), GokuMasterEntity.setAttributes());
+		event.put(MainEntity.MASTER_KAIOSAMA.get(), KaiosamaEntity.setAttributes());
 
 		event.put(MainEntity.NAMEK_FROG.get(), NamekFrogEntity.setAttributes());
 		event.put(MainEntity.PINK_FROG.get(), PinkFrogEntity.setAttributes());
