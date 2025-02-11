@@ -50,6 +50,7 @@ public class DMZStatsAttributes {
     private boolean isTransforming = false;
 
     private final Player player;
+    private DMZStatsAttributes playerstats;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
@@ -482,7 +483,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
+        maxEne = dmzdatos.calcularENE(playerstats);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -509,7 +510,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        maxEne = dmzdatos.calcularENE(races, energy, dmzClass);
+        maxEne = dmzdatos.calcularENE(playerstats);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -526,11 +527,11 @@ public class DMZStatsAttributes {
     }
 
     public int getMaxHealth() {
-        return dmzdatos.calcularCON(races, constitution, 20, dmzClass);
+        return dmzdatos.calcularCON(playerstats);
     }
 
     public int getMaxEnergy() {
-        return dmzdatos.calcularENE(races, energy, dmzClass);
+        return dmzdatos.calcularENE(playerstats);
     }
 
     public int getCurStam() {
@@ -540,12 +541,7 @@ public class DMZStatsAttributes {
 
     public void setCurStam(int curStam) {
 
-        var maxStam = 0;
-        var maxVIDA = 0;
-
-
-        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
-        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
+        var maxStam = dmzdatos.calcularSTM(playerstats);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -568,11 +564,7 @@ public class DMZStatsAttributes {
     }
 
     public void addCurStam(int curStam) {
-        var maxStam = 0;
-        var maxVIDA = 0;
-
-        maxVIDA = dmzdatos.calcularCON(races, constitution, 20, dmzClass);
-        maxStam = dmzdatos.calcularSTM(races, maxVIDA);
+        var maxStam = dmzdatos.calcularSTM(playerstats);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -871,9 +863,9 @@ public class DMZStatsAttributes {
     }
 
     public int getDmzBattlePower() {
-        int damage = dmzdatos.calcularSTRCompleta(races, dmzState, strength, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
-        int kiDamage = dmzdatos.calcularPWRCompleta(races, dmzState, KiPower, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
-        int totalDefense = dmzdatos.calcularDEFCompleta(races, dmzState, defense, hasDMZPermaEffect("majin"), hasDMZTemporalEffect("mightfruit"));
+        int damage = dmzdatos.calcularSTRCompleta(playerstats);
+        int kiDamage = dmzdatos.calcularPWRCompleta(playerstats);
+        int totalDefense = dmzdatos.calcularDEFCompleta(playerstats);
         double release = (double) getDmzRelease() / 100;
         dmzBattlePower = (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
         return dmzBattlePower;

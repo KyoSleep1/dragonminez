@@ -31,12 +31,7 @@ public class DMZStatsCapabilities {
         event.getEntity().refreshDimensions();
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            var vidaMC = event.getEntity().getAttribute(Attributes.MAX_HEALTH).getBaseValue();
-            var con = cap.getConstitution();
-            var raza = cap.getRace();
-
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, 20, cap.getDmzClass()));
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(cap));
         });
 
 
@@ -60,21 +55,14 @@ public class DMZStatsCapabilities {
         syncSkills(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            var vidaMC = 20;
-            var con = cap.getConstitution();
-            var raza = cap.getRace();
-            var energia = cap.getEnergy();
-            var maxVIDA = 0.0;
-
             //VIDAAAAAAA
-            maxVIDA = dmzdatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
+            var maxVIDA = dmzdatos.calcularCON(cap);
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
             event.getEntity().heal((float) maxVIDA);
-            cap.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
+            cap.setCurStam(dmzdatos.calcularSTM(cap));
 
             //ENERGIAAA
-            cap.setCurrentEnergy(dmzdatos.calcularENE(raza, energia, cap.getDmzClass()));
+            cap.setCurrentEnergy(dmzdatos.calcularENE(cap));
         });
 
     }

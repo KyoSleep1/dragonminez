@@ -50,8 +50,6 @@ public class DendeC2S {
         DMZDatos dmzdatos = new DMZDatos();
 
         player.displayClientMessage(Component.translatable("lines.dende.reset.success"), true);
-        var race = playerstats.getRace();
-        int currentEnergy = 0;
 
         playerstats.setAcceptCharacter(false);
         playerstats.setStrength(5);
@@ -61,7 +59,7 @@ public class DendeC2S {
         playerstats.setEnergy(5);
         playerstats.setZpoints(0);
 
-        currentEnergy = dmzdatos.calcularENE(race, playerstats.getEnergy(), playerstats.getDmzClass());
+        int currentEnergy = dmzdatos.calcularENE(playerstats);
         playerstats.setCurrentEnergy(currentEnergy);
     }
 
@@ -70,13 +68,9 @@ public class DendeC2S {
 
         player.displayClientMessage(Component.translatable("lines.dende.heal.success"), true);
 
-        var race = playerstats.getRace();
-        var con = playerstats.getConstitution();
-        var energia = playerstats.getEnergy();
-
-        double vidaTotal = dmzdatos.calcularCON(race, con, 20, playerstats.getDmzClass());
-        int energiaMax = dmzdatos.calcularENE(race, energia, playerstats.getDmzClass());
-        int staminaMax = dmzdatos.calcularSTM(race, (int) vidaTotal);
+        double vidaTotal = dmzdatos.calcularCON(playerstats);
+        int energiaMax = dmzdatos.calcularENE(playerstats);
+        int staminaMax = dmzdatos.calcularSTM(playerstats);
 
         player.heal((float) vidaTotal);
         playerstats.setCurStam(staminaMax);

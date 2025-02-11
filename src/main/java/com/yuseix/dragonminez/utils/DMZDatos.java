@@ -13,14 +13,9 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcularSTR(DMZStatsAttributes stats) {
 
-        boolean majinOn = stats.hasDMZPermaEffect("majin");
-        boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        String clase = stats.getDmzClass();
-        int danoJugador = 1;
-        int raza = stats.getRace();
-        int StatSTR = stats.getStrength();
-        int porcentaje = stats.getDmzRelease();
-        int transformation = stats.getDmzState();
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
+        String clase = stats.getDmzClass(); int raza = stats.getRace(); int danoJugador = 1;
+        int StatSTR = stats.getStrength(); int porcentaje = stats.getDmzRelease(); int transformation = stats.getDmzState();
 
         double maxStr = 0;
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
@@ -172,7 +167,11 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularDEF(Player player, int raza, int StatDEF, int Transformation, int powerRelease, String clase, boolean majinOn, boolean mightfruit) {
+    public int calcularDEF(DMZStatsAttributes stats, Player player) {
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
+        String clase = stats.getDmzClass(); int raza = stats.getRace(); int StatDEF = stats.getDefense();
+        int powerRelease = stats.getDmzRelease(); int Transformation = stats.getDmzState();
+
         double maxDef = 0;
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
@@ -305,8 +304,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularCON(int raza, int StatCON, float vidaMC, String clase) {
-        double maxCon = 0;
+    public int calcularCON(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int StatCON = stats.getConstitution();
+        String clase = stats.getDmzClass(); double maxCon = 0; float vidaMC = 20;
 
         switch (clase){
             case "Warrior":
@@ -378,7 +378,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularSTM(int raza, int maxCON) {
+    public int calcularSTM(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int maxCON = stats.getConstitution();
+
         //Aca lo configuraremos segun raza y si es spiritualista o guerrero
         double maxSTM = 0;
 
@@ -415,10 +417,13 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularKiPower(int raza, int StatPWR, int Transformation, int PowerRelease, String clase, boolean majinOn, boolean mightfruit) {
-        double maxPWR = 0;
+    public int calcularKiPower(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int StatPWR = stats.getKiPower();
+        String clase = stats.getDmzClass(); int PowerRelease = stats.getDmzRelease(); int Transformation = stats.getDmzState();
+        boolean majinOn = stats.hasDMZPermaEffect("majin");boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double maxPWR = 0;
 
         var efectosTotal = majinDato * frutaDato;
 
@@ -528,8 +533,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularENE(int raza, int StatENE, String clase) {
-        double maxENE = 0;
+    public int calcularENE(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int StatENE = stats.getEnergy();
+        String clase = stats.getDmzClass(); double maxENE = 0;
 
         switch (clase){
             case "Warrior":
@@ -601,7 +607,8 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularKiConsume(int raza, int StatENE, int form) {
+    public int calcularKiConsume(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int form = stats.getDmzState(); int StatENE = stats.getEnergy();
         int costo = 0;
 
         switch (raza){
@@ -668,8 +675,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularKiRegen(int raza, int EnergiaTotal, String clase) {
-        int regenki = 0;
+    public int calcularKiRegen(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int StatENE = stats.getEnergy(); int EnergiaTotal = stats.getEnergy();
+        String clase = stats.getDmzClass(); int regenki = 0;
 
         switch (clase){
             case "Warrior":
@@ -727,11 +735,10 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public double calcularMultiTotal(int raza, int transformacion, boolean majinOn, boolean mightfruit) {
-        var multiStr = 0.0;
-        var multiDef = 0.0;
-        var multiKiPower = 0.0;
-        var total = 0.0;
+    public double calcularMultiTotal(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState();
+        var multiStr = 0.0; var multiDef = 0.0; var multiKiPower = 0.0; var total = 0.0;
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
 
         switch (raza){
             case 0:
@@ -840,14 +847,15 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public double calcularMultiStat(int raza, int transformacion, String stat, boolean majinOn, boolean mightfruit) {
-        var multiStat = 0.0;
-        var total = 0.0;
+    public double calcularMultiStat(DMZStatsAttributes stats, String stat) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState();
+        var multiStat = 0.0; var total = 0.0;
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
-        if (efectosTotal == 1) efectosTotal = 0;
 
+        if (efectosTotal == 1) efectosTotal = 0;
 
         switch (raza){
             case 0: //Humano
@@ -1040,16 +1048,14 @@ public class DMZDatos implements IDMZDatos{
                 break;
         }
 
-        total = multiStat * efectosTotal;
+        if (efectosTotal > 0) total = multiStat * efectosTotal;
 
         return total;
     }
 
-    public double calcularMultiTransf(int raza, int transformacion) {
-        var multiStr = 0.0;
-        var multiDef = 0.0;
-        var multiKiPower = 0.0;
-        var multiTransf = 0.0;
+    public double calcularMultiTransf(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState();
+        var multiStr = 0.0; var multiDef = 0.0; var multiKiPower = 0.0; var multiTransf = 0.0;
 
         switch (raza){
             case 0:
@@ -1145,16 +1151,19 @@ public class DMZDatos implements IDMZDatos{
             default:
                 break;
         }
+
         multiTransf = (multiStr + multiDef + multiKiPower) / 3;
 
         return multiTransf;
     }
 
     @Override
-    public int calcularSTRCompleta(int raza, int transformacion, int statStr, boolean majinOn, boolean mightfruit) {
-        var statfinal = 0;
+    public int calcularSTRCompleta(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState(); int statStr = stats.getStrength();
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        var statfinal = 0;
 
         var efectosDato = majinDato * frutaDato;
 
@@ -1222,10 +1231,12 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularDEFCompleta(int raza, int transformacion, int statDef, boolean majinOn, boolean mightfruit) {
-        var statfinal = 0;
+    public int calcularDEFCompleta(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState(); int statDef = stats.getDefense();
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        var statfinal = 0;
 
         var efectosDato = majinDato * frutaDato;
 
@@ -1293,10 +1304,12 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularPWRCompleta(int raza, int transformacion, int statPwr, boolean majinOn, boolean mightfruit) {
-        var statfinal = 0;
+    public int calcularPWRCompleta(DMZStatsAttributes stats) {
+        int raza = stats.getRace(); int transformacion = stats.getDmzState(); int statPwr = stats.getKiPower();
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        var statfinal = 0;
 
         var efectosDato = majinDato * frutaDato;
 
@@ -1364,7 +1377,8 @@ public class DMZDatos implements IDMZDatos{
     }
 
     @Override
-    public int calcularCargaKi(int EnergiaTotal, String clase) {
+    public int calcularCargaKi(DMZStatsAttributes stats) {
+        String clase = stats.getDmzClass(); int EnergiaTotal = stats.getMaxEnergy();
         var porcentaje = 0;
 
         switch (clase){

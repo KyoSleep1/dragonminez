@@ -80,11 +80,11 @@ public class StatsEvents {
             var energia = playerstats.getEnergy();
             boolean isDmzUser = playerstats.isAcceptCharacter();
 
-            int maxenergia = dmzdatos.calcularENE(raza, energia, playerstats.getDmzClass());
+            int maxenergia = dmzdatos.calcularENE(playerstats);
 
             // Verificar que haya creado su personaje antes de comenzar a hacer cosas referentes a las stats
             if (isDmzUser) {
-                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass()));
+                serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(playerstats));
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos);
 
@@ -205,7 +205,7 @@ public class StatsEvents {
                     int maxDamage = dmzdatos.calcularSTR(cap);
 
                     int staminacost = maxDamage / 12;
-                    int danoKiWeapon = dmzdatos.calcularKiPower(raza, cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, mightfruitOn);
+                    int danoKiWeapon = dmzdatos.calcularKiPower(cap);
                     var ki_control = cap.hasSkill("ki_control");
                     var ki_manipulation = cap.hasSkill("ki_manipulation");
                     var meditation = cap.hasSkill("meditation");
@@ -286,10 +286,8 @@ public class StatsEvents {
                             // Si la entidad que recibe el daño es un jugador
                             if (event.getEntity() instanceof Player objetivo) {
                                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                                    var isMajinOn = statsObjetivo.hasDMZPermaEffect("majin");
-                                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
 
-                                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(), statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(), statsObjetivo.getDmzClass(), isMajinOn, fruta);
+                                    int defObjetivo = dmzdatos.calcularDEF(statsObjetivo, objetivo);
                                     // Restar la defensa del objetivo al daño
                                     float danoFinal = event.getAmount() - defObjetivo;
                                     event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
@@ -302,12 +300,8 @@ public class StatsEvents {
                             // Aquí manejamos el caso donde el atacante no es un jugador
                             if (event.getEntity() instanceof Player objetivo) {
                                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-                                    var isMajinOn = statsObjetivo.hasDMZPermaEffect("majin");
-                                    var fruta = statsObjetivo.hasDMZTemporalEffect("mightfruit");
 
-                                    int defObjetivo = dmzdatos.calcularDEF(objetivo, statsObjetivo.getRace(), statsObjetivo.getDefense(),
-                                            statsObjetivo.getDmzState(), statsObjetivo.getDmzRelease(),
-                                            statsObjetivo.getDmzClass(), isMajinOn, fruta);
+                                    int defObjetivo = dmzdatos.calcularDEF(cap, objetivo);
 
                                     // Restar la defensa del objetivo al daño
                                     float danoFinal = event.getAmount() - defObjetivo;
@@ -340,7 +334,7 @@ public class StatsEvents {
                     if (jump != null && jump.isActive() || fly != null && fly.isActive()) {
                         event.setCanceled(true);
                     } else {
-                        int maxEnergy = dmzdatos.calcularENE(stats.getRace(), stats.getEnergy(), stats.getDmzClass());
+                        int maxEnergy = dmzdatos.calcularENE(stats);
 
                         // drenaje de config
                         int baseEnergyDrain = (int) Math.ceil(maxEnergy * DMZGeneralConfig.MULTIPLIER_FALLDMG.get());
@@ -375,7 +369,7 @@ public class StatsEvents {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
                 int curEne = stats.getCurrentEnergy();
                 int maxEne = stats.getMaxEnergy();
-                int porcentaje = (int) Math.ceil((curEne * 100) / maxEne);
+                int porcentaje = (int) Math.ceil((double) (curEne * 100) / maxEne);
 
                 if (stats.isAcceptCharacter()) {
 

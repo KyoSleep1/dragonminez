@@ -25,8 +25,6 @@ public class TickHandler {
     private int flyTimer = 0;
     private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
 
-    private final int CHARGE_INTERVAL = 1 * (20); // No borrar el 20, eso es el tiempo en ticks lo que si puedes configurar es lo que esta la lado
-
     public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
         DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
         DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
@@ -35,7 +33,7 @@ public class TickHandler {
         // Regeneración de stamina cada 1 segundo
         staminaRegenCounter++;
         if (staminaRegenCounter >= 20) {
-            int maxStamina = dmzDatos.calcularSTM(playerStats.getRace(), playerStats.getMaxHealth());
+            int maxStamina = dmzDatos.calcularSTM(playerStats);
             int regenStamina = (int) Math.round(maxStamina / 12.0);
             if (playerStats.getCurStam() < maxStamina) {
                 if (meditation != null) {
@@ -51,11 +49,11 @@ public class TickHandler {
         // Regeneración de energía cada 1 segundo (con turbo activo o no)
         energyRegenCounter++;
         if (energyRegenCounter >= 20) {
-            int maxEnergy = dmzDatos.calcularENE(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzClass());
+            int maxEnergy = dmzDatos.calcularENE(playerStats);
 
             if (playerStats.isTurbonOn()) {
                 // Si el turbo está activo, consumo de energía
-                int consumeEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) * 2;
+                int consumeEnergy = dmzDatos.calcularKiRegen(playerStats) * 2;
                 if (consumeEnergy < 2) consumeEnergy = 2;
                 if (meditation != null) {
                     // Reduce 5% del consumo por nivel de meditación
@@ -68,7 +66,7 @@ public class TickHandler {
                     // No hacer nada
                 } else {
                     // Si el turbo no está activo, regeneración de energía
-                    int regenEnergy = dmzDatos.calcularKiRegen(playerStats.getRace(), maxEnergy, playerStats.getDmzClass()) / 2;
+                    int regenEnergy = dmzDatos.calcularKiRegen(playerStats) / 2;
                     if (regenEnergy < 1) regenEnergy = 1;
 
                     if (meditation != null) {
@@ -91,7 +89,7 @@ public class TickHandler {
         // Consumo de energía cada 1 segundo
         energyConsumeCounter++;
         if (energyConsumeCounter >= 20) {
-            int consumeEnergy = (dmzDatos.calcularKiConsume(playerStats.getRace(), playerStats.getEnergy(), playerStats.getDmzState()) / 3);
+            int consumeEnergy = (dmzDatos.calcularKiConsume(playerStats) / 3);
             playerStats.removeCurEnergy(consumeEnergy);
             energyConsumeCounter = 0;
         }
@@ -153,7 +151,7 @@ public class TickHandler {
         int maxRelease = 50 + (potUnlockLevel * 5);
         var raza = playerstats.getRace();
 
-        if (chargeTimer >= CHARGE_INTERVAL) {
+        if (chargeTimer >= 20) {
             if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
                 if (playerstats.getDmzRelease() > 0) {
                     playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
@@ -173,7 +171,7 @@ public class TickHandler {
                         if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
                             // No hacer nada
                         } else {
-                            int kiRegen  = dmzdatos.calcularCargaKi(maxenergia, playerstats.getDmzClass());
+                            int kiRegen  = dmzdatos.calcularCargaKi(playerstats);
                             if (meditation != null) {
                                 kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
                             }
@@ -195,23 +193,34 @@ public class TickHandler {
     }
 
     public void manejarCargaForma(DMZStatsAttributes playerstats){
+        // Testear que esto funcione bien :p
+        
+        if (playerstats.getFormSkill("") == null) return;
+        System.out.println("Forma: " + playerstats.getFormSkill("").getName());
+        int formLevel = playerstats.getFormSkill("").getLevel();
+        System.out.println("Nivel de Forma: " + formLevel);
 
-        if(playerstats.isTransforming() && playerstats.getFormRelease() == 100){
+        if(playerstats.isTransforming() && playerstats.getFormRelease() >= 100){
             playerstats.setFormRelease(0);
         }
-
+        if (playerstats.isTransforming() && playerstats.getFormRelease() >= 0) {
+            dmzformTimer++;
+            if (dmzformTimer >= 20) {
+                playerstats.setFormRelease(playerstats.getFormRelease() + (5 * formLevel));
+                System.out.println("Forma Release: " + (playerstats.getFormRelease() + (5*formLevel)));
+                dmzformTimer = 0;
+            } else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
+                playerstats.setFormRelease(playerstats.getFormRelease() - 1);
+                if (dmzformTimer != 0) dmzformTimer = 0;
+            }
+        }
         if (playerstats.isTransforming() && playerstats.getFormRelease() >= 0) {
             dmzformTimer++;
             if (dmzformTimer >= 20) {
                 playerstats.setFormRelease(playerstats.getFormRelease() + 15);
                 dmzformTimer = 0;
             }
-        } else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
-            playerstats.setFormRelease(playerstats.getFormRelease() - 10);
-            if (dmzformTimer != 0) dmzformTimer = 0;
         }
-
-
     }
 
     public void manejarForms(DMZStatsAttributes playerstats, ServerPlayer player) {
@@ -224,17 +233,23 @@ public class TickHandler {
 
         // 🔹 Definir transformaciones disponibles por raza y grupo
         Map<String, String[]> saiyanForms = Map.of(
-                "", new String[]{"ssgrade", "ssgrade2", "ssgrade3"},
-                "ssgrades", new String[]{"ssgrade", "ssgrade2", "ssgrade3"},
-                "ssj", new String[]{"ssj1", "ssj2", "ssj3"}
+                "", new String[]{"oozaru", "goldenoozaru"},
+                "ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
+                "ssj", new String[]{"ssj1fp", "ssj2", "ssj3"} // SSJ1FP lo pondré luego en menú y eso como "Mastered Super Saiyan"
+        );
+
+        Map<String, String[]> coldDemonForms = Map.of(
+                "", new String[]{"first", "second", "third", "base", "fullpower"},
+                "definitive", new String[]{"mecha", "fifth", "golden", "black"}
         );
 
         Map<Integer, Map<String, String[]>> transformations = Map.of(
-                1, saiyanForms, // 🔹 Saiyan
-                2, Map.of("", new String[]{"great_namek", "mystic_namek"}), // Namek
-                3, Map.of("", new String[]{"bio_stage1", "bio_stage2", "bio_perfect"}), // Bioandroide
-                4, Map.of("", new String[]{"first_form", "second_form", "final_form", "golden"}), // Cold Demon
-                5, Map.of("", new String[]{"evil_majin", "pure_majin", "kid_majin"}) // Majin
+                0, Map.of("", new String[]{"buffed", "fullpower"}), // Humano
+                1, saiyanForms, // Saiyan
+                2, Map.of("", new String[]{"giant", "fullpower"}), // Namek
+                3, Map.of("", new String[]{"imperfect", "semiperfect", "perfect", "super"}), // Bioandroide
+                4, coldDemonForms, // Cold Demon
+                5, Map.of("", new String[]{"evil", "kid", "super", "ultra"}) // Majin
         );
 
         if (!transformations.containsKey(race)) return;

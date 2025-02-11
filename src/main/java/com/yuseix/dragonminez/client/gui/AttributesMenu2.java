@@ -292,14 +292,14 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 1.5);
             int costoRecursivo = calcularCostoRecursivo(minStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
 
-            var strcompleta = dmzdatos.calcularSTRCompleta(raza, transf, strdefault, majinOn, frutaOn);
-            var defcompleta = dmzdatos.calcularDEFCompleta(raza, transf, defdefault, majinOn, frutaOn);
-            var pwrcompleta = dmzdatos.calcularPWRCompleta(raza, transf, kipowerdefault, majinOn, frutaOn);
+            var strcompleta = dmzdatos.calcularSTRCompleta(playerstats);
+            var defcompleta = dmzdatos.calcularDEFCompleta(playerstats);
+            var pwrcompleta = dmzdatos.calcularPWRCompleta(playerstats);
 
-            var STRMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "STR", majinOn, frutaOn)) * 100) / 100.0;
-            var DEFMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "DEF", majinOn, frutaOn)) * 100) / 100.0;
-            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(raza, transf, "KIPOWER", majinOn, frutaOn)) * 100) / 100.0;
-            var multiTotal = dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn);
+            var STRMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "STR")) * 100) / 100.0;
+            var DEFMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "DEF")) * 100) / 100.0;
+            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "KIPOWER")) * 100) / 100.0;
+            var multiTotal = dmzdatos.calcularMultiTotal(playerstats);
 
             var isMultiOn = majinOn || frutaOn || transf > 0; var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
 
@@ -445,16 +445,14 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin"); var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
             //Datos
-            var raza = playerstats.getRace(); var str = playerstats.getStrength(); var def = playerstats.getDefense(); var con = playerstats.getConstitution();
-            var kpw = playerstats.getKiPower(); var enr = playerstats.getEnergy();
-            var clase = playerstats.getDmzClass(); var transf = playerstats.getDmzState(); var release = playerstats.getDmzRelease();
+            var transf = playerstats.getDmzState();
 
             var strMax = dmzdatos.calcularSTR(playerstats);
-            var defMax = dmzdatos.calcularDEF(Minecraft.getInstance().player,raza,def, transf,release, clase, majinOn, frutaOn);
-            var conMax = dmzdatos.calcularCON(raza, con, 20, clase);
-            var stmMax = dmzdatos.calcularSTM(raza, conMax);
-            var KPWMax = dmzdatos.calcularKiPower(raza, kpw, transf, release, clase, majinOn, frutaOn);
-            var enrMax = dmzdatos.calcularENE(raza, enr, clase);
+            var defMax = dmzdatos.calcularDEF(playerstats, Minecraft.getInstance().player);
+            var conMax = dmzdatos.calcularCON(playerstats);
+            var stmMax = dmzdatos.calcularSTM(playerstats);
+            var KPWMax = dmzdatos.calcularKiPower(playerstats);
+            var enrMax = dmzdatos.calcularENE(playerstats);
 
             var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
 
@@ -465,11 +463,11 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
 
-            var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(raza, transf, majinOn, frutaOn)) * 100) / 100.0;
+            var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(playerstats)) * 100) / 100.0;
 
             var multiMajin = DMZGeneralConfig.MULTIPLIER_MAJIN.get();
             var multiFruta = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
-            var multiTransf = dmzdatos.calcularMultiTransf(raza, transf);
+            var multiTransf = dmzdatos.calcularMultiTransf(playerstats);
             var anchoMulti = (this.width /2+2) - 3; var altoMulti = (this.height / 2) + 55;
 
             Component statComponent = Component.literal("Multiplier:")

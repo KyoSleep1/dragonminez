@@ -63,8 +63,8 @@ public class StatsC2S {
                             incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getConstitution());
                             playerstats.addCon(incrementoStats);
 
-                            var conMax = dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
-                            playerstats.setCurStam(dmzdatos.calcularSTM(raza, conMax));
+                            var conMax = dmzdatos.calcularCON(playerstats);
+                            playerstats.setCurStam(dmzdatos.calcularSTM(playerstats));
                             player.refreshDimensions();
                             break;
                         case 3:

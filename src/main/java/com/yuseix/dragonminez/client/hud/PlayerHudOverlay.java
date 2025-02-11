@@ -48,16 +48,15 @@ public class PlayerHudOverlay implements RenderEntityInv {
             // Solo renderiza el HUD si el jugador creó su personaje
             if (isDmzUser) {
 
-                var vidaMC = 20; var con = playerstats.getConstitution(); var maxVIDA = 0.0;
-                int vidawa = ((190 * vidarestante) / VidaMaxima); int vida = Math.min(vidawa, 190);
-                int StaminaMax = 0; int TransfMax = 100;
+                var maxVIDA = 0.0; int vidawa = ((190 * vidarestante) / VidaMaxima); int vida = Math.min(vidawa, 190);
+                int StaminaMax = 0;
 
-                maxVIDA = dmzdatos.calcularCON(playerstats.getRace(), con, vidaMC, playerstats.getDmzClass());
-                StaminaMax = dmzdatos.calcularSTM(playerstats.getRace(), (int) maxVIDA);
+                maxVIDA = dmzdatos.calcularCON(playerstats);
+                StaminaMax = dmzdatos.calcularSTM(playerstats);
 
                 int curStamina = playerstats.getCurStam(); int energiaMax = 0;
 
-                energiaMax = dmzdatos.calcularENE(playerstats.getRace(), playerstats.getEnergy(), playerstats.getDmzClass());
+                energiaMax = dmzdatos.calcularENE(playerstats);
 
                 int curEnergia = playerstats.getCurrentEnergy();
                 int TransfActual = playerstats.getFormRelease();

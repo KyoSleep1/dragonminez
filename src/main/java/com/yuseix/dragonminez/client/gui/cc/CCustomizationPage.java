@@ -1374,15 +1374,9 @@ public class CCustomizationPage extends Screen {
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Ki Damage:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 48, 0xFFFFFF);
             drawStringWithBorder(pGuiGraphics,font, Component.literal("Max Ki:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 60, 0xFFFFFF);
 
-            var majinOn = cap.hasDMZPermaEffect("majin");
-            var fruta = cap.hasDMZTemporalEffect("mightfruit");
-
-            var strMax = dmzdatos.calcularSTR(cap);
-            var defMax = dmzdatos.calcularDEF(minecraft.player,cap.getRace(),cap.getDefense(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
-            var conMax = dmzdatos.calcularCON(cap.getRace(), cap.getConstitution(), 20, cap.getDmzClass());
-            var stmMax = dmzdatos.calcularSTM(cap.getRace(), conMax);
-            var KPWMax = dmzdatos.calcularKiPower(cap.getRace(), cap.getKiPower(), cap.getDmzState(), cap.getDmzRelease(), cap.getDmzClass(), majinOn, fruta);
-            var enrMax = dmzdatos.calcularENE(cap.getRace(), cap.getEnergy(), cap.getDmzClass());
+            var strMax = dmzdatos.calcularSTR(cap); var defMax = dmzdatos.calcularDEF(cap, minecraft.player);
+            var conMax = dmzdatos.calcularCON(cap); var stmMax = dmzdatos.calcularSTM(cap);
+            var KPWMax = dmzdatos.calcularKiPower(cap); var enrMax = dmzdatos.calcularENE(cap);
 
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(strMax)), this.width-67, alturaTexto, 0xfdbf26);
             drawStringWithBorder(pGuiGraphics, font, Component.literal(String.valueOf(defMax)), this.width-67, alturaTexto + 12, 0xfdbf26);
