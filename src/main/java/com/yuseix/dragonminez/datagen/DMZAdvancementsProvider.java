@@ -252,6 +252,19 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.GREAT_SAIYAMAN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:greatsaiyamanarmor");
 
+            Advancement futuregohanarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.futuregohanarmor.title"),
+                            Component.translatable("advancements.dragonminez.futuregohanarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("futuregohanarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.FUTURE_GOHAN_ARMOR_LEGGINGS.get(),
+                                    MainItems.FUTURE_GOHAN_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:futuregohanarmor");
+
             Advancement vegetaarmor = Advancement.Builder.advancement()
                     .parent(patternz)
                     .display(
@@ -277,6 +290,19 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.VEGETTO_ARMOR_LEGGINGS.get(),
                                     MainItems.VEGETTO_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:vegettoarmor");
+
+            Advancement gogetaarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.GOGETA_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gogetaarmor.title"),
+                            Component.translatable("advancements.dragonminez.gogetaarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gogetaarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GOGETA_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GOGETA_ARMOR_LEGGINGS.get(),
+                                    MainItems.GOGETA_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gogetaarmor");
 
             Advancement piccoloarmor = Advancement.Builder.advancement()
                     .parent(patternz)
@@ -396,6 +422,32 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.BLACK_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:blackarmor");
 
+            Advancement zamasuarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.ZAMASU_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.zamasuarmor.title"),
+                            Component.translatable("advancements.dragonminez.zamasuarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("zamasuarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.ZAMASU_ARMOR_CHESTPLATE.get(),
+                                    MainItems.ZAMASU_ARMOR_LEGGINGS.get(),
+                                    MainItems.ZAMASU_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:zamasuarmor");
+
+            Advancement fusionzamasuarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.FUSION_ZAMASU_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.fusionzamasuarmor.title"),
+                            Component.translatable("advancements.dragonminez.fusionzamasuarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("fusionzamasuarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.FUSION_ZAMASU_ARMOR_CHESTPLATE.get(),
+                                    MainItems.FUSION_ZAMASU_ARMOR_LEGGINGS.get(),
+                                    MainItems.FUSION_ZAMASU_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:fusionzamasuarmor");
+
             Advancement pridetrooparmor = Advancement.Builder.advancement()
                     .parent(patternsuper)
                     .display(
@@ -434,6 +486,22 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.GAS_ARMOR_LEGGINGS.get(),
                                     MainItems.GAS_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:gasarmor");
+
+            Advancement gammasarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.GAMMA1_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gammasarmor.title"),
+                            Component.translatable("advancements.dragonminez.gammasarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gammasarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GAMMA1_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAMMA1_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAMMA1_ARMOR_BOOTS.get(),
+                                    MainItems.GAMMA2_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAMMA2_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAMMA2_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gammasarmor");
         }
     }
 }

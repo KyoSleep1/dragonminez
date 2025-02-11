@@ -191,15 +191,15 @@ public class TickHandler {
     }
 
     public void manejarCargaForma(DMZStatsAttributes playerstats){
-        dmzformTimer++;
-        System.out.println(dmzformTimer);
-        if(dmzformTimer >= 20){ //Aca ajustar el intervalo segun la forma por ejemplo verificar que raza es y a que nivel tiene la skillform
-            if(playerstats.isTransforming()){
+        if (playerstats.isTransforming() && playerstats.getFormRelease() >= 0) {
+            dmzformTimer++;
+            if (dmzformTimer >= 20) {
                 playerstats.setFormRelease(playerstats.getFormRelease() + 5);
-            } else {
-                playerstats.setFormRelease(playerstats.getFormRelease() - 10);
+                dmzformTimer = 0;
             }
-            dmzformTimer = 0;
+        } else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
+            playerstats.setFormRelease(playerstats.getFormRelease() - 10);
+            if (dmzformTimer != 0) dmzformTimer = 0;
         }
 
     }

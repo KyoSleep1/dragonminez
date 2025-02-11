@@ -410,7 +410,6 @@ public class ClientEvents {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
-				System.out.println("Descendiendo, cambiando a volar");
 				isDescending = false;
 				ModMessages.sendToServer(new FlyToggleC2S());
 			}

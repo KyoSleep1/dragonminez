@@ -158,7 +158,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 //Transformacion llena
                 // NOTA: Reemplazar el 47 por la variable de la TransfActual
                 guiGraphics.blit(hud,
-                        7,
+                        6,
                         37,
                         28,
                         39,
