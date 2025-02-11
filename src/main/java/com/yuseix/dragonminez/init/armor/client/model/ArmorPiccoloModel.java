@@ -29,7 +29,7 @@ public class ArmorPiccoloModel extends HumanoidModel<AbstractClientPlayer> {
 		super(root);
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
-		this.capa = body.getChild("capa");
+		this.capa = this.body.getChild("capa");
 		this.right_arm = root.getChild("right_arm");
 		this.left_arm = root.getChild("left_arm");
 		this.right_leg = root.getChild("right_leg");
@@ -67,6 +67,14 @@ public class ArmorPiccoloModel extends HumanoidModel<AbstractClientPlayer> {
 	@Override
 	public void setupAnim(AbstractClientPlayer pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
+		// Hacer que la capa se incline hacia atrás dependiendo de si el jugador está moviéndose
+		this.capa.xRot = 0.15F + (Mth.cos(pLimbSwing * 0.6662F) * pLimbSwingAmount * 0.15F);
+
+		// Ajuste de movimiento cuando el jugador corre
+		if (pLimbSwingAmount > 0.1F) {
+			this.capa.xRot += 0.3F;
+		}
 	}
 
 	@Override
