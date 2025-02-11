@@ -65,7 +65,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
-
+        this.addLayer(new CustomCapeLayer(this));
     }
 
 
