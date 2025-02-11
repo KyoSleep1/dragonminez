@@ -28,14 +28,24 @@ public class DescendFormC2S {
                     int race = playerstats.getRace();
                     String currentForm = playerstats.getDmzForm();
 
-                    if (race == 1) { // 🔹 Saiyan
-                        if(currentForm.equals("goldenoozaru")){
-                            playerstats.setDmzForm("oozaru");
-                            System.out.println("📢 Ahora eres un mono normal");
-                        } else if (currentForm.equals("oozaru")) {
-                            playerstats.setDmzForm("base");
-                            System.out.println("❤️Estas en estado base❤️");
-                        }
+                    switch (race) {
+                        case 0: // Humanos
+                            break;
+                        case 1: // Saiyans
+                            switch (currentForm) {
+                                case "goldenoozaru" -> playerstats.setDmzForm("oozaru");
+                                case "oozaru" -> playerstats.setDmzForm("base");
+                                //case "X" -> playerstats.setDmzForm("Y");
+                            }
+                            break;
+                        case 2: // Namek
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
                     }
                 });
             }

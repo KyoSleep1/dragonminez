@@ -1,7 +1,9 @@
 package com.yuseix.dragonminez.init.items.custom;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
+import com.yuseix.dragonminez.init.entity.custom.NubeNegraEntity;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SaiyanShipItem extends Item {
-    public SaiyanShipItem( ) {
+public class BlackNimbusItem extends Item {
+    public BlackNimbusItem( ) {
         super(new Properties().stacksTo(1));
     }
 
@@ -35,12 +37,12 @@ public class SaiyanShipItem extends Item {
 
         // Verificar si el jugador y el mundo no son nulos
         if (player != null && level != null) {
-            NaveSaiyanEntity nave = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), level); // Usa el tipo de entidad de la Nave
+            NubeNegraEntity nube = new NubeNegraEntity(MainEntity.NUBE_NEGRA.get(), level); // Usa el tipo de entidad de nube
 
-            nave.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
+            nube.setPos(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 
-            // Agregar la nave al mundo
-            level.addFreshEntity(nave);
+            // Agregar la nube al mundo
+            level.addFreshEntity(nube);
 
             pContext.getItemInHand().shrink(1);
 
@@ -52,6 +54,6 @@ public class SaiyanShipItem extends Item {
 
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("item.dragonminez.saiyan_ship.tooltip").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("item.dragonminez.black_nimbus.tooltip").withStyle(ChatFormatting.GRAY));
     }
 }

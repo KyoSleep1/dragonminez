@@ -38,7 +38,6 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 	private static final EntityDataAccessor<Boolean> IS_OPEN = SynchedEntityData.defineId(NaveSaiyanEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final RawAnimation ANIM_ABIERTO = RawAnimation.begin().then("animation.navesaiyan.open", Animation.LoopType.HOLD_ON_LAST_FRAME);
 	private static final RawAnimation ANIM_CERRADO = RawAnimation.begin().then("animation.navesaiyan.close", Animation.LoopType.HOLD_ON_LAST_FRAME);
-	private int teleportHoldTime = 0;  // Contador delay
 	private static final int teleportTime = 5; // Segundos
 	private boolean isTeleporting = false;
 	private int teleportCountdown = teleportTime;
@@ -56,7 +55,8 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 		return Mob.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 50.0D)
 				.add(Attributes.ATTACK_DAMAGE, 50.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.5F).build();
+				.add(Attributes.MOVEMENT_SPEED, 0.5F)
+				.add(Attributes.FLYING_SPEED, 2.4F).build();
 	}
 
 	@Override

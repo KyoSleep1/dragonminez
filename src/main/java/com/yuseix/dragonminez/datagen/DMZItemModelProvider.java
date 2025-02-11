@@ -25,6 +25,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.NAMEKDBALL_RADAR_ITEM);
         simpleItem(MainItems.MIGHT_TREE_FRUIT);
         simpleItem(MainItems.NUBE_ITEM);
+        simpleItem(MainItems.NUBE_NEGRA_ITEM);
         simpleItem(MainItems.NAVE_SAIYAN_ITEM);
         simpleItem(MainItems.SENZU_BEAN);
         simpleItem(MainItems.CAPSULA_ROJA);

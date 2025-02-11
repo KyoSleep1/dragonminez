@@ -2,15 +2,11 @@ package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.init.entity.custom.namek.MoroSoldierEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,7 +14,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -26,17 +22,16 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.animation.AnimatableManager;
 
-public class NubeEntity extends FlyingMob implements GeoEntity {
+public class NubeNegraEntity extends FlyingMob implements GeoEntity {
 
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public NubeEntity(EntityType<? extends FlyingMob> pEntityType, Level pLevel) {
+    public NubeNegraEntity(EntityType<? extends FlyingMob> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.setNoGravity(true);
         this.setPersistenceRequired();
-
     }
 
     public static AttributeSupplier createAttributes() {
@@ -56,7 +51,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
     protected InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
         if (!this.level().isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(playerstats -> {
-                if (playerstats.getDmzAlignment() < 60) {
+                if (playerstats.getDmzAlignment() > 40) {
                     pPlayer.displayClientMessage(Component.translatable("dmz.nimbus.fail"), true);
                 } else pPlayer.startRiding(this);
             });
@@ -130,7 +125,7 @@ public class NubeEntity extends FlyingMob implements GeoEntity {
     public boolean hurt(DamageSource pSource, float pAmount) {
         if ("player".equals(pSource.getMsgId()) && pSource.getEntity() instanceof Player) {
             if (!this.level().isClientSide && isAlive()) {
-                this.spawnAtLocation(MainItems.NUBE_ITEM.get());
+                this.spawnAtLocation(MainItems.NUBE_NEGRA_ITEM.get());
                 this.remove(RemovalReason.KILLED);
             }
             return true;

@@ -156,6 +156,12 @@ public final class MainEntity {
 							.sized(1.2f, 1.2f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "nube").toString())
 			);
+	public static final RegistryObject<EntityType<NubeNegraEntity>> NUBE_NEGRA =
+			ENTITY_TYPES_REGISTER.register("nube_negra",
+					() -> EntityType.Builder.of(NubeNegraEntity::new, MobCategory.AMBIENT)
+							.sized(1.2f, 1.2f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "nube_negra").toString())
+			);
 	public static final RegistryObject<EntityType<ShenlongEntity>> SHENLONG =
 			ENTITY_TYPES_REGISTER.register("shenlong",
 					() -> EntityType.Builder.of(ShenlongEntity::new, MobCategory.AMBIENT)

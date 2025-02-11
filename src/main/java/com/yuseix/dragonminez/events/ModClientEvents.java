@@ -97,6 +97,7 @@ public class ModClientEvents {
 			//ENTIDADES
 			EntityRenderers.register(MainEntity.DINO1.get(), DinoRenderer::new);
 			EntityRenderers.register(MainEntity.NUBE_VOLADORA.get(), NubeRenderer::new);
+			EntityRenderers.register(MainEntity.NUBE_NEGRA.get(), NubeNegraRenderer::new);
 			EntityRenderers.register(MainEntity.SHENLONG.get(), ShenlongRenderer::new);
 			EntityRenderers.register(MainEntity.PORUNGA.get(), PorungaRenderer::new);
 			EntityRenderers.register(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanRenderer::new);
@@ -235,6 +236,7 @@ public class ModClientEvents {
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
+
 		//SAGAS
 		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);
 
@@ -246,7 +248,6 @@ public class ModClientEvents {
 		e.registerLayerDefinition(KiScytheModel.LAYER_LOCATION, KiScytheModel::createBodyLayer);
 		e.registerLayerDefinition(KiSwordModel.LAYER_LOCATION, KiSwordModel::createBodyLayer);
 		e.registerLayerDefinition(KiTridentModel.LAYER_LOCATION, KiTridentModel::createBodyLayer);
-
 	}
 
 

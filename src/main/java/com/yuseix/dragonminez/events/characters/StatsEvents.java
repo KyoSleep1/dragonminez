@@ -102,8 +102,6 @@ public class StatsEvents {
 
                 //Aca manejamos la carga de aura
                 tickHandler.manejarCargaDeAura(playerstats, maxenergia);
-                //Manejar transformación
-                tickHandler.manejarForms(playerstats);
                 //Aca manejamos la carga de la transformacion
                 tickHandler.manejarCargaForma(playerstats);
 
@@ -426,20 +424,21 @@ public class StatsEvents {
                         setTurboSpeed(player, false);
                     }
 
+                    boolean wasTransformKeyPressed = false;
 
-                    if (isTransformKeyPressed) {
-                        if (isDescendKeyPressed && transformOn) {
-                            ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
-                            ModMessages.sendToServer(new DescendFormC2S());
-                            transformOn = false;
-                        } else if (!isDescendKeyPressed && !transformOn) {
-                            ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
-                            transformOn = true;
-                        }
-                    } else if (transformOn) { // 🔹 Si la tecla NO está presionada y estaba transformado, desactiva
+                    if (isDescendKeyPressed && isTransformKeyPressed) {
                         ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+                        ModMessages.sendToServer(new DescendFormC2S());
                         transformOn = false;
                     }
+                    else if (isTransformKeyPressed && !wasTransformKeyPressed) {
+                        ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
+                        transformOn = true;
+                    }
+                    else if (transformOn && !isTransformKeyPressed) {
+                        ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+                    }
+                    wasTransformKeyPressed = isTransformKeyPressed;
 
                 }
             });

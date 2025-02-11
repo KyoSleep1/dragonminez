@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -35,9 +36,12 @@ public class KarinC2S {
 
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                    Item nubeItem;
+                    if (cap.getDmzAlignment() < 60) nubeItem = MainItems.NUBE_NEGRA_ITEM.get();
+                    else nubeItem = MainItems.NUBE_ITEM.get();
 
                     if(packet.option == 1){
-                        player.getInventory().add(new ItemStack(MainItems.NUBE_ITEM.get()));
+                        player.getInventory().add(new ItemStack(nubeItem));
                     }else if(packet.option == 2){
                         player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_GIVE.get()));
                     } else if (packet.option == 3) {

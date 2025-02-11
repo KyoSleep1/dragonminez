@@ -245,6 +245,7 @@ public final class MainItems {
 
     //ENTIDADES (VEHÍCULOS)
     public static final RegistryObject<Item> NUBE_ITEM = ITEM_REGISTER.register("flying_nimbus", FlyingNimbusItem::new);
+    public static final RegistryObject<Item> NUBE_NEGRA_ITEM = ITEM_REGISTER.register("black_nimbus", BlackNimbusItem::new);
     public static final RegistryObject<Item> NAVE_SAIYAN_ITEM = ITEM_REGISTER.register("saiyan_ship", SaiyanShipItem::new);
 
     //ARMOR STATION/ARMOR CRAFTING PATTERNS

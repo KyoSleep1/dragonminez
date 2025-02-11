@@ -155,7 +155,7 @@ public class DMZSuperFormCommand {
 					skill.setLevel(finalLevel);
 					player.sendSystemMessage(Component.translatable("command.dmzforms.set")
 							.append(Component.translatable(skill.getName()))
-							.append(" (Nivel ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
+							.append(" (Lv ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
 							.append(Component.translatable("command.dmz.to")).append(player.getName()));
 				} else {
 					// Si la habilidad no existe, la creamos y le asignamos el nivel
@@ -167,7 +167,7 @@ public class DMZSuperFormCommand {
 
 					player.sendSystemMessage(Component.translatable("command.dmzforms.give")
 							.append(Component.translatable(skill.getName())) // Solo muestra el nombre
-							.append(" (Nivel ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
+							.append(" (Lv ").append(Component.literal(String.valueOf(finalLevel))).append(") ") // Muestra el nivel
 							.append(Component.translatable("command.dmz.to")).append(player.getName())); // Incluye la descripción de la habilidad
 				}
 			});

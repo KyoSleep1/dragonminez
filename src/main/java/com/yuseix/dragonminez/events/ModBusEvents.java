@@ -23,6 +23,7 @@ public class ModBusEvents {
 	public void entityAttributeEvent(EntityAttributeCreationEvent event) {
 		event.put(MainEntity.DINO1.get(), DinoEntity.setAttributes());
 		event.put(MainEntity.NUBE_VOLADORA.get(), NubeEntity.createAttributes());
+		event.put(MainEntity.NUBE_NEGRA.get(), NubeNegraEntity.createAttributes());
 		event.put(MainEntity.SHENLONG.get(), ShenlongEntity.setAttributes());
 		event.put(MainEntity.PORUNGA.get(), PorungaEntity.setAttributes());
 		//MAESTROS
