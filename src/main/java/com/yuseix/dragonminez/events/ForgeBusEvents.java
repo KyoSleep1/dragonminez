@@ -67,8 +67,6 @@ public class ForgeBusEvents {
 			"Gabrielololo",
 			"InYourHeart_",
 			"Im_Lu_",
-			"kavu_",
-			"andysito_",
 			"Ducco123",
 			"Rev_zy", //Mazu
 			"grillo78",
@@ -215,6 +213,7 @@ public class ForgeBusEvents {
 		new DMZTempEffectsCommand(event.getDispatcher());
 		new StorylineCommand(event.getDispatcher());
 		new DMZSkillsCommand(event.getDispatcher());
+		new DMZSuperFormCommand(event.getDispatcher());
 
 		ConfigCommand.register(event.getDispatcher());
 	}

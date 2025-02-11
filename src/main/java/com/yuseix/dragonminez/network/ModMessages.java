@@ -102,6 +102,11 @@ public class ModMessages {
 				.encoder(DragonRadarC2S::encode)
 				.consumerMainThread(DragonRadarC2S::handle)
 				.add();
+		net.messageBuilder(FormSkillsC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(FormSkillsC2S::new)
+				.encoder(FormSkillsC2S::toBytes)
+				.consumerMainThread(FormSkillsC2S::handle)
+				.add();
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(ZPointsS2C::new)
@@ -127,6 +132,11 @@ public class ModMessages {
 				.encoder(DMZSkillsS2C::toBytes)
 				.decoder(DMZSkillsS2C::new)
 				.consumerMainThread(DMZSkillsS2C::handle)
+				.add();
+		net.messageBuilder(DMZFormsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(DMZFormsS2C::toBytes)
+				.decoder(DMZFormsS2C::new)
+				.consumerMainThread(DMZFormsS2C::handle)
 				.add();
 		net.messageBuilder(DMZPermanentEffectsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(DMZPermanentEffectsSyncS2C::toBytes)

@@ -2,10 +2,7 @@ package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
-import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
-import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
-import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,6 +26,7 @@ public class DMZStatsCapabilities {
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
         syncSkills(event.getEntity());
+        syncFormsSkills(event.getEntity());
 
         event.getEntity().refreshDimensions();
 
@@ -50,6 +48,7 @@ public class DMZStatsCapabilities {
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
         syncSkills(event.getEntity());
+        syncFormsSkills(event.getEntity());
 
     }
 
@@ -126,6 +125,10 @@ public class DMZStatsCapabilities {
                         new DMZSkillsS2C(trackedplayer, cap.getDMZSkills()),
                         serverplayer
                 );
+                ModMessages.sendToPlayer(
+                        new DMZFormsS2C(trackedplayer, cap.getAllDMZForms()),
+                        serverplayer
+                );
 
             });
 
@@ -155,5 +158,10 @@ public class DMZStatsCapabilities {
                     new DMZSkillsS2C(player, cap.getDMZSkills()));
         });
     }
-
+    public static void syncFormsSkills(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZFormsS2C(player, cap.getAllDMZForms()));
+        });
+    }
 }

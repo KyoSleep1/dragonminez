@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -66,7 +67,19 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleFormsPacket(int playerId, Map<String, FormsData> formas, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
 
+		var entity = clientLevel.getEntity(playerId);
+		if (entity instanceof Player player) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				cap.getAllDMZForms().clear(); // Limpia los datos existentes
+				cap.getAllDMZForms().putAll(formas); // Añade los nuevos valores
+			});
+		}
+	}
 	@OnlyIn(Dist.CLIENT)
 	public static void handleMenuPacket(boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
 		if (openCharacterMenu) {

@@ -1,17 +1,11 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
-import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
-import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
+import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +13,8 @@ import java.util.Map;
 public class DMZStatsAttributes {
 
     private Map<String, DMZSkill> DMZSkills = new HashMap<>();
+    private Map<String, FormsData> FormsData = new HashMap<>();
+
     private Map<String, Boolean> DMZPermanentEffects = new HashMap<>();
     private Map<String, Integer> DMZTemporalEffects = new HashMap<>();
 
@@ -651,24 +647,46 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
     }
+    public void addFormSkill(String name, FormsData skill) {
+        FormsData.put(name, skill);
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncFormsSkills(player);
+    }
     public DMZSkill getSkill(String name) {
         if (DMZSkills.containsKey(name)) {
             return DMZSkills.get(name);
         }
         return null;
     }
-    
+    public FormsData getFormSkill(String name) {
+        if (FormsData.containsKey(name)) {
+            return FormsData.get(name);
+        }
+        return null;
+    }
     public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
         this.DMZSkills = DMZSkills;
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
+    }
+    public void setDMZFormSkill(Map<String, FormsData> DMZFormSkill) {
+        this.FormsData = DMZFormSkill;
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncFormsSkills(player);
 
     }
     public boolean hasSkill(String name) {
         return DMZSkills.containsKey(name);
     }
+    public boolean hasFormSkill(String name) {
+        return FormsData.containsKey(name);
+    }
     public Map<String, DMZSkill> getDMZSkills() {
         return DMZSkills;
+
+    }
+    public Map<String, FormsData> getAllDMZForms() {
+        return FormsData;
 
     }
     public void removeSkill(String name) {
@@ -682,9 +700,24 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncSkills(player);
 
     }
+    public void removeFormSkill(String name) {
+        FormsData formskill = FormsData.get(name);
+
+        if(formskill != null){
+            FormsData.remove(name);
+        }
+
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncFormsSkills(player);
+
+    }
 
     public int getSkillLevel(String name) {
         DMZSkill skill = DMZSkills.get(name);
+        return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
+    }
+    public int getFormSkillLevel(String name) {
+        FormsData skill = FormsData.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
     }
 
@@ -714,6 +747,15 @@ public class DMZStatsAttributes {
 
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
+
+    }
+    public void setFormSkillLvl(String skillform, int cantidad){
+        FormsData skill = FormsData.get(skillform);
+        if(skill != null){
+            skill.setLevel(cantidad);
+        }
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncFormsSkills(player);
 
     }
     // Métodos para gestionar los estados permanentes wa
@@ -919,7 +961,25 @@ public class DMZStatsAttributes {
 
         nbt.put("DMZSkills", skillsTag);
 
+        // Crear un CompoundTag para guardar cada habilidad
+        CompoundTag formsTag = new CompoundTag();
 
+        for (Map.Entry<String, FormsData> entry : FormsData.entrySet()) {
+            String skillName = entry.getKey();
+            FormsData forms = entry.getValue();
+
+            // Crear un CompoundTag para la habilidad y guardarlo en el map de skills
+            CompoundTag formTag = new CompoundTag();
+
+            // Aquí guardas los datos relevantes de la habilidad, como el nivel y la descripción
+            formTag.putString("name", forms.getName());
+            formTag.putInt("level", forms.getLevel());
+
+            // Guarda la habilidad en el CompoundTag de skills
+            formsTag.put(skillName, formTag);
+        }
+
+        nbt.put("DMZFormSkill", formsTag);
         return nbt;
     }
 
@@ -998,6 +1058,23 @@ public class DMZStatsAttributes {
 
                 DMZSkill skill = new DMZSkill(name, description, level, active);
                 DMZSkills.put(skillName, skill);
+            }
+        }
+
+        if (nbt.contains("DMZFormSkill", 10)) {  // Verifica si "DMZSkills" existe
+            //El 10 hace referencia a TAG_COMPOUND
+
+            CompoundTag formsTag = nbt.getCompound("DMZFormSkill");
+
+            for (String skillName : formsTag.getAllKeys()) {
+                CompoundTag formTag = formsTag.getCompound(skillName);
+
+                // Cargar el nivel y la descripción de la habilidad
+                String name = formTag.getString("name");
+                int level = formTag.getInt("level");
+
+                FormsData form = new FormsData(name, level);
+                FormsData.put(skillName, form);
             }
         }
 

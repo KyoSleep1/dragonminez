@@ -101,8 +101,11 @@ public class StatsEvents {
 
                 //Aca manejamos la carga de aura
                 tickHandler.manejarCargaDeAura(playerstats, maxenergia);
+                //Manejar transformación
+                tickHandler.manejarForms(playerstats, serverPlayer);
                 //Aca manejamos la carga de la transformacion
                 tickHandler.manejarCargaForma(playerstats);
+
 
                 //Restar el tiempo que se pone en el comando dmztempeffect
                 updateTemporaryEffects(serverPlayer);
