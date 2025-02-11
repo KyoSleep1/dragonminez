@@ -34,7 +34,7 @@ public class TickHandler {
         staminaRegenCounter++;
         if (staminaRegenCounter >= 20) {
             int maxStamina = dmzDatos.calcularSTM(playerStats);
-            int regenStamina = (int) Math.round(maxStamina / 12.0);
+            int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
             if (playerStats.getCurStam() < maxStamina) {
                 if (meditation != null) {
                     // Si tiene meditación, aumenta o reduce según el nivel de meditación (+10% por nivel)
@@ -193,12 +193,11 @@ public class TickHandler {
     }
 
     public void manejarCargaForma(DMZStatsAttributes playerstats){
-        // Testear que esto funcione bien :p
-        
-        if (playerstats.getFormSkill("") == null) return;
-        System.out.println("Forma: " + playerstats.getFormSkill("").getName());
-        int formLevel = playerstats.getFormSkill("").getLevel();
-        System.out.println("Nivel de Forma: " + formLevel);
+        var formSkill = playerstats.hasFormSkill("super_form");
+
+        if (!formSkill) return;
+
+        int formLevel = playerstats.getFormSkillLevel("super_form");
 
         if(playerstats.isTransforming() && playerstats.getFormRelease() >= 100){
             playerstats.setFormRelease(0);
@@ -207,7 +206,6 @@ public class TickHandler {
             dmzformTimer++;
             if (dmzformTimer >= 20) {
                 playerstats.setFormRelease(playerstats.getFormRelease() + (5 * formLevel));
-                System.out.println("Forma Release: " + (playerstats.getFormRelease() + (5*formLevel)));
                 dmzformTimer = 0;
             } else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
                 playerstats.setFormRelease(playerstats.getFormRelease() - 1);
@@ -221,9 +219,11 @@ public class TickHandler {
                 dmzformTimer = 0;
             }
         }
+
+
     }
 
-    public void manejarForms(DMZStatsAttributes playerstats, ServerPlayer player) {
+    public void manejarForms(DMZStatsAttributes playerstats) {
         if (playerstats.getFormRelease() < 100 || !playerstats.hasFormSkill("super_form")) return;
 
         int race = playerstats.getRace();
@@ -278,6 +278,7 @@ public class TickHandler {
             playerstats.setDmzForm(nextForm); // Aplicar la transformación
         }
     }
+
 
     public void manejarFlyConsume(DMZStatsAttributes playerStats, int maxEnergy, ServerPlayer player) {
         DMZSkill flySkill = playerStats.getDMZSkills().get("fly");

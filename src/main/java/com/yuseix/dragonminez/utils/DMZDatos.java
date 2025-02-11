@@ -534,8 +534,10 @@ public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcularENE(DMZStatsAttributes stats) {
-        int raza = stats.getRace(); int StatENE = stats.getEnergy();
-        String clase = stats.getDmzClass(); double maxENE = 0;
+        int raza = stats.getRace();
+        int StatENE = stats.getEnergy();
+        String clase = stats.getDmzClass();
+        double maxENE = 0;
 
         switch (clase){
             case "Warrior":

@@ -69,7 +69,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             var hairId = cap.getHairID();
             var bodyColor = cap.getBodyColor();
             var genero = cap.getGender();
-            var transformation = cap.getDmzState();
+            var transformation = cap.getDmzForm();
 
             colorR = (hairColor >> 16) / 255.0F;
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -123,7 +123,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
                     //Cabellos
 
-                    if(transformation == 0){ //Base
+                    if(transformation.equals("base")){ //Base
                         if(hairId == 1){
                             VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(GOKUHAIR_TEXT1));
                             this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
@@ -157,17 +157,32 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                             this.trunkshair.renderToBuffer(poseStack,trunks, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                         }
 
-                    } else if(transformation == 1){ //Ozaru osea aqui no hacemos nada
-
-                    } else if(transformation == 2){ //Super saiyajin 1
-                        //Color del ssj (Obvio no?)
+                    } else if(transformation.equals("oozaru")){ //Ozaru osea aqui no hacemos nada
                         var colorSSJ1 = 16777114;
                         colorR = (colorSSJ1 >> 16) / 255.0F;
                         colorG = ((colorSSJ1 >> 8) & 0xff) / 255.0f;
                         colorB = (colorSSJ1 & 0xff) / 255.0f;
+                        if(hairId == 1){
+                            VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(GOKUHAIR_TEXT1));
+                            this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                            this.getParentModel().getHead().translateAndRotate(poseStack);
+                            this.gokuhair.renderToBuffer(poseStack,gokubase, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+                        }
+                    } else if(transformation.equals("goldenoozaru")){ //Super saiyajin 1
+                        //Color del ssj (Obvio no?)
+                        var colorSSJ = 3379455;
+                        colorR = (colorSSJ >> 16) / 255.0F;
+                        colorG = ((colorSSJ >> 8) & 0xff) / 255.0f;
+                        colorB = (colorSSJ & 0xff) / 255.0f;
 
                         if(hairId == 1){
                             //Goku ssj
+                            VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(GOKUHAIR_TEXT1));
+                            this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                            this.getParentModel().getHead().translateAndRotate(poseStack);
+                            this.gokuhair.renderToBuffer(poseStack,gokubase, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
                         } else if(hairId == 2){
                             this.getParentModel().getHead().translateAndRotate(poseStack);
                             this.femhair.renderToBuffer(poseStack,vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
@@ -181,14 +196,6 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                         } else if(hairId == 4){
                             //Gohan dbs ssj
                         }
-                    } else if(transformation == 3){ //Super Saiyajin grado 2
-
-                    } else if(transformation == 4){ //Super saiyajin grado 3
-
-                    } else if(transformation == 5){ //Super saiyajin full power osea el ssj1
-
-                    } else if(transformation == 6){ //Supa saiyajin 2
-
                     } else { //Mas transformaciones pero me dio paja seguir jeje
 
 

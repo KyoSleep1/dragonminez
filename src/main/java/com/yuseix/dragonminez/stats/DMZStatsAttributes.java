@@ -43,14 +43,13 @@ public class DMZStatsAttributes {
     private String gender = "Male";
     private String dmzClass = "Warrior";
     private String dmzKiWeapon = "sword";
-    private String dmzForm = "";
+    private String dmzForm = "base";
     private String dmzGroupForm = "";
 
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
     private boolean isTransforming = false;
 
     private final Player player;
-    private DMZStatsAttributes playerstats;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
@@ -483,7 +482,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        maxEne = dmzdatos.calcularENE(playerstats);
+        maxEne = dmzdatos.calcularENE(this);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -510,7 +509,7 @@ public class DMZStatsAttributes {
 
         var maxEne = 0;
 
-        maxEne = dmzdatos.calcularENE(playerstats);
+        maxEne = dmzdatos.calcularENE(this);
 
         if(currentEnergy >= maxEne){
             this.currentEnergy = maxEne;
@@ -527,11 +526,11 @@ public class DMZStatsAttributes {
     }
 
     public int getMaxHealth() {
-        return dmzdatos.calcularCON(playerstats);
+        return dmzdatos.calcularCON(this);
     }
 
     public int getMaxEnergy() {
-        return dmzdatos.calcularENE(playerstats);
+        return dmzdatos.calcularENE(this);
     }
 
     public int getCurStam() {
@@ -541,7 +540,7 @@ public class DMZStatsAttributes {
 
     public void setCurStam(int curStam) {
 
-        var maxStam = dmzdatos.calcularSTM(playerstats);
+        var maxStam = dmzdatos.calcularSTM(this);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -564,7 +563,7 @@ public class DMZStatsAttributes {
     }
 
     public void addCurStam(int curStam) {
-        var maxStam = dmzdatos.calcularSTM(playerstats);
+        var maxStam = dmzdatos.calcularSTM(this);
 
         if(curStam >= maxStam){
             this.curStam = maxStam;
@@ -863,9 +862,9 @@ public class DMZStatsAttributes {
     }
 
     public int getDmzBattlePower() {
-        int damage = dmzdatos.calcularSTRCompleta(playerstats);
-        int kiDamage = dmzdatos.calcularPWRCompleta(playerstats);
-        int totalDefense = dmzdatos.calcularDEFCompleta(playerstats);
+        int damage = dmzdatos.calcularSTRCompleta(this);
+        int kiDamage = dmzdatos.calcularPWRCompleta(this);
+        int totalDefense = dmzdatos.calcularDEFCompleta(this);
         double release = (double) getDmzRelease() / 100;
         dmzBattlePower = (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
         return dmzBattlePower;

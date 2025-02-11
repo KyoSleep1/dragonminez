@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZBioAndroidConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.C2S.DescendFormC2S;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -102,7 +103,7 @@ public class StatsEvents {
                 //Aca manejamos la carga de aura
                 tickHandler.manejarCargaDeAura(playerstats, maxenergia);
                 //Manejar transformación
-                tickHandler.manejarForms(playerstats, serverPlayer);
+                tickHandler.manejarForms(playerstats);
                 //Aca manejamos la carga de la transformacion
                 tickHandler.manejarCargaForma(playerstats);
 
@@ -425,12 +426,19 @@ public class StatsEvents {
                         setTurboSpeed(player, false);
                     }
 
-                    if(isTransformKeyPressed){
-                        transformOn = true;
-                        ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
-                    } else {
-                        transformOn = false;
+
+                    if (isTransformKeyPressed) {
+                        if (isDescendKeyPressed && transformOn) {
+                            ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+                            ModMessages.sendToServer(new DescendFormC2S());
+                            transformOn = false;
+                        } else if (!isDescendKeyPressed && !transformOn) {
+                            ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
+                            transformOn = true;
+                        }
+                    } else if (transformOn) { // 🔹 Si la tecla NO está presionada y estaba transformado, desactiva
                         ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+                        transformOn = false;
                     }
 
                 }
