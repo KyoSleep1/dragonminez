@@ -6,11 +6,9 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
-import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
-import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -488,13 +486,6 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
             var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_layer1.png");
             var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_damaged_layer1.png");
-
-            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
-
-        } if(chestplate.getItem() instanceof SaiyanCapeArmorItem armorItem){
-
-            var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_layer1.png");
-            var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_damaged_layer1.png");
 
             pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
 

@@ -21,11 +21,13 @@ public class SaiyanArmorItem extends ArmorItem {
 
     private final String itemId;
     private final boolean isDamageOn;
+    private final boolean hasCape;
 
-    public SaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn) {
+    public SaiyanArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn, boolean hasCape) {
         super(pMaterial, pType, pProperties);
         this.itemId = itemId; // ID del item
         this.isDamageOn = isDamageOn;
+        this.hasCape = hasCape;
     }
 
     @Override
@@ -92,4 +94,7 @@ public class SaiyanArmorItem extends ArmorItem {
         return isDamageOn;
     }
 
+	public boolean hasCape() {
+		return hasCape;
+	}
 }
