@@ -29,6 +29,7 @@ public class LocationsCommand {
                             builder.suggest("KamiLookout");
                             builder.suggest("HyperbolicTimeChamber");
                             builder.suggest("KorinTower");
+                            builder.suggest("GokuHouse");
                             return builder.buildFuture();
                         })
                         .executes(context -> {
@@ -72,6 +73,11 @@ public class LocationsCommand {
                     pos = structures.getTorreKarinPosition();
                     canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
                     messageRef.set(createLocationMessage("command.dmzlocate.korintower", pos, canTeleport, source));
+                }
+                case "gokuhouse" -> {
+                    pos = structures.getGokuHousePosition();
+                    canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.gokuhouse", pos, canTeleport, source));
                 }
                 default -> {
                     messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));

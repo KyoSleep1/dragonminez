@@ -581,6 +581,8 @@
   "command.dmzlocate.capsulecorp.location": "La Corporación Cápsula está en",
   "command.dmzlocate.kamehouse": "Kame House",
   "command.dmzlocate.kamehouse.location": "Kame House está en",
+  "command.dmzlocate.gokuhouse": "Casa de Goku",
+  "command.dmzlocate.gokuhouse.location": "La Casa de Goku está en",
   "command.dmzlocate.teleport_click": "(Clic para teletransportarte)",
   "command.dmzlocate.distance_coords": "(A \u00A7e%d \u00A7rbloques de distancia)",
   "command.dmzrestart.character": "El personaje de",

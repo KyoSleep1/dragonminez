@@ -20,25 +20,22 @@ public class StructuresCapability {
 
     private boolean hasTorreKamisama = false;
     private boolean hasHabTiempo = false;
+    private boolean hasGokuHouse = false;
     private BlockPos torreKamisamaPosition;
     private BlockPos portalHabTiempoPosition;
     private BlockPos torreKarinPosition;
+    private BlockPos gokuHousePosition;
     private BlockPos habTiempoPos;
+    private BlockPos db4Position;
 
-    public boolean hasTorreKamisama() {
-        return hasTorreKamisama;
-    }
-    public boolean isHasHabTiempo() {
-        return hasHabTiempo;
-    }
     public void setHasTorreKamisama(boolean hasTorreKamisama) {
         this.hasTorreKamisama = hasTorreKamisama;
     }
     public void setHasHabTiempo(boolean hasHabTiempo) {
         this.hasHabTiempo = hasHabTiempo;
     }
-    public BlockPos getHabTiempoPos() {
-        return habTiempoPos;
+    public void setHasGokuHouse(boolean hasGokuHouse) {
+        this.hasGokuHouse = hasGokuHouse;
     }
     public void setHabTiempoPos(BlockPos habTiempoPos) {
         this.habTiempoPos = habTiempoPos;
@@ -52,6 +49,15 @@ public class StructuresCapability {
     public void setTorreKarinPosition(BlockPos torreKarinPosition) {
         this.torreKarinPosition = torreKarinPosition;
     }
+    public void setGokuHousePosition(BlockPos gokuHousePosition) {
+        this.gokuHousePosition = gokuHousePosition;
+    }
+    public void setDB4Position(BlockPos db4Position) {
+        this.db4Position = db4Position;
+    }
+    public BlockPos getHabTiempoPos() {
+        return habTiempoPos;
+    }
     public BlockPos getTorreKamisamaPosition() {
         return torreKamisamaPosition;
     }
@@ -61,10 +67,17 @@ public class StructuresCapability {
     public BlockPos getTorreKarinPosition() {
         return torreKarinPosition;
     }
+    public BlockPos getGokuHousePosition() {
+        return gokuHousePosition;
+    }
+    public BlockPos getDB4Position() {
+        return db4Position;
+    }
 
     public void saveNBTData(CompoundTag nbt) {
         nbt.putBoolean("hasTorreKamisama", hasTorreKamisama);
         nbt.putBoolean("hasHabTiempo", hasHabTiempo);
+        nbt.putBoolean("hasGokuHouse", hasGokuHouse);
 
         if (torreKamisamaPosition != null || torreKarinPosition != null || portalHabTiempoPosition != null) {
             nbt.put("torreKamisamaPosition", NbtUtils.writeBlockPos(torreKamisamaPosition));
@@ -74,11 +87,18 @@ public class StructuresCapability {
         if (habTiempoPos != null) {
             nbt.put("habTiempoPosition", NbtUtils.writeBlockPos(habTiempoPos));
         }
+        if (gokuHousePosition != null) {
+            nbt.put("gokuHousePosition", NbtUtils.writeBlockPos(gokuHousePosition));
+        }
+        if (db4Position != null) {
+            nbt.put("db4Position", NbtUtils.writeBlockPos(db4Position));
+        }
     }
 
     public void loadNBTData(CompoundTag nbt) {
         hasTorreKamisama = nbt.getBoolean("hasTorreKamisama");
         hasHabTiempo = nbt.getBoolean("hasHabTiempo");
+        hasGokuHouse = nbt.getBoolean("hasGokuHouse");
 
         if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition") || nbt.contains("portalHabPosition")) {
             torreKamisamaPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKamisamaPosition"));
@@ -87,6 +107,12 @@ public class StructuresCapability {
         }
         if (nbt.contains("habTiempoPosition")) {
             habTiempoPos = NbtUtils.readBlockPos(nbt.getCompound("habTiempoPosition"));
+        }
+        if (nbt.contains("gokuHousePosition")) {
+            gokuHousePosition = NbtUtils.readBlockPos(nbt.getCompound("gokuHousePosition"));
+        }
+        if (nbt.contains("db4Position")) {
+            db4Position = NbtUtils.readBlockPos(nbt.getCompound("db4Position"));
         }
     }
 
@@ -203,8 +229,138 @@ public class StructuresCapability {
             setTorreKamisamaPosition(torreKami);
             setTorreKarinPosition(torreKarin);
             setPortalHabTiempoPosition(portalHab);
-            //System.out.println("Torre Kami: " + getTorreKamisamaPosition()); // Debug para ver si funciona las coord pal comando xd
-            //System.out.println("Portal HabTiempo: " + getPortalHabTiempoPosition());
+            System.out.println("[DMZ-Generation] Korin Tower generated in " + torreKarin);
+            System.out.println("[DMZ-Generation] Kami's Lookout generated in " + torreKami);
+        }
+    }
+
+    public void generateGokuHouseStructure(ServerLevel level) {
+        if (!hasGokuHouse) {
+            Random random = new Random();
+            BlockPos spawnPos = level.getSharedSpawnPos();
+
+            BlockPos posicionValida = new BlockPos(0, 0, 0);
+
+            while(posicionValida.equals(new BlockPos(0, 0, 0))) {
+                int x = spawnPos.getX() + random.nextInt(6000) - 3000;
+                int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
+
+                level.getChunk(x >> 4, z >> 4); // Carga el chunk
+
+                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+                if (y <= 200) {
+                    BlockPos posiblePos = new BlockPos(x, y, z);
+                    BlockState belowBlockState = level.getBlockState(posiblePos.below());
+                    BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
+
+                    if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER)
+                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER)) {
+                        posicionValida = posiblePos;
+                    }
+                }
+            }
+
+            if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
+                // Obtener bloques anteriores
+                BlockState blockState = level.getBlockState(posicionValida.below().below().below()).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockState pathBlockState = level.getBlockState(posicionValida.below().below().below().offset(24, 0, 0)).getBlock().defaultBlockState();
+                BlockState pathRedstoneBlockState = level.getBlockState(posicionValida.below().below().below().offset(25, 0, 0)).getBlock().defaultBlockState();
+                BlockState gohanBlockState = level.getBlockState(posicionValida.below().below().below().offset(0, 0, 52)).getBlock().defaultBlockState();
+                BlockState gohanRedstoneBlockState = level.getBlockState(posicionValida.below().below().below().offset(1, 0, 52)).getBlock().defaultBlockState();
+
+                BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
+
+                level.setBlock(posicionValida.below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity1 = level.getBlockEntity(posicionValida.below().below().below());
+                if (blockEntity1 instanceof StructureBlockEntity) {
+                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity1;
+
+                    // Crear y colocar el NBT - GokuHouse (1/3)
+                    CompoundTag nbtData = new CompoundTag();
+                    nbtData.putString("mirror", "NONE");
+                    nbtData.putString("rotation", "NORTH");
+                    nbtData.putInt("posX", -24);
+                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posZ", -17);
+                    nbtData.putString("mode", "LOAD");
+                    nbtData.putString("name", "dragonminez:goku_house/goku_house");
+
+                    structureBlockEntity.load(nbtData);
+                    structureBlockEntity.setChanged();
+                    //System.out.println("Comando: /setblock " + posicionValida.below().below().below().getX() + " " + posicionValida.below().below().below().getY() + " " + posicionValida.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
+
+                    level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionValida.below(), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+                    level.setBlock(posicionValida.below().below(), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+                }
+
+                BlockPos secPos = posicionValida.offset(24, 0, 0);
+
+                level.setBlock(secPos.below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity2 = level.getBlockEntity(secPos.below().below().below());
+                if (blockEntity2 instanceof  StructureBlockEntity) {
+                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity2;
+
+                    // Crear y colocar el NBT - GokuHousePath (2/3)
+                    CompoundTag nbtData = new CompoundTag();
+                    nbtData.putString("mirror", "NONE");
+                    nbtData.putString("rotation", "NORTH");
+                    nbtData.putInt("posX", 0);
+                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posZ", -11);
+                    nbtData.putString("mode", "LOAD");
+                    nbtData.putString("name", "dragonminez:goku_house/goku_path");
+
+                    structureBlockEntity.load(nbtData);
+                    structureBlockEntity.setChanged();
+                    //System.out.println("Comando: /setblock " + secPos.below().below().below().getX() + " " + secPos.below().below().below().getY() + " " + secPos.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
+
+                    level.setBlock(secPos.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                }
+
+                BlockPos terPos = posicionValida.offset(0, 0, 52);
+
+                level.setBlock(terPos.below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity3 = level.getBlockEntity(terPos.below().below().below());
+                if (blockEntity3 instanceof StructureBlockEntity) {
+                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity3;
+
+                    // Crear y colocar el NBT - GokuHouseGohan (3/3)
+                    CompoundTag nbtData = new CompoundTag();
+                    nbtData.putString("mirror", "NONE");
+                    nbtData.putString("rotation", "NORTH");
+                    nbtData.putInt("posX", -23);
+                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posZ", -15);
+                    nbtData.putString("mode", "LOAD");
+                    nbtData.putString("name", "dragonminez:goku_house/goku_gohanhouse");
+
+                    structureBlockEntity.load(nbtData);
+                    structureBlockEntity.setChanged();
+                    //System.out.println("Comando: /setblock " + terPos.below().below().below().getX() + " " + terPos.below().below().below().getY() + " " + terPos.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
+
+                    level.setBlock(terPos.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                }
+
+                // Colocar bloques anteriores
+                level.setBlock(posicionValida.below().below().below(), blockState, 3);
+                level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(secPos.below().below().below(), pathBlockState, 3);
+                level.setBlock(secPos.below().below().below().offset(1, 0, 0), pathRedstoneBlockState, 3);
+                level.setBlock(terPos.below().below().below(), gohanBlockState, 3);
+                level.setBlock(terPos.below().below().below().offset(1, 0, 0), gohanRedstoneBlockState, 3);
+            }
+
+            BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 30, posicionValida.getY() + 1, posicionValida.getZ() + 9);
+            // Marcar como generada y guardar la posición
+            setDB4Position(posicionValida.offset(-16, 2, 52));
+            //System.out.println("DB4 generada en " + getDB4Position());
+            setHasGokuHouse(true);
+            setGokuHousePosition(spawnPosition);
+            System.out.println("[DMZ-Generation] Goku House generated in " + spawnPosition);
+            //System.out.println("Comando: /teleport Dev " + spawnPosition.getX() + " " + spawnPosition.getY() + " " + spawnPosition.getZ());
         }
     }
 
@@ -216,7 +372,7 @@ public class StructuresCapability {
             // Marcar como generada y guardar la posición
             setHasHabTiempo(true);
             setHabTiempoPos(position);
-            System.out.println("Habitación del Tiempo generada en " + position);
+            System.out.println("[DMZ-Generation] Hyperbolic Time Chamber generated in " + position);
         }
     }
 

@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -132,6 +133,7 @@ public class ForgeBusEvents {
 
 		if (serverOverworld == null) return;
 		if (!serverOverworld.isClientSide()) {
+			LazyOptional<StructuresCapability> capability = serverOverworld.getCapability(StructuresProvider.CAPABILITY);
 			serverOverworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
 				dragonBallsCapability.loadFromSavedData(serverNamek);
 
@@ -139,7 +141,12 @@ public class ForgeBusEvents {
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
+					// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
+					capability.ifPresent(cap -> {
+						BlockPos db4pos = cap.getDB4Position();
+						dragonBallPositions.add(db4pos);
+						System.out.println("[FirstSpawn] Dragon Ball 4 spawned at " + db4pos);
+					});
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
@@ -161,7 +168,7 @@ public class ForgeBusEvents {
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Quitar una vez se meta al Gran Patriarca xd
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Reemplazar por el Gran Patriarca luego, igual que Goku
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
@@ -225,7 +232,10 @@ public class ForgeBusEvents {
 				// Obtener la capability
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				// Ejecutar la generación si la Torre aún no ha sido generada
-				capability.ifPresent(torreCap -> torreCap.generateKamisamaStructure(serverLevel));
+				capability.ifPresent(cap -> {
+					cap.generateKamisamaStructure(serverLevel);
+					cap.generateGokuHouseStructure(serverLevel);
+				});
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) { //Dimension Habitación del Tiempo
