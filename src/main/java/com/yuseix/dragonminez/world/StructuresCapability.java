@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -51,6 +49,12 @@ public class StructuresCapability {
     }
     public void setHasRoshiHouse(boolean hasRoshiHouse) {
         this.hasRoshiHouse = hasRoshiHouse;
+    }
+    public boolean getHasGokuHouse() {
+        return this.hasGokuHouse;
+    }
+    public boolean getHasRoshiHouse() {
+		return this.hasRoshiHouse;
     }
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
         this.torreKamisamaPosition = torreKamisamaPosition;
