@@ -16,9 +16,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.DebugLevelSource;
+import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -78,7 +82,8 @@ public class ForgeBusEvents {
 			"Onashi",
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
-			"Robberto10"
+			"Robberto10",
+			"SpaceCarp"
 	);
 
 	// Recordar comentar esto antes de Buildear una versión Pública.
@@ -228,21 +233,34 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onWorldLoad(LevelEvent.Load event) {
 		if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
-			if (serverLevel.dimension() == Level.OVERWORLD) { //Dimension de overworld
-				// Obtener la capability
+			if (serverLevel.dimension() == Level.OVERWORLD) {
+				ChunkGenerator generator = serverLevel.getChunkSource().getGenerator();
+				BiomeSource biomeSource = generator.getBiomeSource();
+				boolean isSuperflat = generator instanceof FlatLevelSource;
+				boolean isSingleBiome = biomeSource.possibleBiomes().size() == 1;
+
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
-				// Ejecutar la generación si la Torre aún no ha sido generada
 				capability.ifPresent(cap -> {
+					// SIEMPRE generamos la Torre de Kami, independientemente del tipo de mundo
 					cap.generateKamisamaStructure(serverLevel);
-					cap.generateGokuHouseStructure(serverLevel);
+					if (!isSingleBiome) {
+						// Si no es un mundo de un solo bioma, generamos la casa de Goku
+						System.out.println("No es un mundo de un solo bioma");
+						cap.generateGokuHouseStructure(serverLevel);
+						if (!isSuperflat) {
+							// Si no es un mundo extraplano, generamos la casa de Roshi
+							System.out.println("No es un mundo extraplano");
+							cap.generateRoshiHouseStructure(serverLevel);
+						}
+					}
 				});
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
-			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) { //Dimension Habitación del Tiempo
+			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
 			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) { //Dimension Namek
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 		}

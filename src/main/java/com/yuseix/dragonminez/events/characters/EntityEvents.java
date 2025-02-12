@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
@@ -204,11 +203,17 @@ public class EntityEvents {
 
 		if (player.level().dimension().equals(ServerLevel.OVERWORLD)) {
 			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
-				BlockPos pos = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
-				//System.out.println("Player: " + playerPos + " Karin: " + pos);
-				if (playerPos.distSqr(pos) < 10000) {
-					grantAdvancement(serverPlayer);
-				}
+				BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
+				if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
+
+				BlockPos posGoku = structures.getGokuHousePosition();
+				if (playerPos.distSqr(posGoku) < 10000) grantAdvancement(serverPlayer, "gokuhouse");
+
+				BlockPos posRoshi = structures.getRoshiHousePosition();
+				if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
+
+				//BlockPos posKaio = structures.getKaioPlanetPosition();
+				//if (playerPos.distSqr(posKaio) < 10000) grantAdvancement(serverPlayer, "kaioplanet");
 			});
 		}
 
@@ -232,13 +237,13 @@ public class EntityEvents {
 		}
 	}
 
-	private static void grantAdvancement(ServerPlayer player) {
-		Advancement kamiAdvancement = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(DragonMineZ.MOD_ID, "kamilookout"));
-		if (kamiAdvancement != null) {
-			AdvancementProgress progress = player.getAdvancements().getOrStartProgress(kamiAdvancement);
+	private static void grantAdvancement(ServerPlayer player, String advancementPath) {
+		Advancement advancementToGive = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(DragonMineZ.MOD_ID, advancementPath));
+		if (advancementToGive != null) {
+			AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancementToGive);
 			if (!progress.isDone()) {
 				for (String criteria : progress.getRemainingCriteria()) {
-					player.getAdvancements().award(kamiAdvancement, criteria);
+					player.getAdvancements().award(advancementToGive, criteria);
 				}
 			}
 		}

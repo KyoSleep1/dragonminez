@@ -16,6 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -65,6 +67,63 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                                     .build()
                                             ).build())
                     ).save(consumer, "dragonminez:kamilookout");
+
+            Advancement gokuhouse = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            MainBlocks.DBALL4_BLOCK.get(),
+                            Component.translatable("advancements.dragonminez.gokuhouse.title"),
+                            Component.translatable("advancements.dragonminez.gokuhouse.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("gokuhouse",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:gokuhouse");
+
+            Advancement roshihouse = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            Blocks.SAND,
+                            Component.translatable("advancements.dragonminez.roshihouse.title"),
+                            Component.translatable("advancements.dragonminez.roshihouse.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("roshihouse",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:roshihouse");
+
+            Advancement kaioplanet = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            MainItems.CAPSULA_ROJA.get(),
+                            Component.translatable("advancements.dragonminez.kaioplanet.title"),
+                            Component.translatable("advancements.dragonminez.kaioplanet.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("kaioplanet",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:kaioplanet");
 
             Advancement timechamber = Advancement.Builder.advancement()
                     .parent(kamilookout)

@@ -2,10 +2,15 @@ package com.yuseix.dragonminez.world;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
@@ -14,6 +19,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class StructuresCapability {
@@ -21,12 +28,14 @@ public class StructuresCapability {
     private boolean hasTorreKamisama = false;
     private boolean hasHabTiempo = false;
     private boolean hasGokuHouse = false;
+    private boolean hasRoshiHouse = false;
     private BlockPos torreKamisamaPosition;
     private BlockPos portalHabTiempoPosition;
     private BlockPos torreKarinPosition;
     private BlockPos gokuHousePosition;
     private BlockPos habTiempoPos;
     private BlockPos db4Position;
+    private BlockPos roshiHousePosition;
 
     public void setHasTorreKamisama(boolean hasTorreKamisama) {
         this.hasTorreKamisama = hasTorreKamisama;
@@ -39,6 +48,9 @@ public class StructuresCapability {
     }
     public void setHabTiempoPos(BlockPos habTiempoPos) {
         this.habTiempoPos = habTiempoPos;
+    }
+    public void setHasRoshiHouse(boolean hasRoshiHouse) {
+        this.hasRoshiHouse = hasRoshiHouse;
     }
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
         this.torreKamisamaPosition = torreKamisamaPosition;
@@ -54,6 +66,9 @@ public class StructuresCapability {
     }
     public void setDB4Position(BlockPos db4Position) {
         this.db4Position = db4Position;
+    }
+    public void setRoshiHousePosition(BlockPos roshiHousePosition) {
+        this.roshiHousePosition = roshiHousePosition;
     }
     public BlockPos getHabTiempoPos() {
         return habTiempoPos;
@@ -73,11 +88,15 @@ public class StructuresCapability {
     public BlockPos getDB4Position() {
         return db4Position;
     }
+    public BlockPos getRoshiHousePosition() {
+        return roshiHousePosition;
+    }
 
     public void saveNBTData(CompoundTag nbt) {
         nbt.putBoolean("hasTorreKamisama", hasTorreKamisama);
         nbt.putBoolean("hasHabTiempo", hasHabTiempo);
         nbt.putBoolean("hasGokuHouse", hasGokuHouse);
+        nbt.putBoolean("hasRoshiHouse", hasRoshiHouse);
 
         if (torreKamisamaPosition != null || torreKarinPosition != null || portalHabTiempoPosition != null) {
             nbt.put("torreKamisamaPosition", NbtUtils.writeBlockPos(torreKamisamaPosition));
@@ -93,12 +112,16 @@ public class StructuresCapability {
         if (db4Position != null) {
             nbt.put("db4Position", NbtUtils.writeBlockPos(db4Position));
         }
+        if (roshiHousePosition != null) {
+            nbt.put("roshiHousePosition", NbtUtils.writeBlockPos(roshiHousePosition));
+        }
     }
 
     public void loadNBTData(CompoundTag nbt) {
         hasTorreKamisama = nbt.getBoolean("hasTorreKamisama");
         hasHabTiempo = nbt.getBoolean("hasHabTiempo");
         hasGokuHouse = nbt.getBoolean("hasGokuHouse");
+        hasRoshiHouse = nbt.getBoolean("hasRoshiHouse");
 
         if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition") || nbt.contains("portalHabPosition")) {
             torreKamisamaPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKamisamaPosition"));
@@ -113,6 +136,9 @@ public class StructuresCapability {
         }
         if (nbt.contains("db4Position")) {
             db4Position = NbtUtils.readBlockPos(nbt.getCompound("db4Position"));
+        }
+        if (nbt.contains("roshiHousePosition")) {
+            roshiHousePosition = NbtUtils.readBlockPos(nbt.getCompound("roshiHousePosition"));
         }
     }
 
@@ -141,8 +167,8 @@ public class StructuresCapability {
                     BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
 
                     // Validar que la posición sea sólida
-                    if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER)
-                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER)) {
+                    if (!belowBlockState.isAir() && !(belowBlockState.is(Blocks.WATER))
+                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.is(Blocks.WATER))) {
                         posicionValida = posiblePos;
                         //System.out.println("Posición válida encontrada: " + posicionValida);
                         //System.out.println("/teleport Dev " + x + " " + y + " " + z);
@@ -242,20 +268,21 @@ public class StructuresCapability {
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
             while(posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(6000) - 3000;
-                int z = spawnPos.getZ() + random.nextInt(6000) - 3000;
+                int x = spawnPos.getX() + random.nextInt(12000) - 6000;
+                int z = spawnPos.getZ() + random.nextInt(12000) - 6000;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 
                 int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                BlockPos posiblePos = new BlockPos(x, y, z);
+                Holder<Biome> biome = level.getBiome(posiblePos);
 
                 if (y <= 200) {
-                    BlockPos posiblePos = new BlockPos(x, y, z);
                     BlockState belowBlockState = level.getBlockState(posiblePos.below());
                     BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
 
-                    if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER)
-                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER)) {
+                    if (!belowBlockState.isAir() && !(belowBlockState.is(Blocks.WATER))
+                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.is(Blocks.WATER)) && biome.is(Biomes.PLAINS)) {
                         posicionValida = posiblePos;
                     }
                 }
@@ -282,7 +309,7 @@ public class StructuresCapability {
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", -24);
-                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posY", -3);
                     nbtData.putInt("posZ", -17);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:goku_house/goku_house");
@@ -308,7 +335,7 @@ public class StructuresCapability {
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", 0);
-                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posY", -3);
                     nbtData.putInt("posZ", -11);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:goku_house/goku_path");
@@ -318,6 +345,8 @@ public class StructuresCapability {
                     //System.out.println("Comando: /setblock " + secPos.below().below().below().getX() + " " + secPos.below().below().below().getY() + " " + secPos.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
                     level.setBlock(secPos.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(secPos.below(), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
+                    level.setBlock(secPos.below().below(), Blocks.GRASS_BLOCK.defaultBlockState(), 3);
                 }
 
                 BlockPos terPos = posicionValida.offset(0, 0, 52);
@@ -332,8 +361,8 @@ public class StructuresCapability {
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", -23);
-                    nbtData.putInt("posY", 1);
-                    nbtData.putInt("posZ", -15);
+                    nbtData.putInt("posY", -3);
+                    nbtData.putInt("posZ", -21);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:goku_house/goku_gohanhouse");
 
@@ -361,6 +390,85 @@ public class StructuresCapability {
             setGokuHousePosition(spawnPosition);
             System.out.println("[DMZ-Generation] Goku House generated in " + spawnPosition);
             //System.out.println("Comando: /teleport Dev " + spawnPosition.getX() + " " + spawnPosition.getY() + " " + spawnPosition.getZ());
+        }
+    }
+
+    public void generateRoshiHouseStructure(ServerLevel level) {
+        if (!hasRoshiHouse) {
+            Random random = new Random();
+            BlockPos spawnPos = level.getSharedSpawnPos();
+            int intentos = 0;
+
+            BlockPos posicionValida = new BlockPos(0, 0, 0);
+            List<ResourceKey<Biome>> oceanBiomes = List.of(
+                    Biomes.OCEAN,
+                    Biomes.DEEP_OCEAN,
+                    Biomes.WARM_OCEAN,
+                    Biomes.LUKEWARM_OCEAN
+            );
+
+            while (posicionValida.equals(new BlockPos(0, 0, 0))) {
+                int x = spawnPos.getX() + random.nextInt(30000) - 15000;
+                int z = spawnPos.getZ() + random.nextInt(30000) - 15000;
+
+                level.getChunk(x >> 4, z >> 4);
+                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                BlockPos posiblePos = new BlockPos(x, y, z);
+                Holder<Biome> biome = level.getBiome(posiblePos);
+
+                if (y <= 67) {
+                    if (oceanBiomes.stream().anyMatch(biome::is)) {
+                        System.out.println("Bioma correcto, " + biome);
+                        BlockState belowBlockState = level.getBlockState(posiblePos.below());
+                        BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
+                         System.out.println("Verificaciones de bloques: " + belowBlockState + " " + belowBelowBlockState);
+
+                         if (!belowBlockState.isAir() && belowBlockState.is(Blocks.WATER)
+                                && !belowBelowBlockState.isAir() && belowBelowBlockState.is(Blocks.WATER)) {
+                                 System.out.println("Verificaciones de bloques correctas");
+                                posicionValida = posiblePos;
+                         }
+                    }
+                }
+                System.out.println("Intento: " + intentos);
+                intentos++;
+            }
+
+            if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
+                BlockState blockState = level.getBlockState(posicionValida.offset(0, -5, 0)).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, -5, 0)).getBlock().defaultBlockState();
+
+                BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
+
+                level.setBlock(posicionValida.offset(0, -5, 0), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida.offset(0, -5, 0));
+                if (blockEntity instanceof StructureBlockEntity) {
+                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
+
+                    CompoundTag nbtData = new CompoundTag();
+                    nbtData.putString("mirror", "NONE");
+                    nbtData.putString("rotation", "NORTH");
+                    nbtData.putInt("posX", -33);
+                    nbtData.putInt("posY", 1);
+                    nbtData.putInt("posZ", -33);
+                    nbtData.putString("mode", "LOAD");
+                    nbtData.putString("name", "dragonminez:roshihouse");
+
+                    structureBlockEntity.load(nbtData);
+                    structureBlockEntity.setChanged();
+                    //System.out.println("Comando: /setblock " + posicionValida.offset(0, -4, 0).getX() + " " + posicionValida.offset(0, -4, 0).getY() + " " + posicionValida.offset(0, -4, 0).getZ() + " minecraft:structure_block" + nbtData);
+
+                    level.setBlock(posicionValida.offset(1, -5, 0), redstoneBlock, 3);
+                }
+
+                level.setBlock(posicionValida.offset(0, -5, 0), blockState, 3);
+                level.setBlock(posicionValida.offset(1, -5, 0), redstoneBlockState, 3);
+
+                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 19, posicionValida.getY() + 5, posicionValida.getZ());
+                setHasRoshiHouse(true);
+                setRoshiHousePosition(spawnPosition);
+                System.out.println("[DMZ-Generation] Roshi House generated in " + spawnPosition);
+            }
         }
     }
 
