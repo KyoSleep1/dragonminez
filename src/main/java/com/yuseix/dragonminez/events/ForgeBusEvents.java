@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -148,9 +149,13 @@ public class ForgeBusEvents {
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
 					// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
 					capability.ifPresent(cap -> {
-						BlockPos db4pos = cap.getDB4Position();
-						dragonBallPositions.add(db4pos);
-						System.out.println("[FirstSpawn] Dragon Ball 4 spawned at " + db4pos);
+						if (cap.getHasGokuHouse()) {
+							BlockPos db4pos = cap.getDB4Position();
+							dragonBallPositions.add(db4pos);
+							System.out.println("[FirstSpawn] Dragon Ball 4 spawned at " + db4pos);
+						} else {
+							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
+						}
 					});
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
@@ -238,22 +243,26 @@ public class ForgeBusEvents {
 				BiomeSource biomeSource = generator.getBiomeSource();
 				boolean isSuperflat = generator instanceof FlatLevelSource;
 				boolean isSingleBiome = biomeSource.possibleBiomes().size() == 1;
+				boolean isSingleBiomePlains = isSingleBiome && biomeSource.possibleBiomes().size() == 1 && biomeSource.possibleBiomes().equals(Biomes.PLAINS);
 
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
 					// SIEMPRE generamos la Torre de Kami, independientemente del tipo de mundo
 					cap.generateKamisamaStructure(serverLevel);
-					if (!isSingleBiome) {
-						// Si no es un mundo de un solo bioma, generamos la casa de Goku
-						System.out.println("No es un mundo de un solo bioma");
+
+					// Si no es un mundo extraplano, o si es un mundo de un solo bioma y ese bioma es Plains, generamos la casa de Goku
+					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
+						System.out.println("Generando la casa de Goku (mundo válido)");
 						cap.generateGokuHouseStructure(serverLevel);
-						if (!isSuperflat) {
-							// Si no es un mundo extraplano, generamos la casa de Roshi
-							System.out.println("No es un mundo extraplano");
-							cap.generateRoshiHouseStructure(serverLevel);
-						}
+					}
+
+					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
+					if (!isSuperflat && !isSingleBiome) {
+						System.out.println("Generando la casa de Roshi (mundo válido)");
+						cap.generateRoshiHouseStructure(serverLevel);
 					}
 				});
+
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {

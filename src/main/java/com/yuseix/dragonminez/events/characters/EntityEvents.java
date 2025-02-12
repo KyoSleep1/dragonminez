@@ -206,11 +206,14 @@ public class EntityEvents {
 				BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
 				if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
 
-				BlockPos posGoku = structures.getGokuHousePosition();
-				if (playerPos.distSqr(posGoku) < 10000) grantAdvancement(serverPlayer, "gokuhouse");
-
-				BlockPos posRoshi = structures.getRoshiHousePosition();
-				if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
+				if (structures.getHasGokuHouse()) {
+					BlockPos posGoku = structures.getGokuHousePosition();
+					if (playerPos.distSqr(posGoku) < 10000) grantAdvancement(serverPlayer, "gokuhouse");
+				}
+				if (structures.getHasRoshiHouse()) {
+					BlockPos posRoshi = structures.getRoshiHousePosition();
+					if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
+				}
 
 				//BlockPos posKaio = structures.getKaioPlanetPosition();
 				//if (playerPos.distSqr(posKaio) < 10000) grantAdvancement(serverPlayer, "kaioplanet");
