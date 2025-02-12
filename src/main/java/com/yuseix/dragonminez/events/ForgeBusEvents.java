@@ -144,22 +144,22 @@ public class ForgeBusEvents {
 				dragonBallsCapability.loadFromSavedData(serverNamek);
 
 				if (!dragonBallsCapability.hasDragonBalls()) {
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
 					// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
 					capability.ifPresent(cap -> {
 						if (cap.getHasGokuHouse()) {
 							BlockPos db4pos = cap.getDB4Position();
 							dragonBallPositions.add(db4pos);
-							System.out.println("[FirstSpawn] Dragon Ball 4 spawned at " + db4pos);
+							System.out.println("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos);
 						} else {
-							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
+							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
 						}
 					});
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState(), 5);
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState(), 6);
+					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
 					dragonBallsCapability.setHasDragonBalls(true);
@@ -175,13 +175,13 @@ public class ForgeBusEvents {
 
 				// Verifica si ya se han generado las Dragon Balls
 				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState()); // Reemplazar por el Gran Patriarca luego, igual que Goku
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4); // Reemplazar por el Gran Patriarca luego, igual que Goku
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
+					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
 
 					// Indica que las Dragon Balls de Namek han sido generadas
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
@@ -250,15 +250,13 @@ public class ForgeBusEvents {
 					// SIEMPRE generamos la Torre de Kami, independientemente del tipo de mundo
 					cap.generateKamisamaStructure(serverLevel);
 
-					// Si no es un mundo extraplano, o si es un mundo de un solo bioma y ese bioma es Plains, generamos la casa de Goku
+					// Si es un mundo normal, extraplano, o solo de Plains, generamos la casa de Goku
 					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
-						System.out.println("Generando la casa de Goku (mundo válido)");
 						cap.generateGokuHouseStructure(serverLevel);
 					}
 
 					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
 					if (!isSuperflat && !isSingleBiome) {
-						System.out.println("Generando la casa de Roshi (mundo válido)");
 						cap.generateRoshiHouseStructure(serverLevel);
 					}
 				});
@@ -276,7 +274,7 @@ public class ForgeBusEvents {
 	}
 
 
-	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
@@ -307,12 +305,12 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[FirstSpawn] Dragon Ball spawned at " + posicionValida);
+		System.out.println("[FirstSpawn] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}
 
-	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState namekDragonBall) {
+	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState namekDragonBall, int dBallNum) {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
@@ -343,7 +341,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, namekDragonBall, 2);
-		System.out.println("[FirstSpawn] Namekian Dragon Ball spawned at " + posicionValida);
+		System.out.println("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}

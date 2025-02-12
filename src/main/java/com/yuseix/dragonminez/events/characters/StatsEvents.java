@@ -76,9 +76,7 @@ public class StatsEvents {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
             var vidaMC = 20;
-            var con = playerstats.getConstitution();
             var raza = playerstats.getRace();
-            var energia = playerstats.getEnergy();
             boolean isDmzUser = playerstats.isAcceptCharacter();
 
             int maxenergia = dmzdatos.calcularENE(playerstats);

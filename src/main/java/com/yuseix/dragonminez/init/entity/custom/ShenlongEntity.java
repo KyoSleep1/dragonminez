@@ -191,13 +191,13 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 				}
 
 				if (!dragonBallsCapability.hasDragonBalls()) {
-					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState(), 5);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState(), 6);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
 					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
@@ -208,7 +208,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		}
 	}
 
-	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
@@ -239,7 +239,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[Shenron] Dragon Ball spawned at " + posicionValida);
+		System.out.println("[Shenron] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}

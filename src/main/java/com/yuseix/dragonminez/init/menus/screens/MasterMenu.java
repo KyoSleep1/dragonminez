@@ -9,9 +9,8 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
-import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.client.gui.masters.GokuMasterMenu;
 import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -23,24 +22,26 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
+import java.util.Locale;
 
-public class KarinMenu extends Screen {
+public class MasterMenu extends Screen {
 
 	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/texto.png");
+	private final String mastername;
 
-	private GlowButton kinton, senzu;
+	private GlowButton master, saludo;
 	private DMZButton AcceptButton, DeclineButton;
 	private DMZRightButton rightButton, leftButton;
 
 	private String PageOption = "";
 	private int PageButtons;
 
-	public KarinMenu() {
-		super(Component.literal("karinwa"));
+	public MasterMenu(String mastername) {
+		super(Component.literal("masterwa"));
+		this.mastername = mastername;
 	}
 
 	@Override
@@ -51,10 +52,8 @@ public class KarinMenu extends Screen {
 	@Override
 	public void tick() {
 		super.tick();
-
 		paginaBotones();
 		PaginaOpciones();
-
 	}
 
 	@Override
@@ -63,8 +62,7 @@ public class KarinMenu extends Screen {
 		int centerX = (this.width / 2);
 		int centerY = (this.height);
 
-		LivingEntity karinEntity = new KarinEntity(MainEntity.MASTER_KARIN.get(), this.minecraft.level);
-
+		String mastername = this.mastername;
 
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -87,21 +85,32 @@ public class KarinMenu extends Screen {
 
 
 		//NOMBRE DE LA ENTIDAD
-		pGuiGraphics.drawString(font, Component.literal(karinEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
+		pGuiGraphics.drawString(font, Component.literal(mastername).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
+
+		String textoInicial = "", textoSaludo = "";
+		switch (mastername.toLowerCase(Locale.ROOT)) {
+			case "goku" -> {
+				textoInicial = "lines.master_goku.menu";
+				textoSaludo = "lines.master_goku.dialogue";
+			}
+			case "kaio" -> {
+				textoInicial = "lines.master_kaio.menu";
+				textoSaludo = "lines.master_kaio.dialogue";
+			}
+			case "roshi" -> {
+				textoInicial = "lines.master_roshi.menu";
+				textoSaludo = "lines.master_roshi.dialogue";
+			}
+		}
 
 		//TEXTO QUE DIRA LA ENTIDAD
 		if (PageOption.equals("")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.menu"), 250);
+			List<FormattedCharSequence> lines = font.split(Component.translatable(textoInicial), 250);
 			for (int i = 0; i < lines.size(); i++) {
 				pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 			}
-		} else if (PageOption.equals("kinton")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.nube"), 250);
-			for (int i = 0; i < lines.size(); i++) {
-				pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
-			}
-		} else if (PageOption.equals("senzu")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.master_korin.senzubeans"), 250);
+		} else if (PageOption.equals("saludo")) {
+			List<FormattedCharSequence> lines = font.split(Component.translatable(textoSaludo), 250);
 			for (int i = 0; i < lines.size(); i++) {
 				pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 			}
@@ -109,8 +118,6 @@ public class KarinMenu extends Screen {
 
 		//Botones
 		super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-
-
 	}
 
 	@Override
@@ -119,8 +126,8 @@ public class KarinMenu extends Screen {
 	}
 
 	private void removerBotones() {
-		removeWidget(this.kinton);
-		removeWidget(this.senzu);
+		removeWidget(this.master);
+		removeWidget(this.saludo);
 		removeWidget(this.AcceptButton);
 		removeWidget(this.DeclineButton);
 		removeWidget(this.rightButton);
@@ -128,22 +135,47 @@ public class KarinMenu extends Screen {
 	}
 
 	private void paginaBotones() {
+		String mastername = this.mastername;
+		String botonMaestro = "", botonSaludo = "";
+		Screen screen = null;
+		switch (mastername.toLowerCase(Locale.ROOT)) {
+			case "goku" -> {
+				botonMaestro = "lines.master_goku.menubutton";
+				botonSaludo = "lines.master_goku.dialoguebutton";
+				screen = new GokuMasterMenu();
+			}
+			case "kaio" -> {
+				botonMaestro = "lines.master_kaio.menubutton";
+				botonSaludo = "lines.master_kaio.dialoguebutton";
+				//screen = new KaioMasterMenu();
+			}
+			case "roshi" -> {
+				botonMaestro = "lines.master_roshi.menubutton";
+				botonSaludo = "lines.master_roshi.dialoguebutton";
+				//screen = new RoshiMasterMenu();
+			}
+		}
+
 		if (PageButtons == 0) {
 			removerBotones();
 
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
-				if (cap.getDmzSenzuDaily() == 0) {
-					this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
-						PageOption = "senzu";
-					}));
-				}
-			});
+			String finalBotonMaestro = botonMaestro;
+			String finalBotonSaludo = botonSaludo;
+			Screen finalScreen = screen;
 
-			// Si el jugador ya tiene una Nube Voladora, no se le mostrará el botón
-			if (!minecraft.player.getInventory().contains(MainItems.NUBE_ITEM.get().getDefaultInstance()) && !minecraft.player.getInventory().contains(MainItems.NUBE_NEGRA_ITEM.get().getDefaultInstance())) {
-				this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
-					PageOption = "kinton";
-				}));
+			if (this.minecraft.level.isClientSide()) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
+					if (cap.isAcceptCharacter()) {
+						this.master = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable(finalBotonMaestro), wa -> {
+							this.minecraft.setScreen(finalScreen);
+						}));
+					}
+
+					this.saludo = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable(finalBotonSaludo), wa -> {
+						PageOption = "saludo";
+					}));
+				});
+
 			}
 		}
 	}
@@ -151,38 +183,11 @@ public class KarinMenu extends Screen {
 	public void PaginaOpciones() {
 		if (this.minecraft.level.isClientSide()) {
 
-				switch (PageOption) {
-					case "kinton":
-						//Aceptar
-						this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-							ModMessages.sendToServer(new KarinC2S(1));
-							this.minecraft.setScreen(null);
-
-						}));
-						//Rechazar
-						this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-							this.minecraft.setScreen(null);
-						}));
-						break;
-
-					case "senzu":
-							//Aceptar
-							this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-								ModMessages.sendToServer(new KarinC2S(2));
-								ModMessages.sendToServer(new KarinC2S(3)); //Inicia el contador segun la config
-								this.minecraft.setScreen(null);
-
-							}));
-
-						//Rechazar
-						this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
-							this.minecraft.setScreen(null);
-						}));
-						break;
-
-					default:
-						break;
-				}
+			if (PageOption.equals("saludo")) {
+				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.back"), wa -> {
+					PageOption = "";
+				}));
+			}
 		}
 	}
 }

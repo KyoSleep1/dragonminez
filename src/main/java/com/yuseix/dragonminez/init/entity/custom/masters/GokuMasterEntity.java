@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom.masters;
 
-import com.yuseix.dragonminez.init.menus.screens.DendeMenu;
+import com.yuseix.dragonminez.init.menus.screens.MasterMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,12 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
 
 public class GokuMasterEntity extends MastersEntity {
 
@@ -37,7 +31,7 @@ public class GokuMasterEntity extends MastersEntity {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (this.level().isClientSide) {
-            Minecraft.getInstance().setScreen(new DendeMenu());
+            Minecraft.getInstance().setScreen(new MasterMenu("Goku"));
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);

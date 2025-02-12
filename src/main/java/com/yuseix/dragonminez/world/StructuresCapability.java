@@ -401,7 +401,6 @@ public class StructuresCapability {
         if (!hasRoshiHouse) {
             Random random = new Random();
             BlockPos spawnPos = level.getSharedSpawnPos();
-            int intentos = 0;
 
             BlockPos posicionValida = new BlockPos(0, 0, 0);
             List<ResourceKey<Biome>> oceanBiomes = List.of(
@@ -422,20 +421,15 @@ public class StructuresCapability {
 
                 if (y <= 67) {
                     if (oceanBiomes.stream().anyMatch(biome::is)) {
-                        System.out.println("Bioma correcto, " + biome);
                         BlockState belowBlockState = level.getBlockState(posiblePos.below());
                         BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
-                         System.out.println("Verificaciones de bloques: " + belowBlockState + " " + belowBelowBlockState);
 
                          if (!belowBlockState.isAir() && belowBlockState.is(Blocks.WATER)
                                 && !belowBelowBlockState.isAir() && belowBelowBlockState.is(Blocks.WATER)) {
-                                 System.out.println("Verificaciones de bloques correctas");
                                 posicionValida = posiblePos;
                          }
                     }
                 }
-                System.out.println("Intento: " + intentos);
-                intentos++;
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {

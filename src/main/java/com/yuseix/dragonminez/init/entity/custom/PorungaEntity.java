@@ -182,13 +182,13 @@ public class PorungaEntity extends Mob implements GeoEntity {
 				}
 
 				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
 
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
 					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
@@ -199,7 +199,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 		}
 	}
 
-	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
 		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
@@ -230,7 +230,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[Porunga] Namekian Dragon Ball spawned at " + posicionValida);
+		System.out.println("[Porunga] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}
