@@ -31,11 +31,6 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.object.PlayState;
 
-/*
- * This file uses GeckoLib, licensed under the MIT License.
- * Copyright © 2024 GeckoThePecko.
- */
-
 public class DinoEntity extends Monster implements GeoEntity {
 
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);

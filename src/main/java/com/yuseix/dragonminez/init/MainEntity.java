@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -181,6 +182,12 @@ public final class MainEntity {
 					() -> EntityType.Builder.of(RaditzEntity::new, MobCategory.CREATURE)
 							.sized(0.6f, 1.8f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_raditz").toString())
+			);
+	public static final RegistryObject<EntityType<NappaEntity>> NAPPA_SAGA =
+			ENTITY_TYPES_REGISTER.register("saga_nappa",
+					() -> EntityType.Builder.of(NappaEntity::new, MobCategory.CREATURE)
+							.sized(0.8f, 2.2f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_nappa").toString())
 			);
 
 	//FAKEPLAYERS
