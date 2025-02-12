@@ -108,8 +108,6 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
             controller.setAnimation(RawAnimation.begin().then("animation.soldado1.idle", Animation.LoopType.LOOP));
         }
 
-
-
         return PlayState.CONTINUE;
     }
 

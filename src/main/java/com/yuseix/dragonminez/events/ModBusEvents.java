@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
@@ -52,6 +53,7 @@ public class ModBusEvents {
 
 		//SAGAS
 		event.put(MainEntity.RADITZ_SAGA.get(), RaditzEntity.setAttributes());
+		event.put(MainEntity.NAPPA_SAGA.get(), NappaEntity.setAttributes());
 
 
 		//FAKEPLAYERS

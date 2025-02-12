@@ -31,6 +31,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.NappaRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.RaditzRenderer;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
@@ -126,6 +127,7 @@ public class ModClientEvents {
 
 			//SAGAS
 			EntityRenderers.register(MainEntity.RADITZ_SAGA.get(), RaditzRenderer::new);
+			EntityRenderers.register(MainEntity.NAPPA_SAGA.get(), NappaRenderer::new);
 
 			//FAKEPLAYERS
 			EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), (context) -> new FPBioAndroidRender(context, new BioAndroidModel<>(context.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
