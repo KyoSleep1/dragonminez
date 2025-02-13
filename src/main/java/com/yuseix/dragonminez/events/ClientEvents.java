@@ -337,7 +337,7 @@ public class ClientEvents {
 
 		if (currentBiomeKey == null) return;
 
-		if (playerPos.getY() > 140) return;
+		if (playerPos.getY() > 140 || playerPos.getY() < 62) return;
 
 		// Genera partículas dependiendo del bioma
 		if (currentBiomeKey.equals(ModBiomes.AJISSA_PLAINS)) {

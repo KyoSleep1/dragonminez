@@ -27,11 +27,9 @@ import java.util.OptionalLong;
 public class ModDimensions extends NoiseRouterData{
 
     /*
-
     LEVEL STEM = Complemento del level, ambos sirven xd
     LEVEL = Esto si lo necesitamos porque basicamente es el mundo
     DIMENSIONTYPE = Esto es para establecer reglas en nuestro mundo
-
      */
 
     //Namek
@@ -52,10 +50,19 @@ public class ModDimensions extends NoiseRouterData{
             ResourceKey.create(Registries.DIMENSION_TYPE,
                     new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_type"));
 
+    //Otro Mundo (Otherworld)
+    public static final ResourceKey<Level> OTHERWORLD_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
+            new ResourceLocation(DragonMineZ.MOD_ID, "otherworld"));
+    public static final ResourceKey<LevelStem> OTHERWORLD_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
+            new ResourceLocation(DragonMineZ.MOD_ID, "otherworld"));
+    public static final ResourceKey<DimensionType> OTHERWORLD_DIM_TYPE =
+            ResourceKey.create(Registries.DIMENSION_TYPE,
+                    new ResourceLocation(DragonMineZ.MOD_ID, "otherworld_type"));
+
     //NOISE SETTINGS CUSTOM
     public static final ResourceKey<NoiseGeneratorSettings> NAMEK_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "nameknoisegen"));
     public static final ResourceKey<NoiseGeneratorSettings> TIME_CHAMBER_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_noisegen"));
-
+    public static final ResourceKey<NoiseGeneratorSettings> OTHERWORLD_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "otherworld_noisegen"));
 
     public static void bootstrapType(BootstapContext<DimensionType> context) {
         context.register(NAMEK_DIM_TYPE, new DimensionType(
@@ -91,6 +98,23 @@ public class ModDimensions extends NoiseRouterData{
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
                 0.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
+
+        context.register(OTHERWORLD_DIM_TYPE, new DimensionType(
+                OptionalLong.of(6000),
+                true,
+                false,
+                false,
+                false,
+                1.0,
+                true,
+                true,
+                0,
+                320,
+                320,
+                BlockTags.INFINIBURN_OVERWORLD,
+                BuiltinDimensionTypes.OVERWORLD_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
     }
 
     public static void bootstrapStem(BootstapContext<LevelStem> context) {
@@ -104,7 +128,6 @@ public class ModDimensions extends NoiseRouterData{
                 new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.TIME_CHAMBER)),
                 noiseGenSettings.getOrThrow(TIME_CHAMBER_NOISE_SETTINGS));
 
-
         //Varios Biomas
         NoiseBasedChunkGenerator noiseNamekMultiBiomes = new NoiseBasedChunkGenerator(
                 MultiNoiseBiomeSource.createFromList(
@@ -117,12 +140,18 @@ public class ModDimensions extends NoiseRouterData{
                         ))),
                 noiseGenSettings.getOrThrow(NAMEK_NOISE_SETTINGS)); //Aca es poner nuestro namek noise
 
+        NoiseBasedChunkGenerator otherWorldChunkGenerator = new NoiseBasedChunkGenerator(
+                new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.OTHERWORLD)),
+                noiseGenSettings.getOrThrow(OTHERWORLD_NOISE_SETTINGS)
+        );
+
         LevelStem namek_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.NAMEK_DIM_TYPE), noiseNamekMultiBiomes);
         LevelStem timechamber_stem = new LevelStem(dimTypes.getOrThrow(ModDimensions.TIME_CHAMBER_DIM_TYPE), wrappedChunkGenerator);
+        LevelStem otherWorldStem = new LevelStem(dimTypes.getOrThrow(ModDimensions.OTHERWORLD_DIM_TYPE), otherWorldChunkGenerator);
 
         context.register(NAMEK_DIM_KEY, namek_stem);
         context.register(TIME_CHAMBER_DIM_KEY, timechamber_stem);
-
+        context.register(OTHERWORLD_DIM_KEY, otherWorldStem);
     }
 
     public static void bootstrapNoise(BootstapContext<NoiseGeneratorSettings> context) {
@@ -146,6 +175,12 @@ public class ModDimensions extends NoiseRouterData{
                 -16,
                 384,
                 1,
+                2);
+
+        NoiseSettings otherworld_noiseSettings = NoiseSettings.create(
+                0,
+                320,
+                4,
                 2);
 
         NoiseGeneratorSettings namek_noisegen = new NoiseGeneratorSettings(
@@ -177,6 +212,21 @@ public class ModDimensions extends NoiseRouterData{
                 false);
 
         context.register(TIME_CHAMBER_NOISE_SETTINGS, time_chamber_noisegen);
+
+        NoiseGeneratorSettings otherworld_noisegen = new NoiseGeneratorSettings(
+                otherworld_noiseSettings,
+                MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState(),
+                Blocks.AIR.defaultBlockState(),
+                otherWorldNoiseRouter(densityFunctions, noiseParameters),
+                otherWorldSurfaceRules(),
+                List.of(),
+                0,
+                false,
+                false,
+                false,
+                false);
+
+        context.register(OTHERWORLD_NOISE_SETTINGS, otherworld_noisegen);
     }
 
     private static NoiseRouter TimeChamber_noiseRouter(HolderGetter<DensityFunction> densityFunctions, HolderGetter<NormalNoise.NoiseParameters> noise) {
@@ -203,6 +253,43 @@ public class ModDimensions extends NoiseRouterData{
                 constantNegative, // veinToggle: Sin venas
                 constantNegative, // veinRidged: Sin venas
                 constantNegative  // veinGap: Sin venas
+        );
+    }
+
+    private static NoiseRouter otherWorldNoiseRouter(HolderGetter<DensityFunction> densityFunctions, HolderGetter<NormalNoise.NoiseParameters> noise) {
+        DensityFunction constantNegative = DensityFunctions.constant(-1.0);
+        DensityFunction constantPositive = DensityFunctions.constant(1.0);
+
+        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.8, 0.1);
+        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.1);
+        DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudDetailNoise);
+
+        DensityFunction baseCloudLayer = DensityFunctions.add(
+                DensityFunctions.yClampedGradient(0, 45, 1.5, -1.5),
+                cloudNoise
+        );
+
+        DensityFunction cloudLayer = DensityFunctions.min(
+                baseCloudLayer,
+                DensityFunctions.constant(40) // No permite que suba más de Y=40
+        );
+
+        return new NoiseRouter(
+                constantPositive, // barrierNoise
+                constantNegative, // fluidLevelFloodednessNoise
+                constantNegative, // fluidLevelSpreadNoise
+                constantNegative, // lavaNoise,
+                constantNegative, // temperature
+                constantNegative, // vegetation
+                constantNegative, // continents
+                constantNegative, // erosion
+                cloudLayer,       // depth
+                constantNegative, // ridges
+                cloudLayer,       // initialDensityWithoutJaggedness
+                cloudLayer,       // finalDensity
+                constantNegative, // veinToggle
+                constantNegative, // veinRidged
+                constantNegative  // veinGap
         );
     }
 
@@ -287,6 +374,23 @@ public class ModDimensions extends NoiseRouterData{
                 namekSurfaceRule,       // Reglas de superficie para biomas de Namek
                 sacredLandSurfaceRule,  // Reglas de superficie para el bioma Sacred Land
                 deepslateRule           // Regla de deepslate en profundidad
+        );
+    }
+
+    public static SurfaceRules.RuleSource otherWorldSurfaceRules() {
+        SurfaceRules.RuleSource cloudFloorOne = SurfaceRules.ifTrue(
+                SurfaceRules.verticalGradient("cloudfloorone", VerticalAnchor.absolute(14), VerticalAnchor.absolute(20)),
+                SurfaceRules.state(MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState())
+        );
+
+        SurfaceRules.RuleSource cloudFloorTwo = SurfaceRules.ifTrue(
+                SurfaceRules.not(SurfaceRules.verticalGradient("cloudfloortwo", VerticalAnchor.absolute(5), VerticalAnchor.absolute(10))),
+                SurfaceRules.state(MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState())
+        );
+
+        return SurfaceRules.sequence(
+                cloudFloorOne,
+                cloudFloorTwo
         );
     }
 }

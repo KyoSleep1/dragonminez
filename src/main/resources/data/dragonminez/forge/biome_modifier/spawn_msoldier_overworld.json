@@ -38,17 +38,17 @@
   ],
   "spawners": [{
     "type": "dragonminez:soldier01",
-    "weight": 5,
-    "minCount": 2,
-    "maxCount": 3
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 2
   },{
     "type": "dragonminez:soldier02",
-    "weight": 5,
-    "minCount": 2,
-    "maxCount": 3
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 2
   },{
     "type": "dragonminez:soldier03",
-    "weight": 5,
+    "weight": 1,
     "minCount": 2,
     "maxCount": 3
   }]

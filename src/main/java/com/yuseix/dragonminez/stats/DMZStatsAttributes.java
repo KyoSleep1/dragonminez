@@ -28,8 +28,7 @@ public class DMZStatsAttributes {
 
     private int dmzRelease = 5;
     private int dmzState = 0;
-    private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0;
-    private int dmzBattlePower = 0;
+    private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0, babaCooldown = 0, babaAliveTimer = 0;
 
     private int zpoints;
     private int KiPower = 5, zenkaiCount = 0;
@@ -47,7 +46,7 @@ public class DMZStatsAttributes {
     private String dmzGroupForm = "";
 
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
-    private boolean isTransforming = false;
+    private boolean isTransforming = false, isDmzAlive = true, isHaloOn = false;
 
     private final Player player;
 
@@ -866,8 +865,41 @@ public class DMZStatsAttributes {
         int kiDamage = dmzdatos.calcularPWRCompleta(this);
         int totalDefense = dmzdatos.calcularDEFCompleta(this);
         double release = (double) getDmzRelease() / 100;
-        dmzBattlePower = (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
-        return dmzBattlePower;
+		return (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
+    }
+
+
+
+    public boolean isDmzAlive() {
+        return isDmzAlive;
+    }
+
+    public void setDmzAlive(boolean dmzAlive) {
+        isDmzAlive = dmzAlive;
+    }
+
+    public boolean isHaloOn() {
+        return isHaloOn;
+    }
+
+    public void setHaloOn(boolean haloOn) {
+        isHaloOn = haloOn;
+    }
+
+    public int getBabaCooldown() {
+        return babaCooldown;
+    }
+
+    public void setBabaCooldown(int babaCooldown) {
+        this.babaCooldown = babaCooldown;
+    }
+
+    public int getBabaAliveTimer() {
+        return babaAliveTimer;
+    }
+
+    public void setBabaAliveTimer(int babaAliveTimer) {
+        this.babaAliveTimer = babaAliveTimer;
     }
 
     public CompoundTag saveNBTData() {
@@ -917,6 +949,10 @@ public class DMZStatsAttributes {
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
         nbt.putBoolean("isTransfKey", isTransforming);
+        nbt.putBoolean("isHaloOn", isHaloOn);
+        nbt.putBoolean("isDmzAlive", isDmzAlive);
+        nbt.putInt("babaCooldown", babaCooldown);
+        nbt.putInt("babaAliveTimer", babaAliveTimer);
 
         CompoundTag permanentEffectsTag = new CompoundTag();
         for (Map.Entry<String, Boolean> entry : DMZPermanentEffects.entrySet()) {
@@ -1020,6 +1056,10 @@ public class DMZStatsAttributes {
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
         isTransforming = nbt.getBoolean("isTransfKey");
+        isHaloOn = nbt.getBoolean("isHaloOn");
+        isDmzAlive = nbt.getBoolean("isDmzAlive");
+        babaCooldown = nbt.getInt("babaCooldown");
+        babaAliveTimer = nbt.getInt("babaAliveTimer");
 
         CompoundTag permanentEffects = nbt.getCompound("DMZPermanentEffects");
         for (String effectName : permanentEffects.getAllKeys()) {

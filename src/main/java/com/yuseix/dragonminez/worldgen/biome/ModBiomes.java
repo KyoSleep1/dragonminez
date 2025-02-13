@@ -29,11 +29,15 @@ public class ModBiomes {
     public static final ResourceKey<Biome> TIME_CHAMBER = ResourceKey.create(Registries.BIOME,
             new ResourceLocation(DragonMineZ.MOD_ID, "hyperbolic_time_chamber"));
 
+    public static final ResourceKey<Biome> OTHERWORLD = ResourceKey.create(Registries.BIOME,
+            new ResourceLocation(DragonMineZ.MOD_ID, "other_world"));
+
     public static void boostrap(BootstapContext<Biome> context){
         context.register(AJISSA_PLAINS, ajisa_plainsBiome(context));
         context.register(SACRED_LAND, sacredBiome(context));
         context.register(NAMEKIAN_RIVERS, namekianRiverBiome(context));
         context.register(TIME_CHAMBER, Time_Chamber_Biome(context));
+        context.register(OTHERWORLD, otherworldBiome(context));
 
     }
     public static void globalOverworldGeneration(BiomeGenerationSettings.Builder builder) {
@@ -173,6 +177,32 @@ public class ModBiomes {
                         .grassColorOverride(0xDCF2FF)
                         .foliageColorOverride(0xDCF2FF)
                         .fogColor(0xDCF2FF)
+                        .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
+                        .build())
+                .build();
+    }
+
+    public static Biome otherworldBiome(BootstapContext<Biome> context) {
+        MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
+
+        BiomeGenerationSettings.Builder biomeBuilder =
+                new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE), context.lookup(Registries.CONFIGURED_CARVER));
+
+        //biomeBuilder.addFeature(GenerationStep.Decoration.SURFACE_STRUCTURES, ModPlacedFeatures.OTHERWORLD_CLOUDS);
+
+        return new Biome.BiomeBuilder()
+                .hasPrecipitation(false)  // Sin lluvia ni nieve
+                .downfall(0.0f)           // No hay precipitaciones
+                .temperature(1.0f)        // Temperatura neutra
+                .generationSettings(biomeBuilder.build())
+                .mobSpawnSettings(spawnBuilder.build())
+                .specialEffects((new BiomeSpecialEffects.Builder())
+                        .waterColor(1479227)
+                        .waterFogColor(676390)
+                        .skyColor(0xBE55AA)         // Color del cielo morado
+                        .grassColorOverride(0xDCF2FF)
+                        .foliageColorOverride(0xDCF2FF)
+                        .fogColor(0xCE7EBD)          // Niebla morada
                         .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
                         .build())
                 .build();

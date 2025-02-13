@@ -37,9 +37,12 @@ public final class MainBlocks {
     //BLOQUES
     public static final RegistryObject<Block> INVISIBLE_LADDER_BLOCK = registerBlock("invisible_ladder_block",
             () -> new ClimbableBlock(BlockBehaviour.Properties.of().noOcclusion().forceSolidOff()
-                    .strength(-1.0F, 3600000.0F).noLootTable()));
+                    .strength(-1.0F, 3600000.0F).noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
+    public static final RegistryObject<Block> OTHERWORLD_CLOUD = registerBlock("otherworld_cloud",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.YELLOW_WOOL).strength(-1.0f,3600000.0F).sound(SoundType.AZALEA)
+                    .noCollission().noOcclusion().noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
@@ -284,43 +287,43 @@ public final class MainBlocks {
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL2_BLOCK = BLOCK_REGISTER.register("dball2",
             () -> new Dball2Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL3_BLOCK = BLOCK_REGISTER.register("dball3",
             () -> new Dball3Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL4_BLOCK = BLOCK_REGISTER.register("dball4",
             () -> new Dball4Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL5_BLOCK = BLOCK_REGISTER.register("dball5",
             () -> new Dball5Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL6_BLOCK = BLOCK_REGISTER.register("dball6",
             () -> new Dball6Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL7_BLOCK = BLOCK_REGISTER.register("dball7",
             () -> new Dball7Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
 
     //DRAGON BALLS - NAMEK

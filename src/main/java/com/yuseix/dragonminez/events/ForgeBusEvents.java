@@ -5,14 +5,19 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -31,6 +36,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -273,6 +279,34 @@ public class ForgeBusEvents {
 		}
 	}
 
+	@SubscribeEvent
+	public void onPlayerDeath(LivingDeathEvent event) {
+		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+		ServerLevel level = player.serverLevel();
+		if (level.dimension() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
+			reviveInOtherworld(player);
+		} else {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+				playerstats.setDmzAlive(false);
+				playerstats.setHaloOn(true);
+			});
+
+			reviveInOtherworld(player);
+		}
+	}
+
+	private static void reviveInOtherworld(ServerPlayer player) {
+		ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
+		if (otherWorld == null) {
+			LOGGER.error("El Otro Mundo no está registrado.");
+			return;
+		}
+
+		BlockPos spawnPos = new BlockPos(0, 100, 0); // Ajusta la posición de spawn
+		player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
+		player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+	}
 
 	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
 		//Spawn the dragon balls
