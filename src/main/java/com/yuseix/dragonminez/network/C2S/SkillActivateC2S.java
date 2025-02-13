@@ -6,6 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 public class SkillActivateC2S {
@@ -43,7 +44,7 @@ public class SkillActivateC2S {
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-                    switch (packet.tipo){
+                    switch (packet.tipo.toLowerCase(Locale.ROOT)){
                         case "active":
                             if(packet.value == 0){
                                 playerstats.setSkillActive(packet.id, false);

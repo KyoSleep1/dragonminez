@@ -275,6 +275,13 @@
   "dmz.skill.ki_manipulation.name": "Manipulación de Ki",
   "dmz.skill.ki_manipulation.desc": "Domina la Manipulación de Ki para ser capaz de crear Armas de Ki, incrementando tu Daño Melee en base a tu Daño de Ki!",
 
+  "master.name.goku": "Son Goku",
+  "master.name.roshi": "Maestro Roshi",
+  "master.name.kaio": "Kaiosama",
+  "master.name.skills": " | Habilidades",
+  "master.name.techniques": " | Técnicas",
+  "master.name.notenoughpoints": "\u00A7cNo tienes suficientes TPs para aprender esta habilidad. TPs necesarios: %s",
+
   "block.dragonminez.namek_block": "Bloque del Planeta Namekuseín",
   "block.dragonminez.namek_dirt": "Tierra de Namekuseín",
   "block.dragonminez.namek_grass": "Césped de Namekuseín",
@@ -573,7 +580,7 @@
   "lines.master_goku.dialoguebutton": "Dialogar",
   "lines.master_kaio.menu": "Jejeje, primero debes contarme un chiste. Si me haces reír, te entrenaré, jejeje.",
   "lines.master_kaio.dialogue": "¡JAJAJAJA! ¡Esa fue una buena, eres muy gracioso! ¡Te entrenaré, JAJAJAJAJA!",
-  "lines.master_kaio.menubutton": "Entrenar con Kaiosama",
+  "lines.master_kaio.menubutton": "Entrenar con Kaio",
   "lines.master_kaio.dialoguebutton": "Contar Chiste",
   "lines.master_roshi.menu": "Oh, no te vi llegar! ¿Has visto mis revistas? ¡No puedo encontrarlas en ninguna parte! Las necesito para... ehm... ¡fines de investigación!",
   "lines.master_roshi.dialogue": "Sí... ¡Son revistas de Yoga! Las necesito para... ¡Estirar mis músculos! Sí, eso es... No para lo que estás pensando...",

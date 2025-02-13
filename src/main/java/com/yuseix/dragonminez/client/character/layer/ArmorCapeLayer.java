@@ -20,9 +20,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class ArmorCapeLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
-	private static ResourceLocation TEXTURA_CAPA;
+	private static final Map<String, ResourceLocation> TEXTURA_CAPAS = new ConcurrentHashMap<>();
 
 	public ArmorCapeLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer) {
 		super(renderer);
@@ -33,16 +36,18 @@ public class ArmorCapeLayer extends RenderLayer<AbstractClientPlayer, PlayerMode
 		if (player.isInvisible() && player.isSpectator()) return;
 
 		Item pechera = player.getItemBySlot(EquipmentSlot.CHEST).getItem();
+		ResourceLocation texturaCape = null;
 
 		if (pechera instanceof DbzArmorItem armorItem && armorItem.hasCape()) {
-			TEXTURA_CAPA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + armorItem.getItemId() + "_cape.png");
+			texturaCape = TEXTURA_CAPAS.computeIfAbsent(armorItem.getItemId(), id ->
+					new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
 		} else if (pechera instanceof SaiyanArmorItem saiyArItem && saiyArItem.hasCape()) {
-			TEXTURA_CAPA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + saiyArItem.getItemId() + "_cape.png");
-		} else if (TEXTURA_CAPA == null) {
-			return;
-		} else return;
+			texturaCape = TEXTURA_CAPAS.computeIfAbsent(saiyArItem.getItemId(), id ->
+					new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
+		}
+		if (texturaCape == null) return;
 
-		VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURA_CAPA));
+		VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(texturaCape));
 
 		double dX = Mth.lerp(partialTicks, player.xCloakO, player.xCloak) - Mth.lerp(partialTicks, player.xo, player.getX());
 		double dY = Mth.lerp(partialTicks, player.yCloakO, player.yCloak) - Mth.lerp(partialTicks, player.yo, player.getY());

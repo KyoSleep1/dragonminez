@@ -9,10 +9,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
-import com.yuseix.dragonminez.client.gui.masters.GokuMasterMenu;
-import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.network.C2S.KarinC2S;
-import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.client.gui.MasterMenu;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -26,7 +23,7 @@ import net.minecraft.util.FormattedCharSequence;
 import java.util.List;
 import java.util.Locale;
 
-public class MasterMenu extends Screen {
+public class MasterTextMenu extends Screen {
 
 	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/texto.png");
@@ -39,7 +36,7 @@ public class MasterMenu extends Screen {
 	private String PageOption = "";
 	private int PageButtons;
 
-	public MasterMenu(String mastername) {
+	public MasterTextMenu(String mastername) {
 		super(Component.literal("masterwa"));
 		this.mastername = mastername;
 	}
@@ -142,17 +139,17 @@ public class MasterMenu extends Screen {
 			case "goku" -> {
 				botonMaestro = "lines.master_goku.menubutton";
 				botonSaludo = "lines.master_goku.dialoguebutton";
-				screen = new GokuMasterMenu();
+				screen = new MasterMenu("goku");
 			}
 			case "kaio" -> {
 				botonMaestro = "lines.master_kaio.menubutton";
 				botonSaludo = "lines.master_kaio.dialoguebutton";
-				//screen = new KaioMasterMenu();
+				screen = new MasterMenu("kaio");
 			}
 			case "roshi" -> {
 				botonMaestro = "lines.master_roshi.menubutton";
 				botonSaludo = "lines.master_roshi.dialoguebutton";
-				//screen = new RoshiMasterMenu();
+				screen = new MasterMenu("roshi");
 			}
 		}
 

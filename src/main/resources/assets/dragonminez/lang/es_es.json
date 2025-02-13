@@ -275,6 +275,13 @@
   "dmz.skill.ki_manipulation.name": "Manipulación de Ki",
   "dmz.skill.ki_manipulation.desc": "Domina la Manipulación de Ki para ser capaz de crear Armas de Ki, incrementando tu Daño Melee en base a tu Daño de Ki!",
 
+  "master.name.goku": "Son Goku",
+  "master.name.roshi": "Muten Roshi",
+  "master.name.kaio": "Kaito",
+  "master.name.skills": " | Habilidades",
+  "master.name.techniques": " | Técnicas",
+  "master.name.notenoughpoints": "\u00A7cNo tienes suficientes TPs para aprender esta habilidad. TPs necesarios: %s",
+
   "block.dragonminez.namek_block": "Bloque del Planeta Namek",
   "block.dragonminez.namek_dirt": "Tierra de Namek",
   "block.dragonminez.namek_grass": "Césped de Namek",

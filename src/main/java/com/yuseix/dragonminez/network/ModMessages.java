@@ -112,6 +112,12 @@ public class ModMessages {
 				.encoder(DescendFormC2S::toBytes)
 				.consumerMainThread(DescendFormC2S::handle)
 				.add();
+		net.messageBuilder(MasterSkillsC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(MasterSkillsC2S::new)
+				.encoder(MasterSkillsC2S::toBytes)
+				.consumerMainThread(MasterSkillsC2S::handle)
+				.add();
+
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(ZPointsS2C::new)

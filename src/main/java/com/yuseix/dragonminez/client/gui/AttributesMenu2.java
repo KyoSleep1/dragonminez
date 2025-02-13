@@ -98,7 +98,6 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()))
                     * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * 1.5);
             int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
-            int adjustedCostSTR, adjustedCostDEF, adjustedCostCON, adjustedCostPWR, adjustedCostENE;
             int finalCostSTR, finalCostDEF, finalCostCON, finalCostPWR, finalCostENE;
 
             this.multiBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat", anchoTexto - 3, alturaTexto + 63, Component.empty(), wa -> {

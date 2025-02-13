@@ -199,7 +199,7 @@ public class DMZSkillsCommand {
 				DMZSkill skill = playerstats.getSkill(skillName);
 				if (skill != null) {
 					player.sendSystemMessage(Component.translatable("command.dmzskills.take")
-							.append(skill.getName()).append(" ") // Solo muestra el nombre de la habilidad
+							.append(Component.translatable(skill.getName())).append(" ") // Solo muestra el nombre de la habilidad
 							.append(Component.translatable("command.dmz.to")).append(player.getName()));
 					playerstats.removeSkill(skillName);
 				} else {

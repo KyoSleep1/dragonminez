@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom.masters;
 
-import com.yuseix.dragonminez.init.menus.screens.MasterMenu;
+import com.yuseix.dragonminez.init.menus.screens.MasterTextMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -31,7 +31,7 @@ public class GokuMasterEntity extends MastersEntity {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (this.level().isClientSide) {
-            Minecraft.getInstance().setScreen(new MasterMenu("Goku"));
+            Minecraft.getInstance().setScreen(new MasterTextMenu("Goku"));
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);

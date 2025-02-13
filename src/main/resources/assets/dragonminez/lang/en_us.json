@@ -275,6 +275,13 @@
   "dmz.skill.ki_manipulation.name": "Ki Manipulation",
   "dmz.skill.ki_manipulation.desc": "Master the Ki Manipulation to be able to create Ki Weapons, increasing your Melee Damage based on your Ki Damage!",
 
+  "master.name.goku": "Son Goku",
+  "master.name.roshi": "Muten Roshi",
+  "master.name.kaio": "King Kai",
+  "master.name.skills": " | Skills",
+  "master.name.techniques": " | Techniques",
+  "master.name.notenoughpoints": "\u00A7cYou don't have enough TPs to learn this skill. TPs needed: %s",
+
   "block.dragonminez.namek_block": "Planet Namek Block",
   "block.dragonminez.namek_dirt": "Namek Dirt",
   "block.dragonminez.namek_grass": "Namek Grass",
