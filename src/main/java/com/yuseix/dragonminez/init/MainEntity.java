@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -225,6 +226,12 @@ public final class MainEntity {
 					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
 							.sized(0.5f, 1.6f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "jinkouman").toString())
+			);
+	public static final RegistryObject<EntityType<VegetaEntity>> VEGETA_SAIYAN =
+			ENTITY_TYPES_REGISTER.register("saga_vegetasaiyan",
+					() -> EntityType.Builder.of(VegetaEntity::new, MobCategory.CREATURE)
+							.sized(0.6f, 1.8f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_vegetasaiyan").toString())
 			);
 	//FAKEPLAYERS
 	public static final RegistryObject<EntityType<FPBioAndroidEntity>> FP_BIOANDROIDE =

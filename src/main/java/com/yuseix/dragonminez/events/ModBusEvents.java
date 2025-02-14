@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -61,6 +62,8 @@ public class ModBusEvents {
 		event.put(MainEntity.COPYMAN.get(), SaibamanEntity.setAttributes());
 		event.put(MainEntity.TENNENMAN.get(), SaibamanEntity.setAttributes());
 		event.put(MainEntity.JINKOUMAN.get(), SaibamanEntity.setAttributes());
+
+		event.put(MainEntity.VEGETA_SAIYAN.get(), VegetaEntity.setAttributes());
 
 		//FAKEPLAYERS
 		event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());

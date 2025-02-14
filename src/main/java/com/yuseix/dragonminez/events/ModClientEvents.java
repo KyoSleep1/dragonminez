@@ -27,6 +27,7 @@ import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.SaibamanModel;
+import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.VegetaModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
@@ -135,6 +136,9 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.COPYMAN.get(), CopymanRenderer::new);
 			EntityRenderers.register(MainEntity.TENNENMAN.get(), TennemanRenderer::new);
 			EntityRenderers.register(MainEntity.JINKOUMAN.get(), JinkoumanRenderer::new);
+
+			EntityRenderers.register(MainEntity.VEGETA_SAIYAN.get(), VegetaSaiyanRenderer::new);
+
 
 			//FAKEPLAYERS
 			EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), (context) -> new FPBioAndroidRender(context, new BioAndroidModel<>(context.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
@@ -249,6 +253,7 @@ public class ModClientEvents {
 		//SAGAS
 		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);
 		e.registerLayerDefinition(SaibamanModel.LAYER_LOCATION, SaibamanModel::createBodyLayer);
+		e.registerLayerDefinition(VegetaModel.LAYER_LOCATION, VegetaModel::createBodyLayer);
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
