@@ -55,6 +55,12 @@ public class ResetCharacterCommand {
                 playerstats.setKiPower(5);
                 playerstats.setEnergy(5);
                 playerstats.setZpoints(0);
+                playerstats.removeSkill("fly");
+                playerstats.removeSkill("jump");
+                playerstats.removeSkill("potential_unlock");
+                playerstats.removeSkill("ki_control");
+                playerstats.removeSkill("ki_manipulation");
+                playerstats.removeSkill("meditation");
 
                 playerstats.setCurrentEnergy(0);
                 player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);

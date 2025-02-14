@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -14,6 +15,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -25,7 +27,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class SkillMenu extends Screen {
     private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
     private List<DMZGuiButtons> botonesMenus = new ArrayList<>();
 
-    private CustomButtons infoButton, deleteButton, armasBoton;
+    private CustomButtons infoButton, deleteButton, armasBoton, passiveButton;
     private DMZGuiButtons menuButton;
     private TextButton upgradeButton;
     private SwitchButton switchButton;
@@ -191,7 +192,7 @@ public class SkillMenu extends Screen {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 13;
-            int startY = (this.height - 168) / 2 + 30;
+            int startY = (this.height - 168) / 2 + 45;
             int offsetY = 13; // Espacio vertical entre cada habilidad
 
             // Renderizar cada habilidad
@@ -207,6 +208,8 @@ public class SkillMenu extends Screen {
                 int kiManipulationCost = DMZGeneralConfig.KI_MANIPULATION_TP_COST_LEVELS.get();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
+                    case "passive":
+                        break;
                     case "potential_unlock":
                         if(this.infoMenu){
                             if(skillId.equals(skillsId)){
@@ -475,8 +478,15 @@ public class SkillMenu extends Screen {
                     this.infoMenu = !infoMenu; // Alternar infoMenu
                     this.skillsId = skillId;
                 });
+
+                CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
+                    this.infoMenu = !infoMenu; // Alternar infoMenu
+                    this.skillsId = "passive";
+                });
                 this.addRenderableWidget(button);
+                this.addRenderableWidget(passiveButton);
                 skillButtons.add(button);
+                skillButtons.add(passiveButton);
 
                 // Mover hacia abajo para la próxima habilidad
                 startY += offsetY;
@@ -493,8 +503,13 @@ public class SkillMenu extends Screen {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 15;
-            int startY = (this.height - 168) / 2 + 30;
+            int startY = (this.height - 168) / 2 + 45;
             int offsetY = 13; // Espacio vertical entre cada habilidad
+
+            // Pasiva
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("1"), this.infoMenu ? startX + 16 - 72 : startX + 16, startY - 13, 0xFFFFFF);
+            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skill.passive.name"), this.infoMenu ? startX + 85 - 72 : startX + 85, startY - 13, 0xFFFFFF);
+            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.on"), this.infoMenu ? startX + 155 - 72: startX + 155, startY - 13, 0x60fb58);
 
             // Renderizar cada habilidad
             for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
@@ -514,14 +529,13 @@ public class SkillMenu extends Screen {
                         } else {
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.off"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0xfb5858);
                         }
-
                         break;
                     case "jump":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     case "fly":
-                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72: startX + 16, startY, 0xFFFFFF);
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
@@ -559,11 +573,73 @@ public class SkillMenu extends Screen {
 
         if(infoMenu){
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                var race = cap.getRace();
+                int humanPassive = DMZHumanConfig.KICHARGE_REGEN_BOOST.get();
+                int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get() - cap.getZenkaiCount();
+                int zenkaiHeal = DMZSaiyanConfig.ZENKAI_HEALTH_REGEN.get();
+                int zenkaiBoost = DMZSaiyanConfig.ZENKAI_STAT_BOOST.get();
+                int remainingTicks = cap.getSaiyanZenkaiTimer();
+                int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
+                int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+                int namekPassive = DMZNamekConfig.PASSIVE_REGEN.get();
+                double colddemonPassive = DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
+                int bioPassive1 = DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get();
+                int bioPassive2 = DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get();
+                double majinPassive = DMZMajinConfig.PASSIVE_HEALTH_REGEN.get();
 
                 int startY = (this.height - 168) / 2 + 18;
                 int startX = (this.width - 250) / 2 + 160;
 
                 Map<String, DMZSkill> skills = cap.getDMZSkills();
+
+                if (this.skillsId == "passive") {
+                    drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skill.passive.name"), startX + 93, startY, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.type"), startX + 37, startY+ 13, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.skill2"), startX + 78, startY+ 13, 0xffc134);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.active"), startX + 37, startY+24, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.on"), startX + 78, startY+24, 0x60fb58);
+                    drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+
+                    switch (race) {
+                        case 0:
+                            List<FormattedCharSequence> humanDesc = font.split(Component.translatable("dmz.skill.passive.desc.human", humanPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < humanDesc.size(); i++) {
+                                guiGraphics.drawString(font, humanDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 1:
+                            List<FormattedCharSequence> saiyanDesc = font.split(Component.translatable("dmz.skill.passive.desc.saiyan", zenkaiHeal, zenkaiBoost, zenkaiCant, remainingMinutes, remainingSeconds).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < saiyanDesc.size(); i++) {
+                                guiGraphics.drawString(font, saiyanDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 2:
+                            List<FormattedCharSequence> namekianDesc = font.split(Component.translatable("dmz.skill.passive.desc.namek", namekPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < namekianDesc.size(); i++) {
+                                guiGraphics.drawString(font, namekianDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 3:
+                            List<FormattedCharSequence> bioDesc = font.split(Component.translatable("dmz.skill.passive.desc.bio", bioPassive1, bioPassive2).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < bioDesc.size(); i++) {
+                                guiGraphics.drawString(font, bioDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 4:
+                            List<FormattedCharSequence> colddemonDesc = font.split(Component.translatable("dmz.skill.passive.desc.colddemon", colddemonPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < colddemonDesc.size(); i++) {
+                                guiGraphics.drawString(font, colddemonDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 5:
+                            List<FormattedCharSequence> majinDesc = font.split(Component.translatable("dmz.skill.passive.desc.majin", majinPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < majinDesc.size(); i++) {
+                                guiGraphics.drawString(font, majinDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                    }
+                    return;
+                }
 
                 // Renderizar cada habilidad
                 for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {

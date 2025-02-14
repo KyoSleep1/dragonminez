@@ -62,12 +62,23 @@
   "entity.dragonminez.soldier02": "Soldado de Freezer",
   "entity.dragonminez.soldier03": "Soldado de Freezer",
   "entity.dragonminez.moro_soldier": "Soldado de Moro",
+  "entity.dragonminez.saibaman": "Saibaman",
+  "entity.dragonminez.copyman": "Copyman",
+  "entity.dragonminez.kaiwareman": "Kaiwareman",
+  "entity.dragonminez.kyukonman": "Kyukonman",
+  "entity.dragonminez.tennenman": "Tennenman",
+  "entity.dragonminez.jinkouman": "Jinkouman",
 
   "entity.dragonminez.saga_raditz": "Raditz",
+  "entity.dragonminez.saga_nappa": "Nappa",
+  "entity.dragonminez.saga_vegeta": "Vegeta",
 
   "entity.dragonminez.saga_raditz.line1": "» \u00A76Raditz\u00A7f › Jajajaja, ¿qué es esto? ¿Una hormiga intentando desafiarme?",
   "entity.dragonminez.saga_raditz.line2": "» \u00A76Raditz\u00A7f › ¡No tienes oportunidad contra mí! ¡Soy un Saiyajín de clase baja, pero aún así soy más fuerte que tú!",
   "entity.dragonminez.saga_raditz.die_line": "» \u00A76Raditz\u00A7f › Mis compañeros Saiyajín me vengarán... Dos de ellos, sé que vendrán... Y cuando lo hagan, ¡te harán pagar por lo que me hiciste!",
+  "entity.dragonminez.saga_nappa.line1": "» \u00A76Nappa\u00A7f › Vegeta, ¿qué dice el rastreador sobre su nivel de pelea?",
+  "entity.dragonminez.saga_nappa.line2": "» \u00A76Nappa\u00A7f › ¡Me estás sacando de quicio, insecto de clase baja!",
+  "entity.dragonminez.saga_nappa.die_line": "» \u00A79Vegeta\u00A7f › Nappa ya no me sirves... ¡Adiós, HAAAA!",
 
   "item.dragonminez.dino_spawn_egg": "Generar Dinosaurio",
   "item.dragonminez.namek_frog_spawn_egg": "Generar Rana Namekuseín",
@@ -274,6 +285,13 @@
   "dmz.skill.ki_control.desc": "Aprende a Controlar tu Ki. Es una habilidad básica para poder utilizar Ataques de Ki.",
   "dmz.skill.ki_manipulation.name": "Manipulación de Ki",
   "dmz.skill.ki_manipulation.desc": "Domina la Manipulación de Ki para ser capaz de crear Armas de Ki, incrementando tu Daño Melee en base a tu Daño de Ki!",
+  "dmz.skill.passive.name": "Pasiva Racial",
+  "dmz.skill.passive.desc.human": "\u00A7fMientras mantienes presionada la tecla de Carga de Ki, \u00A7bcargarás tu Ki \u00A7b%d%%\u00A7f más rápido que otras razas.",
+  "dmz.skill.passive.desc.saiyan": "\u00A7fSobrevive 6 segundos con menos del \u00A7b10%%\u00A7f de HP para \u00A7brecuperar \u00A7b%d%%\u00A7b de HP \u00A7fy \u00A7baumentar tus estadísticas en \u00A7b%d%%\u00A7f. Te quedan \u00A7b%d Zenkais\u00A7f, enfriamiento restante: \u00A7b%dm %ds\u00A7f.",
+  "dmz.skill.passive.desc.namek": "\u00A7fTu Regeneración Pasiva de Ki se \u00A7bincrementa en \u00A7b%d%%\u00A7f.",
+  "dmz.skill.passive.desc.bio": "\u00A7fSi tienes menos del \u00A7b50%%\u00A7f de HP, \u00A7brecuperas \u00A7b%d%%\u00A7f del daño base infligido. Si tienes menos del \u00A7b25%%\u00A7f de HP, \u00A7brecuperas \u00A7b%d%%\u00A7f.",
+  "dmz.skill.passive.desc.colddemon": "\u00A7fObtienes \u00A7b%.1f%%\u00A7b TPS\u00A7f! Funciona aún mejor en el \u00A7bPlaneta de Kaiosama \u00A7fo en la \u00A7bHabitación del Tiempo\u00A7f.",
+  "dmz.skill.passive.desc.majin": "\u00A7fPuedes \u00A7bregenerar \u00A7b%d%%\u00A7b de tu salud máxima \u00A7fpor segundo.",
 
   "master.name.goku": "Son Goku",
   "master.name.roshi": "Maestro Roshi",
@@ -354,6 +372,7 @@
 
   "block.dragonminez.time_chamber_portal": "Portal de la Habitación del Tiempo",
   "block.dragonminez.time_chamber_block": "Bloque de la Habitación del Tiempo",
+  "block.dragonminez.otherworld_cloud": "Bloque de Nube del Otro Mundo",
 
   "block.dragonminez.gete_debris_ore": "Escrombros Gete",
   "block.dragonminez.gete_block": "Bloque Gete",

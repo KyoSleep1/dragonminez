@@ -62,12 +62,23 @@
   "entity.dragonminez.soldier02": "Frieza's Soldier",
   "entity.dragonminez.soldier03": "Frieza's Soldier",
   "entity.dragonminez.moro_soldier": "Moro's Soldier",
+  "entity.dragonminez.saibaman": "Saibaman",
+  "entity.dragonminez.copyman": "Copyman",
+  "entity.dragonminez.kaiwareman": "Kaiwareman",
+  "entity.dragonminez.kyukonman": "Kyukonman",
+  "entity.dragonminez.tennenman": "Tennenman",
+  "entity.dragonminez.jinkouman": "Jinkouman",
 
   "entity.dragonminez.saga_raditz": "Raditz",
+  "entity.dragonminez.saga_nappa": "Nappa",
+  "entity.dragonminez.saga_vegeta": "Vegeta",
 
   "entity.dragonminez.saga_raditz.line1": "» \u00A76Raditz\u00A7f › Ha ha ha ha ha ha ha. Impressive. You actually managed to singe some of my leg hair.",
   "entity.dragonminez.saga_raditz.line2": "» \u00A76Raditz\u00A7f › So you wanna die? Fine, I'll be happy to oblige.",
   "entity.dragonminez.saga_raditz.die_line": "» \u00A76Raditz\u00A7f › My Saiyan comrades will avenge me... The two of them, I know they will... In one year, they will come... And when they do, you will pay for what you did to me...",
+  "entity.dragonminez.saga_nappa.line1": "» \u00A76Nappa\u00A7f › Vegeta, what does the scouter say about his power level?",
+  "entity.dragonminez.saga_nappa.line2": "» \u00A76Nappa\u00A7f › You're pissing me off, low-class loser!",
+  "entity.dragonminez.saga_nappa.die_line": "» \u00A79Vegeta\u00A7f › Nappa no longer has any use to me. Goodbye, HAAAA!",
 
   "item.dragonminez.dino_spawn_egg": "Dinosaur Spawn Egg",
   "item.dragonminez.namek_frog_spawn_egg": "Namekian Frog Spawn Egg",
@@ -274,6 +285,13 @@
   "dmz.skill.ki_control.desc": "Learn to Control your Ki. It's a basic skill to use Ki Attacks.",
   "dmz.skill.ki_manipulation.name": "Ki Manipulation",
   "dmz.skill.ki_manipulation.desc": "Master the Ki Manipulation to be able to create Ki Weapons, increasing your Melee Damage based on your Ki Damage!",
+  "dmz.skill.passive.name": "Race Passive",
+  "dmz.skill.passive.desc.human": "\u00A7fWhilst holding the Charge key, you will \u00A7bcharge your Ki \u00A7b%d%%\u00A7f faster than other races!",
+  "dmz.skill.passive.desc.saiyan": "\u00A7fSurvive 6 seconds below \u00A7b10%%\u00A7f HP to \u00A7bheal \u00A7b%d%%\u00A7b HP \u00A7fand \u00A7bboost your stats by \u00A7b%d%%\u00A7f. You have \u00A7b%d Zenkais left\u00A7f, remaining cooldown: %dm %ds\u00A7f.",
+  "dmz.skill.passive.desc.namek": "\u00A7fYour Passive Ki Regeneration \u00A7bincreased by \u00A7b%d%%\u00A7f!",
+  "dmz.skill.passive.desc.bio": "\u00A7fIf you are below \u00A7b50%%\u00A7f HP, you \u00A7bheal \u00A7b%d%%\u00A7f of base damage dealt. If below \u00A7b25%%\u00A7f HP, you \u00A7bheal \u00A7b%d%%\u00A7f.",
+  "dmz.skill.passive.desc.colddemon": "\u00A7fYou \u00A7bobtain x\u00A7b%.1f%%\u00A7b TPS\u00A7f! Works even better in \u00A7bKing Kai's Planet \u00A7for in the \u00A7bHyperbolic Time Chamber\u00A7f.",
+  "dmz.skill.passive.desc.majin": "\u00A7fYou are able to \u00A7bregenerate \u00A7b%d%%\u00A7b of your maximum health \u00A7fper second.",
 
   "master.name.goku": "Son Goku",
   "master.name.roshi": "Muten Roshi",
@@ -354,6 +372,7 @@
 
   "block.dragonminez.time_chamber_portal": "Hyperbolic Time Chamber Portal Block",
   "block.dragonminez.time_chamber_block": "Hyperbolic Time Chamber Block",
+  "block.dragonminez.otherworld_cloud": "Otherworld Cloud Block",
 
   "block.dragonminez.gete_debris_ore": "Gete Debris",
   "block.dragonminez.gete_block": "Gete Block",

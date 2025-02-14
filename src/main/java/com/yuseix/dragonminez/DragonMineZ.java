@@ -22,6 +22,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.language.IModInfo;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import software.bernie.geckolib.GeckoLib;
 
 /*
@@ -123,6 +125,9 @@ public class DragonMineZ {
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
+		Configurator.setLevel("minecraft.DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
+		Configurator.setLevel("minecraft/DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
+		Configurator.setLevel("minecraft:DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
 		event.enqueueWork(() -> {
 
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.CHRYSANTHEMUM_FLOWER.getId(), MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER);

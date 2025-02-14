@@ -1,15 +1,10 @@
 package com.yuseix.dragonminez.init.entity.custom.saiyansaga;
 
-import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +18,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.joml.Vector3f;
+
+import java.util.Locale;
 
 public class SaibamanEntity extends SagaEntity {
 
@@ -70,32 +66,95 @@ public class SaibamanEntity extends SagaEntity {
         }
 
         // Buscar jugadores en un radio de 15 bloques
+        String entityName = this.getName().getString();
+        System.out.println(entityName);
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
-                player.sendSystemMessage(Component.translatable("entity.dragonminez.saga_saibaman.die_line"));
+                switch (entityName.toLowerCase(Locale.ROOT)) {
+                    case "saibaman":
+                        player.sendSystemMessage(Component.literal("» §aSaibaman§f › Kiiehh..."));
+                        break;
+                    case "copyman":
+                        player.sendSystemMessage(Component.literal("» §8Copyman§f › Kiiehh..."));
+                        break;
+                    case "kaiwareman":
+                        player.sendSystemMessage(Component.literal("» §bKaiwareman§f › Kiiehh..."));
+                        break;
+                    case "kyukonman":
+                        player.sendSystemMessage(Component.literal("» §eKyukonman§f › Kiiehh..."));
+                        break;
+                    case "tennenman":
+                        player.sendSystemMessage(Component.literal("» §dTennenman§f › Kiiehh..."));
+                        break;
+                    case "jinkouman":
+                        player.sendSystemMessage(Component.literal("» §7Jinkouman§f › Kiiehh..."));
+                        break;
+                }
             }
         }
-
     }
 
     @Override
     protected void sayRandomPhrase() {
         if (!(this.level() instanceof ServerLevel serverLevel)) return;
 
-        String[] phrases = {
-                "entity.dragonminez.saga_saibaman.line1",
-                "entity.dragonminez.saga_saibaman.line2"
-        };
+        String entityName = this.getName().getString();
+
+        String[] phrases;
+        switch (entityName.toLowerCase(Locale.ROOT)) {
+            case "saibaman":
+                phrases = new String[]{
+                        "» §aSaibaman§f › Gi gi!",
+                        "» §aSaibaman§f › Gyah!"
+                };
+                break;
+            case "copyman":
+                phrases = new String[]{
+                        "» §8Copyman§f › Gi gi!",
+                        "» §8Copyman§f › Gyah!"
+                };
+                break;
+            case "kaiwareman":
+                phrases = new String[]{
+                        "» §bKaiwareman§f › Gi gi!",
+                        "» §bKaiwareman§f › Gyah!"
+                };
+                break;
+            case "kyukonman":
+                phrases = new String[]{
+                        "» §eKyukonman§f › Gi gi!",
+                        "» §eKyukonman§f › Gyah!"
+                };
+                break;
+            case "tennenman":
+                phrases = new String[]{
+                        "» §dTennenman§f › Gi gi!",
+                        "» §dTennenman§f › Gyah!"
+                };
+                break;
+            case "jinkouman":
+                phrases = new String[]{
+                        "» §7Jinkouman§f › Gi gi!",
+                        "» §7Jinkouman§f › Gyah!"
+                };
+                break;
+            default:
+                phrases = new String[]{
+                        "» §aSaibaman§f › Gi gi!",
+                        "» §aSaibaman§f › Gyah!"
+                };
+        }
 
         String selectedPhrase = phrases[this.random.nextInt(phrases.length)];
 
         // Buscar jugadores en un radio de 15 bloques
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
-                player.sendSystemMessage(Component.translatable(selectedPhrase));
+                player.sendSystemMessage(Component.literal(selectedPhrase));
             }
         }
     }
+
 
     @Override
     protected void registerGoals() {

@@ -260,12 +260,12 @@ public class ModDimensions extends NoiseRouterData{
         DensityFunction constantNegative = DensityFunctions.constant(-1.0);
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
 
-        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.8, 0.1);
-        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.1);
+        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.8, 0.08);
+        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.08);
         DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudDetailNoise);
 
         DensityFunction baseCloudLayer = DensityFunctions.add(
-                DensityFunctions.yClampedGradient(0, 45, 1.5, -1.5),
+                DensityFunctions.yClampedGradient(0, 40, 10, -10),
                 cloudNoise
         );
 

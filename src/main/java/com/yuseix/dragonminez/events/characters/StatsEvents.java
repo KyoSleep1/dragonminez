@@ -190,10 +190,7 @@ public class StatsEvents {
             if (event.getSource().getMsgId().equals("player")) {
                 // Obtener las estadísticas del atacante
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, atacante).ifPresent(cap -> {
-                    int raza = cap.getRace();
                     int curStamina = cap.getCurStam();
-                    var majinOn = cap.hasDMZPermaEffect("majin");
-                    var mightfruitOn = cap.hasDMZTemporalEffect("mightfruit");
                     boolean isDmzUser = cap.isAcceptCharacter();
 
                     float danoDefault = event.getAmount(); // Capturamos el daño original
@@ -209,7 +206,7 @@ public class StatsEvents {
                     var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
                     int maxKi = cap.getMaxEnergy();
                     int currKi = cap.getCurrentEnergy();
-                    int staminaCost = maxDamage / 6;
+                    int staminaCost = maxDamage / 10;
 
                     // Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
                     if (isDmzUser) {

@@ -379,33 +379,33 @@ public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcularSTM(DMZStatsAttributes stats) {
-        int raza = stats.getRace(); int maxCON = stats.getConstitution();
+        int raza = stats.getRace(); int maxCON = stats.getMaxHealth();
 
         //Aca lo configuraremos segun raza y si es spiritualista o guerrero
         double maxSTM = 0;
 
         switch (raza) {
             case 0: // Humano
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
             case 1: // Saiyan
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
 
             case 2: // Namek
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
 
             case 3: // Bioandroide
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
 
             case 4: // Cold Demon
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
 
             case 5: // Majin
-                maxSTM = Math.round(maxCON * 0.5);
+                maxSTM = Math.round(maxCON * 0.85);
                 break;
 
             default:

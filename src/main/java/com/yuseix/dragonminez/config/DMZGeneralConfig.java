@@ -46,8 +46,8 @@ public class DMZGeneralConfig {
     static {
         BUILDER.push("Configs for Attributes of DragonMineZ");
 
-        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 10000 / Default: 1000)")
-                .defineInRange("Attributes: ", 1000, 100, 10000);
+        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 100000 / Default: 5000)")
+                .defineInRange("Attributes: ", 5000, 100, 100000);
 
         BUILDER.pop();
 
@@ -62,8 +62,8 @@ public class DMZGeneralConfig {
         MULTIPLIER_ZPOINTS_GAIN = BUILDER.comment("Multiplier for ZPoints Gain (Min: 1.0 / Max: 20.0 / Default: 1.2)")
                 .defineInRange("ZPoints Gain: ", 1.2, 1.0, 20.0);
 
-        MULTIPLIER_ZPOINTS_HTC = BUILDER.comment("Multiplier for ZPoints in the Hyperbolic Time Chamber (Min: 1.0 / Max: 20.0 / Default: 8.0)")
-                .defineInRange("ZPoints (HTC): ", 8.0, 1.0, 60.0);
+        MULTIPLIER_ZPOINTS_HTC = BUILDER.comment("Multiplier for ZPoints in the Hyperbolic Time Chamber (Min: 1.0 / Max: 20.0 / Default: 3.0)")
+                .defineInRange("ZPoints (HTC): ", 3.0, 1.0, 60.0);
 
 
         BUILDER.pop();
@@ -71,11 +71,11 @@ public class DMZGeneralConfig {
 
         BUILDER.push("General Configs");
 
-        MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00 / Default: 0.03)")
-                .defineInRange("FallDmg: ", 0.03, 0.01, 1.00);
+        MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00 / Default: 0.05)")
+                .defineInRange("FallDmg: ", 0.05, 0.01, 1.00);
 
-        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 64 / Default: 10)")
-                .defineInRange("Seconds: ", 10, 1, 64);
+        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 60 / Default: 10)")
+                .defineInRange("Seconds: ", 10, 1, 60);
 
         SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give (Min: 1 / Max: 10 / Default: 5)")
                 .defineInRange("Number: ", 5, 1, 10);
