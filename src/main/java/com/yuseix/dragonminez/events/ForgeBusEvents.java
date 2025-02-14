@@ -5,16 +5,17 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
-import com.yuseix.dragonminez.world.*;
+import com.yuseix.dragonminez.utils.DebugUtils;
+import com.yuseix.dragonminez.world.DragonBallGenProvider;
+import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
+import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,11 +24,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.DebugLevelSource;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.capabilities.Capability;
@@ -37,6 +36,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import static com.yuseix.dragonminez.init.MainParticles.HIT_ATTACK_PARTICLE;
 
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
@@ -95,16 +97,16 @@ public class ForgeBusEvents {
 
 	// Recordar comentar esto antes de Buildear una versión Pública.
 	// y Descomentar para el buildeo de versiones de Testing.
-    @SubscribeEvent
-    public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+		Player player = event.getEntity();
 
-        String username = player.getGameProfile().getName();
+		String username = player.getGameProfile().getName();
 
-        if (!ALLOWED_USERNAMES.contains(username)) {
-            LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
-            throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
-        }
+		if (!ALLOWED_USERNAMES.contains(username)) {
+			LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
+			throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
+		}
 
 		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
 			if (serverLevel.dimension() == Level.OVERWORLD) {
@@ -118,7 +120,7 @@ public class ForgeBusEvents {
 				});
 			}
 		}
-    }
+	}
 
 	@SubscribeEvent
 	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
@@ -158,7 +160,7 @@ public class ForgeBusEvents {
 						if (cap.getHasGokuHouse()) {
 							BlockPos db4pos = cap.getDB4Position();
 							dragonBallPositions.add(db4pos);
-							System.out.println("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos);
+							DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos);
 						} else {
 							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
 						}
@@ -201,7 +203,8 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent()) return;
+			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent())
+				return;
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider();
@@ -339,7 +342,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[FirstSpawn] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}
@@ -375,8 +378,22 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, namekDragonBall, 2);
-		System.out.println("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}
+
+	@SubscribeEvent
+	public static void onPlayerHit(LivingHurtEvent event) {
+		if (event.getSource().getEntity() instanceof Player && (event.getEntity().level() instanceof ServerLevel serverLevel)) {
+			// Get ServerLevel instance
+			// Spawn a hit particle at the target's location with slight random motion.
+			serverLevel.sendParticles(
+					HIT_ATTACK_PARTICLE.get(),
+					event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ(),
+					5, 0.2, 0.2, 0.2, 0.01
+			);
+		}
+	}
+
 }

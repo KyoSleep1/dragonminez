@@ -40,6 +40,8 @@ import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
+import com.yuseix.dragonminez.init.particles.HitAttackParticle;
+import com.yuseix.dragonminez.init.particles.NimbusTraceParticle;
 import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.KeyMapping;
@@ -73,6 +75,8 @@ public class ModClientEvents {
 	public static void registerParticles(RegisterParticleProvidersEvent event) {
 		event.registerSpriteSet(MainParticles.AJISSA_LEAVES_PARTICLE.get(), AjissaLeavesParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.SACRED_LEAVES_PARTICLE.get(), SacredLeavesParticle.Provider::new);
+		event.registerSpriteSet(MainParticles.HIT_ATTACK_PARTICLE.get(), HitAttackParticle.Provider::new);
+		event.registerSpriteSet(MainParticles.NIMBUS_TRACE_PARTICLE.get(), NimbusTraceParticle.Provider::new);
 	}
 
 	@SubscribeEvent

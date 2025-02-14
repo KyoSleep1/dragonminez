@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.DragonBallsCapability;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -83,7 +84,7 @@ public class DragonBallEvents {
 						.ifPresent(existingPos -> {
 							// Romper el bloque anterior y reemplazarlo con aire
 							level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-							System.out.println("[DBallEvents] Removed existing Dragon Ball at " + existingPos);
+							DebugUtils.dmzLog("[DBallEvents] Removed existing Dragon Ball at " + existingPos);
 							capability.dragonBallPositions.remove(existingPos);
 						});
 
@@ -101,7 +102,7 @@ public class DragonBallEvents {
 						.findFirst()
 						.ifPresent(existingPos -> {
 							level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-							System.out.println("[DBallEvents] Removed existing Namek Dragon Ball at " + existingPos);
+							DebugUtils.dmzLog("[DBallEvents] Removed existing Namek Dragon Ball at " + existingPos);
 							capability.namekDragonBallPositions.remove(existingPos);
 						});
 
