@@ -10,6 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -18,12 +20,16 @@ public class KiAttacksEntity  extends ThrowableProjectile {
 
     private int lifetime = 0; // Lleva la cuenta del tiempo en ticks
 
-    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> COLOR_BORDE = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Float> DANO = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> COLOR_BORDE = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DANO = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
 
-    private static final EntityDataAccessor<Float> VELOCIDAD = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(KiSmallBallProjectil.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Float> VELOCIDAD = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
+    private static final EntityDataAccessor<Float> START_X = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> START_Y = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> START_Z = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
 
 
     public KiAttacksEntity(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
@@ -37,6 +43,9 @@ public class KiAttacksEntity  extends ThrowableProjectile {
         this.entityData.define(VELOCIDAD, 0.15f);
         this.entityData.define(OWNER_UUID, Optional.empty());
 
+        this.entityData.define(START_X, 0.0f);
+        this.entityData.define(START_Y, 0.0f);
+        this.entityData.define(START_Z, 0.0f);
     }
 
     public int getColor() {
@@ -64,6 +73,20 @@ public class KiAttacksEntity  extends ThrowableProjectile {
         this.entityData.set(VELOCIDAD, velocidad);
     }
 
+
+    public void setStartPosition(Vec3 pos) {
+        this.entityData.set(START_X, (float) pos.x);
+        this.entityData.set(START_Y, (float) pos.y);
+        this.entityData.set(START_Z, (float) pos.z);
+    }
+
+    public Vec3 getStartPosition() {
+        return new Vec3(
+                this.entityData.get(START_X),
+                this.entityData.get(START_Y),
+                this.entityData.get(START_Z)
+        );
+    }
 
     public void setOwnerUUID(UUID uuid) {
         this.entityData.set(OWNER_UUID, Optional.of(uuid));
@@ -108,21 +131,21 @@ public class KiAttacksEntity  extends ThrowableProjectile {
     public void tick() {
         super.tick();
 
-        // Incrementa el contador de vida
-        lifetime++;
+        // Solo ejecutar en el servidor
+        if (!this.level().isClientSide) {
+            // Incrementa el contador de vida
+            lifetime++;
 
-        if (this.getOwner() == null || this.getOwnerUUID() == null) {
-            this.discard(); // Destruye la entidad
-            return; // Termina el tick para evitar más ejecución
+            if (this.getOwner() == null || this.getOwnerUUID() == null) {
+                this.discard(); // Destruye la entidad
+                return; // Termina el tick para evitar más ejecución
+            }
+
+            // Verifica si han pasado 5 segundos (100 ticks)
+            if (lifetime >= 100) {
+                this.discard(); // Destruye la entidad
+            }
         }
-
-        // Verifica si han pasado 5 segundos (100 ticks)
-        if (lifetime >= 100) {
-            this.discard(); // Destruye la entidad
-        }
-
-
-
     }
 
     @Override

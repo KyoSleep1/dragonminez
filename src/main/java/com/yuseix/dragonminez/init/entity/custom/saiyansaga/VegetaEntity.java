@@ -157,7 +157,7 @@ public class VegetaEntity extends SagaEntity {
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_BLAST.get(), this.level());
+        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);

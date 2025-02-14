@@ -25,6 +25,7 @@ import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Mode
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
+import com.yuseix.dragonminez.init.entity.client.model.projectil.KiTrailModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.SaibamanModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.VegetaModel;
@@ -33,6 +34,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallWaveRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.*;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
@@ -147,7 +149,9 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FP_SLIMSAIYANHUM.get(), (context) -> new FPSlimHumSaiRender(context, new SlimHumanSaiyanModel<>(context.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
 			EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
 			EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
-			EntityRenderers.register(MainEntity.KI_BLAST.get(), KiSmallBallRenderer::new);
+			//KI
+			EntityRenderers.register(MainEntity.KI_SMALL_BLAST.get(), KiSmallBallRenderer::new);
+			EntityRenderers.register(MainEntity.KI_SMALL_WAVE.get(), KiSmallWaveRenderer::new);
 
 
 			//BLOQUES
@@ -228,6 +232,7 @@ public class ModClientEvents {
 
 		e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
 		e.registerLayerDefinition(KiBallModel.LAYER_LOCATION, KiBallModel::createBodyLayer);
+		e.registerLayerDefinition(KiTrailModel.LAYER_LOCATION, KiTrailModel::createBodyLayer);
 
 		//MAESTROS
 		e.registerLayerDefinition(GokuMasterModel.LAYER_LOCATION, GokuMasterModel::createBodyLayer);

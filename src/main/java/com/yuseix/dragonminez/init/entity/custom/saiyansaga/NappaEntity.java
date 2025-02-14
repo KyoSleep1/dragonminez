@@ -3,7 +3,6 @@ package com.yuseix.dragonminez.init.entity.custom.saiyansaga;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
-import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldierEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
@@ -193,7 +192,7 @@ public class NappaEntity extends SagaEntity implements GeoEntity {
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_BLAST.get(), this.level());
+        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);

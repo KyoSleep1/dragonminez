@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
@@ -270,13 +271,19 @@ public final class MainEntity {
 							.sized(1.5f, 1.8f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_slim").toString())
 			);
-	public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_BLAST =
+	//Ki
+	public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_SMALL_BLAST =
 			ENTITY_TYPES_REGISTER.register("ki_smallball",
 					() -> EntityType.Builder.of(KiSmallBallProjectil::new, MobCategory.MISC)
 							.sized(0.9f, 0.9f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_smallball").toString())
 			);
-
+	public static final RegistryObject<EntityType<KiSmallWaveProjectil>> KI_SMALL_WAVE =
+			ENTITY_TYPES_REGISTER.register("ki_smallwave",
+					() -> EntityType.Builder.of(KiSmallWaveProjectil::new, MobCategory.MISC)
+							.sized(0.9f, 0.9f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_smallwave").toString())
+			);
 	@SubscribeEvent
 	public static void registerSpawnPlacements(SpawnPlacementRegisterEvent e) {
 		e.register(MainEntity.DINO1.get(),
