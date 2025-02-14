@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -189,7 +190,42 @@ public final class MainEntity {
 							.sized(0.8f, 2.2f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_nappa").toString())
 			);
-
+	public static final RegistryObject<EntityType<SaibamanEntity>> SAIBAMAN =
+			ENTITY_TYPES_REGISTER.register("saibaman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saibaman").toString())
+			);
+	public static final RegistryObject<EntityType<SaibamanEntity>> KAIWAREMAN =
+			ENTITY_TYPES_REGISTER.register("kaiwareman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "kaiwareman").toString())
+			);
+	public static final RegistryObject<EntityType<SaibamanEntity>> KYUKONMAN =
+			ENTITY_TYPES_REGISTER.register("kyukonman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "kyukonman").toString())
+			);
+	public static final RegistryObject<EntityType<SaibamanEntity>> COPYMAN =
+			ENTITY_TYPES_REGISTER.register("copyman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "copyman").toString())
+			);
+	public static final RegistryObject<EntityType<SaibamanEntity>> TENNENMAN =
+			ENTITY_TYPES_REGISTER.register("tennenman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "tennenman").toString())
+			);
+	public static final RegistryObject<EntityType<SaibamanEntity>> JINKOUMAN =
+			ENTITY_TYPES_REGISTER.register("jinkouman",
+					() -> EntityType.Builder.of(SaibamanEntity::new, MobCategory.CREATURE)
+							.sized(0.5f, 1.6f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "jinkouman").toString())
+			);
 	//FAKEPLAYERS
 	public static final RegistryObject<EntityType<FPBioAndroidEntity>> FP_BIOANDROIDE =
 			ENTITY_TYPES_REGISTER.register("fp_bioandroide",

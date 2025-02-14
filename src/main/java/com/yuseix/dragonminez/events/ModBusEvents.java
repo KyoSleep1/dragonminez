@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -54,7 +55,12 @@ public class ModBusEvents {
 		//SAGAS
 		event.put(MainEntity.RADITZ_SAGA.get(), RaditzEntity.setAttributes());
 		event.put(MainEntity.NAPPA_SAGA.get(), NappaEntity.setAttributes());
-
+		event.put(MainEntity.SAIBAMAN.get(), SaibamanEntity.setAttributes());
+		event.put(MainEntity.KAIWAREMAN.get(), SaibamanEntity.setAttributes());
+		event.put(MainEntity.KYUKONMAN.get(), SaibamanEntity.setAttributes());
+		event.put(MainEntity.COPYMAN.get(), SaibamanEntity.setAttributes());
+		event.put(MainEntity.TENNENMAN.get(), SaibamanEntity.setAttributes());
+		event.put(MainEntity.JINKOUMAN.get(), SaibamanEntity.setAttributes());
 
 		//FAKEPLAYERS
 		event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());

@@ -26,13 +26,13 @@ import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Mode
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
+import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.SaibamanModel;
 import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.NappaRenderer;
-import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.RaditzRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.*;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
@@ -128,6 +128,13 @@ public class ModClientEvents {
 			//SAGAS
 			EntityRenderers.register(MainEntity.RADITZ_SAGA.get(), RaditzRenderer::new);
 			EntityRenderers.register(MainEntity.NAPPA_SAGA.get(), NappaRenderer::new);
+
+			EntityRenderers.register(MainEntity.SAIBAMAN.get(), SaibamanRenderer::new);
+			EntityRenderers.register(MainEntity.KAIWAREMAN.get(), KaiwaremanRenderer::new);
+			EntityRenderers.register(MainEntity.KYUKONMAN.get(), KyukonmanRenderer::new);
+			EntityRenderers.register(MainEntity.COPYMAN.get(), CopymanRenderer::new);
+			EntityRenderers.register(MainEntity.TENNENMAN.get(), TennemanRenderer::new);
+			EntityRenderers.register(MainEntity.JINKOUMAN.get(), JinkoumanRenderer::new);
 
 			//FAKEPLAYERS
 			EntityRenderers.register(MainEntity.FP_BIOANDROIDE.get(), (context) -> new FPBioAndroidRender(context, new BioAndroidModel<>(context.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
@@ -241,6 +248,7 @@ public class ModClientEvents {
 
 		//SAGAS
 		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);
+		e.registerLayerDefinition(SaibamanModel.LAYER_LOCATION, SaibamanModel::createBodyLayer);
 
 		//Armas en espalda
 		e.registerLayerDefinition(BaculoEmptyModel.LAYER_LOCATION, BaculoEmptyModel::createBodyLayer);
