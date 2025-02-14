@@ -2,7 +2,7 @@ modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
 issueTrackerURL = "https://github.com/orgs/DragonMineZ/projects/5"
-logoFile = "assets/dragonminez/dragonminez.png"
+logoFile = "dmz_logo.png"
 
 [[mods]]
 modId = "dragonminez"
@@ -13,9 +13,6 @@ authors = "${mod_authors}"
 credits = "Thanks to Toji71_ for helping us with the Builds. Thanks to CyaneaCapillata and Robberto10 for supporting us on Patreon."
 displayTest = "MATCH_VERSION" # Checkea misma version en cliente y servidor
 description = '''${mod_description}'''
-
-itemIcon = "dragonminez:dball_radar"
-configBackground = "dragonminez:textures/gui/n_panorama_1.png"
 
 [[dependencies.dragonminez]]
 modId = "forge"
@@ -36,4 +33,11 @@ modId = "geckolib"
 mandatory = true
 versionRange = "${geckolib_version_range}"
 ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.dragonminez]]
+modId = "terrablender"
+mandatory = true
+versionRange = "${terrablender_version_range}"
+ordering = "AFTER"
 side = "BOTH"
