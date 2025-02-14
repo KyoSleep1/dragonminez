@@ -4,8 +4,8 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
-import com.yuseix.dragonminez.world.NamekDragonBallsCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -119,8 +119,8 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		//System.out.println("[P] Deseos del Jugador: " + getDeseos());
-		//System.out.println("[P] Nombre del jugador: " + getOwnerName());
+		//DebugUtils.dmzLog("[P] Deseos del Jugador: " + getDeseos());
+		//DebugUtils.dmzLog("[P] Nombre del jugador: " + getOwnerName());
 
 
 		if (this.getDeseos() == 0) {
@@ -230,7 +230,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[Porunga] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		DebugUtils.dmzLog("[Porunga] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}

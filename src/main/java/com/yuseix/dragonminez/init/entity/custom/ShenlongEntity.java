@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -100,7 +101,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		if (this.level().isClientSide) {
 			// Verifica que el UUID de esta entidad coincida con el del jugador
 			if (this.getOwnerName().equals(player.getName().getString())) {
-				//System.out.println("Nombre coincide con el del jugador");
+				//DebugUtils.dmzLog("Nombre coincide con el del jugador");
 				if (getDeseos() > 0) {
 					if (Minecraft.getInstance().player.equals(player)) {
 						Minecraft.getInstance().setScreen(new ShenlongMenu());
@@ -239,7 +240,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		System.out.println("[Shenron] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		DebugUtils.dmzLog("[Shenron] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}

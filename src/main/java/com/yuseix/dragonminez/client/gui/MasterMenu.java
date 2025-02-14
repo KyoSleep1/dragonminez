@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -66,27 +67,33 @@ public class MasterMenu extends Screen {
 
 		switch (masterName) {
 			case "goku":
-				altoTexto = (this.height / 2) - 60; anchoTexto = (this.width / 2) + 1;
-				drawStringWithBorder(graphics, font, Component.translatable("master.name.goku").append(Component.translatable("master.name.skills")), anchoTexto, altoTexto, 0xF91E64);;
+				altoTexto = (this.height / 2) - 60;
+				anchoTexto = (this.width / 2) + 1;
+				drawStringWithBorder(graphics, font, Component.translatable("master.name.goku").append(Component.translatable("master.name.skills")), anchoTexto, altoTexto, 0xF91E64);
 
-				altoTexto = (this.height / 2) - 17; anchoTexto = (this.width / 2) - 70;
+				altoTexto = (this.height / 2) - 17;
+				anchoTexto = (this.width / 2) - 70;
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.fly.name"), anchoTexto, altoTexto, 0xFFFFFF);
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.ki_control.name"), anchoTexto, altoTexto + 27, 0xFFFFFF);
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.ki_manipulation.name"), anchoTexto, altoTexto + 54, 0xFFFFFF);
 				break;
 			case "roshi":
-				altoTexto = (this.height / 2) - 60; anchoTexto = (this.width / 2) + 1;
+				altoTexto = (this.height / 2) - 60;
+				anchoTexto = (this.width / 2) + 1;
 				drawStringWithBorder(graphics, font, Component.translatable("master.name.roshi").append(Component.translatable("master.name.skills")), anchoTexto, altoTexto, 0xF91E64);
 
-				altoTexto = (this.height / 2) - 17; anchoTexto = (this.width / 2) - 70;
+				altoTexto = (this.height / 2) - 17;
+				anchoTexto = (this.width / 2) - 70;
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.jump.name"), anchoTexto, altoTexto, 0xFFFFFF);
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.meditation.name"), anchoTexto, altoTexto + 25, 0xFFFFFF);
 				break;
 			case "kaio":
-				altoTexto = (this.height / 2) - 60; anchoTexto = (this.width / 2) + 1;
+				altoTexto = (this.height / 2) - 60;
+				anchoTexto = (this.width / 2) + 1;
 				drawStringWithBorder(graphics, font, Component.translatable("master.name.kaio").append(Component.translatable("master.name.skills")), anchoTexto, altoTexto, 0xF91E64);
 
-				altoTexto = (this.height / 2) - 17; anchoTexto = (this.width / 2) - 70;
+				altoTexto = (this.height / 2) - 17;
+				anchoTexto = (this.width / 2) - 70;
 				drawStringWithBorder2(graphics, font, Component.translatable("dmz.skill.potential_unlock.name"), anchoTexto, altoTexto, 0xFFFFFF);
 				break;
 		}
@@ -109,7 +116,8 @@ public class MasterMenu extends Screen {
 				removeWidget(kaioKenBoton);
 				break;
 		}
-		altoTexto = (this.height / 2) - 13; anchoTexto = (this.width/ 2) + 25;
+		altoTexto = (this.height / 2) - 13;
+		anchoTexto = (this.width / 2) + 25;
 		Player player = this.minecraft.player;
 
 		int flyCost = DMZGeneralConfig.FLY_TP_COST_MASTER.get();
@@ -127,7 +135,7 @@ public class MasterMenu extends Screen {
 				case "goku":
 					if (cap.getDMZSkills().get("fly") == null || cap.getDMZSkills().get("fly").getLevel() == 0) {
 						this.flyBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(flyCost) + " TPs"), wa -> {
-							System.out.println("Fly Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Fly Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= flyCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("fly", new DMZSkill("dmz.skill.fly.name", "dmz.skill.fly.desc", 1, false)));
 							} else
@@ -136,7 +144,7 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("ki_control") == null || cap.getDMZSkills().get("ki_control").getLevel() == 0) {
 						this.kiControlBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(kiControlCost) + " TPs"), wa -> {
-							System.out.println("Ki Control Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Ki Control Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= kiControlCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("ki_control", new DMZSkill("dmz.skill.ki_control.name", "dmz.skill.ki_control.desc", 1, false)));
 							} else
@@ -146,7 +154,7 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("ki_manipulation") == null || cap.getDMZSkills().get("ki_manipulation").getLevel() == 0) {
 						this.kiManipulationBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 44, Component.literal(formatNumber(kiManipulationCost) + " TPs"), wa -> {
-							System.out.println("Ki Manipulation Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Ki Manipulation Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= kiManipulationCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("ki_manipulation", new DMZSkill("dmz.skill.ki_manipulation.name", "dmz.skill.ki_manipulation.desc", 1, false)));
 							} else
@@ -157,7 +165,7 @@ public class MasterMenu extends Screen {
 				case "roshi":
 					if (cap.getDMZSkills().get("jump") == null || cap.getDMZSkills().get("jump").getLevel() == 0) {
 						this.jumpBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(jumpCost) + " TPs"), wa -> {
-							System.out.println("Jump Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Jump Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= jumpCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("jump", new DMZSkill("dmz.skill.jump.name", "dmz.skill.jump.desc", 1, false)));
 							} else
@@ -166,7 +174,7 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("meditation") == null || cap.getDMZSkills().get("meditation").getLevel() == 0) {
 						this.meditationBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(meditationCost) + " TPs"), wa -> {
-							System.out.println("Meditation Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Meditation Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= meditationCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("meditation", new DMZSkill("dmz.skill.meditation.name", "dmz.skill.meditation.desc", 1, false)));
 							} else
@@ -177,7 +185,7 @@ public class MasterMenu extends Screen {
 				case "kaio":
 					if (cap.getDMZSkills().get("potunlock") == null || cap.getDMZSkills().get("potunlock").getLevel() == 0) {
 						this.potUnlockBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(potUnlockCost) + " TPs"), wa -> {
-							System.out.println("Potential Unlock Position: " + anchoTexto + " " + altoTexto);
+							DebugUtils.dmzLog("Potential Unlock Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= potUnlockCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("potunlock", new DMZSkill("dmz.skill.potunlock.name", "dmz.skill.potunlock.desc", 1, false)));
 							} else
@@ -191,8 +199,8 @@ public class MasterMenu extends Screen {
 
 
 	private void menuPanel(GuiGraphics graphics) {
-		altoTexto = (this.height - 168)/2;
-		anchoTexto = (this.width - 250)/2;
+		altoTexto = (this.height - 168) / 2;
+		anchoTexto = (this.width - 250) / 2;
 		ResourceLocation menutexture = switch (this.masterName) {
 			case "goku" -> menuGoku;
 			case "kaio" -> menuKaio;
@@ -213,7 +221,8 @@ public class MasterMenu extends Screen {
 
 	public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
 		// Calcular la posición centrada
-		int textWidth = font.width(texto); int centeredX = x - (textWidth / 2);
+		int textWidth = font.width(texto);
+		int centeredX = x - (textWidth / 2);
 		// Dibujar el texto con el borde
 		guiGraphics.drawString(font, texto, centeredX + 1, y, ColorBorde, false);
 		guiGraphics.drawString(font, texto, centeredX - 1, y, ColorBorde, false);
@@ -233,6 +242,7 @@ public class MasterMenu extends Screen {
 	public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
 		drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
 	}
+
 	public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
 		drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
 	}
