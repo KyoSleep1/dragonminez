@@ -56,6 +56,123 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_campfire"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get(), 1)
+                .pattern("##")
+                .define('#', MainBlocks.NAMEK_AJISSA_PLANKS.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_AJISSA_PLANKS.get()), has(MainBlocks.NAMEK_AJISSA_PLANKS.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get(), 1)
+                .pattern("##")
+                .define('#', MainBlocks.NAMEK_SACRED_PLANKS.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_SACRED_PLANKS.get()), has(MainBlocks.NAMEK_SACRED_PLANKS.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_SLAB.get(), 4)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, MainItems.NAVE_SAIYAN_ITEM.get(), 1)
                 .pattern("IRI")
                 .pattern("GCI")

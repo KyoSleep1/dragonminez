@@ -12,6 +12,8 @@ import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
+import com.yuseix.dragonminez.worldgen.biome.ModOverworldRegion;
+import com.yuseix.dragonminez.worldgen.biome.ModSurfaceRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,6 +27,8 @@ import net.minecraftforge.forgespi.language.IModInfo;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import software.bernie.geckolib.GeckoLib;
+import terrablender.api.Regions;
+import terrablender.api.SurfaceRuleManager;
 
 /*
  * This file uses GeckoLib, licensed under the MIT License.
@@ -89,6 +93,8 @@ public class DragonMineZ {
 		DMZRecipes.register(modEventBus);
 		//Register Particulas
 		MainParticles.register(modEventBus);
+		//Register biomas de Terrablender
+		Regions.register(new ModOverworldRegion());
 
 		//MinecraftForge.EVENT_BUS.register(ClientModBusEvents.class);
 
@@ -125,9 +131,9 @@ public class DragonMineZ {
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
-		Configurator.setLevel("minecraft.DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
-		Configurator.setLevel("minecraft/DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
-		Configurator.setLevel("minecraft:DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
+		Configurator.setLevel("minecraft.DensityFunctions$TwoArgumentSimpleFunction", Level.OFF);
+		Configurator.setLevel("minecraft/DensityFunctions$TwoArgumentSimpleFunction", Level.OFF);
+		Configurator.setLevel("minecraft:DensityFunctions$TwoArgumentSimpleFunction", Level.OFF);
 		event.enqueueWork(() -> {
 
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.CHRYSANTHEMUM_FLOWER.getId(), MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER);
@@ -144,6 +150,8 @@ public class DragonMineZ {
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.SACRED_FERN.getId(), MainBlocks.POTTED_SACRED_FERN);
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.NAMEK_AJISSA_SAPLING.getId(), MainBlocks.POTTED_AJISSA_SAPLING);
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.NAMEK_SACRED_SAPLING.getId(), MainBlocks.POTTED_SACRED_SAPLING);
+
+			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
 
 			ModMessages.register();
 

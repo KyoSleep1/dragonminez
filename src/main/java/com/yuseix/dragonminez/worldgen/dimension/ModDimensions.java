@@ -122,13 +122,10 @@ public class ModDimensions extends NoiseRouterData{
         HolderGetter<DimensionType> dimTypes = context.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<NoiseGeneratorSettings> noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);
 
-        //Noise custom (Ya esta hecho en json pq en codigo es una japa
-        //Aca es para poner un solo bioma en toda la dimension
         NoiseBasedChunkGenerator wrappedChunkGenerator = new NoiseBasedChunkGenerator(
                 new FixedBiomeSource(biomeRegistry.getOrThrow(ModBiomes.TIME_CHAMBER)),
                 noiseGenSettings.getOrThrow(TIME_CHAMBER_NOISE_SETTINGS));
 
-        //Varios Biomas
         NoiseBasedChunkGenerator noiseNamekMultiBiomes = new NoiseBasedChunkGenerator(
                 MultiNoiseBiomeSource.createFromList(
                         new Climate.ParameterList<>(List.of(Pair.of(
@@ -155,7 +152,6 @@ public class ModDimensions extends NoiseRouterData{
     }
 
     public static void bootstrapNoise(BootstapContext<NoiseGeneratorSettings> context) {
-        //HolderGetter<NoiseGeneratorSettings> noiseGeneratorSettingsHolder = context.lookup(Registries.NOISE_SETTINGS);
 
         HolderGetter<DensityFunction> densityFunctions = context.lookup(Registries.DENSITY_FUNCTION);
         HolderGetter<NormalNoise.NoiseParameters> noiseParameters = context.lookup(Registries.NOISE);
@@ -260,8 +256,8 @@ public class ModDimensions extends NoiseRouterData{
         DensityFunction constantNegative = DensityFunctions.constant(-1.0);
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
 
-        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.8, 0.08);
-        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.08);
+        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.88, 0.098);
+        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.88, 0.098);
         DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudDetailNoise);
 
         DensityFunction baseCloudLayer = DensityFunctions.add(
@@ -271,7 +267,7 @@ public class ModDimensions extends NoiseRouterData{
 
         DensityFunction cloudLayer = DensityFunctions.min(
                 baseCloudLayer,
-                DensityFunctions.constant(40) // No permite que suba más de Y=40
+                DensityFunctions.constant(60) // No permite que suba más
         );
 
         return new NoiseRouter(
@@ -319,10 +315,10 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 4),
                                         SurfaceRules.sequence(
                                                 SurfaceRules.ifTrue(
-                                                        SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
+                                                        SurfaceRules.stoneDepthCheck(0, true, 5, CaveSurface.FLOOR),
                                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
                                                 )
                                         )
@@ -350,10 +346,10 @@ public class ModDimensions extends NoiseRouterData{
                                         )
                                 ),
                                 SurfaceRules.ifTrue(
-                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 2),
+                                        SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 4),
                                         SurfaceRules.sequence(
                                                 SurfaceRules.ifTrue(
-                                                        SurfaceRules.stoneDepthCheck(0, false, 5, CaveSurface.FLOOR),
+                                                        SurfaceRules.stoneDepthCheck(0, true, 5, CaveSurface.FLOOR),
                                                         SurfaceRules.state(MainBlocks.NAMEK_DIRT.get().defaultBlockState())
                                                 )
                                         )

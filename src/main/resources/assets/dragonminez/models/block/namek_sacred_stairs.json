@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "dragonminez:block/namek_sacred_planks",
-    "side": "dragonminez:block/namek_sacred_planks",
-    "top": "dragonminez:block/namek_sacred_planks"
-  }
-}

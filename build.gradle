@@ -63,6 +63,9 @@ repositories {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/" // Integración para el JEI, NO ES DEPENDENCIA, ES COMPATIBILIDAD.
     }
+    maven {
+        url = "https://cursemaven.com"
+    }
 }
 
 minecraft {
@@ -123,6 +126,11 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     // Este es solo para el runClient, no es necesario para el jar
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+
+    // Mods (Solo en runClient) que aportan cosas útiles para el desarrollo.
+    runtimeOnly(fg.deobf("curse.maven:worldedit-225608:4586218")) // WorldEdit, nada más que decir xd
+    runtimeOnly(fg.deobf("curse.maven:cyanide-541676:5778405")) // Cyanide es un mod para saber exactamente qué y dónde está fallando un archivo Json (Muy util en worldgen)
+    runtimeOnly(fg.deobf("curse.maven:xenon-564239:5752040")) // Es Embeddium, pero mejor, optimización de las god.
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources/' }
@@ -156,9 +164,6 @@ jar {
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-//    from(configurations.shade) {
-//        into('lib')
-//    }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     finalizedBy 'reobfJar'

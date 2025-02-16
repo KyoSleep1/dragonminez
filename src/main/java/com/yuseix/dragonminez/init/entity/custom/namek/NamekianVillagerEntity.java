@@ -214,18 +214,18 @@ public class NamekianVillagerEntity extends Villager {
 		return false;
 	}
 
-	@Override
-	protected SoundEvent getAmbientSound() {
-		return MainSounds.NAMEKIAN_VILLAGER_AMBIENT.get();
-	}
-
-	@Override
-	protected @NotNull SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
-		return MainSounds.NAMEKIAN_VILLAGER_HURT.get();
-	}
-
-	@Override
-	protected @NotNull SoundEvent getDeathSound() {
-		return MainSounds.NAMEKIAN_VILLAGER_DEATH.get();
-	}
+//	@Override
+//	protected SoundEvent getAmbientSound() {
+//		return MainSounds.NAMEKIAN_VILLAGER_AMBIENT.get();
+//	}
+//
+//	@Override
+//	protected @NotNull SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+//		return MainSounds.NAMEKIAN_VILLAGER_HURT.get();
+//	}
+//
+//	@Override
+//	protected @NotNull SoundEvent getDeathSound() {
+//		return MainSounds.NAMEKIAN_VILLAGER_DEATH.get();
+//	}
 }

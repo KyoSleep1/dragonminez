@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -46,6 +47,20 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             PlayerTrigger.TriggerInstance.located(EntityPredicate.Builder.entity().of(EntityType.PLAYER).build())) // Criterio
                     .rewards(AdvancementRewards.Builder.experience(0)) // Recompensa de experiencia (Se pueden poner más tipos xd)
                     .save(consumer, "dragonminez:root"); // Logro "raíz" o "inicial"; el primero de todos.
+
+            Advancement rockybiome = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            Blocks.STONE,
+                            Component.translatable("advancements.dragonminez.rockybiome.title"),
+                            Component.translatable("advancements.dragonminez.rockybiome.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("found_rockybiome",
+                            PlayerTrigger.TriggerInstance.located(
+                                    LocationPredicate.Builder.location()
+                                            .setBiome(ModBiomes.ROCKY).build()
+                            )
+                    ).save(consumer, "dragonminez:rockybiome");
 
             Advancement kamilookout = Advancement.Builder.advancement()
                     .parent(root) // Este depende de X logro (Solo es orden, no requisito)

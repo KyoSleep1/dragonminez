@@ -262,6 +262,8 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DIRT);
         blockItem(MainBlocks.NAMEK_STONE);
         blockItem(MainBlocks.NAMEK_COBBLESTONE);
+        blockItem(MainBlocks.ROCKY_STONE);
+        blockItem(MainBlocks.ROCKY_COBBLESTONE);
         blockItem(MainBlocks.NAMEK_AJISSA_PLANKS);
         blockItem(MainBlocks.NAMEK_AJISSA_LEAVES);
         blockItem(MainBlocks.NAMEK_SACRED_PLANKS);
@@ -289,6 +291,39 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.TIME_CHAMBER_PORTAL);
         blockItem(MainBlocks.OTHERWORLD_CLOUD);
 
+        //Variantes de bloques
+        blockAsItem(MainBlocks.NAMEK_AJISSA_DOOR);
+        blockAsItem(MainBlocks.NAMEK_SACRED_DOOR);
+        fenceItem(MainBlocks.NAMEK_AJISSA_FENCE, MainBlocks.NAMEK_AJISSA_PLANKS);
+        fenceItem(MainBlocks.NAMEK_SACRED_FENCE, MainBlocks.NAMEK_SACRED_PLANKS);
+        buttonItem(MainBlocks.NAMEK_AJISSA_BUTTON, MainBlocks.NAMEK_AJISSA_PLANKS);
+        buttonItem(MainBlocks.NAMEK_SACRED_BUTTON, MainBlocks.NAMEK_SACRED_PLANKS);
+        simpleBlockItem(MainBlocks.NAMEK_STONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_COBBLESTONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_DEEPSLATE_STAIRS);
+        simpleBlockItem(MainBlocks.ROCKY_STONE_STAIRS);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_STONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_COBBLESTONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_DEEPSLATE_SLAB);
+        simpleBlockItem(MainBlocks.ROCKY_STONE_SLAB);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_PRESSURE_PLATE);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_FENCE_GATE);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_FENCE_GATE);
+        trapdoorItem(MainBlocks.NAMEK_AJISSA_TRAPDOOR);
+        trapdoorItem(MainBlocks.NAMEK_SACRED_TRAPDOOR);
+        wallItem(MainBlocks.NAMEK_STONE_WALL, MainBlocks.NAMEK_STONE);
+        wallItem(MainBlocks.NAMEK_COBBLESTONE_WALL, MainBlocks.NAMEK_COBBLESTONE);
+        wallItem(MainBlocks.NAMEK_DEEPSLATE_WALL, MainBlocks.NAMEK_DEEPSLATE);
+        wallItem(MainBlocks.ROCKY_STONE_WALL, MainBlocks.ROCKY_STONE);
+        wallItem(MainBlocks.ROCKY_COBBLESTONE_WALL, MainBlocks.ROCKY_COBBLESTONE);
+
         //Vegetacion
         blockAsItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
         blockAsItem(MainBlocks.AMARYLLIS_FLOWER);
@@ -296,12 +331,15 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockAsItem(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER);
         blockAsItem(MainBlocks.TRILLIUM_FLOWER);
         blockItem(MainBlocks.NAMEK_FERN);
+        saplingItem(MainBlocks.NAMEK_SACRED_SAPLING);
         blockAsItem(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER);
         blockAsItem(MainBlocks.SACRED_AMARYLLIS_FLOWER);
         blockAsItem(MainBlocks.SACRED_MARIGOLD_FLOWER);
         blockAsItem(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER);
         blockAsItem(MainBlocks.SACRED_TRILLIUM_FLOWER);
         blockItem(MainBlocks.SACRED_FERN);
+        saplingItem(MainBlocks.NAMEK_AJISSA_SAPLING);
+
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
@@ -332,5 +370,28 @@ public class DMZItemModelProvider extends ItemModelProvider {
     public void simpleBlockItem(RegistryObject<Block> block) {
         this.withExistingParent(DragonMineZ.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
                 modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
+    }
+    public void trapdoorItem(RegistryObject<Block> block) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
+                modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath() + "_bottom"));
+    }
+
+    public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
+                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+
+    public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
+                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+    public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
+                .texture("wall",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+    private ItemModelBuilder saplingItem(RegistryObject<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(DragonMineZ.MOD_ID,"block/" + item.getId().getPath()));
     }
 }

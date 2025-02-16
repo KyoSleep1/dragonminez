@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/button_inventory",
-  "textures": {
-    "texture": "dragonminez:block/namek_ajissa_planks"
-  }
-}

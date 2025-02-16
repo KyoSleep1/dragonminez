@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "dragonminez:block/namek_ajissa_planks",
-    "side": "dragonminez:block/namek_ajissa_planks",
-    "top": "dragonminez:block/namek_ajissa_planks"
-  }
-}

@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.datagen.loot;
+package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
@@ -57,6 +57,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.NAMEK_AJISSA_FENCE_GATE.get());
         this.dropSelf(MainBlocks.NAMEK_AJISSA_BUTTON.get());
         this.dropSelf(MainBlocks.NAMEK_AJISSA_SAPLING.get());
+        this.dropSelf(MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_LOG.get());
         this.dropSelf(MainBlocks.NAMEK_STRIPPED_SACRED_LOG.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_WOOD.get());
@@ -70,12 +71,30 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(MainBlocks.NAMEK_SACRED_FENCE_GATE.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_BUTTON.get());
         this.dropSelf(MainBlocks.NAMEK_SACRED_SAPLING.get());
+        this.dropSelf(MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get());
         this.dropSelf(MainBlocks.NAMEK_BLOCK.get());
         this.dropSelf(MainBlocks.NAMEK_DIRT.get());
         this.dropSelf(MainBlocks.GETE_BLOCK.get());
         this.dropSelf(MainBlocks.KIKONO_BLOCK.get());
         this.dropSelf(MainBlocks.NAMEK_COBBLESTONE.get());
+        this.dropSelf(MainBlocks.NAMEK_STONE_STAIRS.get());
+        this.dropSelf(MainBlocks.NAMEK_STONE_SLAB.get());
+        this.dropSelf(MainBlocks.NAMEK_STONE_WALL.get());
+        this.dropSelf(MainBlocks.NAMEK_COBBLESTONE_STAIRS.get());
+        this.dropSelf(MainBlocks.NAMEK_COBBLESTONE_SLAB.get());
+        this.dropSelf(MainBlocks.NAMEK_COBBLESTONE_WALL.get());
         this.dropSelf(MainBlocks.NAMEK_DEEPSLATE.get());
+        this.dropSelf(MainBlocks.NAMEK_DEEPSLATE_STAIRS.get());
+        this.dropSelf(MainBlocks.NAMEK_DEEPSLATE_SLAB.get());
+        this.dropSelf(MainBlocks.NAMEK_DEEPSLATE_WALL.get());
+        this.dropSelf(MainBlocks.ROCKY_DIRT.get());
+        this.dropSelf(MainBlocks.ROCKY_STONE_STAIRS.get());
+        this.dropSelf(MainBlocks.ROCKY_STONE_SLAB.get());
+        this.dropSelf(MainBlocks.ROCKY_STONE_WALL.get());
+        this.dropSelf(MainBlocks.ROCKY_COBBLESTONE.get());
+        this.dropSelf(MainBlocks.ROCKY_COBBLESTONE_STAIRS.get());
+        this.dropSelf(MainBlocks.ROCKY_COBBLESTONE_SLAB.get());
+        this.dropSelf(MainBlocks.ROCKY_COBBLESTONE_WALL.get());
         this.dropSelf(MainBlocks.GETE_FURNACE.get());
         this.dropSelf(MainBlocks.GETE_ORE.get());
         this.dropSelf(MainBlocks.TIME_CHAMBER_BLOCK.get());
@@ -120,6 +139,7 @@ public class DMZBlockLootTables extends BlockLootSubProvider {
 
         //Bloques que se dropean si se rompen con Silk Touch
         this.add(MainBlocks.NAMEK_STONE.get(), block -> SilkTouchBlockDrop(MainBlocks.NAMEK_STONE.get(), MainBlocks.NAMEK_COBBLESTONE.get()));
+        this.add(MainBlocks.ROCKY_STONE.get(), block -> SilkTouchBlockDrop(MainBlocks.ROCKY_STONE.get(), MainBlocks.ROCKY_COBBLESTONE.get()));
 
         //Vegetacion
         this.add(MainBlocks.NAMEK_AJISSA_LEAVES.get(),
