@@ -23,6 +23,9 @@ public class DMZBlockStateProvider extends BlockStateProvider {
         blockWithItem(MainBlocks.NAMEK_DIRT);
         blockWithItem(MainBlocks.NAMEK_STONE);
         blockWithItem(MainBlocks.NAMEK_COBBLESTONE);
+        blockWithItem(MainBlocks.ROCKY_DIRT);
+        blockWithItem(MainBlocks.ROCKY_STONE);
+        blockWithItem(MainBlocks.ROCKY_COBBLESTONE);
         blockWithItem(MainBlocks.TIME_CHAMBER_BLOCK);
         axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
         blockWithItem(MainBlocks.TIME_CHAMBER_PORTAL);
@@ -87,12 +90,18 @@ public class DMZBlockStateProvider extends BlockStateProvider {
         stairsBlock(((StairBlock) MainBlocks.NAMEK_STONE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
         slabBlock(((SlabBlock) MainBlocks.NAMEK_STONE_SLAB.get()), blockTexture(MainBlocks.NAMEK_STONE.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
         wallBlock(((WallBlock) MainBlocks.NAMEK_STONE_WALL.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
-        wallBlock(((WallBlock) MainBlocks.NAMEK_COBBLESTONE_WALL.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
         stairsBlock(((StairBlock) MainBlocks.NAMEK_COBBLESTONE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
         slabBlock(((SlabBlock) MainBlocks.NAMEK_COBBLESTONE_SLAB.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
-        wallBlock(((WallBlock) MainBlocks.NAMEK_DEEPSLATE_WALL.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        wallBlock(((WallBlock) MainBlocks.NAMEK_COBBLESTONE_WALL.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
         stairsBlock(((StairBlock) MainBlocks.NAMEK_DEEPSLATE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
         slabBlock(((SlabBlock) MainBlocks.NAMEK_DEEPSLATE_SLAB.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        wallBlock(((WallBlock) MainBlocks.NAMEK_DEEPSLATE_WALL.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        stairsBlock(((StairBlock) MainBlocks.ROCKY_STONE_STAIRS.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.ROCKY_STONE_SLAB.get()), blockTexture(MainBlocks.ROCKY_STONE.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        wallBlock(((WallBlock) MainBlocks.ROCKY_STONE_WALL.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        stairsBlock(((StairBlock) MainBlocks.ROCKY_COBBLESTONE_STAIRS.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.ROCKY_COBBLESTONE_SLAB.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
+        wallBlock(((WallBlock) MainBlocks.ROCKY_COBBLESTONE_WALL.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

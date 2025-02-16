@@ -7,9 +7,9 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.placement.CaveSurface;
 
 public class ModSurfaceRules {
-	private static final SurfaceRules.RuleSource ROCKY_STONE = makeStateRule(MainBlocks.NAMEK_STONE.get());
-	private static final SurfaceRules.RuleSource ROCKY_DIRT = makeStateRule(MainBlocks.NAMEK_DIRT.get());
-	private static final SurfaceRules.RuleSource ROCKY_COBBLE = makeStateRule(MainBlocks.NAMEK_COBBLESTONE.get());
+	private static final SurfaceRules.RuleSource ROCKY_STONE = makeStateRule(MainBlocks.ROCKY_STONE.get());
+	private static final SurfaceRules.RuleSource ROCKY_DIRT = makeStateRule(MainBlocks.ROCKY_DIRT.get());
+	private static final SurfaceRules.RuleSource ROCKY_COBBLE = makeStateRule(MainBlocks.ROCKY_COBBLESTONE.get());
 
 	public static SurfaceRules.RuleSource makeRules() {
 		SurfaceRules.RuleSource rockySurfaceRule = SurfaceRules.sequence(
