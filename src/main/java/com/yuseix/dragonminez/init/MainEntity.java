@@ -154,6 +154,12 @@ public final class MainEntity {
 							.sized(0.6f, 1.5f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "master_kaiosama").toString())
 			);
+	public static final RegistryObject<EntityType<EnmaEntity>> ENMA =
+			ENTITY_TYPES_REGISTER.register("enma",
+					() -> EntityType.Builder.of(EnmaEntity::new, MobCategory.CREATURE)
+							.sized(1.0f, 2.5f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "enma").toString())
+			);
 	public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
 			ENTITY_TYPES_REGISTER.register("nube",
 					() -> EntityType.Builder.of(NubeEntity::new, MobCategory.AMBIENT)

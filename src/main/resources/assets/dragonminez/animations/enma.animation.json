@@ -1,0 +1,31 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.enma.idle": {
+			"loop": true,
+			"bones": {
+				"Left_Leg": {
+					"rotation": {
+						"vector": [0, 0, "math.sin(query.anim_time*150)*-1.25"]
+					}
+				},
+				"Right Leg": {
+					"rotation": {
+						"vector": [0, 0, "math.sin(query.anim_time*150)*1.25"]
+					}
+				},
+				"Left Arm": {
+					"rotation": {
+						"vector": [0, 0, "math.sin(query.anim_time*150)*-1.25"]
+					}
+				},
+				"Right Arm": {
+					"rotation": {
+						"vector": [0, 0, "math.sin(query.anim_time*150)*1.25"]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

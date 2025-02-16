@@ -116,6 +116,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.MASTER_ROSHI.get(), RoshiRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_GOKU.get(), GokuMasterRenderer::new);
 			EntityRenderers.register(MainEntity.MASTER_KAIOSAMA.get(), KaiosamaRenderer::new);
+			EntityRenderers.register(MainEntity.ENMA.get(), EnmaRenderer::new);
 
 			EntityRenderers.register(MainEntity.NAMEK_FROG.get(), NamekFrogRenderer::new);
 			EntityRenderers.register(MainEntity.PINK_FROG.get(), PinkFrogRenderer::new);
