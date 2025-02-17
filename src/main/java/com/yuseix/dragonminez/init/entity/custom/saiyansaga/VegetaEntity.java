@@ -4,12 +4,13 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,15 +24,18 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.joml.Vector3f;
 
 public class VegetaEntity extends SagaEntity {
+
+    private static final EntityDataAccessor<Boolean> isKiCharge = SynchedEntityData.defineId(VegetaEntity.class, EntityDataSerializers.BOOLEAN);
 
     private int cooldownKiAttack = 60; //ticks
     private int talkCooldown = getRandomTalkCooldown(); // Cooldown de frases aleatorias
 
+
     public VegetaEntity(EntityType<? extends Monster> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
+        this.entityData.define(isKiCharge, false);
     }
 
     public static AttributeSupplier setAttributes() {
@@ -39,6 +43,13 @@ public class VegetaEntity extends SagaEntity {
                 .add(Attributes.MAX_HEALTH, 1000.0D)
                 .add(Attributes.ATTACK_DAMAGE, 80.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
+    }
+
+    public Boolean getisKiCharge() {
+        return this.entityData.get(isKiCharge);
+    }
+    public void setIsKiCharge(boolean fact) {
+        this.entityData.set(isKiCharge, fact);
     }
 
     @Override
@@ -58,13 +69,17 @@ public class VegetaEntity extends SagaEntity {
             }
 
             if(cooldownKiAttack < 30){
-                spawnPurpleParticles();
+                setIsKiCharge(true);
             }
 
             // Si el cooldown llega a 0, lanza el ataque
             if (cooldownKiAttack == 0) {
-                launchKiAttack();
-                cooldownKiAttack = 120;
+                if(getisKiCharge() == true){
+                    launchFireball();
+                    cooldownKiAttack = 120;
+                    setIsKiCharge(false);
+                }
+
             }
 
             if (heightDifference > 1.9) {
@@ -148,7 +163,7 @@ public class VegetaEntity extends SagaEntity {
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, Villager.class, true));
         this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));}
 
-    private void launchKiAttack() {
+    private void launchFireball() {
         LivingEntity target = this.getTarget();
         if (target == null) return;
 
@@ -157,7 +172,7 @@ public class VegetaEntity extends SagaEntity {
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
+        KiSmallWaveProjectil kiBlast = new KiSmallWaveProjectil(MainEntity.KI_SMALL_WAVE.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);
@@ -166,47 +181,23 @@ public class VegetaEntity extends SagaEntity {
         kiBlast.setOwnerUUID(this.getUUID());
 
         //Color de esfera de adentro
-        kiBlast.setColor(4402840);
+        kiBlast.setColor(14654463);
         //Color de borde
-        kiBlast.setColorBorde(3741278);
+        kiBlast.setColorBorde(11748327);
 
-        kiBlast.setVelocidad(1.5f);
+        kiBlast.setVelocidad(0.5f);
 
-        kiBlast.setDamage(80.0F);
+        kiBlast.setDamage(100.0F);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());
+        kiBlast.setStartPosition(kiBlast.position()); // Guarda la posición inicial del disparo
 
         // Configura la dirección del movimiento del proyectil hacia el objetivo
-        kiBlast.shoot(dx, dy, dz, kiBlast.getVelocidad(), 0);
-        this.playSound(MainSounds.KIBLAST_ATTACK.get(), 1.0F, 1.0F);
+        kiBlast.shoot(dx, dy, dz, kiBlast.getVelocidad(), 0); // `1.0F` es la velocidad; ajusta según sea necesario
 
         // Añade el proyectil al mundo
         this.level().addFreshEntity(kiBlast);
-    }
-
-    private void spawnPurpleParticles() {
-        ServerLevel serverLevel = (ServerLevel) this.level();
-        for (int i = 0; i < 10; i++) {
-
-            double offsetX = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje X
-            double offsetY = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje Y
-            double offsetZ = (this.getRandom().nextDouble() - 0.5) * 2.0; // Movimiento aleatorio en el eje Z
-
-
-            DustParticleOptions dustOptions = new DustParticleOptions(
-                    new Vector3f(66f /255f, 33f /255f, 110f /255f), // Color morado (RGB)
-                    1.0f  // Tamaño de la partícula
-            );
-            serverLevel.sendParticles((ServerPlayer) this.getTarget(),
-                    dustOptions,
-                    true,
-                    this.getX() + offsetX,
-                    this.getY() + offsetY + 1.0,  // Asegúrate de que las partículas sean visibles
-                    this.getZ() + offsetZ,
-                    10,
-                    0.0, 0.0, 0.0, 0.0);
-        }
     }
 
 }
