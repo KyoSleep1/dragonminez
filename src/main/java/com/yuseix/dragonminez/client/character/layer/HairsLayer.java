@@ -157,18 +157,6 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                             this.trunkshair.renderToBuffer(poseStack,trunks, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                         }
 
-                    } else if(transformation.equals("oozaru")){ //Ozaru osea aqui no hacemos nada
-                        var colorSSJ1 = 16777114;
-                        colorR = (colorSSJ1 >> 16) / 255.0F;
-                        colorG = ((colorSSJ1 >> 8) & 0xff) / 255.0f;
-                        colorB = (colorSSJ1 & 0xff) / 255.0f;
-                        if(hairId == 1){
-                            VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(GOKUHAIR_TEXT1));
-                            this.gokuhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.gokuhair.renderToBuffer(poseStack,gokubase, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-
-                        }
                     } else if(transformation.equals("goldenoozaru")){ //Super saiyajin 1
                         //Color del ssj (Obvio no?)
                         var colorSSJ = 3379455;

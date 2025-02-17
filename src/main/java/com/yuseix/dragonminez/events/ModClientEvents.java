@@ -1,10 +1,7 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
-import com.yuseix.dragonminez.client.character.models.HumanSaiyanModel;
-import com.yuseix.dragonminez.client.character.models.NamekianModel;
-import com.yuseix.dragonminez.client.character.models.SlimHumanSaiyanModel;
+import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.hair.*;
@@ -229,7 +226,10 @@ public class ModClientEvents {
 		//RAZAS
 		e.registerLayerDefinition(HumanSaiyanModel.LAYER_LOCATION, HumanSaiyanModel::createBodyLayer);
 		e.registerLayerDefinition(SlimHumanSaiyanModel.LAYER_LOCATION, SlimHumanSaiyanModel::createBodyLayer);
+		e.registerLayerDefinition(OzaruModel.LAYER_LOCATION, OzaruModel::createBodyLayer);
+
 		e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
+
 		e.registerLayerDefinition(BioAndroidModel.LAYER_LOCATION, BioAndroidModel::createBodyLayer);
 
 		e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
