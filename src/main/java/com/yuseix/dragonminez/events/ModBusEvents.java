@@ -36,6 +36,7 @@ public class ModBusEvents {
 		event.put(MainEntity.MASTER_GOKU.get(), GokuMasterEntity.setAttributes());
 		event.put(MainEntity.MASTER_KAIOSAMA.get(), KaiosamaEntity.setAttributes());
 		event.put(MainEntity.ENMA.get(), EnmaEntity.setAttributes());
+		event.put(MainEntity.URANAI.get(), UranaiEntity.setAttributes());
 
 		event.put(MainEntity.NAMEK_FROG.get(), NamekFrogEntity.setAttributes());
 		event.put(MainEntity.PINK_FROG.get(), PinkFrogEntity.setAttributes());
