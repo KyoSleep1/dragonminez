@@ -166,6 +166,12 @@ public final class MainEntity {
 							.sized(0.6f, 1.5f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "uranaibaba").toString())
 			);
+	public static final RegistryObject<EntityType<GuruEntity>> GURU =
+			ENTITY_TYPES_REGISTER.register("guru",
+					() -> EntityType.Builder.of(GuruEntity::new, MobCategory.CREATURE)
+							.sized(1.2f, 2.5f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "guru").toString())
+			);
 	public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
 			ENTITY_TYPES_REGISTER.register("nube",
 					() -> EntityType.Builder.of(NubeEntity::new, MobCategory.AMBIENT)
