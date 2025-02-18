@@ -85,12 +85,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
-
-            if(transformacion == 0){
                 pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-
-            }
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -180,34 +175,19 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
-                int colorAura = cap.getAuraColor();
-                int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                switch (transformacion){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else {
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        if(isMajinOn){
-                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        break;
-
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else {
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
 
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-
-
-
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
             });
 
         }

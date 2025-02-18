@@ -204,7 +204,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
                 RenderSystem.enableBlend();
-                renderKiBarColor(guiGraphics, playerstats.getRace(), playerstats.getDmzState(),energiatotal);
+                renderKiBarColor(guiGraphics, playerstats.getRace(), playerstats.getDmzForm(),energiatotal);
                 RenderSystem.disableBlend();
 
                 guiGraphics.pose().popPose();
@@ -216,7 +216,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
     };
 
-    public static void renderKiBarColor(GuiGraphics guiGraphics,int raza, int transformacion, int energiatotal){
+    public static void renderKiBarColor(GuiGraphics guiGraphics,int raza, String transformacion, int energiatotal){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             RenderSystem.enableBlend();
             var colorAura = cap.getAuraColor();
@@ -228,10 +228,13 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     break;
                 case 1: //saiyan
                     //Ejemplo de si esta en X transformacion jijij9i
-                    if(transformacion == 2){
-                        RenderSystem.setShaderColor(0.990f, 0.966f, 0.515f, 1.0f);
-                    } else {
-                        RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                    switch (transformacion){
+                        case "oozaru":
+                            RenderSystem.setShaderColor(0.990f, 0.966f, 0.515f, 1.0f);
+                            break;
+                        default:
+                            RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                            break;
                     }
                     break;
                 case 2: //namek

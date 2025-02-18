@@ -121,29 +121,20 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
                 int bodyType = cap.getBodytype();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
-                int transformacion = cap.getDmzState();
 
-                switch (transformacion){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else if(bodyType == 1){
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else if(bodyType == 2){
-                            renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        if(isMajinOn){
-                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else if(bodyType == 1){
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else if(bodyType == 2){
+                    renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
 
             });
 
@@ -176,12 +167,11 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
-                if(cap.getDmzState() == 0){
                     //DELINEADO
                     pPoseStack.translate(0f,0f,-0.002f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                }
+
 
             }
 

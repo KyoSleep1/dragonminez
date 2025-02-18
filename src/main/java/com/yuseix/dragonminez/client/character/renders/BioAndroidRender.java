@@ -80,13 +80,19 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getDmzForm();
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F); //Tamano Semiperfecto cell
-
+            switch (transf){
+                case "semi_perfect":
+                    break;
+                case "perfect":
+                    break;
+                default: //Imperfect
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    //pPoseStack.scale(1.01F, 1.03F, 1.01F); //Tamano Semiperfecto cell
+                    break;
             }
+
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -167,27 +173,23 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                int colorAura = cap.getAuraColor();
-                int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
+                var transformacion = cap.getDmzForm();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (transformacion){
-                    case 0:
-
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-
-
+                    case "semi_perfect":
+                        break;
+                    case "perfect":
+                        break;
+                    default: //IMPERFECT
+                        renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         break;
                 }
 
-                if(cap.getDMZPermaEffect("majin")){
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+
+                if(isMajinOn){
                     renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
 
@@ -491,7 +493,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        BioAndroidModel<AbstractClientPlayer> playermodel = (BioAndroidModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -524,13 +526,19 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            if(cap.getDmzState() == 0){
+            var transf = cap.getDmzForm();
+
+            switch (transf){
+                case "semi_perfect":
+                    break;
+                case "perfect":
+                    break;
+                default: //IMPERFECT
                     //DELINEADO
-                pPoseStack.translate(0f,0f,-0.0012f);
+                    pPoseStack.translate(0f,0f,-0.0012f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
+                    break;
             }
-
 
 
         });

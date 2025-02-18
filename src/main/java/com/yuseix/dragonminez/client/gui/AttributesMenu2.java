@@ -32,10 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.text.NumberFormatter;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @OnlyIn(Dist.CLIENT)
 public class AttributesMenu2 extends Screen implements RenderEntityInv {
@@ -279,7 +276,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             }
 
             var strdefault = playerstats.getStrength(); var defdefault = playerstats.getDefense(); var condefault = playerstats.getConstitution();
-            var kipowerdefault = playerstats.getKiPower(); var energydefault = playerstats.getEnergy(); var raza = playerstats.getRace(); var transf = playerstats.getDmzState();
+            var kipowerdefault = playerstats.getKiPower(); var energydefault = playerstats.getEnergy(); var raza = playerstats.getRace();
+            var transf = playerstats.getDmzForm();
 
             int[] cantStats = {strdefault, defdefault, condefault, kipowerdefault, energydefault};
             Arrays.sort(cantStats);
@@ -300,7 +298,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "KIPOWER")) * 100) / 100.0;
             var multiTotal = dmzdatos.calcularMultiTotal(playerstats);
 
-            var isMultiOn = majinOn || frutaOn || transf > 0; var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
+            var isMultiOn = majinOn || frutaOn || !Objects.equals(transf, "base");
+            var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
 
 
             //WA
@@ -444,7 +443,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin"); var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
             //Datos
-            var transf = playerstats.getDmzState();
+            var transf = playerstats.getDmzForm();
 
             var strMax = dmzdatos.calcularSTR(playerstats);
             var defMax = dmzdatos.calcularDEF(playerstats, Minecraft.getInstance().player);
@@ -453,7 +452,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var KPWMax = dmzdatos.calcularKiPower(playerstats);
             var enrMax = dmzdatos.calcularENE(playerstats);
 
-            var colorEnForma = majinOn || frutaOn || transf > 0 ? 0xfebc0d : 0xFFD7AB;
+            var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") ? 0xfebc0d : 0xFFD7AB;
 
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto, alturaTexto, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);

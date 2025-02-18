@@ -129,37 +129,27 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
-                var transf = cap.getDmzState();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                switch (transf){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            //RENDER EYES
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                    //RENDER EYES
+                    renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            if(isMajinOn){
-                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
+                    if(isMajinOn){
+                        renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                    }
 
-                        } else {
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else {
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            //RENDER EYES
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                    //RENDER EYES
+                    renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            if(isMajinOn){
-                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-                        }
-
-                        break;
-                    case 1:
-                        break;
-
+                    if(isMajinOn){
+                        renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                    }
                 }
 
 

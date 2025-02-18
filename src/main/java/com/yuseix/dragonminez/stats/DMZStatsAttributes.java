@@ -27,7 +27,6 @@ public class DMZStatsAttributes {
     private int constitution = 5, curStam;
 
     private int dmzRelease = 5;
-    private int dmzState = 0;
     private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0, babaCooldown = 0, babaAliveTimer = 0;
 
     private int zpoints;
@@ -138,15 +137,6 @@ public class DMZStatsAttributes {
     }
     public void setDmzRelease(int dmzRelease) {
         this.dmzRelease = dmzRelease;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getDmzState() {
-        return dmzState;
-    }
-
-    public void setDmzState(int dmzState) {
-        this.dmzState = dmzState;
         DMZStatsCapabilities.syncStats(player);
     }
 
@@ -928,7 +918,6 @@ public class DMZStatsAttributes {
 
         nbt.putInt("currentEnergy", currentEnergy);
         nbt.putInt("currentStamina", curStam);
-        nbt.putInt("dmzState", dmzState);
         nbt.putInt("dmzRelease", dmzRelease);
 
         nbt.putInt("bodyColor", bodyColor);
@@ -1038,7 +1027,6 @@ public class DMZStatsAttributes {
 
         currentEnergy = nbt.getInt("currentEnergy");
         curStam = nbt.getInt("currentStamina");
-        dmzState = nbt.getInt("dmzState");
         dmzRelease = nbt.getInt("dmzRelease");
         FormRelease = nbt.getInt("formRelease");
 

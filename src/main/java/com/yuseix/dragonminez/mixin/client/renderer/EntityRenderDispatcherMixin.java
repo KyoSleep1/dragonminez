@@ -99,10 +99,15 @@ public class EntityRenderDispatcherMixin {
                             break;
                         //BIOANDROIDE RENDER
                         case 3:
-                            if(cap.getDmzState() == 0){
-                                cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
-                            } else if(cap.getDmzState() == 1){
-                                cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
+                            switch (transf){
+                                case "semi_perfect":
+                                    cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
+                                    break;
+                                case "perfect":
+                                    break;
+                                default:
+                                    cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
+                                    break;
                             }
                             break;
                         //DEMONCOLD

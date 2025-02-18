@@ -77,13 +77,20 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getDmzForm();
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
-
+            switch (transf){
+                case "second_form":
+                    break;
+                case "third_form":
+                    break;
+                case "final_form":
+                    break;
+                default: //minimum
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    break;
             }
+
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -173,34 +180,32 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                int colorAura = cap.getAuraColor();
-                int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+                var transf = cap.getDmzForm();
 
-                switch (transformacion){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        } else if(bodyType == 1){
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        } else if(bodyType == 2){
-                            renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        }
-
-                        if(isMajinOn){
-                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-
+                switch (transf){
+                    case "second_form":
 
                         break;
+                    case "third_form":
+                        break;
+                    case "final_form":
+                        break;
+                    default: //forma minima
+                        if (bodyType == 0) {
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 1){
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 2){
+                            renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+                        break;
+                }
+
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
 
 
@@ -466,17 +471,27 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            if(cap.hasDMZPermaEffect("majin")){
+            boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+            var transf = cap.getDmzForm();
+
+            if(isMajinOn){
                 //Renderizamos la marca majin
                 pPoseStack.translate(0f,0f,-0.002f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
-                if(cap.getDmzState() == 0){
-                    //DELINEADO
-                    pPoseStack.translate(0f,0f,-0.0011f);
-                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
+                switch (transf){
+                    case "second_form":
+                        break;
+                    case "third_form":
+                        break;
+                    case "final_form":
+                        break;
+                    default:
+                        //DELINEADO
+                        pPoseStack.translate(0f,0f,-0.0011f);
+                        playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                        break;
                 }
 
             }
@@ -600,7 +615,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
     }
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 

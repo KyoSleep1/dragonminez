@@ -88,13 +88,45 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getDmzForm();
+            var raza = cap.getRace();
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
-
+            switch (raza){
+                case 1://Saiyajin
+                    switch (transf){
+                        case "ssj1","ssj2","ssj3":
+                            break;
+                        case "ssgrade","ssgrade2","ssgrade3":
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
+                    break;
+                case 5:
+                    switch (transf){
+                        case "evil","super":
+                            break;
+                        case "kid":
+                            break;
+                        case "ultra":
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
+                    break;
+                default:
+                    switch (transf){
+                        case "buffed":
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
+                    break;
             }
+
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -182,59 +214,43 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 int bodyType = cap.getBodytype();
                 var raza = cap.getRace();
-                int transformacion = cap.getDmzState();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                switch (transformacion){
-                    case 0:
-                        if(raza == 0 || raza == 1){
-                            if (bodyType == 0) {
-                                if(pEntity.getModelName().equals("default")){
-                                } else {
-                                    renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                                }
+                switch (raza){
+                    case 5:
+                        //BodyType 1
+                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                            } else if (bodyType > 0) {
-                                pPoseStack.translate(0f,0f,0f);
+                        renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                                //CUERPO CUSTOM 1
-                                if (bodyType == 1) {
-                                    renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                                }
-
-                                //RENDER EYES
-
-                                renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                            }
-
-                            if(isMajinOn){
-                                renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
-                        } else {
-
-                            //BodyType 1
-                            renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                            renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                            if(isMajinOn){
-                                renderMajinMarcaMajinRace(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
+                        if(isMajinOn){
+                            renderMajinMarcaMajinRace(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
-
                         break;
-                    case 1:
+                    default:
+                        if (bodyType == 0) {
+                            if(pEntity.getModelName().equals("default")){
+                            } else {
+                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
 
+                        } else if (bodyType > 0) {
+                            pPoseStack.translate(0f,0f,0f);
+
+                            //CUERPO CUSTOM 1
+                            if (bodyType == 1) {
+                                renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            }
+                            //RENDER EYES
+                            renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+
+                        if(isMajinOn){
+                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
                         break;
                 }
-
-
-
-
 
             });
 
@@ -644,7 +660,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
         var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
 
-        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 

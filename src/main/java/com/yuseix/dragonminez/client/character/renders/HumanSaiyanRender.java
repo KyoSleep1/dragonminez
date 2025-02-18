@@ -86,14 +86,45 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            var transformacion = cap.getDmzForm();
+            var transf = cap.getDmzForm();
+            var raza = cap.getRace();
 
-            switch (transformacion){
-                case "oozaru", "goldenoozaru":
-                    pPoseStack.scale(3.9375F, 3.9375F, 3.9375F); //Tamano default de jugador
+            switch (raza){
+                case 1://Saiyajin
+                    switch (transf){
+                        case "ssj1","ssj2","ssj3":
+                            break;
+                        case "ssgrade","ssgrade2","ssgrade3":
+                            break;
+                        case "oozaru", "goldenoozaru":
+                            pPoseStack.scale(3.9375F, 3.9375F, 3.9375F); //Tamano default de jugador
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
+                    break;
+                case 5:
+                    switch (transf){
+                        case "evil","super":
+                            break;
+                        case "kid":
+                            break;
+                        case "ultra":
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
                     break;
                 default:
-                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    switch (transf){
+                        case "buffed":
+                            break;
+                        default:
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                    }
                     break;
             }
         });

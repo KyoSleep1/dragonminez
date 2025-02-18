@@ -84,12 +84,20 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getDmzForm();
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
-
+            switch (transf){
+                case "full_power":
+                    break;
+                case "power_unleashed":
+                    break;
+                case "giant", "orange_giant":
+                    break;
+                case "orange":
+                    break;
+                default: //base
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    break;
             }
         });
 
@@ -180,21 +188,26 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
                 int bodyType = cap.getBodytype();
-                int colorAura = cap.getAuraColor();
-                boolean isAuraOn = cap.isAuraOn();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+                var form = cap.getDmzForm();
 
+                switch (form){
+                    case "full_power","power_unleashed","giant":
+                        if (bodyType == 0) {
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                } else if (bodyType == 1) {
-                    pPoseStack.translate(0f, 0f, 0f);
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if (bodyType == 1) {
+                            pPoseStack.translate(0f, 0f, 0f);
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+                        break;
+                    case "orange","orange_giant":
+                        break;
+                    default: //base
+                        break;
                 }
 
                 renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
 
                 if(isMajinOn){
                     renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -459,7 +472,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
