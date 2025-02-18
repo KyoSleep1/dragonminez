@@ -89,8 +89,8 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             var transformacion = cap.getDmzForm();
 
             switch (transformacion){
-                case "oozaru":
-                    pPoseStack.scale(1.9375F, 1.9375F, 1.9375F); //Tamano default de jugador
+                case "oozaru", "goldenoozaru":
+                    pPoseStack.scale(3.9375F, 3.9375F, 3.9375F); //Tamano default de jugador
                     break;
                 default:
                     pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador

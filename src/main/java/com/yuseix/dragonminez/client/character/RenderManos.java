@@ -343,14 +343,19 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
                 case 1:
                     switch (form){
                         case "oozaru":
-                            colorR = (6888961 >> 16) / 255.0F;
-                            colorG = ((6888961 >> 8) & 0xff) / 255.0f;
-                            colorB = (6888961 & 0xff) / 255.0f;
-                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.OOZARU_1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            var layer1 = 6888961;
+
+                            colorR = (layer1 >> 16) / 255.0F;
+                            colorG = ((layer1 >> 8) & 0xff) / 255.0f;
+                            colorB = (layer1 & 0xff) / 255.0f;
+
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
                             colorR = (14922657 >> 16) / 255.0F;
                             colorG = ((14922657 >> 8) & 0xff) / 255.0f;
                             colorB = (14922657 & 0xff) / 255.0f;
-                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.OOZARU_2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
 
                             break;
                         default:

@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +34,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -436,6 +438,50 @@ public class StatsEvents {
 				}
 			});
 		}
+	}
+
+	@SubscribeEvent
+	@SuppressWarnings("removal")
+	public static void onPlayerSizeChange(PlayerEvent.Size event) {
+		if(event.getEntity() instanceof Player player){
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				var raza = cap.getRace();
+				var transf = cap.getDmzForm();
+
+				switch (raza) {
+					case 1: // Saiyan
+						switch (transf) {
+							case "oozaru", "goldenoozaru":
+								// Ajustamos el ancho y la altura según el estado del jugador
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(2.3625F, 2.3625F, true));
+									event.setNewEyeHeight(1.654F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(2.3625F, 5.90625F, true));
+									event.setNewEyeHeight(5.000625F);
+								} else {
+									event.setNewSize(new EntityDimensions(2.3625F, 7.0875F, true));
+									event.setNewEyeHeight(6.3759F);
+								}
+								break;
+							default:
+								break;
+						}
+						break;
+					case 2: // Namek
+						break;
+					case 3: // BioAndroide
+						break;
+					case 4: // ColdDemon
+						break;
+					case 5: // Majin
+						break;
+					default: //Humano
+						break;
+				}
+			});
+		}
+
 	}
 
 	@OnlyIn(Dist.CLIENT)
