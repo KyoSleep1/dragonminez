@@ -93,6 +93,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 case 1://Saiyajin
                     switch (transf){
                         case "ssj1","ssj2","ssj3":
+                            pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
                             break;
                         case "ssgrade","ssgrade2","ssgrade3":
                             break;

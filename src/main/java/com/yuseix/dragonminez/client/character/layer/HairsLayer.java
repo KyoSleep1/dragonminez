@@ -32,6 +32,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     public static final ResourceLocation TRUNKS_HAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/trunks/trunks2.png");
 
     private static final ResourceLocation EARS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/ears.png");
+    private static final ResourceLocation HALO_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/halo.png");
 
     private float colorR, colorG, colorB;
 
@@ -45,6 +46,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     private EarsNamek earsNamek;
     private TailModel cola;
     private Tail2Model cola_cinturon;
+    private HaloModel haloModel;
 
     public HairsLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
@@ -53,6 +55,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
         this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
         this.cola_cinturon = new Tail2Model(Tail2Model.createBodyLayer().bakeRoot());
+        this.haloModel = new HaloModel(HaloModel.createBodyLayer().bakeRoot());
         this.vegetahair = new VegetaHairModel(VegetaHairModel.createBodyLayer().bakeRoot());
         this.gohandbshair = new GohanDBSHairModel(GohanDBSHairModel.createBodyLayer().bakeRoot());
         this.gohanteenhair = new GohanTeenHairModel(GohanTeenHairModel.createBodyLayer().bakeRoot());
@@ -84,6 +87,14 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             if (abstractClientPlayer.hasEffect(MobEffects.INVISIBILITY)) return;
             // Si el jugador tiene un casco, no renderizamos nada.
             if (!(abstractClientPlayer.getItemBySlot(EquipmentSlot.HEAD).isEmpty())) return;
+
+            if(!cap.isDmzAlive()){
+                VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HALO_TEX));
+                this.haloModel.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                this.getParentModel().getHead().translateAndRotate(poseStack);
+                this.haloModel.renderToBuffer(poseStack,tex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+
+            }
 
             switch (raza){
                 case 0: //Humano
