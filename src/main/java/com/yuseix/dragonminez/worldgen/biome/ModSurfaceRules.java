@@ -30,19 +30,19 @@ public class ModSurfaceRules {
 										)
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 6),
+										SurfaceRules.yStartCheck(VerticalAnchor.absolute(64), 7),
 										SurfaceRules.sequence(
 												SurfaceRules.ifTrue(
-														SurfaceRules.stoneDepthCheck(0, true, 3, CaveSurface.FLOOR),
+														SurfaceRules.stoneDepthCheck(0, true, 6, CaveSurface.FLOOR),
 														ROCKY_STONE
 												)
 										)
 								),
 								SurfaceRules.ifTrue(
-										SurfaceRules.yStartCheck(VerticalAnchor.absolute(50), 16),
+										SurfaceRules.yStartCheck(VerticalAnchor.absolute(64), 14),
 										SurfaceRules.sequence(
 												SurfaceRules.ifTrue(
-														SurfaceRules.stoneDepthCheck(0, true, 8, CaveSurface.FLOOR),
+														SurfaceRules.stoneDepthCheck(0, true, 17, CaveSurface.FLOOR),
 														ROCKY_COBBLE
 												)
 										)

@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.config.races.DMZHumanConfig;
 import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
+import com.yuseix.dragonminez.events.characters.StatsEvents;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
@@ -151,11 +152,12 @@ public class TickHandler {
 		if (chargeTimer >= 20) {
 			if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
 				if (playerstats.getDmzRelease() > 0) {
-					playerstats.setDmzRelease(playerstats.getDmzRelease() - 5);
+					playerstats.setDmzRelease(playerstats.getDmzRelease() - 1);
 					if (playerstats.getDmzRelease() < 0) {
 						playerstats.setDmzRelease(0);
 					}
 				}
+				chargeTimer = 16;
 			} else if (playerstats.isAuraOn()) {
 				if (playerstats.getDmzRelease() < maxRelease) {
 					playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
@@ -165,7 +167,7 @@ public class TickHandler {
 				}
 				if (!playerstats.isTurbonOn()) {
 					if (playerstats.getCurrentEnergy() < maxenergia) {
-						if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
+						if ((flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) || playerstats.isTransforming()) {
 							// No hacer nada
 						} else {
 							int kiRegen = dmzdatos.calcularCargaKi(playerstats);
@@ -178,6 +180,7 @@ public class TickHandler {
 								kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
 							}
 							playerstats.addCurEnergy(kiRegen);
+							System.out.println("Cargando Aura: " + kiRegen);
 						}
 					}
 				}
@@ -194,16 +197,17 @@ public class TickHandler {
 
 		int formLevel = playerstats.getFormSkillLevel("super_form");
 
+
 		if (playerstats.isTransforming() && playerstats.getFormRelease() >= 100) {
 			manejarForms(playerstats);
 			playerstats.setFormRelease(0);
 		}
 
 		if (playerstats.isTransforming() && playerstats.getFormRelease() >= 0) {
-			if (getNextForm(playerstats) == null) return;
+			if (StatsEvents.getNextForm(playerstats) == null) return;
 			dmzformTimer++;
 			if (dmzformTimer >= 20) {
-				playerstats.setFormRelease(playerstats.getFormRelease() + (5 * formLevel));
+				playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
 				dmzformTimer = 0;
 			}
 		} else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
@@ -216,7 +220,7 @@ public class TickHandler {
 		if (playerstats.getFormRelease() < 100 || !playerstats.hasFormSkill("super_form")) return;
 
 		// Obtener la siguiente transformación posible
-		String nextForm = getNextForm(playerstats);
+		String nextForm = StatsEvents.getNextForm(playerstats);
 
 		if (nextForm != null) {
 			DebugUtils.dmzLog("Tu Forma Actual es: " + playerstats.getDmzForm());
@@ -255,48 +259,5 @@ public class TickHandler {
 				}
 			}
 		}
-	}
-
-	private String getNextForm(DMZStatsAttributes playerstats) {
-		int race = playerstats.getRace();
-		int superFormLvl = playerstats.getFormSkillLevel("super_form");
-		String groupForm = playerstats.getDmzGroupForm();
-		String dmzForm = playerstats.getDmzForm();
-
-		Map<String, String[]> saiyanForms = Map.of(
-				"", new String[]{"oozaru", "goldenoozaru"},
-				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
-				"ssj", new String[]{"ssj1fp", "ssj2", "ssj3"}
-		);
-
-		Map<String, String[]> coldDemonForms = Map.of(
-				"", new String[]{"first", "second", "third", "base", "fullpower"},
-				"definitive", new String[]{"mecha", "fifth", "golden", "black"}
-		);
-
-		Map<Integer, Map<String, String[]>> transformations = Map.of(
-				0, Map.of("", new String[]{"buffed", "fullpower"}), // Humano
-				1, saiyanForms, // Saiyan
-				2, Map.of("", new String[]{"giant", "fullpower"}), // Namek
-				3, Map.of("", new String[]{"imperfect", "semiperfect", "perfect", "super"}), // Bioandroide
-				4, coldDemonForms, // Cold Demon
-				5, Map.of("", new String[]{"evil", "kid", "super", "ultra"}) // Majin
-		);
-
-		if (!transformations.containsKey(race)) return null;
-
-		String[] availableForms = transformations.get(race).getOrDefault(groupForm, new String[0]);
-
-		int maxIndex = switch (groupForm) {
-			case "ssj" -> Math.min(superFormLvl - 5, 2);
-			default -> Math.min(superFormLvl - 1, availableForms.length - 1);
-		};
-
-		if (maxIndex < 0) return null;
-
-		int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
-
-		return (currentIndex == -1) ? availableForms[0] :
-				(currentIndex < maxIndex ? availableForms[currentIndex + 1] : null);
 	}
 }

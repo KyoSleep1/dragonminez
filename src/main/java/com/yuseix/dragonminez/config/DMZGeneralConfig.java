@@ -106,7 +106,7 @@ public class DMZGeneralConfig {
                 .defineInRange("[Porunga] Number of Senzus: ", 8, 1, 64);
 
         CAPSULE_PORUNGA_WISH = BUILDER.comment("Number of Capsules Porunga will give (Min: 1 / Max: 64 / Default: 3)")
-                .defineInRange("[Porunga] Number of Capsules: ", 3, 1, 64);
+                .defineInRange("[Porunga] Number of Capsules: ", 4, 1, 64);
 
         GETE_PORUNGA_WISH = BUILDER.comment("Number of Gete Scraps Porunga will give (Min: 1 / Max: 64 / Default: 3)")
                 .defineInRange("[Porunga] Number of Gete Scraps: ", 3, 1, 64);

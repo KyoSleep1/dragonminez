@@ -262,8 +262,8 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DIRT);
         blockItem(MainBlocks.NAMEK_STONE);
         blockItem(MainBlocks.NAMEK_COBBLESTONE);
-        blockItem(MainBlocks.ROCKY_STONE);
-        blockItem(MainBlocks.ROCKY_COBBLESTONE);
+        simpleBlockItem(MainBlocks.ROCKY_STONE);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE);
         blockItem(MainBlocks.NAMEK_AJISSA_PLANKS);
         blockItem(MainBlocks.NAMEK_AJISSA_LEAVES);
         blockItem(MainBlocks.NAMEK_SACRED_PLANKS);

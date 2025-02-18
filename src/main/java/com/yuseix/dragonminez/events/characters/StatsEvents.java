@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.DescendFormC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -368,7 +369,7 @@ public class StatsEvents {
 				if (stats.isAcceptCharacter()) {
 
 					//Cargar Ki
-					if (isKiChargeKeyPressed && !previousKiChargeState) {
+					if (isKiChargeKeyPressed && !previousKiChargeState && !transformOn) {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 						previousKiChargeState = true; // Actualiza el estado previo
 						playSoundOnce(MainSounds.AURA_START.get());
@@ -419,19 +420,36 @@ public class StatsEvents {
 						setTurboSpeed(player, false);
 					}
 
-					boolean wasTransformKeyPressed = false;
-
+					// Transformación
 					if (isDescendKeyPressed && isTransformKeyPressed) {
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
-						ModMessages.sendToServer(new DescendFormC2S());
 						transformOn = false;
-					} else if (isTransformKeyPressed && !wasTransformKeyPressed) {
-						ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
-						transformOn = true;
-					} else if (transformOn && !isTransformKeyPressed) {
+						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						stopLoopSound(true);
+						ModMessages.sendToServer(new DescendFormC2S());
+					} else if (transformOn && !isTransformKeyPressed) { // Al soltar la tecla, desactiva transformación
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
+						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						stopLoopSound(true);
+						transformOn = false;
+					} else if (getNextForm(stats) != null) {
+						if (isTransformKeyPressed && !transformOn) { // Solo activa si no estaba transformado
+							ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
+							transformOn = true;
+							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+							playSoundOnce(MainSounds.AURA_START.get());
+							startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+						}
+
+						if (transformOn && stats.getFormRelease() >= 100) {
+							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+							stopLoopSound(true);
+						}
+					} else if (isTransformKeyPressed && stats.getFormRelease() >= 100) {
+						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						stopLoopSound(true);
 					}
-					wasTransformKeyPressed = isTransformKeyPressed;
+
 
 				}
 			});
@@ -534,7 +552,48 @@ public class StatsEvents {
 		return 0; // Si es 0 o menor, retorna 0
 	}
 
+	public static String getNextForm(DMZStatsAttributes playerstats) {
+		int race = playerstats.getRace();
+		int superFormLvl = playerstats.getFormSkillLevel("super_form");
+		String groupForm = playerstats.getDmzGroupForm();
+		String dmzForm = playerstats.getDmzForm();
 
+		Map<String, String[]> saiyanForms = Map.of(
+				"", new String[]{"oozaru", "goldenoozaru"},
+				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
+				"ssj", new String[]{"ssj1fp", "ssj2", "ssj3"}
+		);
+
+		Map<String, String[]> coldDemonForms = Map.of(
+				"", new String[]{"first", "second", "third", "base", "fullpower"},
+				"definitive", new String[]{"mecha", "fifth", "golden", "black"}
+		);
+
+		Map<Integer, Map<String, String[]>> transformations = Map.of(
+				0, Map.of("", new String[]{"buffed", "fullpower"}), // Humano
+				1, saiyanForms, // Saiyan
+				2, Map.of("", new String[]{"giant", "fullpower"}), // Namek
+				3, Map.of("", new String[]{"imperfect", "semiperfect", "perfect", "super"}), // Bioandroide
+				4, coldDemonForms, // Cold Demon
+				5, Map.of("", new String[]{"evil", "kid", "super", "ultra"}) // Majin
+		);
+
+		if (!transformations.containsKey(race)) return null;
+
+		String[] availableForms = transformations.get(race).getOrDefault(groupForm, new String[0]);
+
+		int maxIndex = switch (groupForm) {
+			case "ssj" -> Math.min(superFormLvl - 5, 2);
+			default -> Math.min(superFormLvl - 1, availableForms.length - 1);
+		};
+
+		if (maxIndex < 0) return null;
+
+		int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
+
+		return (currentIndex == -1) ? availableForms[0] :
+				(currentIndex < maxIndex ? availableForms[currentIndex + 1] : null);
+	}
 }
 
 
