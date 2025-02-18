@@ -44,6 +44,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
     private EarsNamek earsNamek;
     private TailModel cola;
+    private Tail2Model cola_cinturon;
 
     public HairsLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
@@ -51,6 +52,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
         this.earsNamek = new EarsNamek(EarsNamek.createBodyLayer().bakeRoot());
         this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
         this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
+        this.cola_cinturon = new Tail2Model(Tail2Model.createBodyLayer().bakeRoot());
         this.vegetahair = new VegetaHairModel(VegetaHairModel.createBodyLayer().bakeRoot());
         this.gohandbshair = new GohanDBSHairModel(GohanDBSHairModel.createBodyLayer().bakeRoot());
         this.gohanteenhair = new GohanTeenHairModel(GohanTeenHairModel.createBodyLayer().bakeRoot());
@@ -70,6 +72,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             var bodyColor = cap.getBodyColor();
             var genero = cap.getGender();
             var transformation = cap.getDmzForm();
+            var tailmode = cap.isTailMode();
 
             colorR = (hairColor >> 16) / 255.0F;
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -116,10 +119,15 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     break;
                 case 1: //Saiyan
 
-                    //Cola
-                    this.getParentModel().copyPropertiesTo(this.cola);
-                    this.cola.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount,  ageInTicks, netHeadYaw,  headPitch);
-                    this.cola.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY,0.410f,0.119f,0.00410f,1.0f);
+                    if(tailmode){
+                        this.getParentModel().copyPropertiesTo(this.cola_cinturon);
+                        this.cola_cinturon.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount,  ageInTicks, netHeadYaw,  headPitch);
+                        this.cola_cinturon.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY,0.410f,0.119f,0.00410f,1.0f);
+                    } else { //Tail Free
+                        this.getParentModel().copyPropertiesTo(this.cola);
+                        this.cola.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount,  ageInTicks, netHeadYaw,  headPitch);
+                        this.cola.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY,0.410f,0.119f,0.00410f,1.0f);
+                    }
 
                     //Cabellos
 

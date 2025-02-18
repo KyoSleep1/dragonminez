@@ -46,12 +46,20 @@ public class DMZStatsAttributes {
     private String dmzGroupForm = "";
 
     private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
-    private boolean isTransforming = false, isDmzAlive = true, isHaloOn = false;
+    private boolean isTransforming = false, isDmzAlive = true, isHaloOn = false, tailMode = false;
 
     private final Player player;
 
     public DMZStatsAttributes(Player player) {
         this.player = player;
+    }
+
+    public boolean isTailMode() {
+        return tailMode;
+    }
+
+    public void setTailMode(boolean tailMode) {
+        this.tailMode = tailMode;
     }
 
     public boolean isTransforming() {
@@ -951,6 +959,7 @@ public class DMZStatsAttributes {
         nbt.putBoolean("isTransfKey", isTransforming);
         nbt.putBoolean("isHaloOn", isHaloOn);
         nbt.putBoolean("isDmzAlive", isDmzAlive);
+        nbt.putBoolean("tailmode", tailMode);
         nbt.putInt("babaCooldown", babaCooldown);
         nbt.putInt("babaAliveTimer", babaAliveTimer);
 
@@ -1056,6 +1065,7 @@ public class DMZStatsAttributes {
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
         isTransforming = nbt.getBoolean("isTransfKey");
+        tailMode = nbt.getBoolean("tailmode");
         isHaloOn = nbt.getBoolean("isHaloOn");
         isDmzAlive = nbt.getBoolean("isDmzAlive");
         babaCooldown = nbt.getInt("babaCooldown");
