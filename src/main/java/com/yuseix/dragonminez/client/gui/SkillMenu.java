@@ -474,23 +474,25 @@ public class SkillMenu extends Screen {
                 }
 
                 // Crear un botón base para todos
+
                 CustomButtons button = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 2, Component.empty(), btn -> {
                     this.infoMenu = !infoMenu; // Alternar infoMenu
                     this.skillsId = skillId;
                 });
 
-                CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
-                    this.infoMenu = !infoMenu; // Alternar infoMenu
-                    this.skillsId = "passive";
-                });
                 this.addRenderableWidget(button);
-                this.addRenderableWidget(passiveButton);
                 skillButtons.add(button);
-                skillButtons.add(passiveButton);
 
                 // Mover hacia abajo para la próxima habilidad
                 startY += offsetY;
             }
+
+            CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
+                this.infoMenu = !infoMenu; // Alternar infoMenu
+                this.skillsId = "passive";
+            });
+            this.addRenderableWidget(passiveButton);
+            skillButtons.add(passiveButton);
 
         });
     }
