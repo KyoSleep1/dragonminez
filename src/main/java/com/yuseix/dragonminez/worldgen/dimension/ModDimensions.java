@@ -256,34 +256,34 @@ public class ModDimensions extends NoiseRouterData{
         DensityFunction constantNegative = DensityFunctions.constant(-1.0);
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
 
-        // Ruido base para el terreno (mayor frecuencia y amplitud para más irregularidad)
-        DensityFunction baseTerrainNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 2.0, 0.25); // Alta frecuencia y mayor amplitud
+        // Ruido base para el terreno (optimizado con `cacheOnce` para evitar reevaluaciones)
+        DensityFunction baseTerrainNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.75, 0.2)); // Ligera reducción de frecuencia y amplitud
 
-        // Ruido de detalles para dar más variación a las nubes (mayor detalle)
-        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 1.0, 0.18); // Más alta frecuencia para más detalles
+        // Ruido de detalles para nubes (reducción de carga)
+        DensityFunction cloudDetailNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.15)); // Menos frecuencia y amplitud para rendimiento
 
-        // Definición de capas de nubes con más altura y más frecuencia
-        DensityFunction cloudLayer1 = DensityFunctions.yClampedGradient(4, 12, 30, -8);  // Capa inferior más alta
-        DensityFunction cloudLayer2 = DensityFunctions.yClampedGradient(13, 20, 25, -12); // Capa media más alta
-        DensityFunction cloudLayer3 = DensityFunctions.yClampedGradient(21, 30, 15, -20); // Capa superior más alta y delgada
+        // Definición de capas de nubes
+        DensityFunction cloudLayer1 = DensityFunctions.yClampedGradient(4, 12, 30, -8);
+        DensityFunction cloudLayer2 = DensityFunctions.yClampedGradient(13, 20, 25, -12);
+        DensityFunction cloudLayer3 = DensityFunctions.yClampedGradient(21, 30, 15, -20);
 
-        // Ruidos de variación en las nubes con alta frecuencia y amplitud para mayor detalle
-        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.5, 0.25); // Alta frecuencia
-        DensityFunction cloudMidNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 1.0, 0.3); // Alta frecuencia y amplitud
+        // Ruidos de variación en las nubes
+        DensityFunction cloudLargeNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.3, 0.2)); // Ligera reducción de amplitud
+        DensityFunction cloudMidNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.9, 0.25)); // Reducción de frecuencia para menos carga
 
-        // Combinación de nubes con sus respectivos ruidos para variabilidad
+        // Combinación de ruidos de nubes
         DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudMidNoise);
         DensityFunction detailedClouds = DensityFunctions.add(cloudNoise, cloudDetailNoise);
 
         // Capas más complejas con mayor frecuencia de nubes
         DensityFunction fullCloudLayer = DensityFunctions.add(
-                DensityFunctions.add(cloudLayer3, detailedClouds), // Capa superior más alta
-                DensityFunctions.add(cloudLayer2, detailedClouds)  // Capa media
+                DensityFunctions.add(cloudLayer3, detailedClouds),
+                DensityFunctions.add(cloudLayer2, detailedClouds)
         );
-        fullCloudLayer = DensityFunctions.add(fullCloudLayer, DensityFunctions.add(cloudLayer1, detailedClouds)); // Capa inferior más alta
+        fullCloudLayer = DensityFunctions.add(fullCloudLayer, DensityFunctions.add(cloudLayer1, detailedClouds));
 
-        // Variabilidad adicional de nubes para más detalle y altura
-        DensityFunction additionalCloudDetail = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.4, 0.35); // Aumento de la frecuencia y amplitud
+        // Variabilidad adicional en las nubes (optimizada)
+        DensityFunction additionalCloudDetail = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.3, 0.3));
         fullCloudLayer = DensityFunctions.add(fullCloudLayer, additionalCloudDetail);
 
         // Se combina con el terreno base para evitar un suelo completamente plano
