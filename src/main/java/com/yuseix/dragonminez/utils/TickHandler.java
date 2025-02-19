@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
@@ -227,6 +228,7 @@ public class TickHandler {
 
 	public void manejarCargaForma(DMZStatsAttributes playerstats) {
 		if (!playerstats.hasFormSkill("super_form")) return;
+		Player player = Minecraft.getInstance().player;
 
 		int formLevel = playerstats.getFormSkillLevel("super_form");
 
@@ -241,7 +243,11 @@ public class TickHandler {
 			dmzformTimer++;
 			if (dmzformTimer >= 20) {
 				if (StatsEvents.getNextForm(playerstats).equals("oozaru")) {
-					playerstats.setFormRelease(playerstats.getFormRelease() + 10);
+					// Si el jugador está mirando hacia arriba y (es de noche + luna llena), aumenta la carga
+					System.out.println("Rot: " + player.getXRot() + " Moon: " + player.level().getMoonPhase() + " Time: " + player.level().getDayTime() % 24000);
+					if (player != null && player.getXRot() <= -45.0F && (player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13000)) {
+						playerstats.setFormRelease(playerstats.getFormRelease() + 10);
+					}
 				} else playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
 				dmzformTimer = 0;
 			}

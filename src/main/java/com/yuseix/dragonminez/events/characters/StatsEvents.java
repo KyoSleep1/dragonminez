@@ -444,7 +444,9 @@ public class StatsEvents {
 							ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
 							transformOn = true;
 							if (getNextForm(stats).equals("oozaru")) {
-								startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), false);
+								if (player.getXRot() <= -45.0F && player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13500) {
+									startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), false);
+								}
 							} else {
 								ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 								playSoundOnce(MainSounds.AURA_START.get());
@@ -634,13 +636,13 @@ public class StatsEvents {
 			return "goldenoozaru";
 		}
 		if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
-			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssgrade1";
-			if (superFormLvl >= 3 && dmzForm.equals("ssgrade1")) return "ssgrade2";
+			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj";
+			if (superFormLvl >= 3 && dmzForm.equals("ssj")) return "ssgrade2";
 			if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
 		}
 		if (superFormLvl >= 5 && groupForm.equals("ssj")) {
-			if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssj1";
-			if (superFormLvl >= 6 && dmzForm.equals("ssj1")) return "ssj2";
+			if (superFormLvl >= 5 && dmzForm.equals("base")) return "mssj";
+			if (superFormLvl >= 6 && dmzForm.equals("mssj")) return "ssj2";
 			if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
 		}
 		return null; // No hay transformación disponible

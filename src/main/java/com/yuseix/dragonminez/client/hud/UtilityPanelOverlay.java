@@ -93,8 +93,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "up"));
 					break;
-				case "cola":
-					ModMessages.sendToServer(new UtilityPanelC2S("cola", "up"));
+				case "terOpc":
+					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "up"));
 					break;
 			}
 		} else if (Keys.SELECT_DOWN.consumeClick()) {
@@ -105,8 +105,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "down"));
 					break;
-				case "cola":
-					ModMessages.sendToServer(new UtilityPanelC2S("cola", "down"));
+				case "terOpc":
+					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "down"));
 					break;
 			}
 		} else if (Keys.SELECT_LEFT.consumeClick()) {
@@ -117,8 +117,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "left"));
 					break;
-				case "cola":
-					ModMessages.sendToServer(new UtilityPanelC2S("cola", "left"));
+				case "terOpc":
+					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "left"));
 					break;
 			}
 		} else if (Keys.SELECT_RIGHT.consumeClick()) {
@@ -129,8 +129,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "right"));
 					break;
-				case "cola":
-					ModMessages.sendToServer(new UtilityPanelC2S("cola", "right"));
+				case "terOpc":
+					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "right"));
 					break;
 			}
 		}
@@ -142,12 +142,14 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 		var colorSeleccion = 0xfdbf26;
 		race = stats.getRace();
 		String actualGroup = stats.getDmzGroupForm();
+		String tercerOpcion = "";
 		switch (race) {
 			case 0, 2, 3, 4, 5:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
 				break;
 			case 1:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "oozarus" : actualGroup;
+				tercerOpcion = "cola";
 				break;
 		}
 
@@ -159,13 +161,13 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
 						Component.literal(actualGroup), 16, 120, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("cola"), 16, 145, colorTexto);
+						Component.literal(tercerOpcion), 16, 145, colorTexto);
 				break;
 			case "groupforms":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
 						Component.literal("kaioken"), 13, 95, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("cola"), 16, 145, colorTexto);
+						Component.literal(tercerOpcion), 16, 145, colorTexto);
 				switch (race) {
 					case 0:
 						switch (actualGroup) {
@@ -195,13 +197,13 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						}
 				}
 				break;
-			case "cola":
+			case "terOpc":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
 						Component.literal("kaioken"), 13, 95, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
 						Component.literal(actualGroup), 16, 120, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("cola"), 16, 145, colorSeleccion);
+						Component.literal(tercerOpcion), 16, 145, colorSeleccion);
 				break;
 		}
 	}
@@ -216,7 +218,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 								setCurrentSelection("groupforms");
 								break;
 							case 1:
-								setCurrentSelection("cola");
+								setCurrentSelection("terOpc");
 								break;
 						}
 						break;
@@ -238,7 +240,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 								setCurrentSelection("kaioken");
 								break;
 							case 1:
-								setCurrentSelection("cola");
+								setCurrentSelection("terOpc");
 								break;
 						}
 						break;
@@ -246,7 +248,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						break;
 				}
 				break;
-			case "cola":
+			case "terOpc":
 				switch (direccion) {
 					case "up":
 						setCurrentSelection("groupforms");

@@ -69,20 +69,26 @@ public class UtilityPanelC2S {
 									case 1:
 										switch (groupForm) {
 											case "":
-												if (msg.directionAction.equals("left")) {
+												if (msg.directionAction.equals("left") && superFormLevel >= 5) {
+													// Si la Superform es mayor o igual a 5, se puede transformar en SSJ
 													cap.setDmzGroupForm("ssj");
-												} else if (msg.directionAction.equals("right")) {
+												} else if (msg.directionAction.equals("right") && superFormLevel >= 2) {
+													// Si la Superform es mayor o igual a 2, se puede transformar en SSGrades
 													cap.setDmzGroupForm("ssgrades");
 												}
 												break;
 											case "ssgrades":
 												if (msg.directionAction.equals("left")) {
 													cap.setDmzGroupForm("");
-												} else if (msg.directionAction.equals("right")) {
+												} else if (msg.directionAction.equals("right") && superFormLevel >= 5) {
+													// Si la Superform es mayor o igual a 5, se puede transformar en SSJ
 													cap.setDmzGroupForm("ssj");
 												}
 												break;
 											case "ssj":
+												// Acá ya no hace falta verificar por nivel, porque el ssj solo se puede acceder
+												// si la superform es mayor o igual a 5, entonces para casos donde el requisito de nivel
+												// de la superform sea menor, no hace falta verificar.
 												if (msg.directionAction.equals("left")) {
 													cap.setDmzGroupForm("ssgrades");
 												} else if (msg.directionAction.equals("right")) {
@@ -116,9 +122,11 @@ public class UtilityPanelC2S {
 									case 4:
 										switch (groupForm) {
 											case "":
-												if (msg.directionAction.equals("left")) {
+												// Acá puse 15 porque no serán implementadas aún, entonces, el grupo está, pero
+												// no se puede acceder a él de ninguna manera.
+												if (msg.directionAction.equals("left") && superFormLevel >= 15) {
 													cap.setDmzGroupForm("definitive");
-												} else if (msg.directionAction.equals("right")) {
+												} else if (msg.directionAction.equals("right") && superFormLevel >= 15) {
 													cap.setDmzGroupForm("definitive");
 												}
 												break;
@@ -135,13 +143,6 @@ public class UtilityPanelC2S {
 										switch (groupForm) {
 											case "":
 												if (msg.directionAction.equals("left")) {
-													cap.setDmzGroupForm("ssj");
-												} else if (msg.directionAction.equals("right")) {
-													cap.setDmzGroupForm("ssj");
-												}
-												break;
-											case "ssj":
-												if (msg.directionAction.equals("left")) {
 													cap.setDmzGroupForm("");
 												} else if (msg.directionAction.equals("right")) {
 													cap.setDmzGroupForm("");
@@ -155,13 +156,32 @@ public class UtilityPanelC2S {
 								}
 								break;
 							}
-						case "cola":
+						case "terOpc":
 							if (msg.directionAction.equals("up")) {
 								ModMessages.sendToPlayer(new UpdateUtilityPanelS2C(msg.tipo, msg.directionAction), player);
 							} else if (msg.directionAction.equals("down")) {
 								ModMessages.sendToPlayer(new UpdateUtilityPanelS2C(msg.tipo, msg.directionAction), player);
 							} else {
-								cap.setTailMode(!cap.isTailMode()); // Alterna la cola
+								switch (race) {
+									case 0:
+										// Hacer algo con el humano
+										break;
+									case 1:
+										cap.setTailMode(!cap.isTailMode()); // Alterna la cola
+										break;
+									case 2:
+										// Hacer algo con el namekiano
+										break;
+									case 3:
+										// Hacer algo con el bio
+										break;
+									case 4:
+										// Hacer algo con el cold demon
+										break;
+									case 5:
+										// Hacer algo con el majin
+										break;
+								}
 							}
 							break;
 					}
