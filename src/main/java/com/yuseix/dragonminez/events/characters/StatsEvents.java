@@ -426,29 +426,29 @@ public class StatsEvents {
 					if (isDescendKeyPressed && isTransformKeyPressed) {
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
 						transformOn = false;
-						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						//ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 						stopLoopSound(true);
 						ModMessages.sendToServer(new DescendFormC2S());
 					} else if (transformOn && !isTransformKeyPressed) { // Al soltar la tecla, desactiva transformación
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
-						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						//ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 						stopLoopSound(true);
 						transformOn = false;
 					} else if (getNextForm(stats) != null) {
 						if (isTransformKeyPressed && !transformOn) { // Solo activa si no estaba transformado
 							ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
 							transformOn = true;
-							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
+							//ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 							playSoundOnce(MainSounds.AURA_START.get());
 							startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
 						}
 
 						if (transformOn && stats.getFormRelease() >= 100) {
-							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+							//ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 							stopLoopSound(true);
 						}
 					} else if (isTransformKeyPressed && stats.getFormRelease() >= 100) {
-						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
+						//ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 						stopLoopSound(true);
 					}
 
@@ -606,6 +606,7 @@ public class StatsEvents {
 
 		Map<String, String[]> saiyanForms = Map.of(
 				"", new String[]{"oozaru", "goldenoozaru"},
+				"oozarus", new String[]{"oozaru", "goldenoozaru"},
 				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
 				"ssj", new String[]{"ssj1fp", "ssj2", "ssj3"}
 		);

@@ -6,6 +6,9 @@ package com.yuseix.dragonminez.client.character.models;// Made with Blockbench 4
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -65,6 +68,60 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 	@Override
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap ->{
+			var formRelease = cap.getFormRelease();
+			var isTransfOn = cap.isTransforming();
+			var groupForm = cap.getDmzGroupForm();
+			var dmzform = cap.getDmzForm();
+			var race = cap.getRace();
+
+			switch (race){
+				case 1:
+					switch (groupForm){
+						case "ssgrades":
+							break;
+						case "ssj":
+							break;
+						default:
+							if(dmzform.equals("base") && isTransfOn && formRelease > 1){
+								float scaleFactor = 1.0F + 0.03F * (float) Math.sin(pAgeInTicks * 0.4F);
+								body.xScale = scaleFactor;
+								body.yScale = scaleFactor;
+								body.zScale = scaleFactor;
+
+								rightArm.xScale = scaleFactor;
+								rightArm.yScale = scaleFactor;
+								rightArm.zScale = scaleFactor;
+
+								leftArm.xScale = scaleFactor;
+								leftArm.yScale = scaleFactor;
+								leftArm.zScale = scaleFactor;
+
+								leftArm.zRot = -0.2f;
+								rightArm.zRot = 0.2f;
+
+							} else {
+								body.xScale = 1.0f;
+								body.yScale = 1.0f;
+								body.zScale = 1.0f;
+								rightArm.xScale = 1.0f;
+								rightArm.yScale = 1.0f;
+								rightArm.zScale = 1.0f;
+								leftArm.xScale = 1.0f;
+								leftArm.yScale = 1.0f;
+								leftArm.zScale = 1.0f;
+							}
+							break;
+					}
+					break;
+				default:
+					break;
+			}
+
+
+		});
+
 	}
 
 	@Override

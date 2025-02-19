@@ -222,8 +222,6 @@ public class TickHandler {
 		String nextForm = StatsEvents.getNextForm(playerstats);
 
 		if (nextForm != null) {
-			DebugUtils.dmzLog("Tu Forma Actual es: " + playerstats.getDmzForm());
-			DebugUtils.dmzLog("Nueva Transformación: " + nextForm);
 			playerstats.setDmzForm(nextForm); // Transformar al jugador
 		}
 	}
