@@ -19,7 +19,7 @@ public class EnmaRenderer extends GeoEntityRenderer<EnmaEntity> {
 	@Override
 	public void render(EnmaEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 		poseStack.pushPose();
-		poseStack.scale(2.0f,2.0f,2.0f);
+		poseStack.scale(4.5f,4.5f,4.5f);
 		super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
 		poseStack.popPose();
 	}

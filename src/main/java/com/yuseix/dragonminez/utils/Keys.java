@@ -11,6 +11,10 @@ public class Keys {
 
     public static final KeyMapping STATS_MENU = new KeyMapping("key.dragonminez.menu_stats",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_V, CATEGORY);
+    public static final KeyMapping UTILITY_PANEL = new KeyMapping("key.dragonminez.utility_panel",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X, CATEGORY);
+    public static final KeyMapping TRANSFORM = new KeyMapping("key.dragonminez.transform",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY);
     public static final KeyMapping KI_CHARGE = new KeyMapping("key.dragonminez.ki_charge",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_C, CATEGORY);
     public static final KeyMapping DESCEND_KEY = new KeyMapping("key.dragonminez.descend_key",
@@ -25,6 +29,8 @@ public class Keys {
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UP, CATEGORY);
     public static final KeyMapping SELECT_DOWN = new KeyMapping("key.dragonminez.select_down",
             KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_DOWN, CATEGORY);
-    public static final KeyMapping TRANSFORM = new KeyMapping("key.dragonminez.transform",
-            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY);
+    public static final KeyMapping SELECT_LEFT = new KeyMapping("key.dragonminez.select_left",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT, CATEGORY);
+    public static final KeyMapping SELECT_RIGHT = new KeyMapping("key.dragonminez.select_right",
+            KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, CATEGORY);
 }

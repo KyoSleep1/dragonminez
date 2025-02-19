@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.network;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.AttributesMenu2;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
+import com.yuseix.dragonminez.client.hud.UtilityPanelOverlay;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -123,6 +124,11 @@ public class ClientPacketHandler {
 	@OnlyIn(Dist.CLIENT)
 	public static void handleUpdatePlanetSelectionPacket(int selectedPlanet, Supplier<NetworkEvent.Context> ctxSupplier) {
 		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void handleUpdateUtilityPanelPacket(String tipo, String direccion, Supplier<NetworkEvent.Context> ctxSupplier) {
+		UtilityPanelOverlay.updateSelection(tipo, direccion);
 	}
 
 	@OnlyIn(Dist.CLIENT)

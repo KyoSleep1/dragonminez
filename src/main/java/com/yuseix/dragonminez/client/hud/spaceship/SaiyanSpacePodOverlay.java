@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.client.hud.spaceship;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
@@ -8,7 +7,6 @@ import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.VideoSettingsScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,10 +57,9 @@ public class SaiyanSpacePodOverlay implements RenderEntityInv {
 
             drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
                     Component.translatable("ui.dmz.spacepod.kaio"), 100, 100, 0x00ff00);
-
-            RenderSystem.disableBlend();
         }
 
+        RenderSystem.disableBlend();
         selectTargetPlanet(guiGraphics);
         guiGraphics.pose().popPose();
     };
@@ -75,8 +72,6 @@ public class SaiyanSpacePodOverlay implements RenderEntityInv {
     public static void setKaioAvailable(boolean available) {
         kaioAvailable = available;
     }
-
-
 
     public static void updatePlanetTarget(int selectedPlanet) {
         currentPlanetTarget = selectedPlanet;  // Actualiza el planeta objetivo actual
