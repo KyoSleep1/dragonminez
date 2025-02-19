@@ -80,6 +80,10 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 				case 1:
 					switch (groupForm){
 						case "ssgrades":
+							if(dmzform.equals("base") && isTransfOn && formRelease > 1){
+								float time = (pEntity.tickCount % 40) / 40.0f; // Oscila cada 40 ticks (2 segundos)
+								head.xRot = 0.2f + (float) Math.sin(time * Math.PI) * 0.5f; // Oscila entre 1.2 y 2.5
+							}
 							break;
 						case "ssj":
 							break;

@@ -609,41 +609,38 @@ public class StatsEvents {
 		String groupForm = playerstats.getDmzGroupForm();
 		String dmzForm = playerstats.getDmzForm();
 
+		if (race != 1) return null; // Solo aplica a Saiyans
+
+		// Definir las transformaciones por grupo
 		Map<String, String[]> saiyanForms = Map.of(
 				"", new String[]{"oozaru", "goldenoozaru"},
-				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
-				"ssj", new String[]{"ssj1fp", "ssj2", "ssj3"}
+				"ssgrades", new String[]{"ssgrade1", "ssgrade2", "ssgrade3"},
+				"ssj", new String[]{"ssj1", "ssj2", "ssj3"}
 		);
 
-		Map<String, String[]> coldDemonForms = Map.of(
-				"", new String[]{"first", "second", "third", "base", "fullpower"},
-				"definitive", new String[]{"mecha", "fifth", "golden", "black"}
-		);
+		if (!saiyanForms.containsKey(groupForm)) return null;
 
-		Map<Integer, Map<String, String[]>> transformations = Map.of(
-				0, Map.of("", new String[]{"buffed", "fullpower"}), // Humano
-				1, saiyanForms, // Saiyan
-				2, Map.of("", new String[]{"giant", "fullpower"}), // Namek
-				3, Map.of("", new String[]{"imperfect", "semiperfect", "perfect", "super"}), // Bioandroide
-				4, coldDemonForms, // Cold Demon
-				5, Map.of("", new String[]{"evil", "kid", "super", "ultra"}) // Majin
-		);
-
-		if (!transformations.containsKey(race)) return null;
-
-		String[] availableForms = transformations.get(race).getOrDefault(groupForm, new String[0]);
-
-		int maxIndex = switch (groupForm) {
-			case "ssj" -> Math.min(superFormLvl - 5, 2);
-			default -> Math.min(superFormLvl - 1, availableForms.length - 1);
-		};
-
-		if (maxIndex < 0) return null;
-
+		String[] availableForms = saiyanForms.get(groupForm);
 		int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
 
-		return (currentIndex == -1) ? availableForms[0] :
-				(currentIndex < maxIndex ? availableForms[currentIndex + 1] : null);
+		// Lógica de transformación
+		if (superFormLvl >= 1 && groupForm.equals("") && dmzForm.equals("base")) {
+			return "oozaru";
+		}
+		if (superFormLvl >= 8 && groupForm.equals("") && dmzForm.equals("oozaru")) {
+			return "goldenoozaru";
+		}
+		if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
+			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssgrade1";
+			if (superFormLvl >= 3 && dmzForm.equals("ssgrade1")) return "ssgrade2";
+			if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
+		}
+		if (superFormLvl >= 5 && groupForm.equals("ssj")) {
+			if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssj1";
+			if (superFormLvl >= 6 && dmzForm.equals("ssj1")) return "ssj2";
+			if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
+		}
+		return null; // No hay transformación disponible
 	}
 }
 

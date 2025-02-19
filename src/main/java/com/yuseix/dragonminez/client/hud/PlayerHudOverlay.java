@@ -220,7 +220,9 @@ public class PlayerHudOverlay implements RenderEntityInv {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
             RenderSystem.enableBlend();
             var colorAura = cap.getAuraColor();
-            float colorR = (colorAura >> 16) / 255.0F; float colorG = ((colorAura >> 8) & 0xff) / 255.0f; float colorB = (colorAura & 0xff) / 255.0f;
+            float colorR = (colorAura >> 16) / 255.0F;
+            float colorG = ((colorAura >> 8) & 0xff) / 255.0f;
+            float colorB = (colorAura & 0xff) / 255.0f;
 
             switch (raza){
                 case 0: //humano
@@ -230,6 +232,12 @@ public class PlayerHudOverlay implements RenderEntityInv {
                     //Ejemplo de si esta en X transformacion jijij9i
                     switch (transformacion){
                         case "oozaru":
+                            RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
+                            break;
+                        case "ssgrade1","ssgrade2","ssgrade3":
+                            colorR = (16773525 >> 16) / 255.0F;
+                            colorG = ((16773525 >> 8) & 0xff) / 255.0f;
+                            colorB = (16773525 & 0xff) / 255.0f;
                             RenderSystem.setShaderColor(0.990f, 0.966f, 0.515f, 1.0f);
                             break;
                         default:
