@@ -5,7 +5,11 @@
       "item": "dragonminez:kikono_cloth"
     }
   ],
-  "slot_2": [],
+  "slot_2": [
+    {
+      "item": "dragonminez:kikono_cloth"
+    }
+  ],
   "slot_3": [
     {
       "item": "dragonminez:kikono_cloth"

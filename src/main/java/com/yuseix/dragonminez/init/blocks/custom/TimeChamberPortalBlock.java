@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class TimeChamberPortalBlock extends Block {
     public TimeChamberPortalBlock() {
-        super(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0F, 3600000.0F).noLootTable().noOcclusion());
+        super(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0F, 3600000.0F).noLootTable());
     }
 
     @Override

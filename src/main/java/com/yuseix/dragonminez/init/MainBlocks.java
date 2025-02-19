@@ -42,7 +42,7 @@ public final class MainBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> OTHERWORLD_CLOUD = registerBlock("otherworld_cloud",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.YELLOW_WOOL).strength(-1.0f,3600000.0F).sound(SoundType.AZALEA)
-                    .noCollission().noOcclusion().noLootTable().noParticlesOnBreak()));
+                    .noCollission().noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",

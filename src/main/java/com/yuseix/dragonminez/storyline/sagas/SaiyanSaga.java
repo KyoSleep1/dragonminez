@@ -20,7 +20,7 @@ public class SaiyanSaga extends Saga {
 	public void addQuests() {
 		// Add quests to the saga
 		Quest quest1 = new Quest(
-				"arrival_of_raditz",
+				"saiyQuest1",
 				"Arrival of Raditz",
 				"Raditz has landed on Earth! Investigate his arrival and landing site.",
 				List.of(new ObjectiveGetToLocation("raditz_landing_site")),
@@ -28,7 +28,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest2 = new Quest(
-				"the_defeat_of_raditz",
+				"saiyQuest2",
 				"The Defeat of Raditz",
 				"Defeat Raditz and save Gohan!",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -36,7 +36,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest3 = new Quest(
-				"training_with_piccolo",
+				"saiyQuest3",
 				"Training with Piccolo",
 				"Prepare for the arrival of the Saiyans by training with Piccolo.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -44,7 +44,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest4 = new Quest(
-				"the_saiyan_invasion",
+				"saiyQuest4",
 				"The Saiyan Invasion",
 				"The Saiyans have arrived! Defend Earth from the Saiyan invasion.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -52,7 +52,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest5 = new Quest(
-				"battle_with_nappa",
+				"saiyQuest5",
 				"Battle with Nappa",
 				"Defeat Nappa and get one step closer to victory.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
@@ -60,11 +60,27 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest6 = new Quest(
-				"the_final_battle",
+				"saiyQuest6",
 				"The Final Battle",
 				"Defeat Vegeta and save Earth from the Saiyan threat.",
 				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
 				List.of(quest5) // Prerequisite is the fifth quest
+		);
+
+		Quest quest7 = new Quest(
+				"saiyQuest7",
+				"Victory",
+				"Congratulations! You have saved Earth from the Saiyan threat.",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
+				List.of(quest6) // Prerequisite is the sixth quest
+		);
+
+		Quest quest8 = new Quest(
+				"saiyQuest8",
+				"Epilogue",
+				"Reflect on the events of the Saiyan Saga.",
+				List.of(new ObjectiveCollectItem(MainItems.CAPSULA_MORADA.get(), 5)),
+				List.of(quest7) // Prerequisite is the seventh quest
 		);
 
 		this.addQuest(quest1);
@@ -73,6 +89,8 @@ public class SaiyanSaga extends Saga {
 		this.addQuest(quest4);
 		this.addQuest(quest5);
 		this.addQuest(quest6);
+		this.addQuest(quest7);
+		this.addQuest(quest8);
 	}
 
 	@Override

@@ -180,7 +180,6 @@ public class TickHandler {
 								kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
 							}
 							playerstats.addCurEnergy(kiRegen);
-							System.out.println("Cargando Aura: " + kiRegen);
 						}
 					}
 				}

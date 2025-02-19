@@ -78,7 +78,7 @@ public class ModDimensions extends NoiseRouterData{
                 384, // height
                 384, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
-                BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
+                CustomSpecialEffects.NAMEK_EFFECTS, // effectsLocation
                 0.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
 
@@ -95,7 +95,7 @@ public class ModDimensions extends NoiseRouterData{
                 96, // height
                 96, // logicalHeight
                 BlockTags.INFINIBURN_OVERWORLD, // infiniburn
-                BuiltinDimensionTypes.OVERWORLD_EFFECTS, // effectsLocation
+                CustomSpecialEffects.HTC_EFFECT, // effectsLocation
                 0.0f, // ambientLight
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
 
@@ -112,7 +112,7 @@ public class ModDimensions extends NoiseRouterData{
                 320,
                 320,
                 BlockTags.INFINIBURN_OVERWORLD,
-                BuiltinDimensionTypes.OVERWORLD_EFFECTS,
+                CustomSpecialEffects.OTHERWORLD_EFFECTS,
                 0.0f,
                 new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)));
     }
@@ -256,22 +256,41 @@ public class ModDimensions extends NoiseRouterData{
         DensityFunction constantNegative = DensityFunctions.constant(-1.0);
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
 
-        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 0.88, 0.098);
-        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.88, 0.098);
-        DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudDetailNoise);
+        // Ruido base para el terreno (mayor frecuencia y amplitud para más irregularidad)
+        DensityFunction baseTerrainNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 2.0, 0.25); // Alta frecuencia y mayor amplitud
 
-        DensityFunction baseCloudLayer = DensityFunctions.add(
-                DensityFunctions.yClampedGradient(0, 40, 10, -10),
-                cloudNoise
-        );
+        // Ruido de detalles para dar más variación a las nubes (mayor detalle)
+        DensityFunction cloudDetailNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 1.0, 0.18); // Más alta frecuencia para más detalles
 
-        DensityFunction cloudLayer = DensityFunctions.min(
-                baseCloudLayer,
-                DensityFunctions.constant(60) // No permite que suba más
+        // Definición de capas de nubes con más altura y más frecuencia
+        DensityFunction cloudLayer1 = DensityFunctions.yClampedGradient(4, 12, 30, -8);  // Capa inferior más alta
+        DensityFunction cloudLayer2 = DensityFunctions.yClampedGradient(13, 20, 25, -12); // Capa media más alta
+        DensityFunction cloudLayer3 = DensityFunctions.yClampedGradient(21, 30, 15, -20); // Capa superior más alta y delgada
+
+        // Ruidos de variación en las nubes con alta frecuencia y amplitud para mayor detalle
+        DensityFunction cloudLargeNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.5, 0.25); // Alta frecuencia
+        DensityFunction cloudMidNoise = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 1.0, 0.3); // Alta frecuencia y amplitud
+
+        // Combinación de nubes con sus respectivos ruidos para variabilidad
+        DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudMidNoise);
+        DensityFunction detailedClouds = DensityFunctions.add(cloudNoise, cloudDetailNoise);
+
+        // Capas más complejas con mayor frecuencia de nubes
+        DensityFunction fullCloudLayer = DensityFunctions.add(
+                DensityFunctions.add(cloudLayer3, detailedClouds), // Capa superior más alta
+                DensityFunctions.add(cloudLayer2, detailedClouds)  // Capa media
         );
+        fullCloudLayer = DensityFunctions.add(fullCloudLayer, DensityFunctions.add(cloudLayer1, detailedClouds)); // Capa inferior más alta
+
+        // Variabilidad adicional de nubes para más detalle y altura
+        DensityFunction additionalCloudDetail = DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.4, 0.35); // Aumento de la frecuencia y amplitud
+        fullCloudLayer = DensityFunctions.add(fullCloudLayer, additionalCloudDetail);
+
+        // Se combina con el terreno base para evitar un suelo completamente plano
+        DensityFunction finalTerrain = DensityFunctions.add(fullCloudLayer, baseTerrainNoise);
 
         return new NoiseRouter(
-                constantPositive, // barrierNoise
+                constantNegative, // barrierNoise
                 constantNegative, // fluidLevelFloodednessNoise
                 constantNegative, // fluidLevelSpreadNoise
                 constantNegative, // lavaNoise,
@@ -279,10 +298,10 @@ public class ModDimensions extends NoiseRouterData{
                 constantNegative, // vegetation
                 constantNegative, // continents
                 constantNegative, // erosion
-                cloudLayer,       // depth
+                finalTerrain,       // depth
                 constantNegative, // ridges
-                cloudLayer,       // initialDensityWithoutJaggedness
-                cloudLayer,       // finalDensity
+                finalTerrain,       // initialDensityWithoutJaggedness
+                finalTerrain,       // finalDensity
                 constantNegative, // veinToggle
                 constantNegative, // veinRidged
                 constantNegative  // veinGap
