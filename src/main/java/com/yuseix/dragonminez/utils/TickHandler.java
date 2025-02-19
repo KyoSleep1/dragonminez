@@ -5,14 +5,20 @@ import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
 import com.yuseix.dragonminez.events.characters.StatsEvents;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.Random;
 
 public class TickHandler {
 	private int energyRegenCounter = 0;
@@ -22,6 +28,7 @@ public class TickHandler {
 	private int dmzformTimer = 0; // Aca calculamos el tiempo de espera
 	private int flyTimer = 0;
 	private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
+	private int soundTimer = getRandomTransfCooldown();
 
 	public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
 		DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
@@ -91,6 +98,33 @@ public class TickHandler {
 			playerStats.removeCurEnergy(consumeEnergy);
 			energyConsumeCounter = 0;
 		}
+	}
+
+	public void manejarSonidoIdle(DMZStatsAttributes stats) {
+		if (stats.getDmzForm().equals("") || stats.getDmzForm() == null) return;
+		if (soundTimer < 0) soundTimer = getRandomTransfCooldown();
+		LocalPlayer localPlayer = Minecraft.getInstance().player;
+
+		soundTimer--;
+		if (soundTimer == 0) {
+			if (stats.getDmzForm().equals("oozaru")) {
+				reproducirSonidoIdle(localPlayer, MainSounds.OOZARU_GROWL_PLAYER.get());
+			} // Acá se pueden agregar más sonidos para otras formas :p
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public void reproducirSonidoIdle(LocalPlayer player, SoundEvent soundEvent) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			if (player != null) {
+				player.level().playSound(player, player.blockPosition(), soundEvent, player.getSoundSource(), 1.0f, 1.0f);
+			}
+		});
+	}
+
+	protected int getRandomTransfCooldown() {
+		Random random = new Random();
+		return random.nextInt(200) + 400; // Entre 200 y 400 ticks (~10 a 20 segundos)
 	}
 
 	public void manejarPasivaMajin(DMZStatsAttributes playerstats, ServerPlayer player) {
@@ -206,7 +240,9 @@ public class TickHandler {
 			if (StatsEvents.getNextForm(playerstats) == null) return;
 			dmzformTimer++;
 			if (dmzformTimer >= 20) {
-				playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
+				if (StatsEvents.getNextForm(playerstats).equals("oozaru")) {
+					playerstats.setFormRelease(playerstats.getFormRelease() + 10);
+				} else playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
 				dmzformTimer = 0;
 			}
 		} else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {

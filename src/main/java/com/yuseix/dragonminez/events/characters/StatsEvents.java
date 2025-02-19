@@ -107,6 +107,7 @@ public class StatsEvents {
 				tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 				//Aca manejamos la carga de la transformacion
 				tickHandler.manejarCargaForma(playerstats);
+				tickHandler.manejarSonidoIdle(playerstats);
 
 
 				//Restar el tiempo que se pone en el comando dmztempeffect
@@ -442,7 +443,9 @@ public class StatsEvents {
 						if (isTransformKeyPressed && !transformOn) { // Solo activa si no estaba transformado
 							ModMessages.sendToServer(new CharacterC2S("isTransform", 1));
 							transformOn = true;
-							if (!getNextForm(stats).equals("oozaru")) {
+							if (getNextForm(stats).equals("oozaru")) {
+								startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), false);
+							} else {
 								ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 								playSoundOnce(MainSounds.AURA_START.get());
 								startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);

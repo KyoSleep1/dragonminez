@@ -202,5 +202,29 @@
     "sounds": [
       "dragonminez:kiblast_shoot"
     ]
+  },
+  "oozaru_heartbeat": {
+    "subtitle": "sounds.dragonminez.oozaru_heartbeat",
+    "sounds": [
+      "dragonminez:oozaru_heartbeat"
+    ]
+  },
+  "oozaru_growl_player": {
+    "subtitle": "sounds.dragonminez.oozaru_growl_player",
+    "sounds": [
+      "dragonminez:oozaru_growl_player"
+    ]
+  },
+  "vegeta_oozaru_growl": {
+    "subtitle": "sounds.dragonminez.vegeta_oozaru_growl",
+    "sounds": [
+      "dragonminez:vegeta_oozaru_growl"
+    ]
+  },
+  "vegeta_oozaru_death": {
+    "subtitle": "sounds.dragonminez.vegeta_oozaru_death",
+    "sounds": [
+      "dragonminez:vegeta_oozaru_death"
+    ]
   }
 }

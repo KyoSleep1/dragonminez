@@ -57,6 +57,11 @@ public final class MainSounds {
 
 	public static final RegistryObject<SoundEvent> KIBLAST_ATTACK = registerSoundEvent("kiblast_shoot");
 
+	public static final RegistryObject<SoundEvent> OOZARU_HEARTBEAT = registerSoundEvent("oozaru_heartbeat");
+	public static final RegistryObject<SoundEvent> OOZARU_GROWL_PLAYER = registerSoundEvent("oozaru_growl_player");
+	public static final RegistryObject<SoundEvent> VEGETA_OOZARU_GROWL = registerSoundEvent("vegeta_oozaru_growl");
+	public static final RegistryObject<SoundEvent> VEGETA_OOZARU_DEATH = registerSoundEvent("vegeta_oozaru_death");
+
 	private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
 		ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
 

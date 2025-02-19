@@ -880,26 +880,26 @@ public class DMZDatos implements IDMZDatos{
             case "Warrior":
                 switch (raza) {
                     case 0: // Humano
-                        maxENE = Math.round(StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
                     case 1: // Saiyan
-                        maxENE = Math.round(StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
 
                     case 2: // Namek
-                        maxENE = Math.round(StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
 
                     case 3: // Bioandroide
-                        maxENE = Math.round(StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
 
                     case 4: // Cold Demon
-                        maxENE = Math.round(StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
 
                     case 5: // Majin
-                        maxENE = Math.round(StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get() + 40 * 3);
                         break;
 
                     default:
@@ -910,26 +910,26 @@ public class DMZDatos implements IDMZDatos{
             case "Spiritualist":
                 switch (raza) {
                     case 0: // Humano
-                        maxENE = Math.round(StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZHumanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
                     case 1: // Saiyan
-                        maxENE = Math.round(StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZSaiyanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
 
                     case 2: // Namek
-                        maxENE = Math.round(StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZNamekConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
 
                     case 3: // Bioandroide
-                        maxENE = Math.round(StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZBioAndroidConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
 
                     case 4: // Cold Demon
-                        maxENE = Math.round(StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZColdDemonConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
 
                     case 5: // Majin
-                        maxENE = Math.round(StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40);
+                        maxENE = Math.round(3 * StatENE * DMZMajinConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get() + 40 * 3);
                         break;
 
                     default:
