@@ -390,19 +390,54 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
                     break;
                 case 3:
-                    //BIOANDROID
-                    colorR = (color1body >> 16) / 255.0F;
-                    colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                    colorB = (color1body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                    colorR = (color2body >> 16) / 255.0F;
-                    colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                    colorB = (color2body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                    colorR = (color3body >> 16) / 255.0F;
-                    colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                    colorB = (color3body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    switch (form){
+                        case "semi_perfect":
+                            //BIOANDROID
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color2body >> 16) / 255.0F;
+                            colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                            colorB = (color2body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            break;
+                        case "perfect":
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (16383998 >> 16) / 255.0F;
+                            colorG = ((16383998 >> 8) & 0xff) / 255.0f;
+                            colorB = (16383998 & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            break;
+                        default:
+                            //BIOANDROID
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color2body >> 16) / 255.0F;
+                            colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                            colorB = (color2body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            break;
+                    }
                     break;
                 case 4:
                     //DEMON COLD

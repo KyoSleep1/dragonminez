@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.ArmorCapeLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
@@ -85,8 +86,6 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
             switch (transf){
                 case "semi_perfect":
                     pPoseStack.scale(1.1F, 1.03F, 1.01F);
-                    break;
-                case "perfect":
                     break;
                 default: //Imperfect
                     pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
@@ -181,6 +180,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                         renderBodySemiPerfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         break;
                     case "perfect":
+                        renderBodyPerfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         break;
                     default: //IMPERFECT
                         renderBodyImperfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -456,6 +456,41 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         poseStack.popPose();
     }
 
+    private void renderBodyPerfect(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
+
+        PerfectModel<AbstractClientPlayer> playermodel = (PerfectModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = 16383998;
+            int bodyColor3 = cap.getBodyColor3();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR LA COLA DEL CUERPO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODYCOLA)), pPackedLight, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+
     private void renderBodySemiPerfect(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
         SemiPerfectModel<AbstractClientPlayer> playermodel = (SemiPerfectModel)this.getModel();
@@ -537,6 +572,18 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
             switch (dmzform){
                 case "perfect":
+                    //OJOS BLANCOS
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODYCOLA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    //IRIS DE AMBOS OJOS Y COLOR DE IRIS
+                    colorR = (eye1color >> 16) / 255.0F;
+                    colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                    colorB = (eye1color & 0xff) / 255.0f;
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
                     break;
                 case "semi_perfect":
                     //OJOS BLANCOS
@@ -574,6 +621,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
     private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/perfect/eyes/eyesmajin.png");
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
@@ -588,6 +636,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
                     break;
                 case "perfect":
+                    pPoseStack.translate(0f,0f,-0.0012f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
                     break;
                 default: //IMPERFECT
                     //DELINEADO
