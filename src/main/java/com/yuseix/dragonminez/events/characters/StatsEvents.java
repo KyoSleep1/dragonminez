@@ -57,8 +57,7 @@ public class StatsEvents {
 	private static boolean transformOn = false;
 
 	//Sonidos
-	private static SimpleSoundInstance kiChargeLoop;
-	private static SimpleSoundInstance turboLoop;
+	private static SimpleSoundInstance kiChargeLoop, turboLoop, oozaruLoop;
 
 
 	@SubscribeEvent
@@ -380,11 +379,11 @@ public class StatsEvents {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 						previousKiChargeState = true; // Actualiza el estado previo
 						playSoundOnce(MainSounds.AURA_START.get());
-						startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+						startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), 1);
 					} else if (!isKiChargeKeyPressed && previousKiChargeState) {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 						previousKiChargeState = false; // Actualiza el estado previo
-						stopLoopSound(true);
+						stopLoopSound(1);
 					}
 
 					// Descender de ki
@@ -404,14 +403,14 @@ public class StatsEvents {
 							ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
 							ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
 							playSoundOnce(MainSounds.AURA_START.get());
-							startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+							startLoopSound(MainSounds.TURBO_LOOP.get(), 2);
 							setTurboSpeed(player, true);
 						} else if (turboOn) {
 							// Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
 							turboOn = false;
 							ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
 							ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-							stopLoopSound(false);
+							stopLoopSound(2);
 							setTurboSpeed(player, false);
 						} else {
 							player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
@@ -423,7 +422,7 @@ public class StatsEvents {
 						turboOn = false;
 						ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
 						ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-						stopLoopSound(false);
+						stopLoopSound(2);
 						setTurboSpeed(player, false);
 					}
 
@@ -432,12 +431,13 @@ public class StatsEvents {
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
 						transformOn = false;
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound(1);
 						ModMessages.sendToServer(new DescendFormC2S());
 					} else if (transformOn && !isTransformKeyPressed) { // Al soltar la tecla, desactiva transformación
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound(1);
+						stopLoopSound(3);
 						transformOn = false;
 					} else if (getNextForm(stats) != null) {
 						if (isTransformKeyPressed && !transformOn) { // Solo activa si no estaba transformado
@@ -445,22 +445,24 @@ public class StatsEvents {
 							transformOn = true;
 							if (getNextForm(stats).equals("oozaru")) {
 								if (player.getXRot() <= -45.0F && player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13500) {
-									startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), false);
+									startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), 3);
 								}
 							} else {
 								ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 								playSoundOnce(MainSounds.AURA_START.get());
-								startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+								startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), 1);
 							}
 						}
 
 						if (transformOn && stats.getFormRelease() >= 100) {
 							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-							stopLoopSound(true);
+							stopLoopSound(1);
+							stopLoopSound(3);
 						}
 					} else if (isTransformKeyPressed && stats.getFormRelease() >= 100) {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound(1);
+						stopLoopSound(3);
 					}
 
 				}
@@ -524,7 +526,7 @@ public class StatsEvents {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static void startLoopSound(SoundEvent soundEvent, boolean isKiCharge) {
+	private static void startLoopSound(SoundEvent soundEvent, int soundType) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player == null) return;
@@ -541,23 +543,27 @@ public class StatsEvents {
 			);
 
 			Minecraft.getInstance().getSoundManager().play(loopSound);
-			if (isKiCharge) {
+			if (soundType == 1) {
 				kiChargeLoop = loopSound;
-			} else {
+			} else if (soundType == 2) {
 				turboLoop = loopSound;
+			} else if (soundType == 3) {
+				oozaruLoop = loopSound;
 			}
 		});
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static void stopLoopSound(boolean isKiCharge) {
+	private static void stopLoopSound(int soundType) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			if (isKiCharge && kiChargeLoop != null) {
+			if (soundType == 1 && kiChargeLoop != null) {
 				Minecraft.getInstance().getSoundManager().stop(kiChargeLoop);
 				kiChargeLoop = null;
-			} else if (!isKiCharge && turboLoop != null) {
+			} else if (soundType == 2 && turboLoop != null) {
 				Minecraft.getInstance().getSoundManager().stop(turboLoop);
 				turboLoop = null;
+			} else if (soundType == 3 && oozaruLoop != null) {
+				Minecraft.getInstance().getSoundManager().stop(oozaruLoop);
 			}
 		});
 	}
@@ -636,13 +642,13 @@ public class StatsEvents {
 			return "goldenoozaru";
 		}
 		if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
-			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj";
-			if (superFormLvl >= 3 && dmzForm.equals("ssj")) return "ssgrade2";
+			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssgrade1";
+			if (superFormLvl >= 3 && dmzForm.equals("ssgrade1")) return "ssgrade2";
 			if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
 		}
 		if (superFormLvl >= 5 && groupForm.equals("ssj")) {
-			if (superFormLvl >= 5 && dmzForm.equals("base")) return "mssj";
-			if (superFormLvl >= 6 && dmzForm.equals("mssj")) return "ssj2";
+			if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssj1";
+			if (superFormLvl >= 6 && dmzForm.equals("ssj1")) return "ssj2";
 			if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
 		}
 		return null; // No hay transformación disponible

@@ -36,11 +36,11 @@ public class DescendFormC2S {
                                 case "goldenoozaru" -> playerstats.setDmzForm("oozaru");
                                 case "oozaru" -> playerstats.setDmzForm("base");
                                 case "ssgrade3" -> playerstats.setDmzForm("ssgrade2");
-                                case "ssgrade2" -> playerstats.setDmzForm("ssj");
-                                case "ssj" -> playerstats.setDmzForm("base");
+                                case "ssgrade2" -> playerstats.setDmzForm("ssgrade1");
+                                case "ssgrade1" -> playerstats.setDmzForm("base");
                                 case "ssj3" -> playerstats.setDmzForm("ssj2");
-                                case "ssj2" -> playerstats.setDmzForm("mssj");
-                                case "mssj" -> playerstats.setDmzForm("base");
+                                case "ssj2" -> playerstats.setDmzForm("ssj1");
+                                case "ssj1" -> playerstats.setDmzForm("base");
                             }
                             break;
                         case 2: // Namek
