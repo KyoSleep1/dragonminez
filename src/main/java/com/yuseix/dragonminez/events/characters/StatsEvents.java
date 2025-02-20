@@ -27,14 +27,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -102,7 +105,7 @@ public class StatsEvents {
 						tickHandler.manejarPasivaSaiyan(playerstats, serverPlayer);
 					}
 				}
-
+				serverPlayer.refreshDimensions();
 				//Aca manejamos la carga de aura
 				tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 				//Aca manejamos la carga de la transformacion
@@ -470,7 +473,7 @@ public class StatsEvents {
 
 	@SubscribeEvent
 	@SuppressWarnings("removal")
-	public static void onPlayerSizeChange(PlayerEvent.Size event) {
+	public static void onPlayerSizeChange(EntityEvent.Size event) {
 		if(event.getEntity() instanceof Player player){
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				var raza = cap.getRace();
@@ -482,14 +485,60 @@ public class StatsEvents {
 							case "oozaru", "goldenoozaru":
 								// Ajustamos el ancho y la altura según el estado del jugador
 								if (player.isSwimming()) {
-									event.setNewSize(new EntityDimensions(2.3625F, 2.3625F, true));
-									event.setNewEyeHeight(1.654F);
+									event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
+									event.setNewEyeHeight(1.7F);
 								} else if (player.isCrouching()) {
-									event.setNewSize(new EntityDimensions(2.3625F, 5.90625F, true));
-									event.setNewEyeHeight(5.000625F);
+									event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
+									event.setNewEyeHeight(5.5F);
 								} else {
-									event.setNewSize(new EntityDimensions(2.3625F, 7.0875F, true));
-									event.setNewEyeHeight(6.3759F);
+									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
+									event.setNewEyeHeight(6.5F);
+								}
+								break;
+							case "ssj1":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
+									event.setNewEyeHeight(0.4f);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.5F, 1.6F, true));
+									event.setNewEyeHeight(1.3f);
+								} else if(player.isVisuallyCrawling()){
+									event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
+									event.setNewEyeHeight(0.4f);
+								} else {
+									event.setNewSize(new EntityDimensions(0.6F, 1.9F, true));
+									event.setNewEyeHeight(1.6f);
+								}
+
+								break;
+							case "ssgrade2":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
+									event.setNewEyeHeight(0.4F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.7F, 1.5F, true));
+									event.setNewEyeHeight(1.4F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
+									event.setNewEyeHeight(0.4F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.7F, 2.0F, true));
+									event.setNewEyeHeight(1.7F);
+								}
+								break;
+							case "ssgrade3":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
+									event.setNewEyeHeight(0.5F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.7F, 1.7F, true));
+									event.setNewEyeHeight(1.6F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
+									event.setNewEyeHeight(0.5F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.7F, 2.2F, true));
+									event.setNewEyeHeight(1.9F);
 								}
 								break;
 							default:
@@ -507,6 +556,8 @@ public class StatsEvents {
 					default: //Humano
 						break;
 				}
+
+
 			});
 		}
 
@@ -619,8 +670,8 @@ public class StatsEvents {
 		// Definir las transformaciones por grupo
 		Map<String, String[]> saiyanForms = Map.of(
 				"", new String[]{"oozaru", "goldenoozaru"},
-				"ssgrades", new String[]{"ssgrade1", "ssgrade2", "ssgrade3"},
-				"ssj", new String[]{"ssj1", "ssj2", "ssj3"}
+				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
+				"ssj", new String[]{"ssjfp", "ssj2", "ssj3"}
 		);
 
 		if (!saiyanForms.containsKey(groupForm)) return null;
@@ -636,13 +687,13 @@ public class StatsEvents {
 			return "goldenoozaru";
 		}
 		if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
-			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj";
-			if (superFormLvl >= 3 && dmzForm.equals("ssj")) return "ssgrade2";
+			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj1";
+			if (superFormLvl >= 3 && dmzForm.equals("ssj1")) return "ssgrade2";
 			if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
 		}
 		if (superFormLvl >= 5 && groupForm.equals("ssj")) {
-			if (superFormLvl >= 5 && dmzForm.equals("base")) return "mssj";
-			if (superFormLvl >= 6 && dmzForm.equals("mssj")) return "ssj2";
+			if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssjfp";
+			if (superFormLvl >= 6 && dmzForm.equals("ssjfp")) return "ssj2";
 			if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
 		}
 		return null; // No hay transformación disponible
