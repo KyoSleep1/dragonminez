@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -61,6 +62,36 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                             .setBiome(ModBiomes.ROCKY).build()
                             )
                     ).save(consumer, "dragonminez:rockybiome");
+
+            Advancement otherworld = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            MainBlocks.OTHERWORLD_CLOUD.get(),
+                            Component.translatable("advancements.dragonminez.otherworld.title"),
+                            Component.translatable("advancements.dragonminez.otherworld.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("found_otherworld",
+                            ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY)
+                    ).save(consumer, "dragonminez:otherworld");
+
+            Advancement kaiosama = Advancement.Builder.advancement()
+                    .parent(otherworld)
+                    .display(
+                            MainItems.CAPSULA_ROJA.get(),
+                            Component.translatable("advancements.dragonminez.kaiosama.title"),
+                            Component.translatable("advancements.dragonminez.kaiosama.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("kaiosama",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:kaiosama");
 
             Advancement kamilookout = Advancement.Builder.advancement()
                     .parent(root) // Este depende de X logro (Solo es orden, no requisito)
@@ -212,6 +243,25 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                     ).addCriterion("namekdim",
                             ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.NAMEK_DIM_LEVEL_KEY)
                     ).save(consumer, "dragonminez:namekdim");
+
+            Advancement patriarca = Advancement.Builder.advancement()
+                    .parent(namekdim)
+                    .display(
+                            MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE.get(),
+                            Component.translatable("advancements.dragonminez.patriarca.title"),
+                            Component.translatable("advancements.dragonminez.patriarca.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("patriarca",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:patriarca");
 
             Advancement radarnamek = Advancement.Builder.advancement()
                     .parent(namekdim)

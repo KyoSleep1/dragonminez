@@ -244,8 +244,7 @@ public class TickHandler {
 			if (dmzformTimer >= 20) {
 				if (StatsEvents.getNextForm(playerstats).equals("oozaru")) {
 					// Si el jugador está mirando hacia arriba y (es de noche + luna llena), aumenta la carga
-					System.out.println("Rot: " + player.getXRot() + " Moon: " + player.level().getMoonPhase() + " Time: " + player.level().getDayTime() % 24000);
-					if (player != null && player.getXRot() <= -45.0F && (player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13000)) {
+					if (player.getXRot() <= -45.0F && player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13000) {
 						playerstats.setFormRelease(playerstats.getFormRelease() + 10);
 					}
 				} else playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
