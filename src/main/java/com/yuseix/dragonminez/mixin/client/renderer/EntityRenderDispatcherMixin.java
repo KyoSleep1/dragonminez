@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
@@ -146,7 +147,7 @@ public class EntityRenderDispatcherMixin {
         builder.put("namek", new NamekianRender(ctx));
         //BIO ANDROIDE
         builder.put("bio_imperfect", new BioAndroidRender(ctx, new BioAndroidModel<>(ctx.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
-        builder.put("bio_semiperfect", new BioAndroidRender(ctx, new BioAndroidModel<>(ctx.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
+        builder.put("bio_semiperfect", new BioAndroidRender(ctx, new SemiPerfectModel<>(ctx.bakeLayer(SemiPerfectModel.LAYER_LOCATION))));
         //MAJIN
         builder.put("majin_gordo", new MajinFATRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
         builder.put("majin_female", new SlimHumanSMajinRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));

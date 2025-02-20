@@ -44,7 +44,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 		guiGraphics.pose().pushPose();
 		guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
 
-		// Acá tendría q hacer, en la textura, los cuadritos y todo eso para las opciones xd
+		// Acá tendría q hacer, en la textura y los cuadritos
 		// Kaioken
 		guiGraphics.blit(hud,
 				0,

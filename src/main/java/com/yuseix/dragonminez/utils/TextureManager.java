@@ -13,6 +13,12 @@ public class TextureManager {
     public static final ResourceLocation B_IMPERFECT_BODYCOLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/body/bodycola.png");
     public static final ResourceLocation B_IMPERFECT_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0.png");
     public static final ResourceLocation B_IMPERFECT_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/eyes_0_iris.png");
+    public static final ResourceLocation B_SEMI_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/body/bodybase1_1.png");
+    public static final ResourceLocation B_SEMI_BODY2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/body/bodybase1_2.png");
+    public static final ResourceLocation B_SEMI_BODY3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/body/bodybase1_3.png");
+    public static final ResourceLocation B_SEMI_BODYCOLA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/body/bodycola.png");
+    public static final ResourceLocation B_SEMI_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/eyes/eyesbase.png");
+    public static final ResourceLocation B_SEMI_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/semi_perfect/eyes/eyes_iris.png");
 
     //SAIYAN Y HUMANO
     public static final ResourceLocation SH_BODY1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/body/bodytype1.png");

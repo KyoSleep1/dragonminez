@@ -69,7 +69,7 @@ public class UtilityPanelC2S {
 									case 1:
 										switch (groupForm) {
 											case "":
-												if (msg.directionAction.equals("left") && superFormLevel >= 5) {
+												if (msg.directionAction.equals("left") && superFormLevel >= 15) { //15 PORQUE EN ESTA VERSIÓN AUN NO SE PODRA TENER TODAS LAS FORMAS
 													// Si la Superform es mayor o igual a 5, se puede transformar en SSJ
 													cap.setDmzGroupForm("ssj");
 												} else if (msg.directionAction.equals("right") && superFormLevel >= 2) {

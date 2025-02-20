@@ -509,7 +509,7 @@ public class StatsEvents {
 									event.setNewEyeHeight(0.4f);
 								} else {
 									event.setNewSize(new EntityDimensions(0.6F, 1.9F, true));
-									event.setNewEyeHeight(1.6f);
+									event.setNewEyeHeight(1.65f);
 								}
 
 								break;
@@ -550,6 +550,26 @@ public class StatsEvents {
 					case 2: // Namek
 						break;
 					case 3: // BioAndroide
+						switch (transf) {
+							case "semi_perfect":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
+									event.setNewEyeHeight(0.4F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.7F, 1.5F, true));
+									event.setNewEyeHeight(1.4F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
+									event.setNewEyeHeight(0.4F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.7F, 2.0F, true));
+									event.setNewEyeHeight(1.7F);
+								}
+								break;
+							default:
+								break;
+						}
+
 						break;
 					case 4: // ColdDemon
 						break;
@@ -676,8 +696,6 @@ public class StatsEvents {
 		String groupForm = playerstats.getDmzGroupForm();
 		String dmzForm = playerstats.getDmzForm();
 
-		if (race != 1) return null; // Solo aplica a Saiyans
-
 		// Definir las transformaciones por grupo
 		Map<String, String[]> saiyanForms = Map.of(
 				"", new String[]{"oozaru", "goldenoozaru"},
@@ -685,30 +703,45 @@ public class StatsEvents {
 				"ssj", new String[]{"ssjfp", "ssj2", "ssj3"}
 		);
 
-		if (!saiyanForms.containsKey(groupForm)) return null;
+		// Lógica de transformación para Saiyans
+		if (race == 1) {
+			if (!saiyanForms.containsKey(groupForm)) return null;
 
-		String[] availableForms = saiyanForms.get(groupForm);
-		int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
+			String[] availableForms = saiyanForms.get(groupForm);
+			int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
 
-		// Lógica de transformación
-		if (superFormLvl >= 1 && groupForm.equals("") && dmzForm.equals("base")) {
-			return "oozaru";
+			// Lógica de transformación para Saiyans
+			if (superFormLvl >= 1 && groupForm.equals("") && dmzForm.equals("base")) {
+				return "oozaru";
+			}
+			if (superFormLvl >= 8 && groupForm.equals("") && dmzForm.equals("oozaru")) {
+				return "goldenoozaru";
+			}
+			if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
+				if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj1";
+				if (superFormLvl >= 3 && dmzForm.equals("ssj1")) return "ssgrade2";
+				if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
+			}
+			if (superFormLvl >= 5 && groupForm.equals("ssj")) {
+				if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssjfp";
+				if (superFormLvl >= 6 && dmzForm.equals("ssjfp")) return "ssj2";
+				if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
+			}
 		}
-		if (superFormLvl >= 8 && groupForm.equals("") && dmzForm.equals("oozaru")) {
-			return "goldenoozaru";
+
+		// Lógica de transformación para Bioandroides
+		if (race == 3 && groupForm.equals("")) {
+			if (superFormLvl >= 1 && dmzForm.equals("base")) {
+				return "semi_perfect";
+			}
+			if (superFormLvl >= 2 && dmzForm.equals("semi_perfect")) {
+				return "perfect";
+			}
 		}
-		if (superFormLvl >= 2 && groupForm.equals("ssgrades")) {
-			if (superFormLvl >= 2 && dmzForm.equals("base")) return "ssj1";
-			if (superFormLvl >= 3 && dmzForm.equals("ssj1")) return "ssgrade2";
-			if (superFormLvl >= 4 && dmzForm.equals("ssgrade2")) return "ssgrade3";
-		}
-		if (superFormLvl >= 5 && groupForm.equals("ssj")) {
-			if (superFormLvl >= 5 && dmzForm.equals("base")) return "ssjfp";
-			if (superFormLvl >= 6 && dmzForm.equals("ssjfp")) return "ssj2";
-			if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
-		}
+
 		return null; // No hay transformación disponible
 	}
+
 }
 
 

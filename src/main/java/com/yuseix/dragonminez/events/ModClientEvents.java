@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
@@ -232,6 +233,7 @@ public class ModClientEvents {
 		e.registerLayerDefinition(NamekianModel.LAYER_LOCATION, NamekianModel::createBodyLayer);
 
 		e.registerLayerDefinition(BioAndroidModel.LAYER_LOCATION, BioAndroidModel::createBodyLayer);
+		e.registerLayerDefinition(SemiPerfectModel.LAYER_LOCATION, SemiPerfectModel::createBodyLayer);
 
 		e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
 		e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
