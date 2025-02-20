@@ -5,6 +5,8 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
@@ -107,36 +109,40 @@ public class ForgeBusEvents {
 			throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
 		}
 
-		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
-			if (serverLevel.dimension() == Level.OVERWORLD) {
-				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-				});
-			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
-				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-				});
-			}
+		if (event.getEntity() instanceof ServerPlayer serverPlayer) {
+			sendDragonBallData(serverPlayer);
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		Player player = event.getEntity();
-
-		if (player.level() instanceof ServerLevel serverLevel) {
-			if (serverLevel.dimension() == Level.OVERWORLD) {
-				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-				});
-			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
-				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-				});
-			}
+		if (event.getEntity() instanceof ServerPlayer player) {
+			sendDragonBallData(player);
 		}
+	}
+
+	private static void sendDragonBallData(ServerPlayer player) {
+		ServerLevel overworld = player.server.getLevel(Level.OVERWORLD);
+		ServerLevel namek = player.server.getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
+
+		List<BlockPos> earthDragonBalls = new ArrayList<>();
+		List<BlockPos> namekDragonBalls = new ArrayList<>();
+
+		if (overworld != null) {
+			overworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+				cap.loadFromSavedData(overworld);
+				earthDragonBalls.addAll(cap.dragonBallPositions);
+			});
+		}
+
+		if (namek != null) {
+			namek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+				cap.loadFromSavedData(namek);
+				namekDragonBalls.addAll(cap.namekDragonBallPositions);
+			});
+		}
+
+		ModMessages.sendToPlayer(new SyncDragonBallsS2C(earthDragonBalls, namekDragonBalls), player);
 	}
 
 	@SubscribeEvent
@@ -177,6 +183,7 @@ public class ForgeBusEvents {
 
 		if (serverNamek == null) return;
 		if (!serverNamek.isClientSide()) {
+			LazyOptional<StructuresCapability> capability = serverNamek.getCapability(StructuresProvider.CAPABILITY);
 			serverNamek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
 				namekDragonBallsCapability.loadFromSavedData(serverNamek);
 
@@ -185,7 +192,15 @@ public class ForgeBusEvents {
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4); // Reemplazar por el Gran Patriarca luego, igual que Goku
+					capability.ifPresent(cap -> {
+						if (cap.getHasElderGuru()) {
+							BlockPos namekDB4pos = cap.getNamekDB4Position();
+							namekDragonBallPositions.add(namekDB4pos);
+							DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [4] spawned at " + namekDB4pos);
+						} else {
+							spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
+						}
+					});
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
@@ -276,6 +291,11 @@ public class ForgeBusEvents {
 				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+				capability.ifPresent(cap -> {
+					cap.generateElderGuru(serverLevel);
+				});
+
 				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 		}

@@ -189,6 +189,11 @@ public class ModMessages {
 				.decoder(FlyToggleS2C::decode)
 				.consumerMainThread(FlyToggleS2C::handle)
 				.add();
+		net.messageBuilder(SyncDragonBallsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(SyncDragonBallsS2C::encode)
+				.decoder(SyncDragonBallsS2C::decode)
+				.consumerMainThread(SyncDragonBallsS2C::handle)
+				.add();
 	}
 
 	//Manda un paquete al Servidor (message no es un mensaje, es un paquete)

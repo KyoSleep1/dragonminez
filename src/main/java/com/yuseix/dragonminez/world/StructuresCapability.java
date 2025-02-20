@@ -1,6 +1,8 @@
 package com.yuseix.dragonminez.world;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
@@ -8,6 +10,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
@@ -59,6 +62,18 @@ public class StructuresCapability {
     public void setHasRoshiHouse(boolean hasRoshiHouse) {
         this.hasRoshiHouse = hasRoshiHouse;
     }
+    public void setHasElderGuru(boolean hasElderGuru) {
+        this.hasElderGuru = hasElderGuru;
+    }
+    public void setHasEnmaPalace(boolean hasEnmaPalace) {
+        this.hasEnmaPalace = hasEnmaPalace;
+    }
+    public void setHasSnakeWay(boolean hasSnakeWay) {
+        this.hasSnakeWay = hasSnakeWay;
+    }
+    public void setHasKaioPlanet(boolean hasKaioPlanet) {
+        this.hasKaioPlanet = hasKaioPlanet;
+    }
     public boolean getHasGokuHouse() {
         return this.hasGokuHouse;
     }
@@ -67,15 +82,6 @@ public class StructuresCapability {
     }
     public boolean getHasElderGuru() {
         return this.hasElderGuru;
-    }
-    public boolean getHasEnmaPalace() {
-        return this.hasEnmaPalace;
-    }
-    public boolean getHasSnakeWay() {
-        return this.hasSnakeWay;
-    }
-    public boolean getHasKaioPlanet() {
-        return this.hasKaioPlanet;
     }
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
         this.torreKamisamaPosition = torreKamisamaPosition;
@@ -555,6 +561,73 @@ public class StructuresCapability {
                 setHasRoshiHouse(true);
                 setRoshiHousePosition(spawnPosition);
                 System.out.println("[DMZ-Generation] Roshi House generated in " + spawnPosition);
+            }
+        }
+    }
+
+    public void generateElderGuru(ServerLevel level) {
+        if (!hasElderGuru) {
+            Random random = new Random();
+            BlockPos spawnPos = level.getSharedSpawnPos();
+
+            BlockPos posicionValida = new BlockPos(0, 0, 0);
+
+            while (posicionValida.equals(new BlockPos(0, 0, 0))) {
+                int x = spawnPos.getX() + random.nextInt(10000) - 5000;
+                int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+
+                level.getChunk(x >> 4, z >> 4);
+                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+                BlockPos posiblePos = new BlockPos(x, y, z);
+                Holder<Biome> biome = level.getBiome(posiblePos);
+
+                if (y > 66 && y <= 140) {
+                    BlockState belowBlockState = level.getBlockState(posiblePos.below());
+                    BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
+
+                    if (!belowBlockState.isAir() && !(belowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))
+                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get())) && biome.is(ModBiomes.SACRED_LAND)) {
+                        posicionValida = posiblePos;
+                    }
+                }
+            }
+
+            if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
+                BlockState blockState = level.getBlockState(posicionValida.below().below().below()).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
+
+                BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
+
+                level.setBlock(posicionValida.below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below());
+                if (blockEntity instanceof StructureBlockEntity) {
+                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
+
+                    CompoundTag nbtData = new CompoundTag();
+                    nbtData.putString("mirror", "NONE");
+                    nbtData.putString("rotation", "NORTH");
+                    nbtData.putInt("posX", -29);
+                    nbtData.putInt("posY", 21);
+                    nbtData.putInt("posZ", -33);
+                    nbtData.putString("mode", "LOAD");
+                    nbtData.putString("name", "dragonminez:elder_guru");
+
+                    structureBlockEntity.load(nbtData);
+                    structureBlockEntity.setChanged();
+                    //System.out.println("Comando: /setblock " + posicionValida.below().below().below().getX() + " " + posicionValida.below().below().below().getY() + " " + posicionValida.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
+
+                    level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                }
+
+                level.setBlock(posicionValida.below().below().below(), blockState, 3);
+                level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
+
+                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 6, posicionValida.getY() + 57, posicionValida.getZ() + 54);
+                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 12, posicionValida.getY() + 65, posicionValida.getZ() - 11);
+                setHasElderGuru(true);
+                setNamekDB4Position(namekDB4);
+                setElderGuruPosition(spawnPosition);
+                System.out.println("[DMZ-Generation] Elder Guru's House generated in " + spawnPosition);
             }
         }
     }

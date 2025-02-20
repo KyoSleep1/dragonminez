@@ -31,6 +31,7 @@ public class LocationsCommand {
                             builder.suggest("KorinTower");
                             builder.suggest("GokuHouse");
                             builder.suggest("KameHouse");
+                            builder.suggest("ElderGuru");
                             return builder.buildFuture();
                         })
                         .executes(context -> {
@@ -84,6 +85,11 @@ public class LocationsCommand {
                     pos = structures.getRoshiHousePosition();
                     canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
                     messageRef.set(createLocationMessage("command.dmzlocate.kamehouse", pos, canTeleport, source));
+                }
+                case "elderguru" -> {
+                    pos = structures.getElderGuruPosition();
+                    canTeleport = validateDimension(playerDimension, ModDimensions.NAMEK_DIM_LEVEL_KEY, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.elderguru", pos, canTeleport, source));
                 }
                 default -> {
                     messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));
