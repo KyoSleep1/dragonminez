@@ -32,45 +32,6 @@ public class ForgeClientEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public static void clientOnPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-
-		if (event.getEntity().level() instanceof ServerLevel serverLevel) {
-			if (serverLevel.dimension() == Level.OVERWORLD) {
-				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
-				});
-			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
-				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
-				});
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void clientOnPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		Player player = event.getEntity();
-
-		if (player.level() instanceof ServerLevel serverLevel) {
-			if (serverLevel.dimension() == Level.OVERWORLD) {
-				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateDragonBallsPositions(cap.dragonBallPositions);
-				});
-			}
-			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
-				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-					cap.loadFromSavedData(serverLevel);
-					RadarEvents.updateNamekDragonBallsPositions(cap.namekDragonBallPositions);
-				});
-			}
-		}
-	}
-
 	// Solo cancela el render Vanilla si el jugador creó su personaje
 	@SubscribeEvent
 	public static void RenderHealthBar(RenderGuiOverlayEvent.Pre event) {

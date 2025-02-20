@@ -15,11 +15,9 @@ public class NamekDragonBallsCapability {
     public boolean hasNamekDragonBalls = false;
     public List<BlockPos> namekDragonBallPositions = new ArrayList<>();
 
-
     public boolean hasNamekDragonBalls() {
         return hasNamekDragonBalls;
     }
-
 
     public void setHasNamekDragonBalls(boolean hasNamekDragonBalls) {
         this.hasNamekDragonBalls = hasNamekDragonBalls;
@@ -29,9 +27,9 @@ public class NamekDragonBallsCapability {
         return new ArrayList<>(namekDragonBallPositions);
     }
 
-    public void setNamekDragonBallPositions(List<BlockPos> dragonBallPositions) {
+    public void setNamekDragonBallPositions(List<BlockPos> namekDBallPositions) {
         this.namekDragonBallPositions.clear();
-        this.namekDragonBallPositions = dragonBallPositions;
+        this.namekDragonBallPositions = namekDBallPositions;
     }
 
     public void saveNBTData(CompoundTag nbt) {
@@ -42,8 +40,6 @@ public class NamekDragonBallsCapability {
             listTag.add(NbtUtils.writeBlockPos(pos));
         }
         nbt.put("namekDragonBallPositions", listTag);
-
-
     }
 
     public void loadNBTData(CompoundTag nbt) {
