@@ -27,6 +27,10 @@ public class StructuresCapability {
     private boolean hasHabTiempo = false;
     private boolean hasGokuHouse = false;
     private boolean hasRoshiHouse = false;
+    private boolean hasElderGuru = false;
+    private boolean hasEnmaPalace = false;
+    private boolean hasSnakeWay = false;
+    private boolean hasKaioPlanet = false;
     private BlockPos torreKamisamaPosition;
     private BlockPos portalHabTiempoPosition;
     private BlockPos torreKarinPosition;
@@ -34,6 +38,11 @@ public class StructuresCapability {
     private BlockPos habTiempoPos;
     private BlockPos db4Position;
     private BlockPos roshiHousePosition;
+    private BlockPos elderGuruPosition;
+    private BlockPos namekDB4Position;
+    private BlockPos enmaPalacePosition;
+    private BlockPos snakeWayPosition;
+    private BlockPos kaioPlanetPosition;
 
     public void setHasTorreKamisama(boolean hasTorreKamisama) {
         this.hasTorreKamisama = hasTorreKamisama;
@@ -56,6 +65,18 @@ public class StructuresCapability {
     public boolean getHasRoshiHouse() {
 		return this.hasRoshiHouse;
     }
+    public boolean getHasElderGuru() {
+        return this.hasElderGuru;
+    }
+    public boolean getHasEnmaPalace() {
+        return this.hasEnmaPalace;
+    }
+    public boolean getHasSnakeWay() {
+        return this.hasSnakeWay;
+    }
+    public boolean getHasKaioPlanet() {
+        return this.hasKaioPlanet;
+    }
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
         this.torreKamisamaPosition = torreKamisamaPosition;
     }
@@ -73,6 +94,21 @@ public class StructuresCapability {
     }
     public void setRoshiHousePosition(BlockPos roshiHousePosition) {
         this.roshiHousePosition = roshiHousePosition;
+    }
+    public void setElderGuruPosition(BlockPos elderGuruPosition) {
+        this.elderGuruPosition = elderGuruPosition;
+    }
+    public void setNamekDB4Position(BlockPos namekDB4Position) {
+        this.namekDB4Position = namekDB4Position;
+    }
+    public void setEnmaPalacePosition(BlockPos enmaPalacePosition) {
+        this.enmaPalacePosition = enmaPalacePosition;
+    }
+    public void setSnakeWayPosition(BlockPos snakeWayPosition) {
+        this.snakeWayPosition = snakeWayPosition;
+    }
+    public void setKaioPlanetPosition(BlockPos kaioPlanetPosition) {
+        this.kaioPlanetPosition = kaioPlanetPosition;
     }
     public BlockPos getHabTiempoPos() {
         return habTiempoPos;
@@ -95,12 +131,31 @@ public class StructuresCapability {
     public BlockPos getRoshiHousePosition() {
         return roshiHousePosition;
     }
+    public BlockPos getElderGuruPosition() {
+        return elderGuruPosition;
+    }
+    public BlockPos getNamekDB4Position() {
+        return namekDB4Position;
+    }
+    public BlockPos getEnmaPalacePosition() {
+        return enmaPalacePosition;
+    }
+    public BlockPos getSnakeWayPosition() {
+        return snakeWayPosition;
+    }
+    public BlockPos getKaioPlanetPosition() {
+        return kaioPlanetPosition;
+    }
 
     public void saveNBTData(CompoundTag nbt) {
         nbt.putBoolean("hasTorreKamisama", hasTorreKamisama);
         nbt.putBoolean("hasHabTiempo", hasHabTiempo);
         nbt.putBoolean("hasGokuHouse", hasGokuHouse);
         nbt.putBoolean("hasRoshiHouse", hasRoshiHouse);
+        nbt.putBoolean("hasElderGuru", hasElderGuru);
+        nbt.putBoolean("hasEnmaPalace", hasEnmaPalace);
+        nbt.putBoolean("hasSnakeWay", hasSnakeWay);
+        nbt.putBoolean("hasKaioPlanet", hasKaioPlanet);
 
         if (torreKamisamaPosition != null || torreKarinPosition != null || portalHabTiempoPosition != null) {
             nbt.put("torreKamisamaPosition", NbtUtils.writeBlockPos(torreKamisamaPosition));
@@ -119,6 +174,21 @@ public class StructuresCapability {
         if (roshiHousePosition != null) {
             nbt.put("roshiHousePosition", NbtUtils.writeBlockPos(roshiHousePosition));
         }
+        if (elderGuruPosition != null) {
+            nbt.put("elderGuruPosition", NbtUtils.writeBlockPos(elderGuruPosition));
+        }
+        if (namekDB4Position != null) {
+            nbt.put("namekDB4Position", NbtUtils.writeBlockPos(namekDB4Position));
+        }
+        if (enmaPalacePosition != null) {
+            nbt.put("enmaPalacePosition", NbtUtils.writeBlockPos(enmaPalacePosition));
+        }
+        if (snakeWayPosition != null) {
+            nbt.put("snakeWayPosition", NbtUtils.writeBlockPos(snakeWayPosition));
+        }
+        if (kaioPlanetPosition != null) {
+            nbt.put("kaioPlanetPosition", NbtUtils.writeBlockPos(kaioPlanetPosition));
+        }
     }
 
     public void loadNBTData(CompoundTag nbt) {
@@ -126,6 +196,10 @@ public class StructuresCapability {
         hasHabTiempo = nbt.getBoolean("hasHabTiempo");
         hasGokuHouse = nbt.getBoolean("hasGokuHouse");
         hasRoshiHouse = nbt.getBoolean("hasRoshiHouse");
+        hasElderGuru = nbt.getBoolean("hasElderGuru");
+        hasEnmaPalace = nbt.getBoolean("hasEnmaPalace");
+        hasSnakeWay = nbt.getBoolean("hasSnakeWay");
+        hasKaioPlanet = nbt.getBoolean("hasKaioPlanet");
 
         if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition") || nbt.contains("portalHabPosition")) {
             torreKamisamaPosition = NbtUtils.readBlockPos(nbt.getCompound("torreKamisamaPosition"));
@@ -143,6 +217,21 @@ public class StructuresCapability {
         }
         if (nbt.contains("roshiHousePosition")) {
             roshiHousePosition = NbtUtils.readBlockPos(nbt.getCompound("roshiHousePosition"));
+        }
+        if (nbt.contains("elderGuruPosition")) {
+            elderGuruPosition = NbtUtils.readBlockPos(nbt.getCompound("elderGuruPosition"));
+        }
+        if (nbt.contains("namekDB4Position")) {
+            namekDB4Position = NbtUtils.readBlockPos(nbt.getCompound("namekDB4Position"));
+        }
+        if (nbt.contains("enmaPalacePosition")) {
+            enmaPalacePosition = NbtUtils.readBlockPos(nbt.getCompound("enmaPalacePosition"));
+        }
+        if (nbt.contains("snakeWayPosition")) {
+            snakeWayPosition = NbtUtils.readBlockPos(nbt.getCompound("snakeWayPosition"));
+        }
+        if (nbt.contains("kaioPlanetPosition")) {
+            kaioPlanetPosition = NbtUtils.readBlockPos(nbt.getCompound("kaioPlanetPosition"));
         }
     }
 

@@ -60,8 +60,7 @@ public class StatsEvents {
 	private static boolean transformOn = false;
 
 	//Sonidos
-	private static SimpleSoundInstance kiChargeLoop;
-	private static SimpleSoundInstance turboLoop;
+	private static SimpleSoundInstance kiChargeLoop, turboLoop, oozaruLoop;
 
 
 	@SubscribeEvent
@@ -383,11 +382,11 @@ public class StatsEvents {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 						previousKiChargeState = true; // Actualiza el estado previo
 						playSoundOnce(MainSounds.AURA_START.get());
-						startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+						startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), "ki");
 					} else if (!isKiChargeKeyPressed && previousKiChargeState) {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
 						previousKiChargeState = false; // Actualiza el estado previo
-						stopLoopSound(true);
+						stopLoopSound("ki");
 					}
 
 					// Descender de ki
@@ -407,14 +406,14 @@ public class StatsEvents {
 							ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
 							ModMessages.sendToServer(new PermaEffC2S("add", "turbo", 1));
 							playSoundOnce(MainSounds.AURA_START.get());
-							startLoopSound(MainSounds.TURBO_LOOP.get(), false);
+							startLoopSound(MainSounds.TURBO_LOOP.get(), "turbo");
 							setTurboSpeed(player, true);
 						} else if (turboOn) {
 							// Permitir desactivar Turbo incluso si el porcentaje es menor al 10%
 							turboOn = false;
 							ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
 							ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-							stopLoopSound(false);
+							stopLoopSound("turbo");
 							setTurboSpeed(player, false);
 						} else {
 							player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
@@ -426,7 +425,7 @@ public class StatsEvents {
 						turboOn = false;
 						ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
 						ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
-						stopLoopSound(false);
+						stopLoopSound("turbo");
 						setTurboSpeed(player, false);
 					}
 
@@ -435,12 +434,13 @@ public class StatsEvents {
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
 						transformOn = false;
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound("ki");
 						ModMessages.sendToServer(new DescendFormC2S());
 					} else if (transformOn && !isTransformKeyPressed) { // Al soltar la tecla, desactiva transformación
 						ModMessages.sendToServer(new CharacterC2S("isTransform", 0));
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound("ki");
+						stopLoopSound("oozaru");
 						transformOn = false;
 					} else if (getNextForm(stats) != null) {
 						if (isTransformKeyPressed && !transformOn) { // Solo activa si no estaba transformado
@@ -448,22 +448,24 @@ public class StatsEvents {
 							transformOn = true;
 							if (getNextForm(stats).equals("oozaru")) {
 								if (player.getXRot() <= -45.0F && player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13500) {
-									startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), false);
+									startLoopSound(MainSounds.OOZARU_HEARTBEAT.get(), "oozaru");
 								}
 							} else {
 								ModMessages.sendToServer(new CharacterC2S("isAuraOn", 1));
 								playSoundOnce(MainSounds.AURA_START.get());
-								startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), true);
+								startLoopSound(MainSounds.KI_CHARGE_LOOP.get(), "ki");
 							}
 						}
 
 						if (transformOn && stats.getFormRelease() >= 100) {
 							ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-							stopLoopSound(true);
+							stopLoopSound("ki");
+							stopLoopSound("oozaru");
 						}
 					} else if (isTransformKeyPressed && stats.getFormRelease() >= 100) {
 						ModMessages.sendToServer(new CharacterC2S("isAuraOn", 0));
-						stopLoopSound(true);
+						stopLoopSound("ki");
+						stopLoopSound("oozaru");
 					}
 
 				}
@@ -575,7 +577,7 @@ public class StatsEvents {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static void startLoopSound(SoundEvent soundEvent, boolean isKiCharge) {
+	private static void startLoopSound(SoundEvent soundEvent, String sonido) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player == null) return;
@@ -592,23 +594,32 @@ public class StatsEvents {
 			);
 
 			Minecraft.getInstance().getSoundManager().play(loopSound);
-			if (isKiCharge) {
-				kiChargeLoop = loopSound;
-			} else {
-				turboLoop = loopSound;
+			switch (sonido) {
+				case "ki":
+					kiChargeLoop = loopSound;
+					break;
+				case "turbo":
+					turboLoop = loopSound;
+					break;
+				case "oozaru":
+					oozaruLoop = loopSound;
+					break;
 			}
 		});
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	private static void stopLoopSound(boolean isKiCharge) {
+	private static void stopLoopSound(String sonido) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			if (isKiCharge && kiChargeLoop != null) {
+			if (sonido.equals("ki") && kiChargeLoop != null) {
 				Minecraft.getInstance().getSoundManager().stop(kiChargeLoop);
 				kiChargeLoop = null;
-			} else if (!isKiCharge && turboLoop != null) {
+			} else if (sonido.equals("turbo") && turboLoop != null) {
 				Minecraft.getInstance().getSoundManager().stop(turboLoop);
 				turboLoop = null;
+			} else if (sonido.equals("oozaru") && oozaruLoop != null) {
+				Minecraft.getInstance().getSoundManager().stop(oozaruLoop);
+				oozaruLoop = null;
 			}
 		});
 	}

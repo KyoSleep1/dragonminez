@@ -8,6 +8,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,7 +28,27 @@ public class GuruEntity extends MastersEntity implements GeoEntity {
 
 	public GuruEntity(EntityType<? extends Mob> pEntityType, Level pLevel) {
 		super(pEntityType, pLevel);
+		this.lookControl = new LookControl(this) {
+			@Override
+			public void tick() {
+				// No rotar
+			}
+		};
 
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		this.setYRot(0.0F); // Siempre mirando al sur
+		this.setYHeadRot(0.0F);
+		this.yBodyRot = 0.0F;
+		this.yHeadRot = 0.0F;
+	}
+
+	@Override
+	public void registerGoals() {
+		this.goalSelector.addGoal(1, new FloatGoal(this));
 	}
 	public static AttributeSupplier setAttributes() {
 		return Mob.createMobAttributes()

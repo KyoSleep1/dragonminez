@@ -18,6 +18,14 @@ public class GuruRenderer extends GeoEntityRenderer<GuruEntity> {
 	}
 
 	@Override
+	public void render(GuruEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+		poseStack.pushPose();
+		poseStack.scale(1.5f,1.5f,1.5f);
+		super.render(entity, entityYaw, partialTick, poseStack, bufferSource, packedLight);
+		poseStack.popPose();
+	}
+
+	@Override
 	public ResourceLocation getTextureLocation(GuruEntity animatable) {
 		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/guru.png");
 	}

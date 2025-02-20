@@ -157,7 +157,7 @@ public final class MainEntity {
 	public static final RegistryObject<EntityType<EnmaEntity>> ENMA =
 			ENTITY_TYPES_REGISTER.register("enma",
 					() -> EntityType.Builder.of(EnmaEntity::new, MobCategory.CREATURE)
-							.sized(1.0f, 2.5f)
+							.sized(3.2f, 7.6f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "enma").toString())
 			);
 	public static final RegistryObject<EntityType<UranaiEntity>> URANAI =
@@ -169,7 +169,7 @@ public final class MainEntity {
 	public static final RegistryObject<EntityType<GuruEntity>> GURU =
 			ENTITY_TYPES_REGISTER.register("guru",
 					() -> EntityType.Builder.of(GuruEntity::new, MobCategory.CREATURE)
-							.sized(1.2f, 2.5f)
+							.sized(3.5f, 3.7f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "guru").toString())
 			);
 	public static final RegistryObject<EntityType<NubeEntity>> NUBE_VOLADORA =
