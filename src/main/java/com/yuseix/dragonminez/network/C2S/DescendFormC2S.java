@@ -29,8 +29,6 @@ public class DescendFormC2S {
                     String currentForm = playerstats.getDmzForm();
 
                     switch (race) {
-                        case 0: // Humanos
-                            break;
                         case 1: // Saiyans
                             switch (currentForm) {
                                 case "goldenoozaru" -> playerstats.setDmzForm("oozaru");
@@ -44,12 +42,27 @@ public class DescendFormC2S {
                             }
                             break;
                         case 2: // Namek
+                            switch (currentForm) {
+                                case "giant" -> playerstats.setDmzForm("base");
+                                case "full_power" -> playerstats.setDmzForm("giant");
+                                case "super_namek" -> playerstats.setDmzForm("full_power");
+                                case "potential_unleashed" -> playerstats.setDmzForm("base");
+                                case "orange" -> playerstats.setDmzForm("potential_unleashed");
+                                case "orange_giant" -> playerstats.setDmzForm("orange");
+                            }
                             break;
                         case 3:
                             break;
                         case 4:
                             break;
                         case 5:
+                            break;
+                        default:
+                            switch (currentForm) {
+                                case "buffed" -> playerstats.setDmzForm("base");
+                                case "full_power" -> playerstats.setDmzForm("buffed");
+                                case "potential_unleashed" -> playerstats.setDmzForm("full_power");
+                            }
                             break;
                     }
                 });

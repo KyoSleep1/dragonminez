@@ -548,6 +548,37 @@ public class StatsEvents {
 						}
 						break;
 					case 2: // Namek
+						switch (transf) {
+							case "orange_giant", "giant":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
+									event.setNewEyeHeight(1.7F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
+									event.setNewEyeHeight(5.5F);
+								} else {
+									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
+									event.setNewEyeHeight(6.5F);
+								}
+								break;
+							case "super_namek":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
+									event.setNewEyeHeight(0.4f);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.5F, 1.6F, true));
+									event.setNewEyeHeight(1.3f);
+								} else if(player.isVisuallyCrawling()){
+									event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
+									event.setNewEyeHeight(0.4f);
+								} else {
+									event.setNewSize(new EntityDimensions(0.6F, 1.9F, true));
+									event.setNewEyeHeight(1.65f);
+								}
+								break;
+							default:
+								break;
+						}
 						break;
 					case 3: // BioAndroide
 						switch (transf) {
@@ -576,7 +607,24 @@ public class StatsEvents {
 					case 5: // Majin
 						break;
 					default: //Humano
-						break;
+						switch (transf) {
+							case "buffed":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
+									event.setNewEyeHeight(0.5F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.7F, 1.7F, true));
+									event.setNewEyeHeight(1.6F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
+									event.setNewEyeHeight(0.5F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.7F, 2.2F, true));
+									event.setNewEyeHeight(1.9F);
+								}
+								break;
+						}
+							break;
 				}
 
 
@@ -702,13 +750,15 @@ public class StatsEvents {
 				"ssgrades", new String[]{"ssj1", "ssgrade2", "ssgrade3"},
 				"ssj", new String[]{"ssjfp", "ssj2", "ssj3"}
 		);
-
+		// Lógica de transformación para Humanos
+		if (race == 0 && groupForm.equals("")) {
+			if (superFormLvl >= 1 && dmzForm.equals("base")) return "buffed";
+			if (superFormLvl >= 2 && dmzForm.equals("buffed")) return "full_power";
+			if (superFormLvl >= 3 && dmzForm.equals("full_power")) return "potential_unleashed";
+		}
 		// Lógica de transformación para Saiyans
 		if (race == 1) {
 			if (!saiyanForms.containsKey(groupForm)) return null;
-
-			String[] availableForms = saiyanForms.get(groupForm);
-			int currentIndex = Arrays.asList(availableForms).indexOf(dmzForm);
 
 			// Lógica de transformación para Saiyans
 			if (superFormLvl >= 1 && groupForm.equals("") && dmzForm.equals("base")) {
@@ -727,6 +777,12 @@ public class StatsEvents {
 				if (superFormLvl >= 6 && dmzForm.equals("ssjfp")) return "ssj2";
 				if (superFormLvl >= 7 && dmzForm.equals("ssj2")) return "ssj3";
 			}
+		}
+		// Lógica de transformación para Namekianos
+		if (race == 2 && groupForm.equals("")) {
+			if (superFormLvl >= 1 && dmzForm.equals("base")) return "giant";
+			if (superFormLvl >= 2 && dmzForm.equals("giant")) return "full_power";
+			if (superFormLvl >= 3 && dmzForm.equals("full_power")) return "super_namek";
 		}
 
 		// Lógica de transformación para Bioandroides

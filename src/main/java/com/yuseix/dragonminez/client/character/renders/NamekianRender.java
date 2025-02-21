@@ -87,11 +87,13 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             var transf = cap.getDmzForm();
 
             switch (transf){
-                case "full_power":
+                case "super_namek":
+                    pPoseStack.scale(0.96F, 0.96F, 0.96F);
                     break;
-                case "power_unleashed":
+                case "potential_unleashed":
                     break;
                 case "giant", "orange_giant":
+                    pPoseStack.scale(3.9375F, 3.9375F, 3.9375F);
                     break;
                 case "orange":
                     break;
@@ -192,7 +194,9 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                 var form = cap.getDmzForm();
 
                 switch (form){
-                    case "full_power","power_unleashed","giant":
+                    case "orange","orange_giant":
+                        break;
+                    default:
                         if (bodyType == 0) {
                             renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
@@ -200,10 +204,6 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                             pPoseStack.translate(0f, 0f, 0f);
                             renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
-                        break;
-                    case "orange","orange_giant":
-                        break;
-                    default: //base
                         break;
                 }
 

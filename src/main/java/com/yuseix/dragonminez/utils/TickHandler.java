@@ -264,7 +264,6 @@ public class TickHandler {
 
 		if (nextForm != null) {
 			playerstats.setDmzForm(nextForm); // Transformar al jugador
-			System.out.println("Transformando a " + nextForm);
 		}
 	}
 

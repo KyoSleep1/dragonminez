@@ -229,11 +229,24 @@ public class DMZRenders {
                         case "oozaru", "goldenoozaru":
                             poseStack.scale(2.3f,2.5f,2.3f);
                             break;
+                        case "ssgrade3":
+                            poseStack.scale(1.3f,1.3f,1.3f);
+                            break;
                         default:
                             break;
                     }
                     break;
                 case 2:
+                    switch (transf){
+                        case "giant":
+                            poseStack.scale(2.3f,2.5f,2.3f);
+                            break;
+                        case "super_namek":
+                            poseStack.scale(1.3f,1.3f,1.3f);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 3:
                     break;
@@ -242,6 +255,13 @@ public class DMZRenders {
                 case 5:
                     break;
                 default:
+                    switch (transf){
+                        case "buffed":
+                            poseStack.scale(1.3f,1.3f,1.3f);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
             }
             // PARTE BAJA 1
