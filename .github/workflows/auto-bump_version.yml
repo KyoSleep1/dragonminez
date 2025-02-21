@@ -21,8 +21,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        env:
-          HEAD_REF: ${{ github.head_ref }}
 
       - name: Bump mod_version
         run: |
@@ -50,6 +48,8 @@ jobs:
           sed -i "s/^mod_version=.*/mod_version=$new_version/" gradle.properties
 
       - name: Commit and push changes
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
