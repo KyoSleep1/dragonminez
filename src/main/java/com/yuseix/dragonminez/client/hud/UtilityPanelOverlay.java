@@ -40,10 +40,11 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 		RenderSystem.setShaderTexture(0, hud);
 
 		if (player == null || !Keys.UTILITY_PANEL.isDown() || Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts || Minecraft.getInstance().options.renderFpsChart) return;
-
 		guiGraphics.pose().pushPose();
 		guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
 
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+			if (!stats.isAcceptCharacter()) return;
 		// Acá tendría q hacer, en la textura y los cuadritos
 		// Kaioken
 		guiGraphics.blit(hud,
@@ -73,7 +74,6 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				0);
 
 		RenderSystem.disableBlend();
-		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 			updateTextAndColors(guiGraphics, stats);
 		});
 		guiGraphics.pose().popPose();
@@ -93,8 +93,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "up"));
 					break;
-				case "terOpc":
-					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "up"));
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "up"));
 					break;
 			}
 		} else if (Keys.SELECT_DOWN.consumeClick()) {
@@ -105,8 +105,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "down"));
 					break;
-				case "terOpc":
-					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "down"));
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "down"));
 					break;
 			}
 		} else if (Keys.SELECT_LEFT.consumeClick()) {
@@ -117,8 +117,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "left"));
 					break;
-				case "terOpc":
-					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "left"));
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "left"));
 					break;
 			}
 		} else if (Keys.SELECT_RIGHT.consumeClick()) {
@@ -129,8 +129,8 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				case "groupforms":
 					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "right"));
 					break;
-				case "terOpc":
-					ModMessages.sendToServer(new UtilityPanelC2S("terOpc", "right"));
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "right"));
 					break;
 			}
 		}
@@ -138,42 +138,78 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 
 	public static void updateTextAndColors(GuiGraphics guiGraphics, DMZStatsAttributes stats) {
 		int dibujoX = 7, posX = 83, ancho = 51, alto = 15;
-		var colorTexto = 0x00ff00;
+		var colorTexto = 0xffffff;
 		var colorSeleccion = 0xfdbf26;
+		var colorActivo = 0x6bf26b;
+		var colorInactivo = 0xeb1539;
+		var colorAUsar = colorTexto;
 		race = stats.getRace();
+		String kaioken = "utilitypanel.dmz.kaioken";
 		String actualGroup = stats.getDmzGroupForm();
-		String tercerOpcion = "";
+		String langGroup = "groupforms.dmz.general.superform";
+		String tercerOpcion = "utilitypanel.dmz.tbd";
 		switch (race) {
-			case 0, 2, 3, 4, 5:
+			case 0:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
 				break;
 			case 1:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "oozarus" : actualGroup;
-				tercerOpcion = "cola";
+				switch (actualGroup) {
+					case "oozarus":
+						langGroup = "groupforms.dmz.saiyan.oozarus";
+						break;
+					case "ssgrades":
+						langGroup = "groupforms.dmz.saiyan.ssgrades";
+						break;
+					case "ssj":
+						langGroup = "groupforms.dmz.saiyan.ssj";
+						break;
+				}
+				tercerOpcion = "utilitypanel.dmz.tailmode";
+				break;
+			case 2:
+				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
+				langGroup = "groupforms.dmz.namek.shenronforms";
+				break;
+			case 3:
+				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
+				langGroup = "groupforms.dmz.bio.evolutionforms";
+				break;
+			case 4:
+				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
+				langGroup = "groupforms.dmz.colddemon.involutionforms";
+				break;
+			case 5:
+				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
+				langGroup = "groupforms.dmz.majin.majinforms";
 				break;
 		}
 
-		// Cambia el HUD según el planeta objetivo actual
 		switch (currentSelection.toLowerCase(Locale.ROOT)) {
 			case "kaioken":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("kaioken"), 13, 95, colorSeleccion);
+						Component.translatable(kaioken), 13, 95, colorSeleccion);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal(actualGroup), 16, 120, colorTexto);
-				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal(tercerOpcion), 16, 145, colorTexto);
+						Component.translatable(langGroup), 13, 120, colorTexto);
+				if (race == 1) {
+					if (!stats.isTailMode()) colorAUsar = colorActivo;
+					else colorAUsar = colorInactivo;
+					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+							Component.translatable(tercerOpcion), 13, 145, colorAUsar);
+				} else {
+					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+							Component.translatable(tercerOpcion), 13, 145, colorTexto);
+				}
 				break;
 			case "groupforms":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("kaioken"), 13, 95, colorTexto);
-				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal(tercerOpcion), 16, 145, colorTexto);
+						Component.translatable(kaioken), 13, 95, colorInactivo);
 				switch (race) {
 					case 0:
 						switch (actualGroup) {
-							case "":
+							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.literal("superform"), 16, 120, colorSeleccion);
+										Component.translatable("groupforms.dmz.general.superform"), 13, 120, colorSeleccion);
 								break;
 						}
 						break;
@@ -181,29 +217,74 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "oozarus":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.literal("oozarus"), 16, 120, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.oozarus"), 13, 120, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 							case "ssgrades":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.literal("ssgrades"), 16, 120, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.ssgrades"), 13, 120, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 							case "ssj":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.literal("ssj"), 16, 120, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.ssj"), 13, 120, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 						}
+					case 2:
+						switch (actualGroup) {
+							case "superform":
+								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+										Component.translatable("groupforms.dmz.general.superform"), 13, 120, colorSeleccion);
+								break;
+							case "orange":
+								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+										Component.translatable("groupforms.dmz.namek.shenronforms"), 13, 120, colorSeleccion);
+								break;
+						}
+						break;
+					case 3:
+						switch (actualGroup) {
+							case "superform":
+								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+										Component.translatable("groupforms.dmz.bio.evolutionforms"), 13, 120, colorSeleccion);
+								break;
+						}
+						break;
+					case 4:
+						switch (actualGroup) {
+							case "superform":
+								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+										Component.translatable("groupforms.dmz.colddemon.involutionforms"), 13, 120, colorSeleccion);
+								break;
+						}
+						break;
+					case 5:
+						switch (actualGroup) {
+							case "superform":
+								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+										Component.translatable("groupforms.dmz.majin.majinforms"), 13, 120, colorSeleccion);
+								break;
+						}
+						break;
+				}
+				if (race == 1) {
+					if (!stats.isTailMode()) colorAUsar = colorActivo;
+					else colorAUsar = colorInactivo;
+					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+							Component.translatable(tercerOpcion), 13, 145, colorAUsar);
+				} else {
+					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+							Component.translatable(tercerOpcion), 13, 145, colorTexto);
 				}
 				break;
-			case "terOpc":
+			case "teropc":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal("kaioken"), 13, 95, colorTexto);
+						Component.translatable(kaioken), 13, 95, colorInactivo);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal(actualGroup), 16, 120, colorTexto);
+						Component.translatable(langGroup), 13, 120, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.literal(tercerOpcion), 16, 145, colorSeleccion);
+						Component.translatable(tercerOpcion), 13, 145, colorSeleccion);
 				break;
 		}
 	}
@@ -218,7 +299,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 								setCurrentSelection("groupforms");
 								break;
 							case 1:
-								setCurrentSelection("terOpc");
+								setCurrentSelection("teropc");
 								break;
 						}
 						break;
@@ -240,7 +321,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 								setCurrentSelection("kaioken");
 								break;
 							case 1:
-								setCurrentSelection("terOpc");
+								setCurrentSelection("teropc");
 								break;
 						}
 						break;
@@ -248,7 +329,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						break;
 				}
 				break;
-			case "terOpc":
+			case "teropc":
 				switch (direccion) {
 					case "up":
 						setCurrentSelection("groupforms");

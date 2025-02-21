@@ -22,7 +22,7 @@ public class DMZSkillsCommand {
 
 	// Lista de habilidades válidas con sus límites de nivel
 	private static final Map<String, Integer> VALID_SKILLS_LIST = Map.of(
-			"potential_unlock", 15,
+			"potential_unlock", 13,
 			"jump", 10,
 			"fly", 10,
 			"ki_control",10,

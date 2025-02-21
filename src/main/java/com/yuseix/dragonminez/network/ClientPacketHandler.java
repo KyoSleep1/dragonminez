@@ -141,10 +141,10 @@ public class ClientPacketHandler {
 			player.onUpdateAbilities();
 		}
 	}
-	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos> positions, Supplier<NetworkEvent.Context> ctxSupplier) {
 		Minecraft.getInstance().execute(() -> RadarEvents.updateDragonBallsPositions(positions));
 	}
-	public static void handleUpdateNamekDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+	public static void handleUpdateNamekDragonBallsPositionsPacket(List<BlockPos> positions, Supplier<NetworkEvent.Context> ctxSupplier) {
 		Minecraft.getInstance().execute(() -> RadarEvents.updateNamekDragonBallsPositions(positions));
 	}
 	public static void handleSyncDragonBallsPacket(List<BlockPos> earthDragonBalls, List<BlockPos> namekDragonBalls, Supplier<NetworkEvent.Context> ctxSupplier) {

@@ -28,6 +28,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -171,6 +172,8 @@ public class SkillMenu extends Screen {
         }
     }
 
+
+
     private void botonesSkills(){
 
         Player player = this.minecraft.player;
@@ -215,19 +218,22 @@ public class SkillMenu extends Screen {
                             if(skillId.equals(skillsId)){
                                 // Subir de nivel
                                 int currentLevel = skill.getLevel();
-                                int maxLevel = 10; // maximo nivel
+                                int maxLevel = 13; // maximo nivel
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
-                                Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (pUnlockCost * 2 * mult),
-                                        3, (int) (pUnlockCost * 3 * mult),
-                                        4, (int) (pUnlockCost * 4 * mult),
-                                        5, (int) (pUnlockCost * 5 * mult),
-                                        6, (int) (pUnlockCost * 6 * mult),
-                                        7, (int) (pUnlockCost * 7 * mult),
-                                        8, (int) (pUnlockCost * 8 * mult),
-                                        9, (int) (pUnlockCost * 9 * mult),
-                                        10, (int) (pUnlockCost * 10 * mult)
+                                Map<Integer, Integer> levelCosts = Map.ofEntries(
+                                        Map.entry(2, (int) (pUnlockCost * 2 * mult)),
+                                        Map.entry(3, (int) (pUnlockCost * 3 * mult)),
+                                        Map.entry(4, (int) (pUnlockCost * 4 * mult)),
+                                        Map.entry(5, (int) (pUnlockCost * 5 * mult)),
+                                        Map.entry(6, (int) (pUnlockCost * 6 * mult)),
+                                        Map.entry(7, (int) (pUnlockCost * 7 * mult)),
+                                        Map.entry(8, (int) (pUnlockCost * 8 * mult)),
+                                        Map.entry(9, (int) (pUnlockCost * 9 * mult)),
+                                        Map.entry(10, (int) (pUnlockCost * 10 * mult)),
+                                        Map.entry(11, (int) (pUnlockCost * 1000000 * mult)), // Gran Patriarca
+                                        Map.entry(12, (int) (pUnlockCost * 15 * mult)),
+                                        Map.entry(13, (int) (pUnlockCost * 20 * mult))
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -235,11 +241,19 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
-                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
-                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                                            this.removeWidget(upgradeButton);
-                                        }));
+                                        if (currentLevel < 10) {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                                ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                                ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                                this.removeWidget(upgradeButton);
+                                            }));
+                                        } else if (currentLevel >= 11) {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                                ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                                ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                                this.removeWidget(upgradeButton);
+                                            }));
+                                        }
                                     }
                                 }
                             }
@@ -487,14 +501,18 @@ public class SkillMenu extends Screen {
                 startY += offsetY;
             }
 
-            CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
-                this.infoMenu = !infoMenu; // Alternar infoMenu
-                this.skillsId = "passive";
-            });
-            this.addRenderableWidget(passiveButton);
-            skillButtons.add(passiveButton);
 
         });
+
+        int startX = (this.width - 250) / 2 + 13;
+        int startY = (this.height - 168) / 2 + 45;
+
+        CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
+            this.infoMenu = !infoMenu; // Alternar infoMenu
+            this.skillsId = "passive";
+        });
+        this.addRenderableWidget(passiveButton);
+        skillButtons.add(passiveButton);
     }
 
     private void menuSkills(GuiGraphics guiGraphics) {
@@ -650,7 +668,18 @@ public class SkillMenu extends Screen {
 
                     if(skillId.equals(this.skillsId)){
                         int currentLevel = skill.getLevel();
-                        int maxLevel = 10; // maximo nivel
+                        int maxLevel = 10;
+                        if (skillId.equals("potential_unlock")) {
+                            maxLevel = 13;
+                            if (currentLevel == 10) {
+                                drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.talkguru"), startX + 92, startY+104, 0xffc134);
+                            } else if (currentLevel >= maxLevel) {
+                                drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+                            }
+                        } else if (currentLevel >= maxLevel) {
+                            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+                        }
+
                         //Nombre de la habilidad
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), startX + 93, startY, 0xFFFFFF);
                         //Tipo y aca pongo lo de skill
@@ -673,10 +702,6 @@ public class SkillMenu extends Screen {
                         List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc()), 120);
                         for (int i = 0; i < lines.size(); i++) {
                             guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+48) + i * font.lineHeight, 0xFFFFFF);
-                        }
-
-                        if (currentLevel >= maxLevel) {
-                            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
                         }
 
                     }

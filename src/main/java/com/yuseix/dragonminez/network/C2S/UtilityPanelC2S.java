@@ -35,8 +35,6 @@ public class UtilityPanelC2S {
 					String groupForm = cap.getDmzGroupForm();
 					int superFormLevel = cap.getFormSkillLevel("super_form");
 					int race = cap.getRace();
-
-					System.out.println("Packet received: " + msg.tipo + " " + msg.directionAction);
 					
 					switch (msg.tipo) {
 						case "kaioken":
@@ -156,7 +154,7 @@ public class UtilityPanelC2S {
 								}
 								break;
 							}
-						case "terOpc":
+						case "teropc":
 							if (msg.directionAction.equals("up")) {
 								ModMessages.sendToPlayer(new UpdateUtilityPanelS2C(msg.tipo, msg.directionAction), player);
 							} else if (msg.directionAction.equals("down")) {

@@ -89,7 +89,7 @@ public class LocationsCommand {
                 case "elderguru" -> {
                     pos = structures.getElderGuruPosition();
                     canTeleport = validateDimension(playerDimension, ModDimensions.NAMEK_DIM_LEVEL_KEY, source);
-                    messageRef.set(createLocationMessage("command.dmzlocate.elderguru", pos, canTeleport, source));
+                    messageRef.set(createLocationMessage("command.dmzlocate.grandelderguru", pos, canTeleport, source));
                 }
                 default -> {
                     messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));

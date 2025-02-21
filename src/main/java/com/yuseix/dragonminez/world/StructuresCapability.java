@@ -581,25 +581,25 @@ public class StructuresCapability {
                 BlockPos posiblePos = new BlockPos(x, y, z);
                 Holder<Biome> biome = level.getBiome(posiblePos);
 
-                if (y > 66 && y <= 140) {
+                if (y > 60 && y <= 66) {
                     BlockState belowBlockState = level.getBlockState(posiblePos.below());
                     BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
 
-                    if (!belowBlockState.isAir() && !(belowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))
-                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get())) && biome.is(ModBiomes.SACRED_LAND)) {
+                    if (!belowBlockState.isAir() && (belowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))
+                            && !belowBelowBlockState.isAir() && (belowBelowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))) {
                         posicionValida = posiblePos;
                     }
                 }
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida.below().below().below()).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockState blockState = level.getBlockState(posicionValida.below().below().below().below().below().below()).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida.below().below().below(), structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below());
+                level.setBlock(posicionValida.below().below().below().below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below().below().below().below());
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
@@ -607,23 +607,25 @@ public class StructuresCapability {
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
                     nbtData.putInt("posX", -29);
-                    nbtData.putInt("posY", 21);
+                    nbtData.putInt("posY", 2);
                     nbtData.putInt("posZ", -33);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:elder_guru");
 
                     structureBlockEntity.load(nbtData);
                     structureBlockEntity.setChanged();
-                    //System.out.println("Comando: /setblock " + posicionValida.below().below().below().getX() + " " + posicionValida.below().below().below().getY() + " " + posicionValida.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
+                    //System.out.println("Comando: /setblock " + posicionValida.below().below().below().below().below().below().getX() + " " + posicionValida.below().below().below().below().below().below().getY() + " " + posicionValida.below().below().below().below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionValida.below().below().below().below().below().below().offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida.below().below().below(), blockState, 3);
-                level.setBlock(posicionValida.below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionValida.below().below().below().below().below().below(), blockState, 3);
+                level.setBlock(posicionValida.below().below().below().below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
+                //System.out.println("Elder Guru's House generada en " + posicionValida);
+                //System.out.println("Comando: /execute in dragonminez:namek run teleport Dev " + posicionValida.getX() + " " + posicionValida.getY() + " " + posicionValida.getZ());
 
-                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 6, posicionValida.getY() + 57, posicionValida.getZ() + 54);
-                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 12, posicionValida.getY() + 65, posicionValida.getZ() - 11);
+                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 7, posicionValida.getY() + 35, posicionValida.getZ() + 24);
+                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 12, posicionValida.getY() + 43, posicionValida.getZ() - 11);
                 setHasElderGuru(true);
                 setNamekDB4Position(namekDB4);
                 setElderGuruPosition(spawnPosition);

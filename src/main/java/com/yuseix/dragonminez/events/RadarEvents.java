@@ -72,8 +72,10 @@ public class RadarEvents {
 				// Update dragon ball positions every 2 seconds (40 ticks)
 				long currentTime = player.level().getGameTime();
 
+				String dimension = isOverworld ? "overworld" : "namek";
+
 				if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
-					ModMessages.sendToServer(new DragonRadarC2S());
+					ModMessages.sendToServer(new DragonRadarC2S(dimension));
 					lastUpdateTime = currentTime;
 				}
 
@@ -103,8 +105,10 @@ public class RadarEvents {
 				// Update dragon ball positions every 2 seconds (40 ticks)
 				long currentTime = player.level().getGameTime();
 
+				String dimension = isOverworld ? "overworld" : "namek";
+
 				if (currentTime - lastUpdateTime > UPDATE_INTERVAL_TICKS) {
-					ModMessages.sendToServer(new DragonRadarC2S());
+					ModMessages.sendToServer(new DragonRadarC2S(dimension));
 					lastUpdateTime = currentTime;
 				}
 

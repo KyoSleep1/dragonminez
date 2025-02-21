@@ -15,14 +15,18 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class DragonRadarC2S {
+	String dimension;
 
-	public DragonRadarC2S() {}
+	public DragonRadarC2S(String dimension) {
+		this.dimension = dimension;
+	}
 
 	public static void encode(DragonRadarC2S msg, FriendlyByteBuf buf) {
+		buf.writeUtf(msg.dimension);
 	}
 
 	public static DragonRadarC2S decode(FriendlyByteBuf buf) {
-		return new DragonRadarC2S();
+		return new DragonRadarC2S(buf.readUtf());
 	}
 
 	public static void handle(DragonRadarC2S msg, Supplier<NetworkEvent.Context> ctx) {
@@ -39,17 +43,20 @@ public class DragonRadarC2S {
 					positionsDBall = level.getCapability(DragonBallGenProvider.CAPABILITY)
 							.orElseThrow(() -> new IllegalStateException("DragonBallGenProvider not found"))
 							.DragonBallPositions();
-				} else if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
+				}
+				if (level.getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent()) {
 					positionsNDball = level.getCapability(NamekDragonBallGenProvider.CAPABILITY)
 							.orElseThrow(() -> new IllegalStateException("NamekDragonBallGenProvider not found"))
 							.namekDragonBallPositions();
 				}
 
-				if (positionsDBall != null) {
-					ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positionsDBall), player);
-				}
-				if (positionsNDball != null) {
-					ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(positionsNDball), player);
+				switch (msg.dimension) {
+					case "overworld":
+						ModMessages.sendToPlayer(new UpdateDragonRadarS2C(positionsDBall), player);
+						break;
+					case "namek":
+						ModMessages.sendToPlayer(new UpdateNamekDragonRadarS2C(positionsNDball), player);
+						break;
 				}
 			}
 		});

@@ -67,7 +67,7 @@ public class ForgeBusEvents {
 
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
-	private static boolean hasSpawnedDragonBalls = false, hasSpawnedNamekDragonBalls = false;
+	private static boolean spawnedDB4 = false, spawnedNamekDB4 = false;
 
 	private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -108,20 +108,24 @@ public class ForgeBusEvents {
 			LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
 			throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
 		}
+		String dimension = "overworld";
+		if (player.level().dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+			dimension = "namek";
+		}
 
 		if (event.getEntity() instanceof ServerPlayer serverPlayer) {
-			sendDragonBallData(serverPlayer);
+			sendDragonBallData(serverPlayer, dimension);
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
-			sendDragonBallData(player);
+			sendDragonBallData(player, "both");
 		}
 	}
 
-	private static void sendDragonBallData(ServerPlayer player) {
+	private static void sendDragonBallData(ServerPlayer player, String dimension) {
 		ServerLevel overworld = player.server.getLevel(Level.OVERWORLD);
 		ServerLevel namek = player.server.getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
 
@@ -129,17 +133,21 @@ public class ForgeBusEvents {
 		List<BlockPos> namekDragonBalls = new ArrayList<>();
 
 		if (overworld != null) {
-			overworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-				cap.loadFromSavedData(overworld);
-				earthDragonBalls.addAll(cap.dragonBallPositions);
-			});
+			if (dimension.equals("overworld") || dimension.equals("both")) {
+				overworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(overworld);
+					earthDragonBalls.addAll(cap.dragonBallPositions);
+				});
+			}
 		}
 
 		if (namek != null) {
-			namek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
-				cap.loadFromSavedData(namek);
-				namekDragonBalls.addAll(cap.namekDragonBallPositions);
-			});
+			if (dimension.equals("namek") || dimension.equals("both")) {
+				namek.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> {
+					cap.loadFromSavedData(namek);
+					namekDragonBalls.addAll(cap.namekDragonBallPositions);
+				});
+			}
 		}
 
 		ModMessages.sendToPlayer(new SyncDragonBallsS2C(earthDragonBalls, namekDragonBalls), player);
@@ -162,10 +170,11 @@ public class ForgeBusEvents {
 					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
 					// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
 					capability.ifPresent(cap -> {
-						if (cap.getHasGokuHouse()) {
+						if (cap.getHasGokuHouse() && !spawnedDB4) {
 							BlockPos db4pos = cap.getDB4Position();
 							dragonBallPositions.add(db4pos);
 							DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos);
+							spawnedDB4 = true;
 						} else {
 							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
 						}
@@ -193,10 +202,11 @@ public class ForgeBusEvents {
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
 					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
 					capability.ifPresent(cap -> {
-						if (cap.getHasElderGuru()) {
+						if (cap.getHasElderGuru() && !spawnedNamekDB4) {
 							BlockPos namekDB4pos = cap.getNamekDB4Position();
 							namekDragonBallPositions.add(namekDB4pos);
 							DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [4] spawned at " + namekDB4pos);
+							spawnedNamekDB4 = true;
 						} else {
 							spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
 						}

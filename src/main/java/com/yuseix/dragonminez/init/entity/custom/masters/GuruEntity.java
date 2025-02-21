@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom.masters;
 
+import com.yuseix.dragonminez.init.menus.screens.GuruMenu;
 import com.yuseix.dragonminez.init.menus.screens.KarinMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
@@ -63,7 +64,7 @@ public class GuruEntity extends MastersEntity implements GeoEntity {
 	@Override
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (this.level().isClientSide) {
-			Minecraft.getInstance().setScreen(new KarinMenu());
+			Minecraft.getInstance().setScreen(new GuruMenu());
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);
@@ -89,7 +90,4 @@ public class GuruEntity extends MastersEntity implements GeoEntity {
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return cache;
 	}
-
-
-
 }
