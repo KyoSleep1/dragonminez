@@ -6,14 +6,13 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.transformations.*;
 import com.yuseix.dragonminez.network.C2S.SuperFormsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -41,6 +40,8 @@ public class TransfMenu extends Screen {
 
 	private List<AbstractWidget> groupButtons = new ArrayList<>();
 	private List<DMZGuiButtons> botonesMenus = new ArrayList<>();
+
+	DMZDatos dmzDatos = new DMZDatos();
 
 	private DMZGuiButtons menuButton;
 	private CustomButtons infoButton;
@@ -89,7 +90,6 @@ public class TransfMenu extends Screen {
 			boolean buyableTP = DMZGeneralConfig.TRANSFORMATIONS_WITH_TP.get();
 
 			int startX = (this.width - 250) / 2 + 15;
-			int startY = (this.height + 168) / 2 + 45;
 			int offsetY = 13;
 
 			for (Map.Entry<String, FormsData> entry : forms.entrySet()) {
@@ -193,7 +193,7 @@ public class TransfMenu extends Screen {
 				}
 
 				startX = (this.width - 250) / 2 + 28;
-				startY = (this.height - 168) / 2 + 30;
+				int startY = (this.height - 168) / 2 + 30;
 
 				switch (raza) {
 					case 0, 2, 3, 4, 5:
@@ -401,9 +401,9 @@ public class TransfMenu extends Screen {
 					if (this.groupId.equals("superform")) {
 						switch (raza) {
 							case 0:
-								double multHumanBuffed = ((DMZTrHumanConfig.MULTIPLIER_BUFFED_FORM_STR.get() + DMZTrHumanConfig.MULTIPLIER_BUFFED_FORM_DEF.get() + DMZTrHumanConfig.MULTIPLIER_BUFFED_FORM_PWR.get()) / 3);
-								double multHumanFP = ((DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get() + DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get() + DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get()) / 3);
-								double multHumanPU = ((DMZTrHumanConfig.MULTIPLIER_PU_FORM_STR.get() + DMZTrHumanConfig.MULTIPLIER_PU_FORM_DEF.get() + DMZTrHumanConfig.MULTIPLIER_PU_FORM_PWR.get()) / 3);
+								double multHumanBuffed = dmzDatos.transfMultMenu(cap,"buffed");
+								double multHumanFP = dmzDatos.transfMultMenu(cap,"full_power");
+								double multHumanPU = dmzDatos.transfMultMenu(cap,"potential_unleashed");
 
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.general.superform"), startX + 93, startY, 0x20e0ff);
@@ -424,9 +424,9 @@ public class TransfMenu extends Screen {
 								}
 								break;
 							case 2:
-								double multNamekGiant = ((DMZTrNamekConfig.MULTIPLIER_GIANT_FORM_STR.get() + DMZTrNamekConfig.MULTIPLIER_GIANT_FORM_DEF.get() + DMZTrNamekConfig.MULTIPLIER_GIANT_FORM_PWR.get()) / 3);
-								double multNamekFP = ((DMZTrNamekConfig.MULTIPLIER_FP_FORM_STR.get() + DMZTrNamekConfig.MULTIPLIER_FP_FORM_DEF.get() + DMZTrNamekConfig.MULTIPLIER_FP_FORM_PWR.get()) / 3);
-								double multNamekSuperNamek = ((DMZTrNamekConfig.MULTIPLIER_SUPER_NAMEK_FORM_STR.get() + DMZTrNamekConfig.MULTIPLIER_SUPER_NAMEK_FORM_DEF.get() + DMZTrNamekConfig.MULTIPLIER_SUPER_NAMEK_FORM_PWR.get()) / 3);
+								double multNamekGiant = dmzDatos.transfMultMenu(cap,"giant");
+								double multNamekFP = dmzDatos.transfMultMenu(cap,"full_power");
+								double multNamekSuperNamek = dmzDatos.transfMultMenu(cap,"super_namek");
 
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.general.superform"), startX + 93, startY, 0x20e0ff);
@@ -447,8 +447,8 @@ public class TransfMenu extends Screen {
 								}
 								break;
 							case 3:
-								double multBioSemiPerfect = ((DMZTrBioAndroidConfig.MULTIPLIER_SEMIPERFECT_FORM_STR.get() + DMZTrBioAndroidConfig.MULTIPLIER_SEMIPERFECT_FORM_DEF.get() + DMZTrBioAndroidConfig.MULTIPLIER_SEMIPERFECT_FORM_PWR.get()) / 3);
-								double multBioPerfect = ((DMZTrBioAndroidConfig.MULTIPLIER_PERFECT_FORM_STR.get() + DMZTrBioAndroidConfig.MULTIPLIER_PERFECT_FORM_DEF.get() + DMZTrBioAndroidConfig.MULTIPLIER_PERFECT_FORM_PWR.get()) / 3);
+								double multBioSemiPerfect = dmzDatos.transfMultMenu(cap,"semi_perfect");
+								double multBioPerfect = dmzDatos.transfMultMenu(cap,"perfect");
 
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.bio.evolutionforms"), startX + 93, startY, 0x20e0ff);
@@ -461,17 +461,17 @@ public class TransfMenu extends Screen {
 								// Lista de transformaciones
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bio.semiperfect").append(" | x").append(String.format("%.2f", multBioSemiPerfect)), startX + 37, startY+46, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bio.perfect").append(" | x").append(String.format("%.2f", multBioPerfect)), startX + 37, startY+57, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bioandroid.semiperfect").append(" | x").append(String.format("%.2f", multBioSemiPerfect)), startX + 37, startY+46, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bioandroid.perfect").append(" | x").append(String.format("%.2f", multBioPerfect)), startX + 37, startY+57, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
 								}
 								break;
 							case 4:
-								double multColdDemonSecondForm = ((DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_STR.get() + DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_DEF.get() + DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_PWR.get()) / 3);
-								double multColdDemonThirdForm = ((DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_STR.get() + DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_DEF.get() + DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_PWR.get()) / 3);
-								double multColdDemonFourthForm = ((DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_STR.get() + DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_DEF.get() + DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_PWR.get()) / 3);
-								double multColdDemonFullPower = ((DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_STR.get() + DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_DEF.get() + DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_PWR.get()) / 3);
+								double multColdSecond = dmzDatos.transfMultMenu(cap,"second");
+								double multColdThird = dmzDatos.transfMultMenu(cap,"third");
+								double multColdFourth = dmzDatos.transfMultMenu(cap,"final");
+								double multColdFullPower = dmzDatos.transfMultMenu(cap,"full_power");
 
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.colddemon.involutionforms"), startX + 93, startY, 0x20e0ff);
@@ -484,19 +484,19 @@ public class TransfMenu extends Screen {
 								// Lista de transformaciones
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.second").append(" | x").append(String.format("%.2f", multColdDemonSecondForm)), startX + 37, startY+46, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.third").append(" | x").append(String.format("%.2f", multColdDemonThirdForm)), startX + 37, startY+57, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.final").append(" | x").append(String.format("%.2f", multColdDemonFourthForm)), startX + 37, startY+68, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.fullpower").append(" | x").append(String.format("%.2f", multColdDemonFullPower)), startX + 37, startY+79, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.second").append(" | x").append(String.format("%.2f", multColdSecond)), startX + 37, startY+46, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.third").append(" | x").append(String.format("%.2f", multColdThird)), startX + 37, startY+57, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.final").append(" | x").append(String.format("%.2f", multColdFourth)), startX + 37, startY+68, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.fullpower").append(" | x").append(String.format("%.2f", multColdFullPower)), startX + 37, startY+79, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
 								}
 								break;
 							case 5:
-								double multMajinEvil = ((DMZTrMajinConfig.MULTIPLIER_EVIL_FORM_STR.get() + DMZTrMajinConfig.MULTIPLIER_EVIL_FORM_DEF.get() + DMZTrMajinConfig.MULTIPLIER_EVIL_FORM_PWR.get()) / 3);
-								double multMajinKid = ((DMZTrMajinConfig.MULTIPLIER_KID_FORM_STR.get() + DMZTrMajinConfig.MULTIPLIER_KID_FORM_DEF.get() + DMZTrMajinConfig.MULTIPLIER_KID_FORM_PWR.get()) / 3);
-								double multMajinSuper = ((DMZTrMajinConfig.MULTIPLIER_SUPER_FORM_STR.get() + DMZTrMajinConfig.MULTIPLIER_SUPER_FORM_DEF.get() + DMZTrMajinConfig.MULTIPLIER_SUPER_FORM_PWR.get()) / 3);
-								double multMajinUltra = ((DMZTrMajinConfig.MULTIPLIER_ULTRA_FORM_STR.get() + DMZTrMajinConfig.MULTIPLIER_ULTRA_FORM_DEF.get() + DMZTrMajinConfig.MULTIPLIER_ULTRA_FORM_PWR.get()) / 3);
+								double multMajinEvil = dmzDatos.transfMultMenu(cap,"evil");
+								double multMajinKid = dmzDatos.transfMultMenu(cap,"kid");
+								double multMajinSuper = dmzDatos.transfMultMenu(cap,"super");
+								double multMajinUltra = dmzDatos.transfMultMenu(cap,"ultra");
 
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.majin.majinforms"), startX + 93, startY, 0x20e0ff);
@@ -524,14 +524,15 @@ public class TransfMenu extends Screen {
 								break;
 						}
 					} else if (this.groupId.equals("oozarus") || this.groupId.equals("ssgrades") || this.groupId.equals("ssj")) {
-						double multSaiyanOozaru = ((DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_PWR.get()) / 3);
-						double multSaiyanGoldenOozaru = ((DMZTrSaiyanConfig.MULTIPLIER_GOLDENOOZARU_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_GOLDENOOZARU_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_GOLDENOOZARU_FORM_PWR.get()) / 3);
-						double multSaiyanSSJ = ((DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_PWR.get()) / 3);
-						double multSaiyanSSG2 = ((DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_PWR.get()) / 3);
-						double multSaiyanSSG3 = ((DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_PWR.get()) / 3);
-						double multSaiyanMSSJ = ((DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_PWR.get()) / 3);
-						double multSaiyanSSJ2 = ((DMZTrSaiyanConfig.MULTIPLIER_SSJ2_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ2_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ2_FORM_PWR.get()) / 3);
-						double multSaiyanSSJ3 = ((DMZTrSaiyanConfig.MULTIPLIER_SSJ3_FORM_STR.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ3_FORM_DEF.get() + DMZTrSaiyanConfig.MULTIPLIER_SSJ3_FORM_PWR.get()) / 3);
+						double multSaiyanOozaru = dmzDatos.transfMultMenu(cap, "oozaru");
+						double multSaiyanGoldenOozaru = dmzDatos.transfMultMenu(cap, "golden_oozaru");
+						double multSaiyanSSJ = dmzDatos.transfMultMenu(cap, "ssj1");
+						double multSaiyanSSG2 = dmzDatos.transfMultMenu(cap, "ssgrade2");
+						double multSaiyanSSG3 = dmzDatos.transfMultMenu(cap, "ssgrade3");
+						double multSaiyanMSSJ = dmzDatos.transfMultMenu(cap, "mssj");
+						double multSaiyanSSJ2 = dmzDatos.transfMultMenu(cap, "ssj2");
+						double multSaiyanSSJ3 = dmzDatos.transfMultMenu(cap, "ssj3");
+
 						maxLevel = 8;
 
 						//Tipo y aca pongo lo de skill

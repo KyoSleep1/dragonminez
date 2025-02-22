@@ -474,12 +474,12 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") ? 0xfebc0d : 0xFFD7AB;
 
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto, alturaTexto, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto+10, alturaTexto, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto+10, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(conMax)), anchoTexto+10, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(stmMax)), anchoTexto+10, alturaTexto + 36, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto+10, alturaTexto + 48, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto+10, alturaTexto + 60, 0xFFD7AB);
 
             var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(playerstats)) * 100) / 100.0;
 

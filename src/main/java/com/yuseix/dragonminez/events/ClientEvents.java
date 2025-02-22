@@ -3,12 +3,9 @@ package com.yuseix.dragonminez.events;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.init.MainParticles;
-import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
@@ -19,22 +16,22 @@ import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZRenders;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.AABB;
@@ -45,8 +42,7 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
+import org.joml.Matrix4f;
 
 import java.util.Random;
 
@@ -75,7 +71,6 @@ public class ClientEvents {
 		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) return;
 
 		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-
 		// Obtener posición de la cámara
 		double camX = camera.getPosition().x;
 		double camY = camera.getPosition().y;
@@ -103,7 +98,6 @@ public class ClientEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-
 					if (cap.isAuraOn() || cap.isTurbonOn()) {
 						event.getPoseStack().pushPose();
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.075f : 0.325f;
@@ -135,11 +129,8 @@ public class ClientEvents {
 			if(entity instanceof KiSmallWaveProjectil kiSmallWaveProjectil){
 				DMZRenders.renderKiSmallWave(kiSmallWaveProjectil, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
 			}
-
-			}
-
 		}
-
+	}
 
 	@SubscribeEvent
 	public static void onClientTick(TickEvent.ClientTickEvent event) {

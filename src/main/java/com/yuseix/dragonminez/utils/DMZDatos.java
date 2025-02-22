@@ -178,7 +178,7 @@ public class DMZDatos implements IDMZDatos{
 		};
     }
 
-    private double obtenerStatRaza(int raza, String clase, String stat) {
+    public double obtenerStatRaza(int raza, String clase, String stat) {
         return switch (stat) {
             case "STR" -> switch (raza) {
                 case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()
@@ -274,7 +274,7 @@ public class DMZDatos implements IDMZDatos{
         };
     }
 
-    private double obtenerStatTransf(int raza, String transformation, String stat) {
+    public double obtenerStatTransf(int raza, String transformation, String stat) {
         return switch (stat) {
             case "STR" -> switch (raza) {
                 case 0 -> switch (transformation) { // Humanos
@@ -458,5 +458,13 @@ public class DMZDatos implements IDMZDatos{
             };
             default -> 1.0;
         };
+    }
+
+    public double transfMultMenu(DMZStatsAttributes stats, String transformation) {
+        double str = obtenerStatTransf(stats.getRace(), transformation, "STR");
+        double def = obtenerStatTransf(stats.getRace(), transformation, "DEF");
+        double pwr = obtenerStatTransf(stats.getRace(), transformation, "PWR");
+
+        return (str + def + pwr) / 3;
     }
 }

@@ -51,7 +51,7 @@ public class DMZGeneralConfig {
         MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 100000 / Default: 5000)")
                 .defineInRange("Attributes: ", 5000, 100, 100000);
 
-        TRANSFORMATIONS_WITH_TP = BUILDER.comment("Allow Transformations be buyable with TP instead of Obtainable via Storyline? (Default: false)")
+        TRANSFORMATIONS_WITH_TP = BUILDER.comment("Allow Transformations to be buyable with TP instead of Obtainable via Storyline (Default: false)")
                 .define("Transformations: ", false);
 
         TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
