@@ -1,13 +1,13 @@
 "project_id_env": "CROWDIN_PROJECT_ID"
 "api_token_env": "CROWDIN_PERSONAL_TOKEN"
-"base_path": "./src/main/resources/assets/dragonminez/lang/"
+"base_path": "."
 
 "preserve_hierarchy": true
 
 "files": [
   {
-    "source": "/Minecraft/en_us.json",
-    "translation": "%locale_with_underscore%.json",
+    "source": "/src/main/resources/assets/dragonminez/lang/en_us.json",
+    "translation": "/src/main/resources/assets/dragonminez/lang/%locale_with_underscore%.json",
     "languages_mapping": {
       "locale_with_underscore": {
         "af-ZA": "af_za",
