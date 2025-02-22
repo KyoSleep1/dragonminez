@@ -103,11 +103,10 @@ public class ConfigMenu extends Screen {
 					}});
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, altoTexto, "skills", Component.empty(), wa -> {
-				this.minecraft.setScreen(new SkillMenu());
+				this.minecraft.setScreen(new SkillMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, altoTexto, "transf", Component.empty(), wa -> {
-				// Agregar acá el menú de Transf
-				// this.minecraft.setScreen(new TransfMenu());
+				this.minecraft.setScreen(new TransfMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, altoTexto, "storyline", Component.empty(), wa -> {
 				// Agregar acá el menú de Story

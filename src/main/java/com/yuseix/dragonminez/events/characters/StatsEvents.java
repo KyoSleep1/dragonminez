@@ -13,6 +13,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
@@ -90,6 +91,10 @@ public class StatsEvents {
 
 			// Verificar que haya creado su personaje antes de comenzar a hacer cosas referentes a las stats
 			if (isDmzUser) {
+				if (!playerstats.hasFormSkill("super_form")) {
+					FormsData skill = new FormsData("dmz.dmzforms.super_form.name", 0);
+					playerstats.addFormSkill("super_form", skill);
+				}
 				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(dmzdatos.calcularCON(playerstats));
 				// Tickhandler
 				tickHandler.tickRegenConsume(playerstats, dmzdatos);
@@ -782,15 +787,15 @@ public class StatsEvents {
 		if (race == 2 && groupForm.equals("")) {
 			if (superFormLvl >= 1 && dmzForm.equals("base")) return "giant";
 			if (superFormLvl >= 2 && dmzForm.equals("giant")) return "full_power";
-			if (superFormLvl >= 3 && dmzForm.equals("full_power")) return "super_namek";
+			if (superFormLvl >= 4 && dmzForm.equals("full_power")) return "super_namek";
 		}
 
 		// Lógica de transformación para Bioandroides
 		if (race == 3 && groupForm.equals("")) {
-			if (superFormLvl >= 1 && dmzForm.equals("base")) {
+			if (superFormLvl >= 2 && dmzForm.equals("base")) {
 				return "semi_perfect";
 			}
-			if (superFormLvl >= 2 && dmzForm.equals("semi_perfect")) {
+			if (superFormLvl >= 4 && dmzForm.equals("semi_perfect")) {
 				return "perfect";
 			}
 		}

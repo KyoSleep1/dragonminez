@@ -7,6 +7,8 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_ATTRIBUTE_VALUE;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> TRANSFORMATIONS_WITH_TP;
+    public static final ForgeConfigSpec.ConfigValue<Integer> TPCOST_TRANSFORMATIONS;
 
     //CONFIGS GENERALES
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
@@ -48,6 +50,12 @@ public class DMZGeneralConfig {
 
         MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 100000 / Default: 5000)")
                 .defineInRange("Attributes: ", 5000, 100, 100000);
+
+        TRANSFORMATIONS_WITH_TP = BUILDER.comment("Allow Transformations be buyable with TP instead of Obtainable via Storyline? (Default: false)")
+                .define("Transformations: ", false);
+
+        TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
+                .defineInRange("Transformations Cost: ", 50000, 1, 1000000000);
 
         BUILDER.pop();
 

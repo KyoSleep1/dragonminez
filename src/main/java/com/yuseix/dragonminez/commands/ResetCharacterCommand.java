@@ -64,6 +64,7 @@ public class ResetCharacterCommand {
 
                 playerstats.setCurrentEnergy(0);
                 player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                playerstats.removeFormSkill("super_form");
 
 
             });

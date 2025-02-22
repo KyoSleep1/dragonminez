@@ -40,12 +40,12 @@ public class SkillMenu extends Screen {
     private static final ResourceLocation menuinfo = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menulargomitad.png");
 
-    private static boolean infoMenu = false;
+    private static boolean infoMenu;
     private static String skillsId = "";
     private int alturaTexto, anchoTexto;
 
     private final List<AbstractWidget> skillButtons = new ArrayList<>();
-    private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
+    private final List<AbstractWidget> botonesArmas = new ArrayList<>();
     private List<DMZGuiButtons> botonesMenus = new ArrayList<>();
 
     private CustomButtons infoButton, deleteButton, armasBoton, passiveButton;
@@ -53,8 +53,9 @@ public class SkillMenu extends Screen {
     private TextButton upgradeButton;
     private SwitchButton switchButton;
 
-    public SkillMenu() {
+    public SkillMenu(boolean infoMenu) {
         super(Component.empty());
+        this.infoMenu = infoMenu;
     }
 
     @Override
@@ -123,7 +124,7 @@ public class SkillMenu extends Screen {
         RenderSystem.disableBlend();
     }
 
-    public void botonesMenus(){
+    public void botonesMenus() {
         this.removeWidget(infoButton);
 
         for (DMZGuiButtons boton : botonesMenus) {
@@ -152,8 +153,7 @@ public class SkillMenu extends Screen {
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
-                // Agregar menú de transformación
-                // this.minecraft.setScreen(new TransfMenu());
+                this.minecraft.setScreen(new TransfMenu(false));
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
@@ -174,7 +174,7 @@ public class SkillMenu extends Screen {
 
 
 
-    private void botonesSkills(){
+    private void botonesSkills() {
 
         Player player = this.minecraft.player;
 

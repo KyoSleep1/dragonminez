@@ -168,11 +168,10 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     }});
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, alturaTexto, "skills", Component.empty(), wa -> {
-                this.minecraft.setScreen(new SkillMenu());
+                this.minecraft.setScreen(new SkillMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
-                // Agregar acá el menú de Transf
-                // this.minecraft.setScreen(new TransfMenu());
+                this.minecraft.setScreen(new TransfMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
                 // Agregar acá el menú de Story

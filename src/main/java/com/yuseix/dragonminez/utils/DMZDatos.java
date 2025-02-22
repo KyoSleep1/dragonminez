@@ -642,10 +642,10 @@ public class DMZDatos implements IDMZDatos{
                     case 0: // Humano
                         switch (transformation){
                             case "full_power":
-                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosTotal)) * ((double)PowerRelease/10) );
+                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosTotal)) * ((double)PowerRelease/10) );
                                 break;
                             case "buffed":
-                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosTotal)) * ((double)PowerRelease/10) );
+                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosTotal)) * ((double)PowerRelease/10) );
                                 break;
                             default:
                                 maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get() * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosTotal)) * ((double)PowerRelease/10) );
@@ -755,10 +755,10 @@ public class DMZDatos implements IDMZDatos{
                     case 0: // Humano
                         switch (transformation){
                             case "full_power":
-                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosTotal)) * ((double)PowerRelease/10) );
+                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosTotal)) * ((double)PowerRelease/10) );
                                 break;
                             case "buffed":
-                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosTotal)) * ((double)PowerRelease/10) );
+                                maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosTotal)) * ((double)PowerRelease/10) );
                                 break;
                             default:
                                 maxPWR = Math.ceil((StatPWR * DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get() * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosTotal)) * ((double)PowerRelease/10) );
@@ -1140,12 +1140,12 @@ public class DMZDatos implements IDMZDatos{
                     case "full_power":
                         multiStr = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
                         multiDef = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
-                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                         break;
                     case "buffed":
                         multiStr = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
                         multiDef = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
-                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                         break;
                     default:
                         multiStr = DMZTrHumanConfig.MULTIPLIER_BASE.get();
@@ -1352,10 +1352,10 @@ public class DMZDatos implements IDMZDatos{
                     case "KIPOWER":
                         switch (transformacion){
                             case "full_power":
-                                multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                                multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                                 break;
                             case "buffed":
-                                multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                                multiStat = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                                 break;
                             default:
                                 multiStat = DMZTrHumanConfig.MULTIPLIER_BASE.get();
@@ -1662,12 +1662,12 @@ public class DMZDatos implements IDMZDatos{
                     case "full_power":
                         multiStr = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
                         multiDef = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
-                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                         break;
                     case "buffed":
                         multiStr = DMZTrHumanConfig.MULTIPLIER_FP_FORM_STR.get();
                         multiDef = DMZTrHumanConfig.MULTIPLIER_FP_FORM_DEF.get();
-                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get();
+                        multiKiPower = DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get();
                         break;
                     default:
                         multiStr = DMZTrHumanConfig.MULTIPLIER_BASE.get();
@@ -2092,10 +2092,10 @@ public class DMZDatos implements IDMZDatos{
             case 0: // Humano
                 switch (transformacion){
                     case "full_power":
-                        statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosDato));
+                        statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosDato));
                         break;
                     case "buffed":
-                        statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_KIPOWER.get() * efectosDato));
+                        statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_FP_FORM_PWR.get() * efectosDato));
                         break;
                     default:
                         statfinal = (int) (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato));
