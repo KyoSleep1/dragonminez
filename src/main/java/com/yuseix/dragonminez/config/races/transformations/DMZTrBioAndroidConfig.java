@@ -27,6 +27,7 @@ public class DMZTrBioAndroidConfig {
         //Transformaciones
 
         BUILDER.comment(" BioAndroid FORMS ");
+        BUILDER.comment(" Note: The Ki Cost represents the exact ki the player will lose per second while transformed. It's not a one-time cost or a percentage of the player's ki.");
 
         BUILDER.push(" Imperfect Form");
 

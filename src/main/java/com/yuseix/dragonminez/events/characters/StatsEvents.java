@@ -800,6 +800,38 @@ public class StatsEvents {
 			}
 		}
 
+		// Lógica de transformación para Cold Demons
+		if (race == 4 && groupForm.equals("")) {
+			if (superFormLvl >= 2 && dmzForm.equals("base")) {
+				return "second";
+			}
+			if (superFormLvl >= 4 && dmzForm.equals("second")) {
+				return "third";
+			}
+			if (superFormLvl >= 6 && dmzForm.equals("third")) {
+				return "final";
+			}
+			if (superFormLvl >= 8 && dmzForm.equals("final")) {
+				return "full_power";
+			}
+		}
+
+		// Lógica de transformación para Majins
+		if (race == 5 && groupForm.equals("")) {
+			if (superFormLvl >= 2 && dmzForm.equals("base")) {
+				return "evil";
+			}
+			if (superFormLvl >= 4 && dmzForm.equals("evil")) {
+				return "kid";
+			}
+			if (superFormLvl >= 6 && dmzForm.equals("kid")) {
+				return "super";
+			}
+			if (superFormLvl >= 8 && dmzForm.equals("super")) {
+				return "ultra";
+			}
+		}
+
 		return null; // No hay transformación disponible
 	}
 

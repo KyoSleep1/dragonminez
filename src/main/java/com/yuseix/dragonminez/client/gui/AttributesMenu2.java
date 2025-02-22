@@ -294,7 +294,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
             var STRMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "STR")) * 100) / 100.0;
             var DEFMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "DEF")) * 100) / 100.0;
-            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "KIPOWER")) * 100) / 100.0;
+            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "PWR")) * 100) / 100.0;
             var multiTotal = dmzdatos.calcularMultiTotal(playerstats);
 
             var isMultiOn = majinOn || frutaOn || !Objects.equals(transf, "base");

@@ -35,6 +35,7 @@ public class DMZTrColdDemonConfig {
 
         // TRANSFORMACIONES
         BUILDER.comment(" ColdDemon FORMS ");
+        BUILDER.comment(" Note: The Ki Cost represents the exact ki the player will lose per second while transformed. It's not a one-time cost or a percentage of the player's ki.");
 
         // FORMA MINIMAL
         BUILDER.push(" Minimal Form");
