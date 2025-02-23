@@ -235,22 +235,29 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 int bodyType = cap.getBodytype();
                 var transf = cap.getDmzForm();
+                var raza = cap.getRace();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                switch (transf){
-                    case "oozaru":
-                        renderOzaruType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                switch (raza){
+                    case 5:
                         break;
-                    default: //base
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else if (bodyType > 0) {
-                            pPoseStack.translate(0f, 0f, 0f);
+                    default:
+                        switch (transf){
+                            case "oozaru":
+                                renderOzaruType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                break;
+                            default: //base
+                                if (bodyType == 0) {
+                                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                } else if (bodyType > 0) {
+                                    pPoseStack.translate(0f, 0f, 0f);
 
-                            //CUERPO CUSTOM 1
-                            if (bodyType == 1) {
-                                renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
+                                    //CUERPO CUSTOM 1
+                                    if (bodyType == 1) {
+                                        renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                    }
+                                }
+                                break;
                         }
                         break;
                 }

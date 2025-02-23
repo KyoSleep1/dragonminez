@@ -5,6 +5,8 @@ import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold2Model;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold3Model;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
@@ -49,7 +51,6 @@ public class EntityRenderDispatcherMixin {
                 if (player instanceof AbstractClientPlayer abstractClientPlayer) {
                     String modelname = abstractClientPlayer.getModelName();
                     var transf = cap.getDmzForm();
-
 
                     switch (cap.getRace()) {
                         //HUMANO RENDER
@@ -102,20 +103,18 @@ public class EntityRenderDispatcherMixin {
                         //BIOANDROIDE RENDER
                         case 3:
                             switch (transf){
-                                case "semi_perfect":
-                                    cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
-                                    break;
-                                case "perfect":
-                                    cir.setReturnValue(dmzRendererersV2.get("bio_perfect"));
-                                    break;
-                                default:
-                                    cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
-                                    break;
+                                case "semi_perfect" -> cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
+                                case "perfect" -> cir.setReturnValue(dmzRendererersV2.get("bio_perfect"));
+                                default -> cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
                             }
                             break;
                         //DEMONCOLD
                         case 4:
-                            cir.setReturnValue(dmzRendererersV2.get("demon_cold"));
+                            switch (transf){
+                                case "second_form" -> cir.setReturnValue(dmzRendererersV2.get("cold2form"));
+                                case "third_form" -> cir.setReturnValue(dmzRendererersV2.get("cold3form"));
+                                default -> cir.setReturnValue(dmzRendererersV2.get("demon_cold"));
+                            }
                             break;
                         //MAJIN RENDER
                         case 5:
@@ -156,6 +155,8 @@ public class EntityRenderDispatcherMixin {
         builder.put("majin_female", new SlimHumanSMajinRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
         //DEMON COLD
         builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
+        builder.put("cold2form", new DemonColdRender(ctx, new Cold2Model<>(ctx.bakeLayer(Cold2Model.LAYER_LOCATION))));
+        builder.put("cold3form", new DemonColdRender(ctx, new Cold3Model<>(ctx.bakeLayer(Cold3Model.LAYER_LOCATION))));
 
         return builder.build();
     }

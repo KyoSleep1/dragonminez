@@ -190,10 +190,6 @@ public class DMZRenders {
         double camY = camera.getPosition().y;
         double camZ = camera.getPosition().z;
 
-        // Descomponer el color en sus componentes RGBA
-        float red = (colorAura >> 16 & 255) / 255.0f;
-        float green = (colorAura >> 8 & 255) / 255.0f;
-        float blue = (colorAura & 255) / 255.0f;
 
         // Obtener posición interpolada del jugador
         double interpX = Mth.lerp(partialTicks, player.xOld, player.getX());
@@ -205,6 +201,24 @@ public class DMZRenders {
 
             var race = cap.getRace();
             var transf = cap.getDmzForm();
+            var colorAuraFin = 0;
+            var colorssj = 16773748;
+
+            if(!transf.equals("base")){
+                switch (race){
+                    case 1:
+                        switch (transf){
+                            case "ssj1","ssgrade2","ssgrade3","ssjfp","ssj2","ssj3","goldenoozaru" -> colorAuraFin = colorssj;
+                        }
+                }
+            } else {
+                colorAuraFin = cap.getAuraColor();
+            }
+
+            // Descomponer el color en sus componentes RGBA
+            float red = (colorAuraFin >> 16 & 255) / 255.0f;
+            float green = (colorAuraFin >> 8 & 255) / 255.0f;
+            float blue = (colorAuraFin & 255) / 255.0f;
 
             //ACA YA FUNCIONA
             poseStack.pushPose();
@@ -251,6 +265,13 @@ public class DMZRenders {
                 case 3:
                     break;
                 case 4:
+                    switch (transf){
+                        case "second_form":
+                            poseStack.scale(1.3f,1.3f,1.3f);
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 5:
                     break;

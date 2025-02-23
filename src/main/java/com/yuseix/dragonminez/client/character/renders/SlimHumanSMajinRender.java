@@ -90,16 +90,39 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
             var transf = cap.getDmzForm();
             var raza = cap.getRace();
+            var form_group = cap.getDmzGroupForm();
+            var isTransf = cap.isTransforming();
+            var form_release = cap.getFormRelease();
 
             switch (raza){
                 case 1://Saiyajin
                     switch (transf){
-                        case "ssj1","ssj2","ssj3":
-                            break;
-                        case "ssgrade","ssgrade2","ssgrade3":
-                            break;
-                        default:
+                        case "ssjfp","ssj2","ssj3":
                             pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                            break;
+                        case "ssj1":
+                            pPoseStack.scale(0.96F, 0.96F, 0.96F);
+                            break;
+                        case "ssgrade2":
+                            pPoseStack.scale(1.07F, 1.01F, 1.01F);
+                            break;
+                        case "ssgrade3":
+                            pPoseStack.scale(1.3F, 1.1F, 1.1F);
+                            break;
+                        case "oozaru", "goldenoozaru":
+                            pPoseStack.scale(3.9375F, 3.9375F, 3.9375F); //Tamano default de jugador
+                            break;
+                        default: //base
+                            //Si esta en base el form_group no tiene texto(es ozaru) y esta intentando transformarse
+                            //empieza a crecer su cuerpo.
+                            if(isTransf && form_group.equals("") && form_release > 1){
+                                float scaleFactor = 0.9375F + (form_release * 0.002F);
+                                pPoseStack.scale(scaleFactor, scaleFactor, scaleFactor);
+                            } else {
+                                //No se ejecuta nada y toma el tamano normal del player
+                                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+                            }
+
                             break;
                     }
                     break;
@@ -119,6 +142,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                 default:
                     switch (transf){
                         case "buffed":
+                            pPoseStack.scale(1.3F, 1.1F, 1.1F);
                             break;
                         default:
                             pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
@@ -126,8 +150,8 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                     }
                     break;
             }
-
         });
+
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
         boolean shouldSit = pEntity.isPassenger() && pEntity.getVehicle() != null && pEntity.getVehicle().shouldRiderSit();
@@ -214,6 +238,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 int bodyType = cap.getBodytype();
                 var raza = cap.getRace();
+                var transf = cap.getDmzForm();
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (raza){
@@ -230,11 +255,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                         break;
                     default:
                         if (bodyType == 0) {
-                            if(pEntity.getModelName().equals("default")){
-                            } else {
-                                renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                            }
-
+                            renderFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         } else if (bodyType > 0) {
                             pPoseStack.translate(0f,0f,0f);
 
@@ -243,7 +264,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
                                 renderFEMBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                             }
                             //RENDER EYES
-                            renderFEMALEEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
 
                         if(isMajinOn){
@@ -587,73 +608,246 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
         }
     }
 
+    private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-    private void renderFEMALEEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
-
-        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int eye1color = cap.getEye1Color();
             int eye2color = cap.getEye2Color();
             int cabellocolor = cap.getHairColor();
+            var transf = cap.getDmzForm();
+            var isTransfOn = cap.isTransforming();
+            var formRelease = cap.getFormRelease();
+            var form_group = cap.getDmzGroupForm();
+            var eyes_type = cap.getEyesType();
+            var raza = cap.getRace();
 
-            if(cap.getEyesType() == 0){
+            switch (raza){
+                case 1:
+                    if(transf.equals("oozaru") || transf.equals("goldenoozaru")){
+                        playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                    } else {
+                        switch (eyes_type){
+                            case 1:
+                                //CEJAS Y COLOR DE CEJAS
+                                if(transf.equals("base")){
+                                    colorR = (cabellocolor >> 16) / 255.0F;
+                                    colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                                    colorB = (cabellocolor & 0xff) / 255.0f;
+                                } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                    colorR = (16773525 >> 16) / 255.0F;
+                                    colorG = ((16773525 >> 8) & 0xff) / 255.0f;
+                                    colorB = (16773525 & 0xff) / 255.0f;
+                                } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                    colorR = (16773525 >> 16) / 255.0F;
+                                    colorG = ((16773525 >> 8) & 0xff) / 255.0f;
+                                    colorB = (16773525 & 0xff) / 255.0f;
+                                }
 
-                //OJOS BLANCOS
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
-                //CEJAS Y COLOR DE CEJAS
-                colorR = (cabellocolor >> 16) / 255.0F;
-                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
-                colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                if(transf.equals("base") && form_group.equals("") && isTransfOn && formRelease > 10){
+                                    //OJOS BLANCOS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
 
-                //IRIS 1 Y COLOR DE IRIS
-                colorR = (eye1color >> 16) / 255.0F;
-                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                    //IRIS 1 Y COLOR DE IRIS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
 
-                //IRIS 2 Y COLOR DE IRIS
-                colorR = (eye2color >> 16) / 255.0F;
-                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
-                colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                    //IRIS 2 Y COLOR DE IRIS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
 
-            } else if(cap.getEyesType() == 1){
-                //OJOS BLANCOS
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                                } else {
+                                    //OJOS BLANCOS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                //CEJAS Y COLOR DE CEJAS
-                colorR = (cabellocolor >> 16) / 255.0F;
-                colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
-                colorB = (cabellocolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                    //IRIS 1 Y COLOR DE IRIS
+                                    if(transf.equals("base")){
+                                        colorR = (eye1color >> 16) / 255.0F;
+                                        colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                                        colorB = (eye1color & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    }
 
-                //IRIS 1 Y COLOR DE IRIS
-                colorR = (eye1color >> 16) / 255.0F;
-                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
-                //IRIS 2 Y COLOR DE IRIS
-                colorR = (eye2color >> 16) / 255.0F;
-                colorG = ((eye2color >> 8) & 0xff) / 255.0f;
-                colorB = (eye2color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                                    //IRIS 2 Y COLOR DE IRIS
+                                    if(transf.equals("base")){
+                                        colorR = (eye2color >> 16) / 255.0F;
+                                        colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                                        colorB = (eye2color & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    }
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
+                                }
+                                break;
+                            default:
+                                //CEJAS Y COLOR DE CEJAS
+                                if(transf.equals("base")){
+                                    colorR = (cabellocolor >> 16) / 255.0F;
+                                    colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                                    colorB = (cabellocolor & 0xff) / 255.0f;
+                                } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                    colorR = (16773525 >> 16) / 255.0F;
+                                    colorG = ((16773525 >> 8) & 0xff) / 255.0f;
+                                    colorB = (16773525 & 0xff) / 255.0f;
+                                } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                    colorR = (16773525 >> 16) / 255.0F;
+                                    colorG = ((16773525 >> 8) & 0xff) / 255.0f;
+                                    colorB = (16773525 & 0xff) / 255.0f;
+                                }
+                                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                                if(transf.equals("base") && form_group.equals("") && isTransfOn && formRelease > 10){
+                                    //OJOS BLANCOS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
+
+                                    //IRIS 1 Y COLOR DE IRIS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
+
+                                    //IRIS 2 Y COLOR DE IRIS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, 0.79f,0.071f,0.071f,flag1 ? 0.15F : 1.0F);
+
+                                }else{
+                                    //OJOS BLANCOS
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                                    //IRIS 1 Y COLOR DE IRIS
+                                    if(transf.equals("base")){
+                                        colorR = (eye1color >> 16) / 255.0F;
+                                        colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                                        colorB = (eye1color & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    }
+
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                                    //IRIS 2 Y COLOR DE IRIS
+                                    if(transf.equals("base")){
+                                        colorR = (eye2color >> 16) / 255.0F;
+                                        colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                                        colorB = (eye2color & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssj1") || transf.equals("ssgrade2") || transf.equals("ssgrade3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    } else if(transf.equals("ssjfp") || transf.equals("ssj2") || transf.equals("ssj3")){
+                                        colorR = (4712648 >> 16) / 255.0F;
+                                        colorG = ((4712648 >> 8) & 0xff) / 255.0f;
+                                        colorB = (4712648 & 0xff) / 255.0f;
+                                    }
+                                    pPoseStack.translate(0f,0f,-0.001f);
+                                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                                }
+                                break;
+                        }
+
+                    }
+                    break;
+                default:
+                    switch (eyes_type){
+                        case 1:
+                            //CEJAS Y COLOR DE CEJAS
+                            colorR = (cabellocolor >> 16) / 255.0F;
+                            colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                            colorB = (cabellocolor & 0xff) / 255.0f;
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                            //OJOS BLANCOS
+                            pPoseStack.translate(0f,0f,-0.001f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                            //IRIS 1 Y COLOR DE IRIS
+                            colorR = (eye1color >> 16) / 255.0F;
+                            colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                            colorB = (eye1color & 0xff) / 255.0f;
+
+                            pPoseStack.translate(0f,0f,-0.001f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                            //IRIS 2 Y COLOR DE IRIS
+                            colorR = (eye2color >> 16) / 255.0F;
+                            colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                            colorB = (eye2color & 0xff) / 255.0f;
+
+                            pPoseStack.translate(0f,0f,-0.001f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                            break;
+                        default:
+                            //CEJAS Y COLOR DE CEJAS
+                            colorR = (cabellocolor >> 16) / 255.0F;
+                            colorG = ((cabellocolor >> 8) & 0xff) / 255.0f;
+                            colorB = (cabellocolor & 0xff) / 255.0f;
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+
+                            //OJOS BLANCOS
+                            pPoseStack.translate(0f,0f,-0.001f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                            //IRIS 1 Y COLOR DE IRIS
+                            colorR = (eye1color >> 16) / 255.0F;
+                            colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                            colorB = (eye1color & 0xff) / 255.0f;
+                            pPoseStack.translate(0f,0f,-0.001f);
+                            playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                            //IRIS 2 Y COLOR DE IRIS
+                            colorR = (eye2color >> 16) / 255.0F;
+                            colorG = ((eye2color >> 8) & 0xff) / 255.0f;
+                            colorB = (eye2color & 0xff) / 255.0f;
+
+                            pPoseStack.translate(0f, 0f, -0.001f);
+                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+
+                            break;
+                    }
+
+                    break;
             }
+
 
 
         });
     }
+
 
     private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
@@ -763,7 +957,7 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
     }
     private void renderFEMBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        SlimHumanSaiyanModel<AbstractClientPlayer> playermodel = (SlimHumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 

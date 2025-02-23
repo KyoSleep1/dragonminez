@@ -471,48 +471,93 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
             var color1body = cap.getBodyColor();
             var color2body = cap.getBodyColor2();
             var color3body = cap.getBodyColor3();
+            var color4body = cap.getHairColor();
+            var transf = cap.getDmzForm();
 
-            if(bodytype == 0){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, OverlayTexture.NO_OVERLAY,1.0f,1.0f,1.0f,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-            } else if(bodytype == 1){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-            } else if(bodytype == 2){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+            switch (transf){
+                case "final_form":
+                    if(bodytype == 0){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color4body >> 16) / 255.0F;
+                        colorG = ((color4body >> 8) & 0xff) / 255.0f;
+                        colorB = (color4body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 1){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 2){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    }
+                    break;
+                default:
+                    if(bodytype == 0){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, OverlayTexture.NO_OVERLAY,1.0f,1.0f,1.0f,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 1){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 2){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    }
+                    break;
             }
+
         });
 
     }

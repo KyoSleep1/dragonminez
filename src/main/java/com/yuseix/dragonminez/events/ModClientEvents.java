@@ -5,6 +5,8 @@ import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold2Model;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold3Model;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
@@ -237,9 +239,12 @@ public class ModClientEvents {
 		e.registerLayerDefinition(SemiPerfectModel.LAYER_LOCATION, SemiPerfectModel::createBodyLayer);
 		e.registerLayerDefinition(PerfectModel.LAYER_LOCATION, PerfectModel::createBodyLayer);
 
+		e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
+		e.registerLayerDefinition(Cold2Model.LAYER_LOCATION, Cold2Model::createBodyLayer);
+		e.registerLayerDefinition(Cold3Model.LAYER_LOCATION, Cold3Model::createBodyLayer);
+
 		e.registerLayerDefinition(MajinGordoModel.LAYER_LOCATION, MajinGordoModel::createBodyLayer);
 		e.registerLayerDefinition(MajinFemaleModel.LAYER_LOCATION, MajinFemaleModel::createBodyLayer);
-		e.registerLayerDefinition(DemonColdModel.LAYER_LOCATION, DemonColdModel::createBodyLayer);
 
 		e.registerLayerDefinition(AuraModel.LAYER_LOCATION, AuraModel::createBodyLayer);
 		e.registerLayerDefinition(KiBallModel.LAYER_LOCATION, KiBallModel::createBodyLayer);

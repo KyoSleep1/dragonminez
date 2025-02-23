@@ -118,6 +118,17 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 							}
 							break;
 					}
+
+					if(dmzform.equals("ssgrade2")){
+						rightArm.xScale = 1.05f;
+						leftArm.xScale = 1.05f;
+					} else if (dmzform.equals("ssgrade3")){
+						rightArm.xScale = 1.2f;
+						leftArm.xScale = 1.2f;
+					} else {
+						rightArm.xScale = 1.0f;
+						leftArm.xScale = 1.0f;
+					}
 					break;
 				default:
 					break;

@@ -21,7 +21,7 @@ public class DMZSuperFormCommand {
 
 	// Lista de habilidades válidas con sus límites de nivel
 	private static final Map<String, Integer> VALID_FORMS_LIST = Map.of(
-			"super_form", 5
+			"super_form", 6
 	);
 
 	public DMZSuperFormCommand(CommandDispatcher<CommandSourceStack> dispatcher) {

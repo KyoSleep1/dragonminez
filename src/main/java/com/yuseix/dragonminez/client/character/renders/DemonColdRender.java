@@ -78,16 +78,31 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
             var transf = cap.getDmzForm();
+            var form_group = cap.getDmzGroupForm();
+            var isTransf = cap.isTransforming();
+            var form_release = cap.getFormRelease();
 
             switch (transf){
                 case "second_form":
+                    pPoseStack.scale(1.4375F, 1.4375F, 1.4375F);
                     break;
                 case "third_form":
+                    pPoseStack.scale(1.2575F, 1.2575F, 1.2575F);
                     break;
                 case "final_form":
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F);
+                    break;
+                case "full_power":
+                    pPoseStack.scale(0.9775F, 0.9775F, 0.9775F);
                     break;
                 default: //minimum
-                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    if(isTransf && form_group.equals("") && form_release > 1){
+                        float scaleFactor = 0.9075F + (form_release * 0.002F);
+                        pPoseStack.scale(scaleFactor, scaleFactor, scaleFactor);
+                    } else {
+                        //No se ejecuta nada y toma el tamano normal del player
+                        pPoseStack.scale(0.9075F, 0.9075F, 0.9075F);
+                    }
                     break;
             }
 
@@ -184,12 +199,23 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
                 var transf = cap.getDmzForm();
 
                 switch (transf){
-                    case "second_form":
-
-                        break;
                     case "third_form":
+                        if (bodyType == 0) {
+                            renderT3BodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 1){
+                            renderT3BodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 2){
+                            renderT3BodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
                         break;
-                    case "final_form":
+                    case "final_form", "full_power":
+                        if (bodyType == 0) {
+                            renderTFBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 1){
+                            renderTFBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if(bodyType == 2){
+                            renderTFBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
                         break;
                     default: //forma minima
                         if (bodyType == 0) {
@@ -467,7 +493,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/mmarca_eyestype1.png");
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -481,8 +507,6 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
                 switch (transf){
-                    case "second_form":
-                        break;
                     case "third_form":
                         break;
                     case "final_form":
@@ -500,7 +524,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
     }
     private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -539,7 +563,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
     }
     private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -577,7 +601,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
     }
     private void renderBodyType2(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        DemonColdModel<AbstractClientPlayer> playermodel = (DemonColdModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -613,6 +637,216 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         });
 
     }
+
+    private void renderT3BodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY1_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY1_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY1_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY1_PART4)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+    private void renderT3BodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY2_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY2_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY2_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY2_PART4)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+    private void renderT3BodyType2(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY3_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY3_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY3_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_T3_BODY3_PART4)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+
+    private void renderTFBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+    private void renderTFBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor4 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 4
+            colorR = (bodyColor4 >> 16) / 255.0F;
+            colorG = ((bodyColor4 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor4 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART4)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+    private void renderTFBodyType2(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getBodyColor();
+            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor3 = cap.getHairColor();
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+        });
+
+    }
+
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();

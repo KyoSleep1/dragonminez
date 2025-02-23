@@ -608,6 +608,40 @@ public class StatsEvents {
 
 						break;
 					case 4: // ColdDemon
+						switch (transf) {
+							case "second_form":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
+									event.setNewEyeHeight(0.5F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.9F, 2.4F, true));
+									event.setNewEyeHeight(2.0F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
+									event.setNewEyeHeight(0.5F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.9F, 2.8F, true));
+									event.setNewEyeHeight(2.4F);
+								}
+								break;
+							case "third_form":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
+									event.setNewEyeHeight(0.5F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.9F, 2.2F, true));
+									event.setNewEyeHeight(1.8F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
+									event.setNewEyeHeight(0.5F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.8F, 2.6F, true));
+									event.setNewEyeHeight(2.1F);
+								}
+								break;
+							default:
+								break;
+						}
 						break;
 					case 5: // Majin
 						break;
@@ -803,15 +837,15 @@ public class StatsEvents {
 		// Lógica de transformación para Cold Demons
 		if (race == 4 && groupForm.equals("")) {
 			if (superFormLvl >= 2 && dmzForm.equals("base")) {
-				return "second";
+				return "second_form";
 			}
-			if (superFormLvl >= 4 && dmzForm.equals("second")) {
-				return "third";
+			if (superFormLvl >= 4 && dmzForm.equals("second_form")) {
+				return "third_form";
 			}
-			if (superFormLvl >= 6 && dmzForm.equals("third")) {
-				return "final";
+			if (superFormLvl >= 6 && dmzForm.equals("third_form")) {
+				return "final_form";
 			}
-			if (superFormLvl >= 8 && dmzForm.equals("final")) {
+			if (superFormLvl >= 8 && dmzForm.equals("final_form")) {
 				return "full_power";
 			}
 		}

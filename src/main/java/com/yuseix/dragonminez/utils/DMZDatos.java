@@ -306,9 +306,9 @@ public class DMZDatos implements IDMZDatos{
                     default -> DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
                 };
                 case 4 -> switch (transformation) { // Cold Demons
-                    case "second" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_STR.get();
-                    case "third" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_STR.get();
-                    case "final" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_STR.get();
+                    case "second_form" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_STR.get();
+                    case "third_form" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_STR.get();
+                    case "final_form" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_STR.get();
                     case "full_power" -> DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_STR.get();
                     default -> DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
                 };
@@ -351,9 +351,9 @@ public class DMZDatos implements IDMZDatos{
                     default -> DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
                 };
                 case 4 -> switch (transformation) { // Cold Demons
-                    case "second" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_DEF.get();
-                    case "third" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_DEF.get();
-                    case "final" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_DEF.get();
+                    case "second_form" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_DEF.get();
+                    case "third_form" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_DEF.get();
+                    case "final_form" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_DEF.get();
                     case "full_power" -> DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_DEF.get();
                     default -> DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
                 };
@@ -396,9 +396,9 @@ public class DMZDatos implements IDMZDatos{
                     default -> DMZTrBioAndroidConfig.MULTIPLIER_BASE.get();
                 };
                 case 4 -> switch (transformation) { // Cold Demons
-                    case "second" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_PWR.get();
-                    case "third" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_PWR.get();
-                    case "final" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_PWR.get();
+                    case "second_form" -> DMZTrColdDemonConfig.MULTIPLIER_SECOND_FORM_PWR.get();
+                    case "third_form" -> DMZTrColdDemonConfig.MULTIPLIER_THIRD_FORM_PWR.get();
+                    case "final_form" -> DMZTrColdDemonConfig.MULTIPLIER_FOURTH_FORM_PWR.get();
                     case "full_power" -> DMZTrColdDemonConfig.MULTIPLIER_FULL_POWER_FORM_PWR.get();
                     default -> DMZTrColdDemonConfig.MULTIPLIER_BASE.get();
                 };
@@ -441,9 +441,9 @@ public class DMZDatos implements IDMZDatos{
                     default -> (double) DMZTrBioAndroidConfig.BASE_FORM_KI_COST.get();
                 };
                 case 4 -> switch (transformation) {
-                    case "second" -> (double) DMZTrColdDemonConfig.SECOND_FORM_KI_COST.get();
-                    case "third" -> (double) DMZTrColdDemonConfig.THIRD_FORM_KI_COST.get();
-                    case "final" -> (double) DMZTrColdDemonConfig.FOURTH_FORM_KI_COST.get();
+                    case "second_form" -> (double) DMZTrColdDemonConfig.SECOND_FORM_KI_COST.get();
+                    case "third_form" -> (double) DMZTrColdDemonConfig.THIRD_FORM_KI_COST.get();
+                    case "final_form" -> (double) DMZTrColdDemonConfig.FOURTH_FORM_KI_COST.get();
                     case "full_power" -> (double) DMZTrColdDemonConfig.FULL_POWER_FORM_KI_COST.get();
                     default -> (double) DMZTrColdDemonConfig.BASE_FORM_KI_COST.get();
                 };

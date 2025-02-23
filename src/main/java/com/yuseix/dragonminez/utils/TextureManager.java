@@ -89,6 +89,31 @@ public class TextureManager {
     public static final ResourceLocation DC_MINIMAL_BODY3_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/bodytype3_base2.png");
     public static final ResourceLocation DC_MINIMAL_BODY3_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/bodytype3_base3.png");
     public static final ResourceLocation DC_MINIMAL_BODY3_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/bodytype3_base4.png");
+
+    public static final ResourceLocation DC_T3_BODY1_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body1_base1.png");
+    public static final ResourceLocation DC_T3_BODY1_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body1_base2.png");
+    public static final ResourceLocation DC_T3_BODY1_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body1_base3.png");
+    public static final ResourceLocation DC_T3_BODY1_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body1_base4.png");
+    public static final ResourceLocation DC_T3_BODY2_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body2_base1.png");
+    public static final ResourceLocation DC_T3_BODY2_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body2_base2.png");
+    public static final ResourceLocation DC_T3_BODY2_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body2_base3.png");
+    public static final ResourceLocation DC_T3_BODY2_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body2_base4.png");
+    public static final ResourceLocation DC_T3_BODY3_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body3_base1.png");
+    public static final ResourceLocation DC_T3_BODY3_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body3_base2.png");
+    public static final ResourceLocation DC_T3_BODY3_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body3_base3.png");
+    public static final ResourceLocation DC_T3_BODY3_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/t3_body3_base4.png");
+
+    public static final ResourceLocation DC_TF_BODY1_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body1_base1.png");
+    public static final ResourceLocation DC_TF_BODY1_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body1_base2.png");
+    public static final ResourceLocation DC_TF_BODY2_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body2_base1.png");
+    public static final ResourceLocation DC_TF_BODY2_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body2_base2.png");
+    public static final ResourceLocation DC_TF_BODY2_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body2_base3.png");
+    public static final ResourceLocation DC_TF_BODY2_PART4 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body2_base4.png");
+    public static final ResourceLocation DC_TF_BODY3_PART1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body3_base1.png");
+    public static final ResourceLocation DC_TF_BODY3_PART2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body3_base2.png");
+    public static final ResourceLocation DC_TF_BODY3_PART3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/body/tf_body3_base3.png");
+
+
     public static final ResourceLocation DEMON_COLD_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/eyestype1_base.png");
     public static final ResourceLocation DEMON_COLD_EYES_IRIS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/eyestype1_iris1.png");
     public static final ResourceLocation DEMON_COLD_EYES_IRIS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/eyestype1_iris2.png");
