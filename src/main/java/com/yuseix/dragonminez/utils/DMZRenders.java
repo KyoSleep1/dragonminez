@@ -210,9 +210,13 @@ public class DMZRenders {
                         switch (transf){
                             case "ssj1","ssgrade2","ssgrade3","ssjfp","ssj2","ssj3","goldenoozaru" -> colorAuraFin = colorssj;
                         }
+                    break;
+                    default:
+                        colorAuraFin = colorAura;
+                        break;
                 }
             } else {
-                colorAuraFin = cap.getAuraColor();
+                colorAuraFin = colorAura;
             }
 
             // Descomponer el color en sus componentes RGBA

@@ -127,8 +127,10 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 case 5:
                     switch (transf){
                         case "evil","super":
+                            pPoseStack.scale(0.9775F, 0.9775F, 0.9775F);
                             break;
                         case "kid":
+                            pPoseStack.scale(0.8175F, 0.8175F, 0.8175F); //Tamano default de jugador
                             break;
                         case "ultra":
                             break;
@@ -240,6 +242,11 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 switch (raza){
                     case 5:
+                        switch (transf){
+                            case "evil", "kid", "super":
+                                renderMajinBody(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                break;
+                        }
                         break;
                     default:
                         switch (transf){
@@ -619,7 +626,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             var raza = cap.getRace();
 
             switch (raza){
-                case 1:
+                case 1://Saiyan
                     if(transf.equals("oozaru") || transf.equals("goldenoozaru")){
                         playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
                     } else {
@@ -770,10 +777,21 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                 }
                                 break;
                         }
-
                     }
                     break;
-                default:
+                case 5:
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    //IRIS COLORES
+                    colorR = (eye1color >> 16) / 255.0F;
+                    colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                    colorB = (eye1color & 0xff) / 255.0f;
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                    break;
+                default: //Humano
                     switch (eyes_type){
                         case 1:
                             //CEJAS Y COLOR DE CEJAS
@@ -887,6 +905,37 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(pEntity.getSkinTextureLocation())), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
         });
+    }
+
+    private void renderMajinBody(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor = 0;
+            var transf = cap.getDmzForm();
+
+            switch (transf){
+                case "evil":
+                    bodyColor = 11314334;
+                    break;
+                case "kid":
+                    bodyColor = cap.getBodyColor();
+                    break;
+                default:
+                    bodyColor = cap.getBodyColor();
+                    break;
+            }
+
+            colorR = (bodyColor >> 16) / 255.0F;
+            colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor & 0xff) / 255.0f;
+            //RENDERIZAR EL CUERPO ENTERO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_TEVIL)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+        });
+
     }
 
     private void renderBodyType1(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){

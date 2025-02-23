@@ -444,11 +444,20 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
                     DEMONCOLD_ARMS(pPlayer, pPoseStack, pBuffer, pCombinedLight, pRendererArm);
                 break;
                 case 5:
-                    //MAJIN
-                    colorR = (color1body >> 16) / 255.0F;
-                    colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                    colorB = (color1body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    switch (form){
+                        case "evil":
+                        colorR = (11314334 >> 16) / 255.0F;
+                        colorG = ((11314334 >> 8) & 0xff) / 255.0f;
+                        colorB = (11314334 & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        break;
+                        default:
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            break;
+                    }
                     break;
                 default:
                     break;

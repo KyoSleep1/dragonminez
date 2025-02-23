@@ -243,14 +243,21 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
                 switch (raza){
                     case 5:
-                        //BodyType 1
-                        renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
+                        switch (transf){
+                            case "evil":
+                                renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                break;
+                            default:
+                                //BodyType 1
+                                renderMajinFEMBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                                break;
+                        }
                         renderMAJINFEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
                         if(isMajinOn){
                             renderMajinMarcaMajinRace(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         }
+
 
                         break;
                     default:
@@ -944,11 +951,21 @@ public class SlimHumanSMajinRender extends LivingEntityRenderer<AbstractClientPl
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
+            int bodyColor = 0;
+            var transf = cap.getDmzForm();
 
-            colorR = (bodyColor1 >> 16) / 255.0F;
-            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
-            colorB = (bodyColor1 & 0xff) / 255.0f;
+            switch (transf){
+                case "evil":
+                    bodyColor = 11314334;
+                    break;
+                default:
+                    bodyColor = cap.getBodyColor();
+                    break;
+            }
+
+            colorR = (bodyColor >> 16) / 255.0F;
+            colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor & 0xff) / 255.0f;
             //RENDERIZAR EL CUERPO ENTERO
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 

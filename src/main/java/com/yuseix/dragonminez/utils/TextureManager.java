@@ -71,6 +71,9 @@ public class TextureManager {
     public static final ResourceLocation MAJIN_BASE_MALE_EYES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1.png");
     public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_BASE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem.png");
     public static final ResourceLocation MAJIN_BASE_FEMALE_EYES_IRIS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_fem_iris.png");
+    public static final ResourceLocation MAJIN_IRIS2= new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/eyes/eyestype1_iris2.png");
+
+    public static final ResourceLocation MAJIN_TEVIL = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/tevil_bodytype.png");
 
     public static final ResourceLocation MAJIN_EARS1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/ears/ears1.png");
     public static final ResourceLocation MAJIN_EARS2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/ears/ears2.png");

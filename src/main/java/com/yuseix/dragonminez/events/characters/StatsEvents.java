@@ -644,6 +644,25 @@ public class StatsEvents {
 						}
 						break;
 					case 5: // Majin
+						switch (transf){
+							case "kid":
+								if (player.isSwimming()) {
+									event.setNewSize(new EntityDimensions(0.4F, 0.4F, true));
+									event.setNewEyeHeight(0.3F);
+								} else if (player.isCrouching()) {
+									event.setNewSize(new EntityDimensions(0.4F, 1.5F, true));
+									event.setNewEyeHeight(1.2F);
+								} else if(player.isVisuallyCrawling()) {
+									event.setNewSize(new EntityDimensions(0.4F, 0.4F, true));
+									event.setNewEyeHeight(0.3F);
+								}else {
+									event.setNewSize(new EntityDimensions(0.4F, 1.7F, true));
+									event.setNewEyeHeight(1.4F);
+								}
+								break;
+							default:
+								break;
+						}
 						break;
 					default: //Humano
 						switch (transf) {

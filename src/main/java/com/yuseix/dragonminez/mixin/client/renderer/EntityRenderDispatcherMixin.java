@@ -118,11 +118,30 @@ public class EntityRenderDispatcherMixin {
                             break;
                         //MAJIN RENDER
                         case 5:
-                            if (cap.getGender().equals("Male")) {
-                                cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
-                            } else {
-                                cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                            switch (transf){
+                                case "evil":
+                                    if (cap.getGender().equals("Male")) {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_evil"));
+                                    } else {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                                    }
+                                    break;
+                                case "kid":
+                                    cir.setReturnValue(dmzRendererersV2.get("majin_kid"));
+                                    break;
+                                case "super":
+                                    cir.setReturnValue(dmzRendererersV2.get("majin_kid"));
+                                    break;
+                                default:
+                                    if (cap.getGender().equals("Male")) {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
+                                    } else {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                                    }
+                                    break;
+
                             }
+
                         default:
                             break;
                     }
@@ -153,6 +172,8 @@ public class EntityRenderDispatcherMixin {
         //MAJIN
         builder.put("majin_gordo", new MajinFATRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
         builder.put("majin_female", new SlimHumanSMajinRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
+        builder.put("majin_evil", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("majin_kid", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         //DEMON COLD
         builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
         builder.put("cold2form", new DemonColdRender(ctx, new Cold2Model<>(ctx.bakeLayer(Cold2Model.LAYER_LOCATION))));

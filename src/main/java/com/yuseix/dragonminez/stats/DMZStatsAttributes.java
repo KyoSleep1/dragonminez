@@ -688,6 +688,13 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncSkills(player);
 
     }
+    public void removeAllSkills() {
+        DMZSkills.clear();
+
+        DMZStatsCapabilities.syncStats(player);
+        DMZStatsCapabilities.syncSkills(player);
+
+    }
     public void removeFormSkill(String name) {
         FormsData formskill = FormsData.get(name);
 

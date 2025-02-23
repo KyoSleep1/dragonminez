@@ -544,7 +544,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
             } else {
 
-                //OJOS BLANCOS
+                //OJOS NEGROS
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
