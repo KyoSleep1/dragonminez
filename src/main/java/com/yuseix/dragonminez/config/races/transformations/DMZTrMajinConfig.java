@@ -58,7 +58,7 @@ public class DMZTrMajinConfig {
                 .defineInRange("Multiplier PWR", 2.5, 1.0, 200.0);
 
         EVIL_FORM_KI_COST = BUILDER.comment("Ki Cost for Evil Form! (Min: 0 / Max: 20000 / Default: 100)")
-                .defineInRange("Ki Cost", 100, 0, 20000);
+                .defineInRange("Ki Cost", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -74,7 +74,7 @@ public class DMZTrMajinConfig {
                 .defineInRange("Multiplier PWR", 3.5, 1.0, 200.0);
 
         KID_FORM_KI_COST = BUILDER.comment("Ki Cost for Kid Form! (Min: 0 / Max: 20000 / Default: 200)")
-                .defineInRange("Ki Cost", 200, 0, 20000);
+                .defineInRange("Ki Cost", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -90,7 +90,7 @@ public class DMZTrMajinConfig {
                 .defineInRange("Multiplier PWR", 4.5, 1.0, 200.0);
 
         SUPER_FORM_KI_COST = BUILDER.comment("Ki Cost for Super Form! (Min: 0 / Max: 20000 / Default: 300)")
-                .defineInRange("Ki Cost", 300, 0, 20000);
+                .defineInRange("Ki Cost", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -106,7 +106,7 @@ public class DMZTrMajinConfig {
                 .defineInRange("Multiplier PWR", 5.5, 1.0, 200.0);
 
         ULTRA_FORM_KI_COST = BUILDER.comment("Ki Cost for Ultra Form! (Min: 0 / Max: 20000 / Default: 400)")
-                .defineInRange("Ki Cost", 400, 0, 20000);
+                .defineInRange("Ki Cost", 0, 0, 20000);
 
         BUILDER.pop();
 

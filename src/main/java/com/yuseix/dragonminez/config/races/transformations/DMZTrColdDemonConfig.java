@@ -61,7 +61,7 @@ public class DMZTrColdDemonConfig {
                 .defineInRange("Multiplier PWR: ", 1.5, 1.0, 200.0);
 
         SECOND_FORM_KI_COST = BUILDER.comment("Ki Cost for Second Form! (Min: 0 / Max: 20000 / Default: 50)")
-                .defineInRange("Ki Cost: ", 50, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -78,7 +78,7 @@ public class DMZTrColdDemonConfig {
                 .defineInRange("Multiplier PWR: ", 2.0, 1.0, 200.0);
 
         THIRD_FORM_KI_COST = BUILDER.comment("Ki Cost for Third Form! (Min: 0 / Max: 20000 / Default: 100)")
-                .defineInRange("Ki Cost: ", 100, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -95,7 +95,7 @@ public class DMZTrColdDemonConfig {
                 .defineInRange("Multiplier PWR: ", 3.0, 1.0, 200.0);
 
         FOURTH_FORM_KI_COST = BUILDER.comment("Ki Cost for Base Form! (Min: 0 / Max: 20000 / Default: 200)")
-                .defineInRange("Ki Cost: ", 200, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -112,7 +112,7 @@ public class DMZTrColdDemonConfig {
                 .defineInRange("Multiplier PWR: ", 4.0, 1.0, 200.0);
 
         FULL_POWER_FORM_KI_COST = BUILDER.comment("Ki Cost for Full Power Form! (Min: 0 / Max: 20000 / Default: 500)")
-                .defineInRange("Ki Cost: ", 500, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 

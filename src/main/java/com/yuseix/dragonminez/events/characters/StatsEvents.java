@@ -138,6 +138,9 @@ public class StatsEvents {
 					}
 				}
 
+				if (playerstats.getBabaCooldown() > 0) playerstats.setBabaCooldown(babaCooldown(playerstats.getBabaCooldown()));
+				if (playerstats.getBabaAliveTimer() > 0) playerstats.setBabaAliveTimer(babaDuration(playerstats.getBabaAliveTimer()));
+
 			} else {
 				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(vidaMC);
 			}
@@ -783,17 +786,23 @@ public class StatsEvents {
 	}
 
 	public static int senzuContador(int segundos) {
-		if (segundos > 0) {
-			return segundos - 1; // si es mayor a 0 resta
-		}
-		return 0; // Si es 0 o menor, retorna 0
+		if (segundos > 0) return segundos - 1;
+		return 0;
 	}
 
 	public static int zenkaiContador(int segundos) {
-		if (segundos > 0) {
-			return segundos - 1; // si es mayor a 0 resta
-		}
-		return 0; // Si es 0 o menor, retorna 0
+		if (segundos > 0) return segundos - 1;
+		return 0;
+	}
+
+	public static int babaCooldown(int segundos) {
+		if (segundos > 0) return segundos - 1;
+		return 0;
+	}
+
+	public static int babaDuration(int segundos) {
+		if (segundos > 0) return segundos - 1;
+		return 0;
 	}
 
 	public static String getNextForm(DMZStatsAttributes playerstats) {

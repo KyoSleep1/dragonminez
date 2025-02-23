@@ -56,7 +56,7 @@ public class DMZTrHumanConfig {
                 .defineInRange("Multiplier PWR: ", 1.5, 1.0, 200.0);
         
         BUFFED_FORM_KI_COST = BUILDER.comment("Ki Cost for Buffed Form! (Min: 0 / Max: 20000 / Default: 100)")
-                .defineInRange("Ki Cost: ", 100, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
         
         BUILDER.pop();
 
@@ -72,7 +72,7 @@ public class DMZTrHumanConfig {
                 .defineInRange("Multiplier PWR: ", 2.0, 1.0, 200.0);
 
         FP_FORM_KI_COST = BUILDER.comment("Ki Cost for FullPower Form! (Min: 0 / Max: 20000 / Default: 200)")
-                .defineInRange("Ki Cost: ", 200, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
         
@@ -88,7 +88,7 @@ public class DMZTrHumanConfig {
                 .defineInRange("Multiplier PWR: ", 2.5, 1.0, 200.0);
         
         PU_FORM_KI_COST = BUILDER.comment("Ki Cost for Potential Unleashed Form! (Min: 0 / Max: 20000 / Default: 300)")
-                .defineInRange("Ki Cost: ", 300, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
         
         BUILDER.pop();
 

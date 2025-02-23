@@ -14,12 +14,12 @@ import software.bernie.geckolib.model.data.EntityModelData;
 
 public class EnmaModel extends GeoModel<EnmaEntity> {
 	@Override
-	public ResourceLocation getModelResource(EnmaEntity karinEntity) {
+	public ResourceLocation getModelResource(EnmaEntity enmaEntity) {
 		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/masters/enma.geo.json");
 	}
 
 	@Override
-	public ResourceLocation getTextureResource(EnmaEntity karinEntity) {
+	public ResourceLocation getTextureResource(EnmaEntity enmaEntity) {
 		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/enma.png");
 	}
 

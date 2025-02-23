@@ -51,7 +51,7 @@ public class DMZTrBioAndroidConfig {
                 .defineInRange("Multiplier PWR: ", 2.0, 1.0, 200.0);
 
         SEMIPERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Semi-Perfect Form! (Min: 0 / Max: 20000 / Default: 100)")
-                .defineInRange("Ki Cost: ", 100, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -67,7 +67,7 @@ public class DMZTrBioAndroidConfig {
                 .defineInRange("Multiplier PWR: ", 3.0, 1.0, 200.0);
 
         PERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Perfect Form! (Min: 0 / Max: 20000 / Default: 200)")
-                .defineInRange("Ki Cost: ", 200, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 

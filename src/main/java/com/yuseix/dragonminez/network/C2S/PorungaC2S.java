@@ -4,6 +4,8 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,6 +47,7 @@ public class PorungaC2S {
                     case 5 -> player.getInventory().add(new ItemStack(MainItems.CAPSULA_ANARANJADA.get(), DMZGeneralConfig.CAPSULE_PORUNGA_WISH.get()));
                     case 6 -> player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_PORUNGA_WISH.get()));
                     case 7 -> player.getInventory().add(new ItemStack(MainItems.GETE_SCRAP.get(), DMZGeneralConfig.GETE_PORUNGA_WISH.get()));
+                    case 8 -> revivePlayer(player);
                 }
 
                 // Despawnear la entidad Porunga en el mundo del jugador
@@ -65,5 +68,13 @@ public class PorungaC2S {
             }
         });
         context.setPacketHandled(true);
+    }
+
+    private static void revivePlayer(ServerPlayer player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+            if (!stats.isDmzAlive()) {
+                stats.setDmzAlive(true);
+            }
+        });
     }
 }

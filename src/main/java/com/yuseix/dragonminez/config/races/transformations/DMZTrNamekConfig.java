@@ -56,7 +56,7 @@ public class DMZTrNamekConfig {
                 .defineInRange("Multiplier PWR: ", 1.8, 1.0, 200.0);
 
         GIANT_FORM_KI_COST = BUILDER.comment("Ki Cost for Giant Form! (Min: 0 / Max: 20000 / Default: 150)")
-                .defineInRange("Ki Cost: ", 150, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -73,7 +73,7 @@ public class DMZTrNamekConfig {
                 .defineInRange("Multiplier PWR: ", 3.0, 1.0, 200.0);
 
         FP_FORM_KI_COST = BUILDER.comment("Ki Cost for Full Power Form! (Min: 0 / Max: 20000 / Default: 300)")
-                .defineInRange("Ki Cost: ", 300, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 
@@ -90,7 +90,7 @@ public class DMZTrNamekConfig {
                 .defineInRange("Multiplier PWR: ", 5.0, 1.0, 200.0);
 
         SUPER_NAMEK_FORM_KI_COST = BUILDER.comment("Ki Cost for Super Namek Form! (Min: 0 / Max: 20000 / Default: 500)")
-                .defineInRange("Ki Cost: ", 500, 0, 20000);
+                .defineInRange("Ki Cost: ", 0, 0, 20000);
 
         BUILDER.pop();
 

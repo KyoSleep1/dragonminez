@@ -79,21 +79,17 @@ public class ForgeBusEvents {
 			"MrBrunoh",
 			"Toji71",
 			// Testers
-			"ThiagoHanagaki",
-			"Gabrielololo",
-			"InYourHeart_",
-			"Im_Lu_",
 			"Ducco123",
 			"Rev_zy", //Mazu
 			"grillo78",
 			"TheWildBoss",
 			"EsePibe01",
 			"Pokimons123",
-			"bbysixty",
-			"Onashi",
+			"LecuTheAnimator",
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
-			"SpaceCarp"
+			"SpaceCarp",
+			"prolazorbema" // Dssccat
 	);
 
 	// Recordar comentar esto antes de Buildear una versión Pública.
@@ -308,6 +304,12 @@ public class ForgeBusEvents {
 
 				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
+			if (serverLevel.dimension() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
+				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+				capability.ifPresent(cap -> {
+					cap.generatePalacioEnma(serverLevel);
+				});
+			}
 		}
 	}
 
@@ -316,28 +318,27 @@ public class ForgeBusEvents {
 		if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
 		ServerLevel level = player.serverLevel();
-		if (level.dimension() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-			reviveInOtherworld(player);
-		} else {
+		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
 				playerstats.setDmzAlive(false);
 				playerstats.setHaloOn(true);
 			});
-
-			reviveInOtherworld(player);
 		}
 	}
 
-	private static void reviveInOtherworld(ServerPlayer player) {
-		ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
-		if (otherWorld == null) {
-			LOGGER.error("El Otro Mundo no está registrado.");
-			return;
-		}
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
+			if (otherWorld == null) {
+				LOGGER.error("El Otro Mundo no está registrado.");
+				return;
+			}
 
-		BlockPos spawnPos = new BlockPos(0, 100, 0); // Ajusta la posición de spawn
-		player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
-		player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+			BlockPos spawnPos = new BlockPos(121, 46, -17); // Ajusta la posición de spawn
+			player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
+			player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+		}
 	}
 
 	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {

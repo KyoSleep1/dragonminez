@@ -18,6 +18,8 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_HTC;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_TREE_MIGHT;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_MAJIN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> BABA_COOLDOWN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> BABA_DURATION;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
@@ -96,6 +98,12 @@ public class DMZGeneralConfig {
 
         MULTIPLIER_MAJIN = BUILDER.comment("Multiplier for the Majin Mark Effect (Min: 1.0 / Max: 20.0 / Default: 1.5)")
                 .defineInRange("Majin Multiplier: ", 1.5, 1.0, 20.0);
+
+        BABA_COOLDOWN = BUILDER.comment("Cooldown for Baba's Temporal Revive in Minutes (Min: 1 / Max: 600 / Default: 30)")
+                .defineInRange("Baba Cooldown: ", 30, 1, 600);
+
+        BABA_DURATION = BUILDER.comment("Duration for Baba's Temporal Revive in Minutes (Min: 1 / Max: 60 / Default: 10)")
+                .defineInRange("Baba Duration: ", 10, 1, 60);
 
         BUILDER.pop();
 

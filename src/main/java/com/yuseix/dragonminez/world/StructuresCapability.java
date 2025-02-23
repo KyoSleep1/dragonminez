@@ -634,24 +634,60 @@ public class StructuresCapability {
         }
     }
 
+    public void generatePalacioEnma(ServerLevel level) {
+        if (!hasEnmaPalace) {
+            BlockPos position  = new BlockPos(0, 40, 0);
+
+            BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
+
+            level.setBlock(position.below(), structureBlock, 3);
+            BlockEntity blockEntity = level.getBlockEntity(position.below());
+            if (blockEntity instanceof StructureBlockEntity) {
+                StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
+
+                CompoundTag nbtData = new CompoundTag();
+                nbtData.putString("mirror", "NONE");
+                nbtData.putString("rotation", "NORTH");
+                nbtData.putInt("posX", -29);
+                nbtData.putInt("posY", 2);
+                nbtData.putInt("posZ", -69);
+                nbtData.putString("mode", "LOAD");
+                nbtData.putString("name", "dragonminez:otherworld/palacioenma");
+
+                structureBlockEntity.load(nbtData);
+                structureBlockEntity.setChanged();
+                //System.out.println("Comando: /setblock " + position.below().getX() + " " + position.below().getY() + " " + position.below().getZ() + " minecraft:structure_block" + nbtData);
+
+                level.setBlock(position.below().offset(1, 0, 0), redstoneBlock, 3);
+            }
+
+            level.setBlock(position.below(), Blocks.AIR.defaultBlockState(), 3);
+            level.setBlock(position.below().offset(1, 0, 0), Blocks.AIR.defaultBlockState(), 3);
+            level.setBlock((new BlockPos(121, 44, 102)), Blocks.AIR.defaultBlockState(), 3);
+
+            BlockPos spawnPosition = new BlockPos(position.getX() + 121, position.getY() + 6, position.getZ() -17);
+
+            setHasEnmaPalace(true);
+            setEnmaPalacePosition(spawnPosition);
+            System.out.println("[DMZ-Generation] Enma's Palace generated in " + spawnPosition);
+
+        }
+    }
+
     public void generateHabTiempoStructure(ServerLevel level) {
         if (!hasHabTiempo) {
             BlockPos position = new BlockPos(-9, 31, -70);
-            spawnHabTiempo(level, position);
+            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "habtiempo"));
+
+            if (template != null) {
+                StructurePlaceSettings settings = new StructurePlaceSettings();
+                template.placeInWorld(level, position, position, settings, level.getRandom(), 2);
+            }
 
             // Marcar como generada y guardar la posición
             setHasHabTiempo(true);
             setHabTiempoPos(position);
             System.out.println("[DMZ-Generation] Hyperbolic Time Chamber generated in " + position);
-        }
-    }
-
-    private void spawnHabTiempo(ServerLevel level, BlockPos position) {
-        StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "habtiempo"));
-
-        if (template != null) {
-            StructurePlaceSettings settings = new StructurePlaceSettings();
-            template.placeInWorld(level, position, position, settings, level.getRandom(), 2);
         }
     }
 }
