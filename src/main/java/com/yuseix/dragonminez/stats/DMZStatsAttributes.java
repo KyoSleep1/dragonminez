@@ -45,7 +45,7 @@ public class DMZStatsAttributes {
     private String dmzGroupForm = "";
 
     private boolean AcceptCharacter = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false, isPorungaRevive = false, isShenronRevive = false;
-    private boolean isTransforming = false, isauraOn = false, isDmzAlive = true, tailMode = false;
+    private boolean isTransforming = false, isKaioPlanet = false, isAuraOn = false, isDmzAlive = true, tailMode = false;
 
     private final Player player;
 
@@ -106,11 +106,11 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
     public boolean isAuraOn() {
-        return isauraOn;
+        return isAuraOn;
     }
 
     public void setAuraOn(boolean auraOn) {
-        isauraOn = auraOn;
+        isAuraOn = auraOn;
         DMZStatsCapabilities.syncStats(player);
     }
     public boolean isDescendKeyOn() {
@@ -891,7 +891,13 @@ public class DMZStatsAttributes {
 		return (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
     }
 
+    public boolean isKaioPlanet() {
+        return isKaioPlanet;
+    }
 
+    public void setKaioPlanet(boolean isKaioPlanet) {
+        this.isKaioPlanet = isKaioPlanet;
+    }
 
     public boolean isDmzAlive() {
         return isDmzAlive;
@@ -959,12 +965,13 @@ public class DMZStatsAttributes {
         nbt.putBoolean("compactMenu", compactMenu);
         nbt.putInt("zenkaiCount", zenkaiCount);
         nbt.putInt("zenkaiTimer", saiyanZenkaiTimer);
-        nbt.putBoolean("isAuraOn", isauraOn);
+        nbt.putBoolean("isAuraOn", isAuraOn);
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
         nbt.putBoolean("isTransfKey", isTransforming);
         nbt.putBoolean("isDmzAlive", isDmzAlive);
         nbt.putBoolean("tailmode", tailMode);
+        nbt.putBoolean("isKaioPlanet", isKaioPlanet);
         nbt.putBoolean("isPorungaRevive", isPorungaRevive);
         nbt.putBoolean("isShenronRevive", isShenronRevive);
         nbt.putInt("babaCooldown", babaCooldown);
@@ -1067,11 +1074,12 @@ public class DMZStatsAttributes {
         compactMenu = nbt.getBoolean("compactMenu");
         zenkaiCount = nbt.getInt("zenkaiCount");
         saiyanZenkaiTimer = nbt.getInt("zenkaiTimer");
-        isauraOn = nbt.getBoolean("isAuraOn");
+        isAuraOn = nbt.getBoolean("isAuraOn");
         isTurbonOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
         isTransforming = nbt.getBoolean("isTransfKey");
         tailMode = nbt.getBoolean("tailmode");
+        isKaioPlanet = nbt.getBoolean("isKaioPlanet");
         isDmzAlive = nbt.getBoolean("isDmzAlive");
         isPorungaRevive = nbt.getBoolean("isPorungaRevive");
         isShenronRevive = nbt.getBoolean("isShenronRevive");

@@ -162,17 +162,17 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 					// Teletransportar al jugador cuando el contador llegue a 0
 					switch (planetaObjetivo) {
 						case 0 -> {
-							ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
+							ModMessages.sendToServer(new SpacePodC2S("overworld"));
 							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"));
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new SpacePodC2S(ModDimensions.NAMEK_DIM_LEVEL_KEY));
+							ModMessages.sendToServer(new SpacePodC2S("namek"));
 							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"));
 						}
 						case 2 -> {
 							if (isKaioAvailable()) {
-								ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
-								player.sendSystemMessage(Component.literal("Has llegado al planeta de Kaio"));
+								ModMessages.sendToServer(new SpacePodC2S("otherworld"));
+								player.sendSystemMessage(Component.literal("ui.dmz.spacepod.kaio.arrive"));
 							} else {
 								player.sendSystemMessage(Component.literal("Kaio no disponible"));
 							}

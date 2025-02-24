@@ -174,11 +174,6 @@ public class ModMessages {
 				.decoder(DMZPermanentEffectsSyncS2C::new)
 				.consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
 				.add();
-		net.messageBuilder(KaioPlanetUnlockS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(KaioPlanetUnlockS2C::encode)
-				.decoder(KaioPlanetUnlockS2C::decode)
-				.consumerMainThread(KaioPlanetUnlockS2C::handle)
-				.add();
 		net.messageBuilder(UpdatePlanetSelectionS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(UpdatePlanetSelectionS2C::encode)
 				.decoder(UpdatePlanetSelectionS2C::decode)

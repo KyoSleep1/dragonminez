@@ -163,6 +163,13 @@ public class CharacterC2S {
                                 playerstats.setShenronRevive(false);
                             }
                             break;
+                        case "isKaioPlanet":
+                            if (packet.cantidad == 1) {
+                                playerstats.setKaioPlanet(true);
+                            } else {
+                                playerstats.setKaioPlanet(false);
+                            }
+                            break;
                         case "str":
                             playerstats.setStrength(packet.cantidad);
                             break;

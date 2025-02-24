@@ -816,6 +816,8 @@
   "ui.dmz.spacepod.overworld.arrive": "Has llegado a la \u00A73Tierra\u00A7r.",
   "ui.dmz.spacepod.namek": "Namek",
   "ui.dmz.spacepod.namek.arrive": "Has llegado a \u00A73Namek\u00A7r.",
+  "ui.dmz.spacepod.kaio": "Kaito",
+  "ui.dmz.spacepod.kaio.arrive": "Has llegado al \u00A7bPlaneta de Kaito\u00A7r.",
   "ui.dmz.turbo_fail": "Necesitas al menos 10% de Ki para activar el Turbo.",
 
   "advancements.dragonminez.root.title": "DragonMine Z",

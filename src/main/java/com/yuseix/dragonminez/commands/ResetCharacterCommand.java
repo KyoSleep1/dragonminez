@@ -62,6 +62,7 @@ public class ResetCharacterCommand {
                 playerstats.setDmzGroupForm("");
                 playerstats.setTurboOn(false);
                 playerstats.setAuraOn(false);
+                playerstats.setKaioPlanet(false);
                 playerstats.setBabaAliveTimer(0);
                 playerstats.setBabaCooldown(0);
                 playerstats.setSaiyanZenkaiTimer(0);

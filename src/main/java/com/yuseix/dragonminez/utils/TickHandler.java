@@ -84,6 +84,8 @@ public class TickHandler {
 		if (energyConsumeCounter >= 20) {
 			int consumeEnergy = dmzDatos.calcularKiConsume(playerStats);
 			if (playerStats.getCurrentEnergy() < consumeEnergy) {
+				System.out.println("Consumes " + consumeEnergy + " energy");
+				System.out.println("No tienes suficiente energía para mantener la forma.");
 				playerStats.setDmzForm("base");
 				energyConsumeCounter = 0;
 			} else {
