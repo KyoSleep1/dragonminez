@@ -169,15 +169,24 @@ public class UtilityPanelC2S {
 										break;
 									case 2:
 										// Hacer algo con el namekiano
+										// Quizás bindear asimilación aquí?
 										break;
 									case 3:
-										// Hacer algo con el bio
+										switch (cap.getDmzForm()) {
+											case "semi_perfect" -> cap.setDmzForm("base");
+											case "perfect" -> cap.setDmzForm("semi_perfect");
+										}
 										break;
 									case 4:
-										// Hacer algo con el cold demon
+										switch (cap.getDmzForm()) {
+											case "second_form" -> cap.setDmzForm("base");
+											case "third_form" -> cap.setDmzForm("second_form");
+											case "final_form" -> cap.setDmzForm("third_form");
+										}
 										break;
 									case 5:
 										// Hacer algo con el majin
+										// Quizás bindear absorción aquí?
 										break;
 								}
 							}

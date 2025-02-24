@@ -132,6 +132,11 @@ public class ModMessages {
 				.encoder(SuperFormsC2S::toBytes)
 				.consumerMainThread(SuperFormsC2S::handle)
 				.add();
+		net.messageBuilder(OtroMundoC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(OtroMundoC2S::new)
+				.encoder(OtroMundoC2S::toBytes)
+				.consumerMainThread(OtroMundoC2S::handle)
+				.add();
 
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)

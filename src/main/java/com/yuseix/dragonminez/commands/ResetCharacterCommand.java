@@ -46,6 +46,8 @@ public class ResetCharacterCommand {
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
                 player.setHealth(20);
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                player.setHealth(20);
 
                 playerstats.setAcceptCharacter(false);
                 //Luego cambiar cuando decidamos las stats
@@ -55,24 +57,28 @@ public class ResetCharacterCommand {
                 playerstats.setKiPower(5);
                 playerstats.setEnergy(5);
                 playerstats.setZpoints(0);
-//                playerstats.removeSkill("fly");
-//                playerstats.removeSkill("jump");
-//                playerstats.removeSkill("potential_unlock");
-//                playerstats.removeSkill("ki_control");
-//                playerstats.removeSkill("ki_manipulation");
-//                playerstats.removeSkill("meditation");
                 playerstats.removeAllSkills();
                 playerstats.setDmzForm("base");
                 playerstats.setDmzGroupForm("");
-
-                playerstats.setCurrentEnergy(0);
-                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                playerstats.setTurboOn(false);
+                playerstats.setAuraOn(false);
+                playerstats.setBabaAliveTimer(0);
+                playerstats.setBabaCooldown(0);
+                playerstats.setSaiyanZenkaiTimer(0);
+                playerstats.setZenkaiCount(0);
+                playerstats.setDmzForm("base");
+                playerstats.setDmzRelease(0);
+                playerstats.removeTemporalEffect("mightfruit");
+                playerstats.removePermanentEffect("majin");
                 playerstats.removeFormSkill("super_form");
+                playerstats.setCurrentEnergy(0);
 
+                // NOTA: Lo de la vida se hace dos veces, pq a veces se buguea la primera vez xd
 
+                player.setHealth(20);
+                player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                player.setHealth(20);
             });
-
-
         }
         return pPlayers.size();
     }

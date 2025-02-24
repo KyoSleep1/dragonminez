@@ -481,7 +481,7 @@ public class GohanTeenHairModel extends HumanoidModel<AbstractClientPlayer> {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 			var auraOn = cap.isAuraOn();
-			var turboOn = cap.isTurbonOn();
+			var turboOn = cap.isTurboOn();
 
 			if(auraOn || turboOn){
 				var cargaVelocidad = 0.4f;

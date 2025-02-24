@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.PorungaC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.ChatFormatting;
@@ -21,7 +22,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PorungaMenu extends Screen {
@@ -29,7 +32,7 @@ public class PorungaMenu extends Screen {
 	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/texto.png");
 
-	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, radar;
+	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, radar, revive, reviveother;
 	private DMZButton AcceptButton, DeclineButton;
 	private DMZRightButton rightButton, leftButton;
 
@@ -174,6 +177,18 @@ public class PorungaMenu extends Screen {
 					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 				}
 			}
+			case "revive" -> {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.revive"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			}
+			case "revive_other" -> {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.porunga.revive_other"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			}
 		}
 
 		//Botones
@@ -193,6 +208,8 @@ public class PorungaMenu extends Screen {
 		removeWidget(this.capKIPW);
 		removeWidget(this.senzu);
 		removeWidget(this.radar);
+		removeWidget(this.revive);
+		removeWidget(this.reviveother);
 		removeWidget(this.AcceptButton);
 		removeWidget(this.DeclineButton);
 		removeWidget(this.rightButton);
@@ -276,6 +293,28 @@ public class PorungaMenu extends Screen {
 						Component.translatable("lines.porunga.wish.gete"), wa -> {
 					PageOption = "gete";
 				}));
+
+				// Revivir
+				this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
+						Component.translatable("lines.shenron.wish.revive"), wa -> {
+					PageOption = "revive";
+				}));
+				this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22),
+						Component.empty(), wa -> {
+					PageButtons = 4;
+				}));
+			}
+			case 4 -> {
+				removerBotones();
+				this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", (this.width / 2) - 120, (this.height - 22),
+						Component.empty(), wa -> {
+					PageButtons = 3;
+				}));
+				// Revivir a otros
+				this.reviveother = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
+						Component.translatable("lines.porunga.wish.revive_other"), wa -> {
+					PageOption = "revive_other";
+				}));
 			}
 		}
 	}
@@ -289,15 +328,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(1, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(1, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(1, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(1, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(1, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(1, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -317,15 +356,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(2, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(2, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(2, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(2, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(2, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(2, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -345,15 +384,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(3, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(3, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(3, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(3, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(3, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(3, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -373,15 +412,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(4, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(4, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(4, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(4, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(4, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(4, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -401,15 +440,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(5, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(5, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(5, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(5, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(5, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(5, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -429,15 +468,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(6, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(6, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(6, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(6, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(6, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(6, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -457,15 +496,15 @@ public class PorungaMenu extends Screen {
 
 					switch (wishesCount) {
 						case 0 -> {
-							ModMessages.sendToServer(new PorungaC2S(7, 1)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(7, 1));
 							acceptButtonPressed();
 						}
 						case 1 -> {
-							ModMessages.sendToServer(new PorungaC2S(7, 2)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(7, 2));
 							acceptButtonPressed();
 						}
 						case 2 -> {
-							ModMessages.sendToServer(new PorungaC2S(7, 3)); //Recibir capsula STR
+							ModMessages.sendToServer(new PorungaC2S(7, 3));
 							acceptButtonPressed();
 						}
 					}
@@ -476,6 +515,47 @@ public class PorungaMenu extends Screen {
 						Component.translatable("lines.menu.decline"), wa -> {
 					rejectButtonPressed();
 				}));
+
+			case "revive":
+				//Aceptar
+				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+						Component.translatable("lines.menu.accept"), wa -> {
+					switch (wishesCount) {
+						case 0 -> {
+							ModMessages.sendToServer(new PorungaC2S(8, 1));
+							acceptButtonPressed();
+						}
+						case 1 -> {
+							ModMessages.sendToServer(new PorungaC2S(8, 2));
+							acceptButtonPressed();
+						}
+						case 2 -> {
+							ModMessages.sendToServer(new PorungaC2S(8, 3));
+							acceptButtonPressed();
+						}
+					}
+				}));
+				//Rechazar
+				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+						Component.translatable("lines.menu.decline"), wa -> {
+					rejectButtonPressed();
+				}));
+				break;
+
+			case "revive_other": //Este deseo, al revivir hasta 3 jugadores, consume los 3 deseos
+				//Aceptar
+				this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+						Component.translatable("lines.menu.accept"), wa -> {
+					ModMessages.sendToServer(new CharacterC2S("setPorungaRevive", 1));
+					this.minecraft.player.sendSystemMessage(Component.translatable("lines.porunga.revive_others_chat"));
+					acceptButtonPressed();
+				}));
+				//Rechazar
+				this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+						Component.translatable("lines.menu.decline"), wa -> {
+					rejectButtonPressed();
+				}));
+				break;
 
 			default:
 				break;

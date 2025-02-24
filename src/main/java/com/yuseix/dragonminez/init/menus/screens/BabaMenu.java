@@ -87,6 +87,17 @@ public class BabaMenu extends Screen {
 		//NOMBRE DE LA ENTIDAD
 		guiGraphics.drawString(font, Component.literal(babaEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
 
+		final int[] remainingMinutes = {0};
+		final int[] remainingSeconds = {0};
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(cap -> {
+			int remainingTicks = cap.getSaiyanZenkaiTimer();
+			remainingMinutes[0] = (remainingTicks / 1200); // 1200 ticks = 1 minuto
+			remainingSeconds[0] = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+		});
+
+		// Formatear el texto para mostrar el tiempo restante
+		String formattedTime = String.format("%dmin %ds", remainingMinutes[0], remainingSeconds[0]);
+
 		//TEXTO QUE DIRA LA ENTIDAD
 		if (PageOption.equals("")) {
 			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.menu"), 250);
@@ -104,7 +115,8 @@ public class BabaMenu extends Screen {
 				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 			}
 		} else if (PageOption.equals("norevive")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.norevive"), 250);
+			// Ahora pasamos el tiempo formateado en lugar de los arrays
+			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.norevive", formattedTime), 250);
 			for (int i = 0; i < lines.size(); i++) {
 				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 			}
@@ -130,20 +142,18 @@ public class BabaMenu extends Screen {
 
 	private void paginaBotones() {
 		removeButtons();
-		final int[] remainingMinutes = {0};
-		final int[] remainingSeconds = {0};
-		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(cap -> {
-			int remainingTicks = cap.getSaiyanZenkaiTimer();
-			remainingMinutes[0] = (remainingTicks / 1200); // 1200 ticks = 1 minuto
-			remainingSeconds[0] = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
-		});
+
 		this.hablar = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
 				Component.translatable("lines.baba.option.talk"), (button) -> {
 					PageOption = "talk";
 				}));
 		this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
-				Component.translatable("lines.baba.option.revive", remainingMinutes, remainingSeconds), (button) -> {
+				Component.translatable("lines.baba.option.revive"), (button) -> {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
+				if (playerstats.getBabaAliveTimer() <= 0 && playerstats.getBabaCooldown() <= 0 && !playerstats.isDmzAlive()) {
 					PageOption = "revive";
+				} else PageOption = "norevive";
+			});
 				}));
 	}
 
@@ -151,20 +161,15 @@ public class BabaMenu extends Screen {
 		if (this.minecraft.level.isClientSide()) {
 			switch (PageOption) {
 				case "talk", "norevive":
-					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.back"), wa -> {
 						PageOption = "";
 					}));
 					break;
 
 				case "revive":
 					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-						DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
-							if (playerstats.getBabaAliveTimer() <= 0 && playerstats.getBabaCooldown() <= 0 && !playerstats.isDmzAlive()) {
-								ModMessages.INSTANCE.sendToServer(new OtroMundoC2S("baba"));
-							} else PageOption = "norevive";
-						});
+						ModMessages.INSTANCE.sendToServer(new OtroMundoC2S("baba"));
 						this.minecraft.setScreen(null);
-
 					}));
 					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
 						this.minecraft.setScreen(null);

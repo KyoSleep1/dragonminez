@@ -173,10 +173,12 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 			case 3:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
 				langGroup = "groupforms.dmz.bio.evolutionforms";
+				tercerOpcion = "utilitypanel.dmz.descend";
 				break;
 			case 4:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
 				langGroup = "groupforms.dmz.colddemon.involutionforms";
+				tercerOpcion = "utilitypanel.dmz.descend";
 				break;
 			case 5:
 				actualGroup = stats.getDmzGroupForm().equals("") ? "superform" : actualGroup;
@@ -268,8 +270,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						break;
 				}
 				if (race == 1) {
-					if (!stats.isTailMode()) colorAUsar = colorActivo;
-					else colorAUsar = colorInactivo;
+					colorAUsar = stats.isTailMode() ? colorActivo : colorInactivo;
 					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
 							Component.translatable(tercerOpcion), 13, 145, colorAUsar);
 				} else {

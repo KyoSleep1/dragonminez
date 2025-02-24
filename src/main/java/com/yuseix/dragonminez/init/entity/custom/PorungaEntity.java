@@ -4,6 +4,9 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
+import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -191,7 +194,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
 
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
-					RadarEvents.updateNamekDragonBallsPositions(namekDragonBallPositions);
+					ModMessages.sendToClients(new UpdateNamekDragonRadarS2C(namekDragonBallPositions));
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
 					namekDragonBallsCapability.saveToSavedData(serverWorld);
 				}

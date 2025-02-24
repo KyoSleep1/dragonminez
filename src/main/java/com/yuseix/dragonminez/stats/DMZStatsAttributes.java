@@ -44,8 +44,8 @@ public class DMZStatsAttributes {
     private String dmzForm = "base";
     private String dmzGroupForm = "";
 
-    private boolean AcceptCharacter = false, isauraOn = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false;
-    private boolean isTransforming = false, isDmzAlive = true, isHaloOn = false, tailMode = false;
+    private boolean AcceptCharacter = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false, isPorungaRevive = false, isShenronRevive = false;
+    private boolean isTransforming = false, isauraOn = false, isDmzAlive = true, tailMode = false;
 
     private final Player player;
 
@@ -97,7 +97,7 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
-    public boolean isTurbonOn() {
+    public boolean isTurboOn() {
         return isTurbonOn;
     }
 
@@ -847,6 +847,24 @@ public class DMZStatsAttributes {
         DMZStatsCapabilities.syncStats(player);
     }
 
+    public boolean isPorungaRevive() {
+        return isPorungaRevive;
+    }
+
+    public void setPorungaRevive(boolean isPorungaRevive) {
+        this.isPorungaRevive = isPorungaRevive;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public boolean isShenronRevive() {
+        return isShenronRevive;
+    }
+
+    public void setShenronRevive(boolean isShenronRevive) {
+        this.isShenronRevive = isShenronRevive;
+        DMZStatsCapabilities.syncStats(player);
+    }
+
     public int getZenkaiCount() {
         return zenkaiCount;
     }
@@ -881,14 +899,6 @@ public class DMZStatsAttributes {
 
     public void setDmzAlive(boolean dmzAlive) {
         isDmzAlive = dmzAlive;
-    }
-
-    public boolean isHaloOn() {
-        return isHaloOn;
-    }
-
-    public void setHaloOn(boolean haloOn) {
-        isHaloOn = haloOn;
     }
 
     public int getBabaCooldown() {
@@ -953,9 +963,10 @@ public class DMZStatsAttributes {
         nbt.putBoolean("isTurboOn", isTurbonOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
         nbt.putBoolean("isTransfKey", isTransforming);
-        nbt.putBoolean("isHaloOn", isHaloOn);
         nbt.putBoolean("isDmzAlive", isDmzAlive);
         nbt.putBoolean("tailmode", tailMode);
+        nbt.putBoolean("isPorungaRevive", isPorungaRevive);
+        nbt.putBoolean("isShenronRevive", isShenronRevive);
         nbt.putInt("babaCooldown", babaCooldown);
         nbt.putInt("babaAliveTimer", babaAliveTimer);
 
@@ -1061,8 +1072,9 @@ public class DMZStatsAttributes {
         isDescendkeyon = nbt.getBoolean("isDescendKey");
         isTransforming = nbt.getBoolean("isTransfKey");
         tailMode = nbt.getBoolean("tailmode");
-        isHaloOn = nbt.getBoolean("isHaloOn");
         isDmzAlive = nbt.getBoolean("isDmzAlive");
+        isPorungaRevive = nbt.getBoolean("isPorungaRevive");
+        isShenronRevive = nbt.getBoolean("isShenronRevive");
         babaCooldown = nbt.getInt("babaCooldown");
         babaAliveTimer = nbt.getInt("babaAliveTimer");
 

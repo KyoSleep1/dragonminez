@@ -54,7 +54,7 @@ public class DMZGeneralConfig {
                 .defineInRange("Attributes: ", 5000, 100, 100000);
 
         TRANSFORMATIONS_WITH_TP = BUILDER.comment("Allow Transformations to be buyable with TP instead of Obtainable via Storyline (Default: false)")
-                .define("Transformations: ", false);
+                .define("Transformations: ", true);
 
         TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
                 .defineInRange("Transformations Cost: ", 50000, 1, 1000000000);
@@ -100,7 +100,7 @@ public class DMZGeneralConfig {
                 .defineInRange("Majin Multiplier: ", 1.5, 1.0, 20.0);
 
         BABA_COOLDOWN = BUILDER.comment("Cooldown for Baba's Temporal Revive in Minutes (Min: 1 / Max: 600 / Default: 30)")
-                .defineInRange("Baba Cooldown: ", 30, 1, 600);
+                .defineInRange("Baba Cooldown: ", 20, 1, 600);
 
         BABA_DURATION = BUILDER.comment("Duration for Baba's Temporal Revive in Minutes (Min: 1 / Max: 60 / Default: 10)")
                 .defineInRange("Baba Duration: ", 10, 1, 60);

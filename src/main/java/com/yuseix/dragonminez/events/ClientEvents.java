@@ -1,8 +1,6 @@
 package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.init.MainParticles;
@@ -93,7 +91,7 @@ public class ClientEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					if (cap.isAuraOn() || cap.isTurbonOn()) {
+					if (cap.isAuraOn() || cap.isTurboOn()) {
 						event.getPoseStack().pushPose();
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.075f : 0.325f;
 
