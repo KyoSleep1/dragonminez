@@ -6,12 +6,9 @@ import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
 import com.yuseix.dragonminez.events.characters.StatsEvents;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
@@ -106,24 +103,23 @@ public class TickHandler {
 		}
 	}
 
-	public void manejarSonidoIdle(DMZStatsAttributes stats) {
+	public void manejarSonidoIdle(DMZStatsAttributes stats, ServerPlayer player) {
 		if (stats.getDmzForm().equals("") || stats.getDmzForm() == null) return;
 		if (soundTimer < 0) soundTimer = getRandomTransfCooldown();
-		LocalPlayer localPlayer = Minecraft.getInstance().player;
 
 		soundTimer--;
 		if (soundTimer == 0) {
 			if (stats.getDmzForm().equals("oozaru")) {
-				reproducirSonidoIdle(localPlayer, MainSounds.OOZARU_GROWL_PLAYER.get());
+				reproducirSonidoIdle(player, MainSounds.OOZARU_GROWL_PLAYER.get());
 			} // Acá se pueden agregar más sonidos para otras formas :p
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void reproducirSonidoIdle(LocalPlayer player, SoundEvent soundEvent) {
+	public void reproducirSonidoIdle(ServerPlayer player, SoundEvent soundEvent) {
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			if (player != null) {
-				player.level().playSound(player, player.blockPosition(), soundEvent, player.getSoundSource(), 1.0f, 1.0f);
+				player.playSound(soundEvent, 1.0F, 1.0F);
 			}
 		});
 	}
@@ -166,9 +162,10 @@ public class TickHandler {
 				playerstats.setConstitution((int) (playerstats.getConstitution() + (playerstats.getConstitution() * zenkaiStatBoost)));
 				playerstats.setKiPower((int) (playerstats.getKiPower() + (playerstats.getKiPower() * zenkaiStatBoost)));
 				playerstats.setEnergy((int) (playerstats.getEnergy() + (playerstats.getEnergy() * zenkaiStatBoost)));
+				int cantZenkais = playerstats.getZenkaiCount() + 1;
 
-				ModMessages.sendToServer(new CharacterC2S("zenkaiCount", playerstats.getZenkaiCount() + 1));
-				ModMessages.sendToServer(new CharacterC2S("zenkaiCooldown", zenkaiCooldown));
+				playerstats.setZenkaiCount(cantZenkais);
+				playerstats.setSaiyanZenkaiTimer(zenkaiCooldown);
 				passiveSaiyanCounter = 0;
 			}
 		} else {

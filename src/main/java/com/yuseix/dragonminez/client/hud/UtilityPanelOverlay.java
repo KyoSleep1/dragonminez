@@ -16,15 +16,14 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import javax.annotation.processing.SupportedSourceVersion;
 import java.util.Locale;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class UtilityPanelOverlay implements RenderEntityInv {
 	private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/utilitypanel.png");

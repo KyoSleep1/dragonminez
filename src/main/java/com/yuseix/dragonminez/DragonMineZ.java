@@ -96,8 +96,6 @@ public class DragonMineZ {
 		//Register biomas de Terrablender
 		Regions.register(new ModOverworldRegion());
 
-		//MinecraftForge.EVENT_BUS.register(ClientModBusEvents.class);
-
 		MinecraftForge.EVENT_BUS.register(this);
 
 		//Registramos el Listener del Mod
@@ -131,9 +129,6 @@ public class DragonMineZ {
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
-		Configurator.setLevel("minecraft.DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
-		Configurator.setLevel("minecraft/DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
-		Configurator.setLevel("minecraft:DensityFunctions$TwoArgumentSimpleFunction", Level.ERROR);
 		event.enqueueWork(() -> {
 
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.CHRYSANTHEMUM_FLOWER.getId(), MainBlocks.POTTED_CHRYSANTHEMUM_FLOWER);

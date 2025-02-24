@@ -114,7 +114,7 @@ public class StatsEvents {
 				tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 				//Aca manejamos la carga de la transformacion
 				tickHandler.manejarCargaForma(playerstats);
-				tickHandler.manejarSonidoIdle(playerstats);
+				tickHandler.manejarSonidoIdle(playerstats, serverPlayer);
 
 
 				//Restar el tiempo que se pone en el comando dmztempeffect

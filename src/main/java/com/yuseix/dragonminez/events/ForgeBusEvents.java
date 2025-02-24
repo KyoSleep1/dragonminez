@@ -319,7 +319,7 @@ public class ForgeBusEvents {
 
 		ServerLevel level = player.serverLevel();
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				playerstats.setDmzAlive(false);
 				playerstats.setHaloOn(true);
 			});
@@ -330,10 +330,6 @@ public class ForgeBusEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
-			if (otherWorld == null) {
-				LOGGER.error("El Otro Mundo no está registrado.");
-				return;
-			}
 
 			BlockPos spawnPos = new BlockPos(121, 46, -17); // Ajusta la posición de spawn
 			player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
@@ -411,19 +407,6 @@ public class ForgeBusEvents {
 		DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
-	}
-
-	@SubscribeEvent
-	public static void onPlayerHit(LivingHurtEvent event) {
-		if (event.getSource().getEntity() instanceof Player && (event.getEntity().level() instanceof ServerLevel serverLevel)) {
-			// Get ServerLevel instance
-			// Spawn a hit particle at the target's location with slight random motion.
-			serverLevel.sendParticles(
-					HIT_ATTACK_PARTICLE.get(),
-					event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ(),
-					5, 0.2, 0.2, 0.2, 0.01
-			);
-		}
 	}
 
 }
