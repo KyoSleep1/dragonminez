@@ -8,7 +8,6 @@ import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.DescendFormC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
-import com.yuseix.dragonminez.network.C2S.UtilityPanelC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -18,12 +17,15 @@ import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.utils.TickHandler;
+import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -59,6 +61,7 @@ public class StatsEvents {
 	private static boolean previousKiChargeState = false;
 	private static boolean turboOn = false;
 	private static boolean transformOn = false;
+	private static int soundTimer = 200;
 
 	//Sonidos
 	private static SimpleSoundInstance kiChargeLoop, turboLoop, oozaruLoop;
@@ -83,7 +86,6 @@ public class StatsEvents {
 		TickHandler tickHandler = playerTickHandlers.computeIfAbsent(player.getUUID(), uuid -> new TickHandler());
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(playerstats -> {
-			var vidaMC = 20;
 			var raza = playerstats.getRace();
 			boolean isDmzUser = playerstats.isAcceptCharacter();
 
@@ -113,8 +115,7 @@ public class StatsEvents {
 				//Aca manejamos la carga de aura
 				tickHandler.manejarCargaDeAura(playerstats, maxenergia);
 				//Aca manejamos la carga de la transformacion
-				tickHandler.manejarCargaForma(playerstats);
-				tickHandler.manejarSonidoIdle(playerstats);
+				tickHandler.manejarCargaForma(playerstats, serverPlayer);
 
 
 				//Restar el tiempo que se pone en el comando dmztempeffect
@@ -137,16 +138,37 @@ public class StatsEvents {
 						}
 					}
 				}
+				if (playerstats.getBabaCooldown() > 10) playerstats.setBabaCooldown(10);
+				if (!playerstats.isDmzAlive() && playerstats.getBabaAliveTimer() <= 0) {
+					if (serverPlayer.level().dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
+						ServerLevel serverLevel = serverPlayer.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
+						if (serverLevel != null) {
+							serverPlayer.teleportTo(serverLevel, 121, 46, -17, serverPlayer.getYRot(), serverPlayer.getXRot());
+							serverPlayer.displayClientMessage(Component.translatable("dmz.otherworld.cannot_leave"), true);
+						}
+					}
+				}
 
 				if (playerstats.getBabaCooldown() > 0) playerstats.setBabaCooldown(babaCooldown(playerstats.getBabaCooldown()));
 				if (playerstats.getBabaAliveTimer() > 0) playerstats.setBabaAliveTimer(babaDuration(playerstats.getBabaAliveTimer()));
 
+				if (playerstats.getDmzForm().equals("oozaru")) {
+					soundTimer--;
+					if (soundTimer == 0) {
+						reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
+					} else if (soundTimer < 0) {
+						Random random = new Random();
+						soundTimer = random.nextInt(200) + 400;
+					}
+				}
+
 			} else {
-				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(vidaMC);
+				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
 			}
 
 			//Tiempo para reclamar una senzu
 			playerstats.setDmzSenzuDaily(senzuContador(playerstats.getDmzSenzuDaily()));
+
 		});
 	}
 
@@ -895,6 +917,17 @@ public class StatsEvents {
 		}
 
 		return null; // No hay transformación disponible
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			LocalPlayer player = Minecraft.getInstance().player;
+			if (player != null) {
+				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+			}
+		});
 	}
 
 }

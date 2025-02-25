@@ -2,6 +2,8 @@ package com.yuseix.dragonminez.init.entity.custom.masters;
 
 
 import com.yuseix.dragonminez.init.menus.screens.MasterTextMenu;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -42,6 +44,7 @@ public class KaiosamaEntity extends MastersEntity implements GeoEntity {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		if (this.level().isClientSide) {
 			Minecraft.getInstance().setScreen(new MasterTextMenu("Kaio"));
+			ModMessages.sendToServer(new CharacterC2S("isKaioPlanet", 1));
 			return InteractionResult.SUCCESS;
 		}
 		return super.mobInteract(player, hand);

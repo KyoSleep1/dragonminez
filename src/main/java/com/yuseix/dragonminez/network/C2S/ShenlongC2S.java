@@ -6,11 +6,16 @@ import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ShenlongC2S {
@@ -42,28 +47,35 @@ public class ShenlongC2S {
                     case 5 -> player.getInventory().add(new ItemStack(MainItems.CAPSULA_ANARANJADA.get(), DMZGeneralConfig.CAPSULE_SHENRON_WISH.get()));
                     case 6 -> player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_SHENRON_WISH.get()));
                     case 7 -> player.getInventory().add(new ItemStack(MainItems.T2_RADAR_CPU.get()));
-                    case 8 -> revivePlayer(player);
                 }
 
-                // Despawnear la entidad Shenlong en el mundo del jugador
-                player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
-                        entity.getType() == MainEntity.SHENLONG.get()).forEach(entity -> {
-                    if (entity instanceof ShenlongEntity shenlong) {
-                        shenlong.setDeseos(0);
-                    }
+                if (packet.option == 8) {
+                    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                        if (cap.isDmzAlive()) {
+                            player.displayClientMessage(Component.literal("lines.shenron.new_wish").withStyle(ChatFormatting.RED), true);
+                        } else {
+                            cap.setDmzAlive(true);
+                            cap.setBabaCooldown(0);
+                            cap.setBabaAliveTimer(0);
 
-
-                });
+                            player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+                                    entity.getType() == MainEntity.SHENLONG.get()).forEach(entity -> {
+                                if (entity instanceof ShenlongEntity shenlong) {
+                                    shenlong.setDeseos(0);
+                                }
+                            });
+                        }
+                        });
+                } else {
+                    player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+                            entity.getType() == MainEntity.SHENLONG.get()).forEach(entity -> {
+                        if (entity instanceof ShenlongEntity shenlong) {
+                            shenlong.setDeseos(0);
+                        }
+                    });
+                }
             }
         });
         context.setPacketHandled(true);
-    }
-
-    private static void revivePlayer(ServerPlayer player) {
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-            if (!stats.isDmzAlive()) {
-                stats.setDmzAlive(true);
-            }
-        });
     }
 }

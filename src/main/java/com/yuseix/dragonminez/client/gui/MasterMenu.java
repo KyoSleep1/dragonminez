@@ -187,7 +187,7 @@ public class MasterMenu extends Screen {
 						this.potUnlockBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(potUnlockCost) + " TPs"), wa -> {
 							DebugUtils.dmzLog("Potential Unlock Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= potUnlockCost) {
-								ModMessages.sendToServer(new MasterSkillsC2S("potunlock", new DMZSkill("dmz.skill.potunlock.name", "dmz.skill.potunlock.desc", 1, false)));
+								ModMessages.sendToServer(new MasterSkillsC2S("potential_unlock", new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 1, false)));
 							} else
 								player.sendSystemMessage(Component.translatable("master.name.notenoughpoints", numFor.format(potUnlockCost)));
 						}));

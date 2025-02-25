@@ -21,7 +21,7 @@ public class DMZSuperFormCommand {
 
 	// Lista de habilidades válidas con sus límites de nivel
 	private static final Map<String, Integer> VALID_FORMS_LIST = Map.of(
-			"super_form", 6
+			"super_form", 16 //Este max level es el máximo valor que se puede ingresar, pero es modificado luego según la raza.
 	);
 
 	public DMZSuperFormCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -114,12 +114,21 @@ public class DMZSuperFormCommand {
 			return 0;
 		}
 
-		int maxLevel = VALID_FORMS_LIST.get(skillName);
-		level = Math.max(1, Math.min(level, maxLevel)); // Limita el nivel al rango [1, maxLevel]
 
 		for (ServerPlayer player : players) {
-			int finalLevel = level;
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				int maxLevel = switch (playerstats.getRace()) {
+					case 0 -> 3;
+					case 1 -> 8;
+					case 2 -> 4;
+					case 3 -> 4;
+					case 4 -> 8;
+					case 5 -> 8;
+					default -> 6;
+				};
+
+				int finalLevel = Math.max(1, Math.min(level, maxLevel));
+
 				FormsData skill = new FormsData("dmz.dmzforms." + skillName + ".name",
 						finalLevel);
 
@@ -143,12 +152,20 @@ public class DMZSuperFormCommand {
 			return 0;
 		}
 
-		int maxLevel = VALID_FORMS_LIST.get(skillName);
-		level = Math.max(1, Math.min(level, maxLevel)); // Limita el nivel al rango [1, maxLevel]
-
 		for (ServerPlayer player : players) {
-			int finalLevel = level;
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+
+				int maxLevel = switch (playerstats.getRace()) {
+					case 0 -> 3;
+					case 1 -> 8;
+					case 2 -> 4;
+					case 3 -> 4;
+					case 4 -> 8;
+					case 5 -> 8;
+					default -> 6;
+				};
+
+				int finalLevel = Math.max(1, Math.min(level, maxLevel));
 				// Si la habilidad ya existe, se actualiza el nivel, si no se crea una nueva
 				FormsData skill = playerstats.getFormSkill(skillName);
 				if (skill != null) {

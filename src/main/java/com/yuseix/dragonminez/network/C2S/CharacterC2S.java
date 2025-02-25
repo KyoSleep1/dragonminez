@@ -149,6 +149,27 @@ public class CharacterC2S {
                                 playerstats.setCompactMenu(false);
                             }
                             break;
+                        case "setPorungaRevive":
+                            if (packet.cantidad == 1) {
+                                playerstats.setPorungaRevive(true);
+                            } else {
+                                playerstats.setPorungaRevive(false);
+                            }
+                            break;
+                        case "setShenronRevive":
+                            if (packet.cantidad == 1) {
+                                playerstats.setShenronRevive(true);
+                            } else {
+                                playerstats.setShenronRevive(false);
+                            }
+                            break;
+                        case "isKaioPlanet":
+                            if (packet.cantidad == 1) {
+                                playerstats.setKaioPlanet(true);
+                            } else {
+                                playerstats.setKaioPlanet(false);
+                            }
+                            break;
                         case "str":
                             playerstats.setStrength(packet.cantidad);
                             break;

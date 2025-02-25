@@ -136,7 +136,11 @@ public class EnmaMenu extends Screen {
 				}));
 		this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
 				Component.translatable("lines.enma.option.revive"), (button) -> {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
+				if (playerstats.isDmzAlive() || playerstats.getBabaAliveTimer() > 20) {
 					PageOption = "revive";
+				} else PageOption = "norevive";
+			});
 				}));
 	}
 
@@ -144,18 +148,15 @@ public class EnmaMenu extends Screen {
 		if (this.minecraft.level.isClientSide()) {
 			switch (PageOption) {
 				case "talk", "norevive":
-					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.back"), wa -> {
 						PageOption = "";
 					}));
 					break;
 
 				case "revive":
 					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47), Component.translatable("lines.menu.accept"), wa -> {
-						DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
-							if (playerstats.isDmzAlive() || playerstats.getBabaAliveTimer() > 20) {
-								ModMessages.INSTANCE.sendToServer(new OtroMundoC2S("enma"));
-							} else PageOption = "norevive";
-						});
+
+						ModMessages.INSTANCE.sendToServer(new OtroMundoC2S("enma"));
 						this.minecraft.setScreen(null);
 
 					}));

@@ -56,6 +56,12 @@ public class DescendFormC2S {
                         case 4:
                             break;
                         case 5:
+                            switch (currentForm) {
+                                case "evil" -> playerstats.setDmzForm("base");
+                                case "kid" -> playerstats.setDmzForm("evil");
+                                case "super" -> playerstats.setDmzForm("kid");
+                                case "ultra" -> playerstats.setDmzForm("super");
+                            }
                             break;
                         default:
                             switch (currentForm) {

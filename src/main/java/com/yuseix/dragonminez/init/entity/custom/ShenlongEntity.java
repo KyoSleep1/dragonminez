@@ -4,6 +4,8 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
@@ -73,10 +75,6 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 
 	public String getOwnerName() {
 		return this.entityData.get(OWNER_NAME);
-	}
-
-	public ServerPlayer getOwnerPlayer() {
-		return (ServerPlayer) this.level().getPlayerByUUID(UUID.fromString(this.getOwnerName()));
 	}
 
 	public int getDeseos() {
@@ -201,7 +199,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
-					RadarEvents.updateDragonBallsPositions(dragonBallPositions);
+					ModMessages.sendToClients(new UpdateDragonRadarS2C(dragonBallPositions));
 					dragonBallsCapability.setHasDragonBalls(true);
 					dragonBallsCapability.saveToSavedData(serverWorld);
 				}

@@ -5,21 +5,9 @@ import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
 import com.yuseix.dragonminez.events.characters.StatsEvents;
-import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.network.C2S.CharacterC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-
-import java.util.Random;
 
 public class TickHandler {
 	private int energyRegenCounter = 0;
@@ -29,7 +17,6 @@ public class TickHandler {
 	private int dmzformTimer = 0; // Aca calculamos el tiempo de espera
 	private int flyTimer = 0;
 	private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
-	private int soundTimer = getRandomTransfCooldown();
 
 	public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos) {
 		DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
@@ -57,7 +44,7 @@ public class TickHandler {
 		if (energyRegenCounter >= 20) {
 			int maxEnergy = dmzDatos.calcularENE(playerStats);
 
-			if (playerStats.isTurbonOn()) {
+			if (playerStats.isTurboOn()) {
 				// Si el turbo está activo, consumo de energía
 				int consumeEnergy = dmzDatos.calcularKiRegen(playerStats) * 2;
 				if (consumeEnergy < 2) consumeEnergy = 2;
@@ -67,7 +54,7 @@ public class TickHandler {
 					consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
 				}
 				playerStats.removeCurEnergy(consumeEnergy);
-			} else if (!playerStats.isTurbonOn() && playerStats.getCurrentEnergy() < maxEnergy) {
+			} else if (!playerStats.isTurboOn() && playerStats.getCurrentEnergy() < maxEnergy) {
 				if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
 					// No hacer nada
 				} else {
@@ -97,6 +84,8 @@ public class TickHandler {
 		if (energyConsumeCounter >= 20) {
 			int consumeEnergy = dmzDatos.calcularKiConsume(playerStats);
 			if (playerStats.getCurrentEnergy() < consumeEnergy) {
+				System.out.println("Consumes " + consumeEnergy + " energy");
+				System.out.println("No tienes suficiente energía para mantener la forma.");
 				playerStats.setDmzForm("base");
 				energyConsumeCounter = 0;
 			} else {
@@ -104,33 +93,6 @@ public class TickHandler {
 				energyConsumeCounter = 0;
 			}
 		}
-	}
-
-	public void manejarSonidoIdle(DMZStatsAttributes stats) {
-		if (stats.getDmzForm().equals("") || stats.getDmzForm() == null) return;
-		if (soundTimer < 0) soundTimer = getRandomTransfCooldown();
-		LocalPlayer localPlayer = Minecraft.getInstance().player;
-
-		soundTimer--;
-		if (soundTimer == 0) {
-			if (stats.getDmzForm().equals("oozaru")) {
-				reproducirSonidoIdle(localPlayer, MainSounds.OOZARU_GROWL_PLAYER.get());
-			} // Acá se pueden agregar más sonidos para otras formas :p
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public void reproducirSonidoIdle(LocalPlayer player, SoundEvent soundEvent) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			if (player != null) {
-				player.level().playSound(player, player.blockPosition(), soundEvent, player.getSoundSource(), 1.0f, 1.0f);
-			}
-		});
-	}
-
-	protected int getRandomTransfCooldown() {
-		Random random = new Random();
-		return random.nextInt(200) + 400; // Entre 200 y 400 ticks (~10 a 20 segundos)
 	}
 
 	public void manejarPasivaMajin(DMZStatsAttributes playerstats, ServerPlayer player) {
@@ -166,9 +128,10 @@ public class TickHandler {
 				playerstats.setConstitution((int) (playerstats.getConstitution() + (playerstats.getConstitution() * zenkaiStatBoost)));
 				playerstats.setKiPower((int) (playerstats.getKiPower() + (playerstats.getKiPower() * zenkaiStatBoost)));
 				playerstats.setEnergy((int) (playerstats.getEnergy() + (playerstats.getEnergy() * zenkaiStatBoost)));
+				int cantZenkais = playerstats.getZenkaiCount() + 1;
 
-				ModMessages.sendToServer(new CharacterC2S("zenkaiCount", playerstats.getZenkaiCount() + 1));
-				ModMessages.sendToServer(new CharacterC2S("zenkaiCooldown", zenkaiCooldown));
+				playerstats.setZenkaiCount(cantZenkais);
+				playerstats.setSaiyanZenkaiTimer((zenkaiCooldown * 20 * 60));
 				passiveSaiyanCounter = 0;
 			}
 		} else {
@@ -205,7 +168,7 @@ public class TickHandler {
 						playerstats.setDmzRelease(maxRelease);
 					}
 				}
-				if (!playerstats.isTurbonOn()) {
+				if (!playerstats.isTurboOn()) {
 					if (playerstats.getCurrentEnergy() < maxenergia) {
 						if ((flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) || playerstats.isTransforming()) {
 							// No hacer nada
@@ -223,7 +186,7 @@ public class TickHandler {
 						}
 					}
 				}
-				if (playerstats.isTurbonOn() && playerstats.getCurrentEnergy() <= 1) {
+				if (playerstats.isTurboOn() && playerstats.getCurrentEnergy() <= 1) {
 					playerstats.setDmzRelease(0);
 				}
 				chargeTimer = 0;
@@ -231,9 +194,8 @@ public class TickHandler {
 		}
 	}
 
-	public void manejarCargaForma(DMZStatsAttributes playerstats) {
+	public void manejarCargaForma(DMZStatsAttributes playerstats, ServerPlayer player) {
 		if (!playerstats.hasFormSkill("super_form")) return;
-		Player player = Minecraft.getInstance().player;
 
 		int formLevel = playerstats.getFormSkillLevel("super_form");
 

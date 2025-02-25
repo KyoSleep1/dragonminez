@@ -35,6 +35,7 @@ public class OtroMundoC2S {
 			if (player != null) {
 				switch (packet.option) {
 					case "enma":
+						System.out.println("Enma");
 						ServerLevel level = player.server.overworld();
 						level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
 							BlockPos pos = structures.getTorreKamisamaPosition();
@@ -42,11 +43,6 @@ public class OtroMundoC2S {
 						});
 						break;
 					case "baba":
-						ServerLevel level2 = player.server.overworld();
-						level2.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
-							BlockPos pos = structures.getTorreKamisamaPosition();
-							player.teleportTo(level2, pos.getX(), pos.getY(), pos.getZ(), player.getYRot(), player.getXRot());
-						});
 						DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 							int babaCooldown = (DMZGeneralConfig.BABA_COOLDOWN.get() * 20 * 60);
 							int babaDuration = (DMZGeneralConfig.BABA_DURATION.get() * 20 * 60);

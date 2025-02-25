@@ -5,6 +5,11 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
+import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.network.C2S.PorungaC2S;
+import com.yuseix.dragonminez.network.C2S.ShenlongC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -16,9 +21,10 @@ import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
 import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -37,8 +43,8 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -51,8 +57,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import static com.yuseix.dragonminez.init.MainParticles.HIT_ATTACK_PARTICLE;
 
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
@@ -112,12 +116,30 @@ public class ForgeBusEvents {
 		if (event.getEntity() instanceof ServerPlayer serverPlayer) {
 			sendDragonBallData(serverPlayer, dimension);
 		}
+
+		// Desactivar al iniciar sesión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+			if (stats.isTransforming()) stats.setTransforming(false);
+			if (stats.isTurboOn()) stats.setTurboOn(false);
+			if (stats.isAuraOn()) stats.setAuraOn(false);
+			if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+			if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+		});
 	}
 
 	@SubscribeEvent
 	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			sendDragonBallData(player, "both");
+
+			// Desactivar al cambiar de dimensión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+				if (stats.isTransforming()) stats.setTransforming(false);
+				if (stats.isTurboOn()) stats.setTurboOn(false);
+				if (stats.isAuraOn()) stats.setAuraOn(false);
+				if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+				if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+			});
 		}
 	}
 
@@ -250,6 +272,7 @@ public class ForgeBusEvents {
 
 	@SubscribeEvent
 	public void onCommandsRegister(RegisterCommandsEvent event) {
+		new DMZReviveCommand(event.getDispatcher());
 		new ZPointsCommand(event.getDispatcher());
 		new StatsCommand(event.getDispatcher());
 		new ResetCharacterCommand(event.getDispatcher());
@@ -319,9 +342,8 @@ public class ForgeBusEvents {
 
 		ServerLevel level = player.serverLevel();
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				playerstats.setDmzAlive(false);
-				playerstats.setHaloOn(true);
 			});
 		}
 	}
@@ -330,14 +352,91 @@ public class ForgeBusEvents {
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
-			if (otherWorld == null) {
-				LOGGER.error("El Otro Mundo no está registrado.");
-				return;
-			}
 
 			BlockPos spawnPos = new BlockPos(121, 46, -17); // Ajusta la posición de spawn
 			player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
 			player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+		}
+	}
+
+	@SubscribeEvent
+	public static void onChatMessage(ServerChatEvent event) {
+		ServerPlayer player = event.getPlayer();
+		String message = event.getMessage().getString();
+
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+			if (stats.isPorungaRevive()) { // Verifica si el jugador está seleccionando nombres
+				List<String> porungaNames = Arrays.stream(message.split(","))
+						.map(String::trim)
+						.limit(3) // Máximo 3 nombres
+						.toList();
+
+				player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+						entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
+					if (entity instanceof PorungaEntity porunga) {
+						porunga.setDeseos(0);
+					}
+				});
+
+				reviveOthers(player, porungaNames, "Porunga");
+				stats.setPorungaRevive(false);
+				event.setCanceled(true);
+			} else if (stats.isShenronRevive()) {
+				List<String> names = Arrays.stream(message.split(","))
+						.map(String::trim)
+						.limit(3) // Máximo 3 nombres
+						.toList();
+
+				player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+						entity.getType() == MainEntity.SHENLONG.get()).forEach(entity -> {
+					if (entity instanceof ShenlongEntity shenlong) {
+						shenlong.setDeseos(0);
+					}
+				});
+
+				reviveOthers(player, names, "Shenron");
+				stats.setShenronRevive(false);
+				event.setCanceled(true);
+			}
+		});
+
+	}
+
+	private static void reviveOthers(ServerPlayer player, List<String> playerNames, String dragon) {
+		MinecraftServer server = player.getServer();
+		if (server != null) {
+			for (String name : playerNames) {
+				ServerPlayer target = server.getPlayerList().getPlayerByName(name);
+				if (target != null) {
+					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, target).ifPresent(stats -> {
+						if (!stats.isDmzAlive()) {
+							stats.setDmzAlive(true);
+							stats.setBabaAliveTimer(0);
+							stats.setBabaCooldown(0);
+
+							if (dragon.equals("Shenron")) {
+								target.sendSystemMessage(Component.translatable("lines.shenron.revive.revived", player.getName().getString()));
+								player.sendSystemMessage(Component.translatable("lines.shenron.revive.success", name));
+							} else {
+								target.sendSystemMessage(Component.translatable("lines.porunga.revive.revived", player.getName().getString()));
+								player.sendSystemMessage(Component.translatable("lines.porunga.revive.success", name));
+							}
+						} else {
+							if (dragon.equals("Shenron")) {
+								player.sendSystemMessage(Component.translatable("lines.shenron.revive.fail", name));
+							} else {
+								player.sendSystemMessage(Component.translatable("lines.porunga.revive.fail", name));
+							}
+						}
+					});
+				} else {
+					if (dragon.equals("Shenron")) {
+						player.sendSystemMessage(Component.translatable("lines.shenron.revive.fail", name));
+					} else {
+						player.sendSystemMessage(Component.translatable("lines.porunga.revive.fail", name));
+					}
+				}
+			}
 		}
 	}
 
@@ -411,19 +510,6 @@ public class ForgeBusEvents {
 		DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
-	}
-
-	@SubscribeEvent
-	public static void onPlayerHit(LivingHurtEvent event) {
-		if (event.getSource().getEntity() instanceof Player && (event.getEntity().level() instanceof ServerLevel serverLevel)) {
-			// Get ServerLevel instance
-			// Spawn a hit particle at the target's location with slight random motion.
-			serverLevel.sendParticles(
-					HIT_ATTACK_PARTICLE.get(),
-					event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ(),
-					5, 0.2, 0.2, 0.2, 0.01
-			);
-		}
 	}
 
 }
