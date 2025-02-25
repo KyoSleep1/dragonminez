@@ -81,8 +81,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 this.minecraft.setScreen(new TransfMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                // Agregar el menú de Story
-                // this.minecraft.setScreen(new StoryMenu());
+                this.minecraft.setScreen(new StorylineMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
                 // Agregar el menú de KiTech
@@ -280,7 +279,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
 
             //FORMA
-            drawStringWithBorder2(graphics, font, Component.literal("Base"), anchoTexto, alturaTexto + 22, 0xC7EAFC);
+            drawStringWithBorder2(graphics, font, Component.translatable(obtenerFormaLang(playerstats.getDmzForm(), playerstats.getRace())), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
             if(clase.equals("Warrior")){
                 drawStringWithBorder(graphics, font,Component.literal("Warrior"), 90, alturaTexto + 33, 0xFC4E2B);
@@ -571,5 +570,17 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         Component descripcion = Component.translatable("stats.dmz." + statKey);
         int maxWidth = 200;
         return font.split(descripcion, maxWidth);
+    }
+
+    private String obtenerFormaLang(String forma, int race){
+        return switch (race) {
+            case 0 -> ("forms.dmz.human." + forma);
+            case 1 -> ("forms.dmz.saiyan." + forma);
+            case 2 -> ("forms.dmz.namek." + forma);
+            case 3 -> ("forms.dmz.bioandroid." + forma);
+            case 4 -> ("forms.dmz.colddemon." + forma);
+            case 5 -> ("forms.dmz.majin." + forma);
+            default ->("forms.dmz.human.base");
+        };
     }
 }

@@ -12,9 +12,11 @@ import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -32,6 +34,26 @@ public class StorylineEvents {
 	}
 
 	@SubscribeEvent
+	public void onTick(TickEvent.PlayerTickEvent event) {
+		if (event.player.level().getGameTime() % 20 != 0) {
+			return;
+		}
+
+		//Retrieve the player's storyline capability
+		event.player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+			//Iterate through the active quests
+			for (Saga saga : playerStoryline.getActiveSagas()) {
+				for (Quest quest : saga.getAvailableQuests()) {
+					if (quest.isCompleted() && !quest.isNotified()) {
+						event.player.sendSystemMessage(Component.translatable("quest.completed", quest.getName()));
+						quest.setNotified(true);
+					}
+				}
+			}
+		});
+	}
+
+	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
 
 		// Check the item that was picked up
@@ -43,7 +65,7 @@ public class StorylineEvents {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					// Check each objective in the quest
-					for (Objective objective : quest.getObjectives()) {
+					for (Objective objective : quest.getAllObjectives()) {
 						if (objective instanceof ObjectiveCollectItem collectObjective) {
 							// Pass the collected item to the objective
 							collectObjective.onItemCollected(collectedItemId);
@@ -66,7 +88,7 @@ public class StorylineEvents {
 				for (Saga saga : playerStoryline.getActiveSagas()) {
 					for (Quest quest : saga.getAvailableQuests()) {
 						//Check each objective in the quest
-						for (Objective objective : quest.getObjectives()) {
+						for (Objective objective : quest.getAllObjectives()) {
 							if (objective instanceof ObjectiveKillEnemy killObjective) {
 								killObjective.onEnemyKilled(mobEntity);
 							}
@@ -88,7 +110,7 @@ public class StorylineEvents {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					//Check each objective in the quest
-					for (Objective objective : quest.getObjectives()) {
+					for (Objective objective : quest.getAllObjectives()) {
 						if (objective instanceof ObjectiveGetToLocation locationObjective) {
 							locationObjective.advancementTranslator(event.getAdvancement(), "location");
 						} else if (objective instanceof ObjectiveGetToBiome biomeObjective) {
