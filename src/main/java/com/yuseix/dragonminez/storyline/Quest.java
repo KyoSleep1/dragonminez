@@ -16,6 +16,7 @@ public class Quest {
 	private final String description;
 	private final List<Objective> objectives;
 	private final List<Quest> prerequisites;
+	private boolean notified;
 	private boolean completed;
 
 	public Quest(String id, String name, String description, List<Objective> objectives, List<Quest> prerequisites) {
@@ -28,6 +29,7 @@ public class Quest {
 		this.objectives = objectives;
 		this.prerequisites = prerequisites; // List of quest IDs that must be completed before this quest can be started
 		this.completed = false;
+		this.notified = false;
 
 		for (Objective objective : objectives) {
 			objective.setOnCompletion(this::checkQuestCompletion);
@@ -76,6 +78,14 @@ public class Quest {
 
 	public void removeAllPrerequisites() {
 		prerequisites.clear();
+	}
+
+	public boolean isNotified() {
+		return notified;
+	}
+
+	public void setNotified(boolean notified) {
+		this.notified = notified;
 	}
 
 	public boolean isCompleted() {
