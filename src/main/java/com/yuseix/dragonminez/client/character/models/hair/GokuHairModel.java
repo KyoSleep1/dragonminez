@@ -271,10 +271,11 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 			var auraOn = cap.isAuraOn();
 			var turboOn = cap.isTurboOn();
+			var transfOn = cap.isTransforming();
 			var velocidad = 0.4f;
 
 			if(auraOn || turboOn){
-				velocidad = 0.4f;
+				velocidad = transfOn ? 0.7f : 0.4f;
 				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);

@@ -21,7 +21,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     //TEXTURAS CABELLO
     private static final ResourceLocation SUIT_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/hairtexture.png");
     public static final ResourceLocation GOKUHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/goku/gokubasehair1.png");
-    public static final ResourceLocation GOKUHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/goku/gokubasehair2.png");
+    public static final ResourceLocation GOKUHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/hairprueba.png");
     public static final ResourceLocation VEGETAHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair1.png");
     public static final ResourceLocation VEGETAHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair2.png");
     public static final ResourceLocation GOHANDBSHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/gohandbs/gohandbshair.png");
@@ -43,6 +43,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     private GohanDBSHairModel gohandbshair;
     private GohanTeenHairModel gohanteenhair;
     private TrunksHairModel trunkshair;
+    private GokuSSJHairModel gokussjhair;
 
     private EarsNamek earsNamek;
     private TailModel cola;
@@ -53,6 +54,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     public HairsLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> pRenderer) {
         super(pRenderer);
         this.gokuhair = new GokuHairModel(GokuHairModel.createBodyLayer().bakeRoot());
+        this.gokussjhair = new GokuSSJHairModel(GokuSSJHairModel.createBodyLayer().bakeRoot());
         this.earsNamek = new EarsNamek(EarsNamek.createBodyLayer().bakeRoot());
         this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
         this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
@@ -69,9 +71,11 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
     @Override
     public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, AbstractClientPlayer abstractClientPlayer, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         poseStack.pushPose();
-        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE,abstractClientPlayer).ifPresent(cap -> {
+
+            VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
+
             var raza = cap.getRace();
             var hairColor = 0;
             var hairId = cap.getHairID();
@@ -129,6 +133,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     colorR = (5515271 >> 16) / 255.0F;
                     colorG = ((5515271 >> 8) & 0xff) / 255.0f;
                     colorB = (5515271 & 0xff) / 255.0f;
+
+                    vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
                     if(tailmode){
                         this.getParentModel().body.translateAndRotate(poseStack);
@@ -232,6 +238,31 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             switch (transformation) {
                 case "oozaru","goldenoozaru","buffed","full_power","potential_unleashed":
+                    break;
+                case "ssj1":
+                    this.getParentModel().getHead().translateAndRotate(poseStack);
+
+                    if(hairId == 1){
+                        hairtex = multiBufferSource.getBuffer(RenderType.entityTranslucent(GOKUHAIR_TEXT2));
+                        this.gokussjhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                        this.gokussjhair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 2){
+                        this.femhair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 3){
+                        this.vegetahair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                        this.vegetahair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 4){
+                        this.gohandbshair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                        this.gohandbshair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 5){
+                        this.gohanteenhair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                        this.gohanteenhair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 6){
+                        this.trunkshair.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                        this.trunkshair.renderToBuffer(poseStack,hairtex, packedLight, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else {
+
+                    }
                     break;
                 default:
                     this.getParentModel().getHead().translateAndRotate(poseStack);
