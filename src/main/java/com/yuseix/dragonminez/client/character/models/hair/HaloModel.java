@@ -41,7 +41,6 @@ public class HaloModel extends HumanoidModel<AbstractClientPlayer> {
 	public void setupAnim(AbstractClientPlayer pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 
-		this.halo.copyFrom(head);
 	}
 
 	@Override
