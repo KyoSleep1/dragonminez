@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.storyline;
 
 import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
 import com.yuseix.dragonminez.utils.DebugUtils;
 
 import java.util.ArrayList;
@@ -46,8 +47,22 @@ public class Quest {
 		return description;
 	}
 
-	public List<Objective> getObjectives() {
+	public List<Objective> getAllObjectives() {
 		return objectives;
+	}
+
+	public List<Objective> getKillObjective() {
+		List<Objective> killObjectives = new ArrayList<>();
+		for (Objective objective : objectives) {
+			if (objective instanceof ObjectiveKillEnemy) {
+				killObjectives.add(objective);
+			}
+		}
+		return killObjectives;
+	}
+
+	public boolean isKillObjective() {
+		return objectives.stream().anyMatch(objective -> objective instanceof ObjectiveKillEnemy);
 	}
 
 	public List<String> getPrerequisites() {

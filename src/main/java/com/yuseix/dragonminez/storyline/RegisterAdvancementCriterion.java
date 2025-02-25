@@ -9,8 +9,9 @@ public class RegisterAdvancementCriterion {
 
 	public RegisterAdvancementCriterion() {
 		// Register criteria
-		register("location");
-		register("biome");
+		register("roshihouse");
+		register("namekdim");
+		register("rockybiome");
 	}
 
 

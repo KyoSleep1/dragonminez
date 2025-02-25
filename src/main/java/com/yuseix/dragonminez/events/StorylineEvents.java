@@ -43,7 +43,7 @@ public class StorylineEvents {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					// Check each objective in the quest
-					for (Objective objective : quest.getObjectives()) {
+					for (Objective objective : quest.getAllObjectives()) {
 						if (objective instanceof ObjectiveCollectItem collectObjective) {
 							// Pass the collected item to the objective
 							collectObjective.onItemCollected(collectedItemId);
@@ -66,7 +66,7 @@ public class StorylineEvents {
 				for (Saga saga : playerStoryline.getActiveSagas()) {
 					for (Quest quest : saga.getAvailableQuests()) {
 						//Check each objective in the quest
-						for (Objective objective : quest.getObjectives()) {
+						for (Objective objective : quest.getAllObjectives()) {
 							if (objective instanceof ObjectiveKillEnemy killObjective) {
 								killObjective.onEnemyKilled(mobEntity);
 							}
@@ -88,7 +88,7 @@ public class StorylineEvents {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					//Check each objective in the quest
-					for (Objective objective : quest.getObjectives()) {
+					for (Objective objective : quest.getAllObjectives()) {
 						if (objective instanceof ObjectiveGetToLocation locationObjective) {
 							locationObjective.advancementTranslator(event.getAdvancement(), "location");
 						} else if (objective instanceof ObjectiveGetToBiome biomeObjective) {

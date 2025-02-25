@@ -38,6 +38,18 @@ public abstract class Saga {
 		return quests.stream().filter(quest -> quest.canStart() && !quest.isCompleted()).toList();
 	}
 
+	public List<Quest> getCompletedQuests() {
+		return quests.stream().filter(quest -> quest.canStart() || quest.isCompleted()).toList();
+	}
+
+	public int getQuestCount() {
+		return quests.size();
+	}
+
+	public int getCompletedQuestCount() {
+		return (int) quests.stream().filter(Quest::isCompleted).count();
+	}
+
 	public Quest getQuestbyId(String id) {
 		return quests.stream().filter(quest -> quest.getId().equals(id)).findFirst().orElse(null);
 	}

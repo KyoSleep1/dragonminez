@@ -29,6 +29,11 @@ public class StorylineCommand {
 								.then(Commands.argument("id", StringArgumentType.string())
 										.suggests(this::suggestSagaIds)
 										.then(Commands.argument("completed", BoolArgumentType.bool())
+												.suggests((commandContext, suggestionsBuilder) -> {
+													suggestionsBuilder.suggest("true");
+													suggestionsBuilder.suggest("false");
+													return suggestionsBuilder.buildFuture();
+												})
 												.executes(context -> {
 													String sagaId = StringArgumentType.getString(context, "id");
 													boolean completed = BoolArgumentType.getBool(context, "completed");
@@ -42,6 +47,11 @@ public class StorylineCommand {
 								.then(Commands.argument("id", StringArgumentType.string())
 										.suggests(this::suggestQuestIds)
 										.then(Commands.argument("completed", BoolArgumentType.bool())
+												.suggests((commandContext, suggestionsBuilder) -> {
+													suggestionsBuilder.suggest("true");
+													suggestionsBuilder.suggest("false");
+													return suggestionsBuilder.buildFuture();
+												})
 												.executes(context -> {
 													String questId = StringArgumentType.getString(context, "id");
 													boolean completed = BoolArgumentType.getBool(context, "completed");
@@ -55,8 +65,13 @@ public class StorylineCommand {
 								.then(Commands.argument("quest_id", StringArgumentType.string())
 										.suggests(this::suggestQuestIds)
 										.then(Commands.argument("objective", StringArgumentType.string())
+												.suggests(this::suggestObjectivesFromQuest)
 												.then(Commands.argument("completed", BoolArgumentType.bool())
-														.suggests(this::suggestObjectivesFromQuest)
+														.suggests((commandContext, suggestionsBuilder) -> {
+															suggestionsBuilder.suggest("true");
+															suggestionsBuilder.suggest("false");
+															return suggestionsBuilder.buildFuture();
+														})
 														.executes(context -> {
 															String questId = StringArgumentType.getString(context, "quest_id");
 															String objectiveId = StringArgumentType.getString(context, "objective");
@@ -180,7 +195,7 @@ public class StorylineCommand {
 									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
 											playerStoryline.getAllSagas().values().forEach(saga ->
 													saga.getQuests().forEach(quest ->
-															quest.getObjectives().forEach(objective -> context.getSource().sendSuccess(() ->
+															quest.getAllObjectives().forEach(objective -> context.getSource().sendSuccess(() ->
 																	Component.translatable("command.dmzstoryline.objective_list", objective.getName(), objective.getDescription()), false)))));
 									return 1;
 								})
@@ -321,7 +336,7 @@ public class StorylineCommand {
 				Quest quest = saga.getAvailableQuests().stream().filter(q -> q.getId().equals(questId)).findFirst().orElse(null);
 
 				if (quest != null) { // Quest is found in available quests
-					Objective target_objective = quest.getObjectives().stream().filter(o -> o.getName().equals(objective)).findFirst().orElse(null);
+					Objective target_objective = quest.getAllObjectives().stream().filter(o -> o.getName().equals(objective)).findFirst().orElse(null);
 					if (target_objective != null) {
 						target_objective.setCompleted(completed);
 						source.sendSuccess(() -> Component.translatable("command.dmzstoryline.objective_completed", objective, questId), true);
@@ -453,7 +468,7 @@ public class StorylineCommand {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
 				if (quest != null) {
-					for (Objective objective : quest.getObjectives()) {
+					for (Objective objective : quest.getAllObjectives()) {
 						source.sendSuccess(() -> Component.translatable("command.dmzstoryline.objective_info", objective.getName(), objective.getDescription(), objective.isCompleted() ? "COMPLETED" : "INCOMPLETE"), false);
 					}
 					result.set(1);
@@ -489,7 +504,7 @@ public class StorylineCommand {
 		for (Saga saga : IDRegistry.sagaRegistry.values()) {
 			Quest quest = saga.getQuestbyId(questId);
 			if (quest != null) {
-				for (Objective objective : quest.getObjectives()) {
+				for (Objective objective : quest.getAllObjectives()) {
 					builder.suggest(objective.getName());
 				}
 			}

@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.Criterion;
+import net.minecraft.network.chat.Component;
 
 import java.util.Map;
 
@@ -16,11 +17,13 @@ public abstract class Objective {
 	private Runnable onCompletion;
 	private final String name;
 	private final String description;
+	private final Component lang;
 
-	public Objective(boolean completed, String name, String description) {
+	public Objective(boolean completed, String name, String description, Component lang) {
 		this.completed = completed;
 		this.name = name;
 		this.description = description;
+		this.lang = lang;
 	}
 
 	public boolean isCompleted() {
@@ -33,6 +36,10 @@ public abstract class Objective {
 
 	public String getDescription() {
 		return this.description;
+	}
+
+	public Component getLang() {
+		return this.lang;
 	}
 
 	public void advancementTranslator(Advancement advancement, String objective) {

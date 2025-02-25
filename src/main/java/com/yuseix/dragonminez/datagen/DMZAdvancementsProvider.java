@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.datagen;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
@@ -41,7 +42,7 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             MainItems.DBALL4_BLOCK_ITEM.get(), // Ítem de muestra
                             Component.translatable("advancements.dragonminez.root.title"), // Título
                             Component.translatable("advancements.dragonminez.root.description"), // Descripción
-                            new ResourceLocation("textures/gui/advancements/backgrounds/stone.png"), // Textura de fondo
+                            new ResourceLocation(DragonMineZ.MOD_ID, "assets/dragonminez/textures/block/rocky_stone.png"), // Textura de fondo
                             FrameType.TASK, true, true, false
                     ) // Tipo de marco, si se muestra en la esquina superior derecha, si se muestra en el chat y si se oculta en los Logros ("Logro Oculto/Secreto")
                     .addCriterion("first_spawn_in_world", // Nombre del criterio
@@ -52,7 +53,7 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
             Advancement rockybiome = Advancement.Builder.advancement()
                     .parent(root)
                     .display(
-                            Blocks.STONE,
+                            MainBlocks.ROCKY_STONE.get(),
                             Component.translatable("advancements.dragonminez.rockybiome.title"),
                             Component.translatable("advancements.dragonminez.rockybiome.description"),
                             null, FrameType.GOAL, true, true, false
@@ -151,25 +152,6 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                                     .build()
                                             ).build())
                     ).save(consumer, "dragonminez:roshihouse");
-
-            Advancement kaioplanet = Advancement.Builder.advancement()
-                    .parent(kamilookout)
-                    .display(
-                            MainItems.CAPSULA_ROJA.get(),
-                            Component.translatable("advancements.dragonminez.kaioplanet.title"),
-                            Component.translatable("advancements.dragonminez.kaioplanet.description"),
-                            null, FrameType.GOAL, true, true, false
-                    ).addCriterion("kaioplanet",
-                            PlayerTrigger.TriggerInstance.located(
-                                    EntityPredicate.Builder.entity()
-                                            .of(EntityType.PLAYER)
-                                            .located(LocationPredicate.Builder.location()
-                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
-                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
-                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
-                                                    .build()
-                                            ).build())
-                    ).save(consumer, "dragonminez:kaioplanet");
 
             Advancement timechamber = Advancement.Builder.advancement()
                     .parent(kamilookout)

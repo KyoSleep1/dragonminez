@@ -593,13 +593,13 @@ public class StructuresCapability {
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida.below().below().below().below().below().below()).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockState blockState = level.getBlockState(posicionValida.below().below().below().below().below()).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida.below().below().below().below().below().below(), structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below().below().below().below());
+                level.setBlock(posicionValida.below().below().below().below().below(), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below().below().below());
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
@@ -616,11 +616,11 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.below().below().below().below().below().below().getX() + " " + posicionValida.below().below().below().below().below().below().getY() + " " + posicionValida.below().below().below().below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.below().below().below().below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionValida.below().below().below().below().below().offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida.below().below().below().below().below().below(), blockState, 3);
-                level.setBlock(posicionValida.below().below().below().below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionValida.below().below().below().below().below(), blockState, 3);
+                level.setBlock(posicionValida.below().below().below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
                 //System.out.println("Elder Guru's House generada en " + posicionValida);
                 //System.out.println("Comando: /execute in dragonminez:namek run teleport Dev " + posicionValida.getX() + " " + posicionValida.getY() + " " + posicionValida.getZ());
 

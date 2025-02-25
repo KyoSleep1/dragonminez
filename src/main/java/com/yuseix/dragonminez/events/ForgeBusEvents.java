@@ -90,6 +90,7 @@ public class ForgeBusEvents {
 			"EsePibe01",
 			"Pokimons123",
 			"LecuTheAnimator",
+			"InmortalPx",
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
 			"SpaceCarp",
@@ -105,7 +106,7 @@ public class ForgeBusEvents {
 		String username = player.getGameProfile().getName();
 
 		if (!ALLOWED_USERNAMES.contains(username)) {
-			LOGGER.error("The user {} is not allowed to play the mod. The game session will now be terminated.", username);
+			LOGGER.error("The user {} is not allowed to play the mod's beta. The game session will now be terminated.", username);
 			throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
 		}
 		String dimension = "overworld";

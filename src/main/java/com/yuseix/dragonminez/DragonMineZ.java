@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.storyline.RegisterAdvancementCriterion;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
 import com.yuseix.dragonminez.worldgen.biome.ModOverworldRegion;
 import com.yuseix.dragonminez.worldgen.biome.ModSurfaceRules;
@@ -102,6 +103,8 @@ public class DragonMineZ {
 		modEventBus.register(new ModBusEvents());
 		//Registramos el Listener de Forge
 		MinecraftForge.EVENT_BUS.register(new ForgeBusEvents());
+		//AdvancementCriterion (Storyline)
+		new RegisterAdvancementCriterion();
 		//Registramos el Listener de Forge para la Storyline
 		MinecraftForge.EVENT_BUS.register(new StorylineEvents());
 		//Se registran los eventos de las Capabilities de las Stats
