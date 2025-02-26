@@ -513,9 +513,12 @@ public class StatsEvents {
 								} else if (player.isCrouching()) {
 									event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
 									event.setNewEyeHeight(5.5F);
+								} else if(player.isVisuallyCrawling()){
+									event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
+									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.5F);
+									event.setNewEyeHeight(6.2F);
 								}
 								break;
 							case "ssj1":
@@ -577,9 +580,12 @@ public class StatsEvents {
 								} else if (player.isCrouching()) {
 									event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
 									event.setNewEyeHeight(5.5F);
+								} else if(player.isVisuallyCrawling()){
+									event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
+									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.5F);
+									event.setNewEyeHeight(6.2F);
 								}
 								break;
 							case "super_namek":

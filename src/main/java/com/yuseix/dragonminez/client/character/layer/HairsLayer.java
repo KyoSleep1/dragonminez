@@ -244,7 +244,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             poseStack.pushPose();
 
             switch (transformation) {
-                case "oozaru","goldenoozaru","buffed","full_power","potential_unleashed":
+                case "oozaru","goldenoozaru":
                     break;
                 case "ssj1":
                     this.getParentModel().getHead().translateAndRotate(poseStack);

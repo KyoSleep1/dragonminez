@@ -102,10 +102,10 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                             pPoseStack.scale(0.96F, 0.96F, 0.96F);
                             break;
                         case "ssgrade2":
-                            pPoseStack.scale(1.07F, 1.01F, 1.01F);
+                            pPoseStack.scale(1.05F, 1.01F, 1.01F);
                             break;
                         case "ssgrade3":
-                            pPoseStack.scale(1.3F, 1.1F, 1.1F);
+                            pPoseStack.scale(1.23F, 1.15F, 1.15F);
                             break;
                         case "oozaru", "goldenoozaru":
                             pPoseStack.scale(3.9375F, 3.9375F, 3.9375F); //Tamano default de jugador
@@ -142,7 +142,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 default:
                     switch (transf){
                         case "buffed":
-                            pPoseStack.scale(1.3F, 1.1F, 1.1F);
+                            pPoseStack.scale(1.15F, 1.1F, 1.1F);
                             break;
                         default:
                             pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
