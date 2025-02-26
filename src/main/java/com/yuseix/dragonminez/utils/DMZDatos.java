@@ -32,13 +32,13 @@ public class DMZDatos implements IDMZDatos{
         double efectosTotal = majinDato * frutaDato;
 
         int DefensaArmor = player.getArmorValue(); int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
-        int armorTotal = DefensaArmor + DurezaArmor;
+        int armorTotal = (DefensaArmor + DurezaArmor) * 3;
 
         double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "DEF");
         double multTransf = obtenerStatRaza(stats.getRace(), stats.getDmzForm(), "DEF");
 
         // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 6) + ((DefensaArmor) + (DurezaArmor))
-        return (int) Math.ceil((((((double) stats.getDefense() / 5) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getDmzRelease()/10)) / 6)  + armorTotal;
+        return (int) Math.ceil((((((double) stats.getDefense() / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getDmzRelease()/10)) / 5)  + armorTotal;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "CON");
 
         // Fórmula = Math.round(20 + (1.2 * (StatCON * ConfigRaza)))
-        return (int) Math.round(20 + (1.2 * (stats.getConstitution() * multRaza)));
+        return (int) Math.round(20 + (1.2 * (stats.getConstitution() * multRaza) * 1.6));
     }
 
     @Override

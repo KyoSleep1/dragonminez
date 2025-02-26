@@ -3,6 +3,8 @@ package com.yuseix.dragonminez.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.*;
+import com.yuseix.dragonminez.network.C2S.SummonQuestC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.storyline.Objective;
@@ -109,7 +111,7 @@ public class StorylineMenu extends Screen {
 							if (!quest.isCompleted()) {
 								if (quest.isKillObjective()) {
 									startButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 185, altoTexto - 40, Component.translatable("dmz.quests.start"), wa -> {
-										//ModMessages.sendToServer(new SummonQuestC2S(quest.getId()));
+										ModMessages.sendToServer(new SummonQuestC2S(quest.getId()));
 										this.removeWidget(startButton);
 										this.minecraft.setScreen(null);
 									}));
