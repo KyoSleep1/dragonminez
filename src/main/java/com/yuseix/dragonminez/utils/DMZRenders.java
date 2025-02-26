@@ -209,10 +209,12 @@ public class DMZRenders {
                     case 1:
                         switch (transf){
                             case "ssj1","ssgrade2","ssgrade3","ssjfp","ssj2","ssj3","goldenoozaru" -> colorAuraFin = colorssj;
+                            default -> colorAuraFin = colorAura;
                         }
                     break;
                     default:
                         colorAuraFin = colorAura;
+                        System.out.println("Color de aura simple");
                         break;
                 }
             } else {

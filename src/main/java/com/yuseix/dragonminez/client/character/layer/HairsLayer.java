@@ -131,9 +131,15 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
                     poseStack.pushPose();
 
-                    colorR = (5515271 >> 16) / 255.0F;
-                    colorG = ((5515271 >> 8) & 0xff) / 255.0f;
-                    colorB = (5515271 & 0xff) / 255.0f;
+                    switch (transformation){
+                        case "ssj1","ssgrade2","ssgrade3", "ssj2","ssj3" -> hairColor = 16773525;
+                        case "ssjfp" -> hairColor = 16770889;
+                        default -> hairColor = 5515271;
+                    }
+
+                    colorR = (hairColor >> 16) / 255.0F;
+                    colorG = ((hairColor >> 8) & 0xff) / 255.0f;
+                    colorB = (hairColor & 0xff) / 255.0f;
 
                     vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
