@@ -87,8 +87,8 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 							break;
 						case "ssj":
 							break;
-						default:
-							if(dmzform.equals("base") && isTransfOn && formRelease > 1){
+						case "":
+							if(dmzform.equals("base") && isTransfOn){
 								float scaleFactor = 1.0F + 0.03F * (float) Math.sin(pAgeInTicks * 0.4F);
 								body.xScale = scaleFactor;
 								body.yScale = scaleFactor;
@@ -117,6 +117,9 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 								leftArm.zScale = 1.0f;
 							}
 							break;
+
+						default:
+							break;
 					}
 
 					if(dmzform.equals("ssgrade2")){
@@ -129,6 +132,7 @@ public class HumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T> {
 						rightArm.xScale = 1.0f;
 						leftArm.xScale = 1.0f;
 					}
+
 					break;
 				case 5:
 					if(dmzform.equals("evil")){
