@@ -8,6 +8,7 @@ import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
 import com.yuseix.dragonminez.client.character.layer.ArmorCapeLayer;
 import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
+import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
@@ -71,6 +72,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
         this.addLayer(new ArmorCapeLayer(this));
+        this.addLayer(new HairsLayer(this));
+
 
     }
 

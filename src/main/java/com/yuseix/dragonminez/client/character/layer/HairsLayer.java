@@ -96,7 +96,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             this.getParentModel().getHead().translateAndRotate(poseStack);
 
-            if(cap.isDmzAlive()){
+            if(!cap.isDmzAlive()){
                 VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HALO_TEX));
                 this.haloModel.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                 this.haloModel.renderToBuffer(poseStack,tex, packedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
