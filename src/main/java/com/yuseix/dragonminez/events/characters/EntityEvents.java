@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZColdDemonConfig;
 import com.yuseix.dragonminez.init.MainFluids;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -12,11 +13,15 @@ import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
@@ -27,10 +32,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
@@ -40,6 +48,8 @@ import java.util.WeakHashMap;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
+
+	private static int soundTimer = 200;
 
 	@SubscribeEvent
 	public static void mobDeath(LivingDeathEvent event) {
@@ -220,6 +230,17 @@ public class EntityEvents {
 			});
 		}
 
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+			if (cap.getDmzForm().equals("oozaru")) {
+				soundTimer--;
+				if (soundTimer == 0) {
+					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
+				} else if (soundTimer < 0) {
+					Random random = new Random();
+					soundTimer = random.nextInt(200) + 400;
+				}
+			}
+		});
 
 		FluidState fluidState = player.level().getFluidState(player.blockPosition());
 
@@ -279,6 +300,17 @@ public class EntityEvents {
 		if (player.isOnFire()) {
 			player.clearFire();
 		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			LocalPlayer player = Minecraft.getInstance().player;
+			if (player != null) {
+				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+			}
+		});
 	}
 }
 

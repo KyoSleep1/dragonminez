@@ -82,6 +82,7 @@ public class ForgeBusEvents {
 			"ezShokkoh",
 			"MrBrunoh",
 			"Toji71",
+			"Umino10",
 			// Testers
 			"Ducco123",
 			"Rev_zy", //Mazu

@@ -448,7 +448,7 @@ public class StorylineCommand {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
-					source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_info", quest.getId(), quest.getDescription(), status), false);
+					source.sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_info", quest.getId(), status), false);
 				}
 			}
 			result.set(1);

@@ -15,8 +15,6 @@ import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
-import com.yuseix.dragonminez.client.hud.UtilityPanelOverlay;
-import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
@@ -68,8 +66,6 @@ public class ModClientEvents {
 	@SubscribeEvent
 	public static void registerGuiOverlays(RegisterGuiOverlaysEvent e) {
 		e.registerAboveAll("playerhud", PlayerHudOverlay.HUD_PLAYER);
-		e.registerAboveAll("spaceshiphud", SaiyanSpacePodOverlay.HUD_SAIYAN);
-		e.registerAboveAll("utilitypanel", UtilityPanelOverlay.HUD_UTILITY);
 	}
 
 	@SubscribeEvent

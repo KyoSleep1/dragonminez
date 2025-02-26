@@ -117,11 +117,6 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleKaioPlanetUnlockPacket(boolean isUnlocked, Supplier<NetworkEvent.Context> ctxSupplier) {
-		SaiyanSpacePodOverlay.setKaioAvailable(isUnlocked);
-	}
-
-	@OnlyIn(Dist.CLIENT)
 	public static void handleUpdatePlanetSelectionPacket(int selectedPlanet, Supplier<NetworkEvent.Context> ctxSupplier) {
 		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
 	}

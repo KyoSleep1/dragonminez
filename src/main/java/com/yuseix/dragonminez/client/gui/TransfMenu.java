@@ -417,8 +417,8 @@ public class TransfMenu extends Screen {
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.human.buffed").append(" | x").append(String.format("%.2f", multHumanBuffed)), startX + 37, startY+46, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.human.fullpower").append(" | x").append(String.format("%.2f", multHumanFP)), startX + 37, startY+57, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.human.potunleashed").append(" | x").append(String.format("%.2f", multHumanPU)), startX + 37, startY+68, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.human.full_power").append(" | x").append(String.format("%.2f", multHumanFP)), startX + 37, startY+57, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.human.potential_unleashed").append(" | x").append(String.format("%.2f", multHumanPU)), startX + 37, startY+68, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
 								}
@@ -440,8 +440,8 @@ public class TransfMenu extends Screen {
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.namek.giant").append(" | x").append(String.format("%.2f", multNamekGiant)), startX + 37, startY+46, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.namek.fullpower").append(" | x").append(String.format("%.2f", multNamekFP)), startX + 37, startY+57, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.namek.supernamek").append(" | x").append(String.format("%.2f", multNamekSuperNamek)), startX + 37, startY+68, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.namek.full_power").append(" | x").append(String.format("%.2f", multNamekFP)), startX + 37, startY+57, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.namek.super_namek").append(" | x").append(String.format("%.2f", multNamekSuperNamek)), startX + 37, startY+68, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
 								}
@@ -461,7 +461,7 @@ public class TransfMenu extends Screen {
 								// Lista de transformaciones
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bioandroid.semiperfect").append(" | x").append(String.format("%.2f", multBioSemiPerfect)), startX + 37, startY+46, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bioandroid.semi_perfect").append(" | x").append(String.format("%.2f", multBioSemiPerfect)), startX + 37, startY+46, 0xFFFFFF);
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.bioandroid.perfect").append(" | x").append(String.format("%.2f", multBioPerfect)), startX + 37, startY+57, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
@@ -484,10 +484,10 @@ public class TransfMenu extends Screen {
 								// Lista de transformaciones
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.transflist"), startX + 93, startY+ 35, 0xffc134);
 								//Acá van las transformaciones y sus mults
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.second").append(" | x").append(String.format("%.2f", multColdSecond)), startX + 37, startY+46, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.third").append(" | x").append(String.format("%.2f", multColdThird)), startX + 37, startY+57, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.final").append(" | x").append(String.format("%.2f", multColdFourth)), startX + 37, startY+68, 0xFFFFFF);
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.fullpower").append(" | x").append(String.format("%.2f", multColdFullPower)), startX + 37, startY+79, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.second_form").append(" | x").append(String.format("%.2f", multColdSecond)), startX + 37, startY+46, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.third_form").append(" | x").append(String.format("%.2f", multColdThird)), startX + 37, startY+57, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.final_form").append(" | x").append(String.format("%.2f", multColdFourth)), startX + 37, startY+68, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.colddemon.full_power").append(" | x").append(String.format("%.2f", multColdFullPower)), startX + 37, startY+79, 0xFFFFFF);
 								if (currentLevel >= maxLevel) {
 									drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
 								}
@@ -564,7 +564,7 @@ public class TransfMenu extends Screen {
 								//Nombre de la habilidad
 								drawStringWithBorder(guiGraphics, this.font, Component.translatable("groupforms.dmz.saiyan.ssj"), startX + 93, startY, 0x20e0ff);
 								//Acá van las transformaciones y sus mults
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.saiyan.mssj").append(" | x").append(String.format("%.2f", multSaiyanMSSJ)), startX + 37, startY+46, 0xFFFFFF);
+								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.saiyan.ssjfp").append(" | x").append(String.format("%.2f", multSaiyanMSSJ)), startX + 37, startY+46, 0xFFFFFF);
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.saiyan.ssj2").append(" | x").append(String.format("%.2f", multSaiyanSSJ2)), startX + 37, startY+57, 0xFFFFFF);
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.saiyan.ssj3").append(" | x").append(String.format("%.2f", multSaiyanSSJ3)), startX + 37, startY+68, 0xFFFFFF);
 								break;

@@ -21,173 +21,73 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import java.util.Locale;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
-public class UtilityPanelOverlay implements RenderEntityInv {
+@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+public class UtilityPanelOverlay {
 	private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/utilitypanel.png");
 	private static String currentSelection = "kaioken";
 	private static int race = 0;
 
-	public static final IGuiOverlay HUD_UTILITY = (forgeGui, guiGraphics, v, i, i1) -> {
-		Player player = Minecraft.getInstance().player;
+	@SubscribeEvent
+	public static void onRenderGameOverlay(RenderGuiOverlayEvent.Pre event) {
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
+		GuiGraphics guiGraphics = event.getGuiGraphics();
+		double ogGuiScale = 2;
 
-		RenderSystem.enableBlend();
+		if (mc.isPaused() || player == null || (player.getVehicle() instanceof NaveSaiyanEntity) || (player.getVehicle() instanceof NubeNegraEntity)
+				|| (player.getVehicle() instanceof NubeEntity) || !Keys.UTILITY_PANEL.isDown() || mc.options.renderDebug || mc.options.renderDebugCharts || mc.options.renderFpsChart) {
+			mc.getWindow().setGuiScale(ogGuiScale);
+			return;
+		} else if (mc.getWindow().getWidth() <= 1200 && mc.getWindow().getHeight() <= 700) {
+			mc.getWindow().setGuiScale(2);
+		} else mc.getWindow().setGuiScale(4);
+
+		int fondoX = 62, fondoY = 73;
+
+		int centroX = mc.getWindow().getGuiScaledWidth() - fondoX + 2;
+		int centroY = mc.getWindow().getGuiScaledHeight() - fondoY - 90;
+
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.setShaderTexture(0, hud);
 
-		if (player == null || (player.getVehicle() instanceof NaveSaiyanEntity) || (player.getVehicle() instanceof NubeNegraEntity) || (player.getVehicle() instanceof NubeEntity)
-				|| !Keys.UTILITY_PANEL.isDown() || Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts
-				|| Minecraft.getInstance().options.renderFpsChart) return;
-
-		int windowWidth = Minecraft.getInstance().getWindow().getScreenWidth();
-		int windowHeight = Minecraft.getInstance().getWindow().getScreenHeight();
-		// Obtener el tamaño de la ventana
-		int screenWidth = guiGraphics.guiWidth();
-		int screenHeight = guiGraphics.guiHeight();
-
-		int xPos;
-		int yPos;
-
-		if (windowWidth <= 1600 && windowHeight <= 900) {
-			// Calcular posición centrada
-			xPos = (screenWidth / 2) - 8 + 4;
-			yPos = (screenHeight / 2) - 75;
-		} else {
-			xPos = (screenWidth / 2) + 58 + 4;
-			yPos = (screenHeight / 2) - 120;
-		}
-
-		guiGraphics.pose().pushPose();
-		guiGraphics.pose().scale(1.6f, 1.6f, 1.0f);
-
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 			if (!stats.isAcceptCharacter()) return;
 
-		guiGraphics.blit(hud,
-				xPos,
-				yPos,
-				3,
-				4,
-				62,
-				73);
+		guiGraphics.blit(hud, centroX, centroY, 3, 4, 62, 73);
 
 		switch (currentSelection) {
-			case "kaioken":
-				guiGraphics.blit(hud,
-						xPos + 5,
-						yPos + 11,
-						84,
-						15,
-						51,
-						16);
-				break;
-			case "groupforms":
-				guiGraphics.blit(hud,
-						xPos + 5,
-						yPos + 30,
-						84,
-						15,
-						51,
-						15);
-				break;
-			case "teropc":
-				guiGraphics.blit(hud,
-						xPos + 5,
-						yPos + 49,
-						84,
-						15,
-						51,
-						15);
-				break;
+			case "kaioken" -> guiGraphics.blit(hud, centroX + 5, centroY + 11, 84, 15, 51, 16);
+			case "groupforms" -> guiGraphics.blit(hud, centroX + 5, centroY + 30, 84, 15, 51, 15);
+			case "teropc" -> guiGraphics.blit(hud, centroX + 5, centroY + 49, 84, 15, 51, 15);
 		}
 
-		RenderSystem.disableBlend();
+
 		updateTextAndColors(guiGraphics, stats);
 		});
-
-		guiGraphics.pose().popPose();
-	};
+	}
 
 	public static void setCurrentSelection(String selection) {
 		currentSelection = selection;
 	}
 
-	@SubscribeEvent
-	public static void onKeyInputEvent(InputEvent.Key event) {
-		if (Keys.SELECT_UP.isDown()) {
-			switch (currentSelection.toLowerCase(Locale.ROOT)) {
-				case "kaioken":
-					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "up"));
-					break;
-				case "groupforms":
-					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "up"));
-					break;
-				case "teropc":
-					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "up"));
-					break;
-			}
-		} else if (Keys.SELECT_DOWN.isDown()) {
-			switch (currentSelection.toLowerCase(Locale.ROOT)) {
-				case "kaioken":
-					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "down"));
-					break;
-				case "groupforms":
-					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "down"));
-					break;
-				case "teropc":
-					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "down"));
-					break;
-			}
-		} else if (Keys.SELECT_LEFT.isDown()) {
-			switch (currentSelection.toLowerCase(Locale.ROOT)) {
-				case "kaioken":
-					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "left"));
-					break;
-				case "groupforms":
-					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "left"));
-					break;
-				case "teropc":
-					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "left"));
-					break;
-			}
-		} else if (Keys.SELECT_RIGHT.isDown()) {
-			switch (currentSelection.toLowerCase(Locale.ROOT)) {
-				case "kaioken":
-					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "right"));
-					break;
-				case "groupforms":
-					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "right"));
-					break;
-				case "teropc":
-					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "right"));
-					break;
-			}
-		}
-	}
-
 	public static void updateTextAndColors(GuiGraphics guiGraphics, DMZStatsAttributes stats) {
-		int windowWidth = Minecraft.getInstance().getWindow().getScreenWidth();
-		int windowHeight = Minecraft.getInstance().getWindow().getScreenHeight();
-		// Obtener el tamaño de la ventana
-		int screenWidth = guiGraphics.guiWidth();
-		int screenHeight = guiGraphics.guiHeight();
+		Minecraft mc = Minecraft.getInstance();
+		int fondoX = 62, fondoY = 73, centroX, centroY;
 
-		int xPos;
-		int yPos;
-
-		if (windowWidth <= 1600 && windowHeight <= 900) {
-			// Calcular posición centrada
-			xPos = (screenWidth / 2) + 120;
-			yPos = (screenHeight / 2) - 28;
+		if (mc.getWindow().getGuiScale() == 2) {
+			centroX = mc.getWindow().getGuiScaledWidth() + fondoX*2 + 26;
+			centroY = mc.getWindow().getGuiScaledHeight() - fondoY - 26;
 		} else {
-			xPos = (screenWidth / 2) + 58 + 4;
-			yPos = (screenHeight / 2) - 120;
+			centroX = mc.getWindow().getGuiScaledWidth() + fondoX*2 + 54;
+			centroY = mc.getWindow().getGuiScaledHeight() - fondoY - 19;
 		}
 
 		var colorTexto = 0xffffff;
@@ -244,27 +144,27 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 		switch (currentSelection.toLowerCase(Locale.ROOT)) {
 			case "kaioken":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(kaioken), xPos, yPos, colorSeleccion);
+						Component.translatable(kaioken), centroX, centroY, colorSeleccion);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(langGroup), xPos, yPos+30, colorTexto);
+						Component.translatable(langGroup), centroX, centroY+30, colorTexto);
 				if (race == 1) {
 					colorAUsar = stats.isTailMode() ? colorInactivo : colorActivo;
 					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-							Component.translatable(tercerOpcion), xPos, yPos+60, colorAUsar);
+							Component.translatable(tercerOpcion), centroX, centroY+60, colorAUsar);
 				} else {
 					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-							Component.translatable(tercerOpcion), xPos, yPos+60, colorTexto);
+							Component.translatable(tercerOpcion), centroX, centroY+60, colorTexto);
 				}
 				break;
 			case "groupforms":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(kaioken), xPos, yPos, colorInactivo);
+						Component.translatable(kaioken), centroX, centroY, colorInactivo);
 				switch (race) {
 					case 0:
 						switch (actualGroup) {
 							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.general.superform"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.general.superform"), centroX, centroY+30, colorSeleccion);
 								break;
 						}
 						break;
@@ -272,17 +172,17 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "oozarus":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.saiyan.oozarus"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.oozarus"), centroX, centroY+30, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 							case "ssgrades":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.saiyan.ssgrades"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.ssgrades"), centroX, centroY+30, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 							case "ssj":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.saiyan.ssj"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.saiyan.ssj"), centroX, centroY+30, colorSeleccion);
 								//System.out.println(actualGroup);
 								break;
 						}
@@ -290,11 +190,11 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.general.superform"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.general.superform"), centroX, centroY+30, colorSeleccion);
 								break;
 							case "orange":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.namek.shenronforms"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.namek.shenronforms"), centroX, centroY+30, colorSeleccion);
 								break;
 						}
 						break;
@@ -302,7 +202,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.bio.evolutionforms"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.bio.evolutionforms"), centroX, centroY+30, colorSeleccion);
 								break;
 						}
 						break;
@@ -310,7 +210,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.colddemon.involutionforms"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.colddemon.involutionforms"), centroX, centroY+30, colorSeleccion);
 								break;
 						}
 						break;
@@ -318,7 +218,7 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 						switch (actualGroup) {
 							case "superform":
 								drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-										Component.translatable("groupforms.dmz.majin.majinforms"), xPos, yPos+30, colorSeleccion);
+										Component.translatable("groupforms.dmz.majin.majinforms"), centroX, centroY+30, colorSeleccion);
 								break;
 						}
 						break;
@@ -326,22 +226,75 @@ public class UtilityPanelOverlay implements RenderEntityInv {
 				if (race == 1) {
 					colorAUsar = stats.isTailMode() ? colorInactivo : colorActivo;
 					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-							Component.translatable(tercerOpcion), xPos, yPos+60, colorAUsar);
+							Component.translatable(tercerOpcion), centroX, centroY+60, colorAUsar);
 				} else {
 					drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-							Component.translatable(tercerOpcion), xPos, yPos+60, colorTexto);
+							Component.translatable(tercerOpcion), centroX, centroY+60, colorTexto);
 				}
 				break;
 			case "teropc":
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(kaioken), xPos, yPos, colorInactivo);
+						Component.translatable(kaioken), centroX, centroY, colorInactivo);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(langGroup), xPos, yPos+30, colorTexto);
+						Component.translatable(langGroup), centroX, centroY+30, colorTexto);
 				drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-						Component.translatable(tercerOpcion), xPos, yPos+60, colorSeleccion);
+						Component.translatable(tercerOpcion), centroX, centroY+60, colorSeleccion);
 				break;
 		}
 		guiGraphics.pose().popPose();
+	}
+
+	@SubscribeEvent
+	public static void onKeyInputEvent(InputEvent.Key event) {
+		if (Keys.SELECT_UP.isDown()) {
+			switch (currentSelection.toLowerCase(Locale.ROOT)) {
+				case "kaioken":
+					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "up"));
+					break;
+				case "groupforms":
+					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "up"));
+					break;
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "up"));
+					break;
+			}
+		} else if (Keys.SELECT_DOWN.isDown()) {
+			switch (currentSelection.toLowerCase(Locale.ROOT)) {
+				case "kaioken":
+					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "down"));
+					break;
+				case "groupforms":
+					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "down"));
+					break;
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "down"));
+					break;
+			}
+		} else if (Keys.SELECT_LEFT.isDown()) {
+			switch (currentSelection.toLowerCase(Locale.ROOT)) {
+				case "kaioken":
+					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "left"));
+					break;
+				case "groupforms":
+					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "left"));
+					break;
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "left"));
+					break;
+			}
+		} else if (Keys.SELECT_RIGHT.isDown()) {
+			switch (currentSelection.toLowerCase(Locale.ROOT)) {
+				case "kaioken":
+					ModMessages.sendToServer(new UtilityPanelC2S("kaioken", "right"));
+					break;
+				case "groupforms":
+					ModMessages.sendToServer(new UtilityPanelC2S("groupforms", "right"));
+					break;
+				case "teropc":
+					ModMessages.sendToServer(new UtilityPanelC2S("teropc", "right"));
+					break;
+			}
+		}
 	}
 
 	public static void updateSelection(String tipo, String direccion) {

@@ -61,7 +61,6 @@ public class StatsEvents {
 	private static boolean previousKiChargeState = false;
 	private static boolean turboOn = false;
 	private static boolean transformOn = false;
-	private static int soundTimer = 200;
 
 	//Sonidos
 	private static SimpleSoundInstance kiChargeLoop, turboLoop, oozaruLoop;
@@ -99,7 +98,7 @@ public class StatsEvents {
 				}
 				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(dmzdatos.calcularCON(playerstats));
 				// Tickhandler
-				tickHandler.tickRegenConsume(playerstats, dmzdatos);
+				tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);
 
 				if (raza == 5) {
 					// Pasiva Majin
@@ -151,16 +150,6 @@ public class StatsEvents {
 
 				if (playerstats.getBabaCooldown() > 0) playerstats.setBabaCooldown(babaCooldown(playerstats.getBabaCooldown()));
 				if (playerstats.getBabaAliveTimer() > 0) playerstats.setBabaAliveTimer(babaDuration(playerstats.getBabaAliveTimer()));
-
-				if (playerstats.getDmzForm().equals("oozaru")) {
-					soundTimer--;
-					if (soundTimer == 0) {
-						reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
-					} else if (soundTimer < 0) {
-						Random random = new Random();
-						soundTimer = random.nextInt(200) + 400;
-					}
-				}
 
 			} else {
 				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
@@ -310,7 +299,9 @@ public class StatsEvents {
 									sonidosGolpes(atacante);
 								}
 								// Descontar stamina del atacante
-								cap.removeCurStam(staminaToConsume);
+								if (!atacante.isCreative() || !atacante.isSpectator()) {
+									cap.removeCurStam(staminaToConsume);
+								}
 							} else {
 								// Daño por defecto si al atacante le falta stamina
 								event.setAmount(danoDefault);
@@ -917,17 +908,6 @@ public class StatsEvents {
 		}
 
 		return null; // No hay transformación disponible
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			LocalPlayer player = Minecraft.getInstance().player;
-			if (player != null) {
-				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
-						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-			}
-		});
 	}
 
 }
