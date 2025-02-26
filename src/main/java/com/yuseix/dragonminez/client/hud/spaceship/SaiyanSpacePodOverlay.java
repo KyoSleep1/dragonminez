@@ -2,9 +2,8 @@ package com.yuseix.dragonminez.client.hud.spaceship;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,57 +11,66 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
-public class SaiyanSpacePodOverlay {
+public class SaiyanSpacePodOverlay implements RenderEntityInv {
+
     private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menuspaceship.png");
     private static int currentPlanetTarget = 0;
     private static boolean kaioAvailable = false;
 
-    @SubscribeEvent
-    public static void onRenderGameOverlay(RenderGuiOverlayEvent.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
-        GuiGraphics guiGraphics = event.getGuiGraphics();
-        double ogGuiScale = 2;
+    public static final IGuiOverlay HUD_SAIYAN = (forgeGui, guiGraphics, v, i, i1) -> {
+        Player player = Minecraft.getInstance().player;
 
-        if (player == null || mc.isPaused() || !(player.getVehicle() instanceof NaveSaiyanEntity) || mc.options.renderDebug
-                || mc.options.renderDebugCharts || mc.options.renderFpsChart) {
-            mc.getWindow().setGuiScale(ogGuiScale);
-            return;
-        } else if (mc.getWindow().getWidth() <= 1200 && mc.getWindow().getHeight() <= 700 && mc.getWindow().getGuiScale() != 2) {
-            mc.getWindow().setGuiScale(2);
-        } else if (mc.getWindow().getGuiScale() != 4) mc.getWindow().setGuiScale(4);
-
-        int textureX = 73, textureY = 136;
-
-        int centroY = (mc.getWindow().getGuiScaledHeight()/2) + textureX/3;
-
+        RenderSystem.enableBlend();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, hud);
 
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-            if (cap.isKaioPlanet()) kaioAvailable = true;
-        });
+        if (player == null || !(player.getVehicle() instanceof NaveSaiyanEntity)) return;
+
+        if (Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts || Minecraft.getInstance().options.renderFpsChart) return;
+
+
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
+
         // Menú con Kaio bloqueado, Tierra y Namek desbloqueados
-        guiGraphics.blit(hud, -1, centroY, 155, 1, textureX, textureY);
+        guiGraphics.blit(hud,
+                0,
+                60,
+                155,
+                1,
+                73,
+                136);
 
         // Si habló con Kaio, se le pone el planeta disponible. (Se dibuja KaioDisponible por encima del otro)
-        if (isKaioAvailable()) {
-            guiGraphics.blit(hud, 7, 111, 7, 52, 51, 15);
+        if (SaiyanSpacePodOverlay.isKaioAvailable()) {
+            guiGraphics.blit(hud,
+                    0,
+                    151,
+                    170,
+                    52,
+                    49,
+                    13);
+
+            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
+                    Component.translatable("ui.dmz.spacepod.kaio"), 100, 100, 0x00ff00);
         }
 
+        RenderSystem.disableBlend();
         selectTargetPlanet(guiGraphics);
-    }
+        guiGraphics.pose().popPose();
+    };
 
     public static boolean isKaioAvailable() {
         return kaioAvailable;
+    }
+
+    // Métod0 para actualizar el estado
+    public static void setKaioAvailable(boolean available) {
+        kaioAvailable = available;
     }
 
     public static void updatePlanetTarget(int selectedPlanet) {
@@ -70,56 +78,33 @@ public class SaiyanSpacePodOverlay {
     }
 
     public static void selectTargetPlanet(GuiGraphics guiGraphics) {
-        Minecraft mc = Minecraft.getInstance();
-
-        int ancho = 51, alto = 15;
-        int centroX = mc.getWindow().getGuiScaledWidth() - ancho*9 - 10;
-        int centroY = mc.getWindow().getGuiScaledHeight() - alto + 60;
-
-        int posX = 83;
+        int dibujoX = 7, posX = 83, ancho = 51, alto = 15;
         var colorTexto = 0x00ff00;
         var colorSeleccion = 0xfdbf26;
+
+
 
         // Cambia el HUD según el planeta objetivo actual
         switch (currentPlanetTarget) {
             case 0 -> {
-                guiGraphics.blit(hud, centroX, centroY, posX, 14, ancho, alto);
-                guiGraphics.pose().pushPose();
+                guiGraphics.blit(hud, dibujoX, 73, posX, 14, ancho, alto);
                 guiGraphics.pose().scale(0.8f, 0.8f, 0.8f);
                 drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.overworld"), 16, centroY+20, colorSeleccion);
+                        Component.translatable("ui.dmz.spacepod.overworld"), 16, 96, colorSeleccion);
                 drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.namek"), 16, centroY+44, colorTexto);
-                if (isKaioAvailable())
-                    drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                            Component.translatable("ui.dmz.spacepod.kaio"), 16, centroY+68, colorTexto);
-                guiGraphics.pose().popPose();
+                        Component.translatable("ui.dmz.spacepod.namek"), 16, 120, colorTexto);
             }
             case 1 -> {
-                guiGraphics.blit(hud, centroX, centroY + 19, posX, 33, ancho, alto);
-                guiGraphics.pose().pushPose();
+                guiGraphics.blit(hud, dibujoX, 92, posX, 33, ancho, alto);
                 guiGraphics.pose().scale(0.8f, 0.8f, 0.8f);
                 drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.overworld"), 16, centroY+20, colorTexto);
+                        Component.translatable("ui.dmz.spacepod.overworld"), 16, 96, colorTexto);
                 drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.namek"), 16, centroY+44, colorSeleccion);
-                if (isKaioAvailable())
-                    drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                            Component.translatable("ui.dmz.spacepod.kaio"), 16, centroY+68, colorTexto);
-                guiGraphics.pose().popPose();
+                        Component.translatable("ui.dmz.spacepod.namek"), 16, 120, colorSeleccion);
             }
             case 2 -> {
                 if (isKaioAvailable()) {
-                    guiGraphics.blit(hud, centroX, centroY + 28, posX, 52, ancho, alto);
-                    guiGraphics.pose().pushPose();
-                    guiGraphics.pose().scale(0.8f, 0.8f, 0.8f);
-                    drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                            Component.translatable("ui.dmz.spacepod.overworld"), 16, centroY+20, colorTexto);
-                    drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                            Component.translatable("ui.dmz.spacepod.namek"), 16, centroY+44, colorTexto);
-                    drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                            Component.translatable("ui.dmz.spacepod.kaio"), 16, centroY+68, colorSeleccion);
-                    guiGraphics.pose().popPose();
+                    guiGraphics.blit(hud, dibujoX, 110, posX, 52, ancho, alto);
                 } else {
                     currentPlanetTarget = 1;
                 }

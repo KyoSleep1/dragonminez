@@ -12,18 +12,22 @@ public class MenuS2C {
 
 	private final boolean openCharacterMenu;
 	private boolean openCompactMenu;
+	private String tipo;
 
-	public MenuS2C(boolean isConfirmCharacter, boolean isCompactMenu) {
+	public MenuS2C(String tipo, boolean isConfirmCharacter, boolean isCompactMenu) {
+		this.tipo = tipo;
 		this.openCharacterMenu = isConfirmCharacter;
 		this.openCompactMenu = isCompactMenu;
 	}
 
 	public MenuS2C(FriendlyByteBuf buf) {
+		this.tipo = buf.readUtf();
 		this.openCharacterMenu = buf.readBoolean();
 		this.openCompactMenu = buf.readBoolean();
 	}
 
 	public void toBytes(FriendlyByteBuf buf) {
+		buf.writeUtf(tipo);
 		buf.writeBoolean(openCharacterMenu);
 		buf.writeBoolean(openCompactMenu);
 	}
@@ -31,7 +35,7 @@ public class MenuS2C {
 	public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
 		ctxSupplier.get().enqueueWork(() -> {
 			DistExecutor.unsafeRunWhenOn(
-					Dist.CLIENT, () -> () -> ClientPacketHandler.handleMenuPacket(openCharacterMenu, openCompactMenu, ctxSupplier)
+					Dist.CLIENT, () -> () -> ClientPacketHandler.handleMenuPacket(tipo, openCharacterMenu, openCompactMenu, ctxSupplier)
 			);
 		});
 		ctxSupplier.get().setPacketHandled(true);

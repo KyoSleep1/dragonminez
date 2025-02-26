@@ -55,7 +55,7 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
-        return (int) Math.round((stats.getMaxHealth() * 0.85) * multRaza);
+        return (int) Math.round((stats.getMaxHealth() * 0.65) * multRaza);
     }
 
     @Override
@@ -68,8 +68,8 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "PWR");
         double multTransf = obtenerStatRaza(stats.getRace(), stats.getDmzForm(), "PWR");
 
-        // Fórmula = Math.ceil((StatPWR * ConfigRaza * (Transf * Efectos)) * (Porcentaje / 10))
-        return (int) Math.ceil((stats.getKiPower() * multRaza * (multTransf * efectosTotal)) * ((double)stats.getDmzRelease()/10));
+        // Fórmula = Math.ceil(((StatPWR * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
+        return (int) Math.ceil(((stats.getKiPower() * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getDmzRelease()/10));
     }
 
     @Override
