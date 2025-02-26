@@ -185,7 +185,7 @@ public class VegetaEntity extends SagaEntity {
         //Color de borde
         kiBlast.setColorBorde(11748327);
 
-        kiBlast.setVelocidad(0.5f);
+        kiBlast.setVelocidad(0.9f);
 
         kiBlast.setDamage(100.0F);
 
