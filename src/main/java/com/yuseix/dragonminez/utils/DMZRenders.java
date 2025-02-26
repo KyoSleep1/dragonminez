@@ -214,7 +214,6 @@ public class DMZRenders {
                     break;
                     default:
                         colorAuraFin = colorAura;
-                        System.out.println("Color de aura simple");
                         break;
                 }
             } else {
