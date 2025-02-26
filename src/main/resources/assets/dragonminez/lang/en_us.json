@@ -201,6 +201,7 @@
   "dmz.storyline.objective.collect_item": "Collect %1$s.",
   "dmz.storyline.objective.get_to_location": "Go to %1$s.",
   "dmz.storyline.objective.get_to_biome": "Go to a %1$s biome.",
+  "dmz.storyline.summoned": "[%1$s] > Summoned %2$s",
   "dmz.quests.saga": "Saga:",
   "dmz.quests.quest": "Quest:",
   "dmz.quests.status": "Status:",

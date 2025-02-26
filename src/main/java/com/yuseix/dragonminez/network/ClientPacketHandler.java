@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.network;
 
+import com.eliotlash.mclib.math.functions.limit.Min;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.AttributesMenu2;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
@@ -82,15 +83,20 @@ public class ClientPacketHandler {
 		}
 	}
 	@OnlyIn(Dist.CLIENT)
-	public static void handleMenuPacket(boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
-		if (openCharacterMenu) {
-			if (compactMenu) {
-				Minecraft.getInstance().setScreen(new AttributesMenu2());
+	public static void handleMenuPacket(String tipo, boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
+		if (tipo.equals("stats")) {
+			if (openCharacterMenu) {
+				if (compactMenu) {
+					Minecraft.getInstance().setScreen(new AttributesMenu2());
+				} else {
+					Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+				}
 			} else {
-				Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+				Minecraft.getInstance().setScreen(new CFirstPage());
 			}
-		} else {
-			Minecraft.getInstance().setScreen(new CFirstPage());
+		}
+		if (tipo.equals("utility")) {
+			Minecraft.getInstance().setScreen(new UtilityPanelOverlay());
 		}
 	}
 
@@ -119,11 +125,6 @@ public class ClientPacketHandler {
 	@OnlyIn(Dist.CLIENT)
 	public static void handleUpdatePlanetSelectionPacket(int selectedPlanet, Supplier<NetworkEvent.Context> ctxSupplier) {
 		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void handleUpdateUtilityPanelPacket(String tipo, String direccion, Supplier<NetworkEvent.Context> ctxSupplier) {
-		UtilityPanelOverlay.updateSelection(tipo, direccion);
 	}
 
 	@OnlyIn(Dist.CLIENT)

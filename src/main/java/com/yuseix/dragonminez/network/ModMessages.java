@@ -83,8 +83,8 @@ public class ModMessages {
 				.consumerMainThread(PlanetSelectionC2S::handle)
 				.add();
 		net.messageBuilder(UtilityPanelC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
-				.decoder(UtilityPanelC2S::decode)
-				.encoder(UtilityPanelC2S::encode)
+				.decoder(UtilityPanelC2S::new)
+				.encoder(UtilityPanelC2S::toBytes)
 				.consumerMainThread(UtilityPanelC2S::handle)
 				.add();
 		net.messageBuilder(PermaEffC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
@@ -137,6 +137,11 @@ public class ModMessages {
 				.encoder(OtroMundoC2S::toBytes)
 				.consumerMainThread(OtroMundoC2S::handle)
 				.add();
+		net.messageBuilder(SummonQuestC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+				.decoder(SummonQuestC2S::new)
+				.encoder(SummonQuestC2S::encode)
+				.consumerMainThread(SummonQuestC2S::handle)
+				.add();
 
 		//ENVIAR DATOS AL CLIENTE
 		net.messageBuilder(ZPointsS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
@@ -178,11 +183,6 @@ public class ModMessages {
 				.encoder(UpdatePlanetSelectionS2C::encode)
 				.decoder(UpdatePlanetSelectionS2C::decode)
 				.consumerMainThread(UpdatePlanetSelectionS2C::handle)
-				.add();
-		net.messageBuilder(UpdateUtilityPanelS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(UpdateUtilityPanelS2C::encode)
-				.decoder(UpdateUtilityPanelS2C::decode)
-				.consumerMainThread(UpdateUtilityPanelS2C::handle)
 				.add();
 		net.messageBuilder(UpdateDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(UpdateDragonRadarS2C::encode)
