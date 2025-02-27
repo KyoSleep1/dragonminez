@@ -10,7 +10,6 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.UranaiEntity;
 import com.yuseix.dragonminez.network.C2S.OtroMundoC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -26,6 +25,7 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BabaMenu extends Screen {
 
@@ -87,40 +87,41 @@ public class BabaMenu extends Screen {
 		//NOMBRE DE LA ENTIDAD
 		guiGraphics.drawString(font, Component.literal(babaEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
 
-		final int[] remainingMinutes = {0};
-		final int[] remainingSeconds = {0};
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(cap -> {
-			int remainingTicks = cap.getSaiyanZenkaiTimer();
-			remainingMinutes[0] = (remainingTicks / 1200); // 1200 ticks = 1 minuto
-			remainingSeconds[0] = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+			int remainingTicks = cap.getBabaCooldown();
+			int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
+			int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+
+			// Formatear el texto para mostrar el tiempo restante
+			String formattedTime = String.format("%dmin %ds", remainingMinutes, remainingSeconds);
+
+			//TEXTO QUE DIRA LA ENTIDAD
+			if (PageOption.equals("")) {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.menu"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			} else if (PageOption.equals("talk")) {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.talk"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			} else if (PageOption.equals("revive")) {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.revive"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			} else if (PageOption.equals("norevive")) {
+				// Ahora pasamos el tiempo formateado en lugar de los arrays
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.norevive", formattedTime), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			}
 		});
 
-		// Formatear el texto para mostrar el tiempo restante
-		String formattedTime = String.format("%dmin %ds", remainingMinutes[0], remainingSeconds[0]);
 
-		//TEXTO QUE DIRA LA ENTIDAD
-		if (PageOption.equals("")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.menu"), 250);
-			for (int i = 0; i < lines.size(); i++) {
-				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
-			}
-		} else if (PageOption.equals("talk")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.talk"), 250);
-			for (int i = 0; i < lines.size(); i++) {
-				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
-			}
-		} else if (PageOption.equals("revive")) {
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.revive"), 250);
-			for (int i = 0; i < lines.size(); i++) {
-				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
-			}
-		} else if (PageOption.equals("norevive")) {
-			// Ahora pasamos el tiempo formateado en lugar de los arrays
-			List<FormattedCharSequence> lines = font.split(Component.translatable("lines.baba.norevive", formattedTime), 250);
-			for (int i = 0; i < lines.size(); i++) {
-				guiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
-			}
-		}
+
 
 		//Botones
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
@@ -150,7 +151,7 @@ public class BabaMenu extends Screen {
 		this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
 				Component.translatable("lines.baba.option.revive"), (button) -> {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
-				if (playerstats.getBabaAliveTimer() <= 0 && playerstats.getBabaCooldown() <= 0 && !playerstats.isDmzAlive()) {
+				if (playerstats.getBabaCooldown() <= 0 && !playerstats.isDmzAlive()) {
 					PageOption = "revive";
 				} else PageOption = "norevive";
 			});

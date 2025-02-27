@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.storyline;
 
 import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
+import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
 import com.yuseix.dragonminez.utils.DebugUtils;
 
@@ -65,6 +66,14 @@ public class Quest {
 
 	public boolean isKillObjective() {
 		return objectives.stream().anyMatch(objective -> objective instanceof ObjectiveKillEnemy);
+	}
+
+	public boolean isBiomeObjective() {
+		return objectives.stream().anyMatch(objective -> objective instanceof ObjectiveGetToBiome);
+	}
+
+	public boolean isBiomeLocated() {
+		return objectives.stream().anyMatch(objective -> objective instanceof ObjectiveGetToBiome && objective.isCompleted());
 	}
 
 	public List<String> getPrerequisites() {

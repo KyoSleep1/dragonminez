@@ -119,7 +119,7 @@ public class DMZSuperFormCommand {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				int maxLevel = switch (playerstats.getRace()) {
 					case 0 -> 3;
-					case 1 -> 7;
+					case 1 -> 4;
 					case 2 -> 4;
 					case 3 -> 4;
 					case 4 -> 6;

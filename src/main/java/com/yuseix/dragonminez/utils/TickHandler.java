@@ -26,62 +26,57 @@ public class TickHandler {
 		// Regeneración de stamina cada 1 segundo
 		staminaRegenCounter++;
 		if (staminaRegenCounter >= 20) {
-			if (!player.isCreative() && !player.isSpectator()) {
-				int maxStamina = dmzDatos.calcularSTM(playerStats);
-				int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
-				if (playerStats.getCurStam() < maxStamina) {
-					if (meditation != null) {
-						// Si tiene meditación, aumenta o reduce según el nivel de meditación (+10% por nivel)
-						int medLevel = meditation.getLevel();
-						regenStamina += (int) Math.ceil(regenStamina * 0.1 * medLevel);
-					}
-					playerStats.addCurStam(regenStamina);
-					staminaRegenCounter = 0;
+			int maxStamina = dmzDatos.calcularSTM(playerStats);
+			int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
+			if (playerStats.getCurStam() < maxStamina) {
+				if (meditation != null) {
+					// Si tiene meditación, aumenta o reduce según el nivel de meditación (+5% por nivel)
+					int medLevel = meditation.getLevel();
+					regenStamina += (int) Math.ceil(regenStamina * 0.05 * medLevel);
 				}
+				playerStats.addCurStam(regenStamina);
+				staminaRegenCounter = 0;
 			}
 		}
 
 		// Regeneración de energía cada 1 segundo (con turbo activo o no)
 		energyRegenCounter++;
 		if (energyRegenCounter >= 20) {
-			if (!player.isCreative() && !player.isSpectator()) {
+			int maxEnergy = dmzDatos.calcularENE(playerStats);
 
-				int maxEnergy = dmzDatos.calcularENE(playerStats);
-
-				if (playerStats.isTurboOn()) {
-					// Si el turbo está activo, consumo de energía
-					int consumeEnergy = dmzDatos.calcularKiRegen(playerStats) * 2;
-					if (consumeEnergy < 2) consumeEnergy = 2;
-					if (meditation != null) {
-						// Reduce 5% del consumo por nivel de meditación
-						int medLevel = meditation.getLevel();
-						consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
-					}
-					playerStats.removeCurEnergy(consumeEnergy);
-				} else if (!playerStats.isTurboOn() && playerStats.getCurrentEnergy() < maxEnergy) {
-					if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
-						// No hacer nada
-					} else {
-						// Si el turbo no está activo, regeneración de energía
-						int regenEnergy = dmzDatos.calcularKiRegen(playerStats) / 2;
-						if (regenEnergy < 1) regenEnergy = 1;
-
-						if (meditation != null) {
-							// Aumenta 10% de la regeneración por nivel de meditación
-							int medLevel = meditation.getLevel();
-							regenEnergy += (int) Math.ceil(regenEnergy * 0.1 * medLevel);
-						}
-						if (raza == 2) {
-							float passiveNamek = (float) DMZNamekConfig.PASSIVE_REGEN.get() / 100;
-							// Aumenta 40% (default) de la regeneración por ser Namek
-							regenEnergy += (int) Math.ceil(regenEnergy * passiveNamek);
-						}
-
-						playerStats.addCurEnergy(regenEnergy);
-					}
+			if (playerStats.isTurboOn()) {
+				// Si el turbo está activo, consumo de energía
+				int consumeEnergy = dmzDatos.calcularKiRegen(playerStats) * 2;
+				if (consumeEnergy < 2) consumeEnergy = 2;
+				if (meditation != null) {
+					// Reduce 5% del consumo por nivel de meditación
+					int medLevel = meditation.getLevel();
+					consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
 				}
-				energyRegenCounter = 0;
+				playerStats.removeCurEnergy(consumeEnergy);
+			} else if (!playerStats.isTurboOn() && playerStats.getCurrentEnergy() < maxEnergy) {
+				if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
+					// No hacer nada
+				} else {
+					// Si el turbo no está activo, regeneración de energía
+					int regenEnergy = dmzDatos.calcularKiRegen(playerStats) / 2;
+					if (regenEnergy < 1) regenEnergy = 1;
+
+					if (meditation != null) {
+						// Aumenta 10% de la regeneración por nivel de meditación
+						int medLevel = meditation.getLevel();
+						regenEnergy += (int) Math.ceil(regenEnergy * 0.1 * medLevel);
+					}
+					if (raza == 2) {
+						float passiveNamek = (float) DMZNamekConfig.PASSIVE_REGEN.get() / 100;
+						// Aumenta 40% (default) de la regeneración por ser Namek
+						regenEnergy += (int) Math.ceil(regenEnergy * passiveNamek);
+					}
+
+					playerStats.addCurEnergy(regenEnergy);
+				}
 			}
+			energyRegenCounter = 0;
 		}
 
 		// Consumo de energía cada 1 segundo

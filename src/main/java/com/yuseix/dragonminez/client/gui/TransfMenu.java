@@ -146,7 +146,7 @@ public class TransfMenu extends Screen {
 								case 1:
 									if (groupId.equals("oozarus") || groupId.equals("ssgrades") || groupId.equals("ssj")) {
 										int currentLevel = form.getLevel();
-										int maxLevel = 8;
+										int maxLevel = 4;
 
 										Map<Integer, Integer> levelCosts = Map.of(
 												1, (int) (formsCost * mult),

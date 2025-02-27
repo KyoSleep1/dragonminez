@@ -25,6 +25,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -44,6 +45,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
@@ -53,10 +55,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
@@ -306,12 +305,16 @@ public class ForgeBusEvents {
 
 					// Si es un mundo normal, extraplano, o solo de Plains, generamos la casa de Goku
 					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
-						cap.generateGokuHouseStructure(serverLevel);
+						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
+							cap.generateGokuHouseStructure(serverLevel);
+						}));
 					}
 
 					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
 					if (!isSuperflat && !isSingleBiome) {
-						cap.generateRoshiHouseStructure(serverLevel);
+						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
+							cap.generateRoshiHouseStructure(serverLevel);
+						}));
 					}
 				});
 
@@ -324,7 +327,9 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
-					cap.generateElderGuru(serverLevel);
+					serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
+						cap.generateElderGuru(serverLevel);
+					}));
 				});
 
 				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
@@ -345,7 +350,7 @@ public class ForgeBusEvents {
 		ServerLevel level = player.serverLevel();
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-				playerstats.setDmzAlive(false);
+				if (playerstats.isAcceptCharacter()) playerstats.setDmzAlive(false);
 			});
 		}
 	}
@@ -355,9 +360,13 @@ public class ForgeBusEvents {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
 
-			BlockPos spawnPos = new BlockPos(121, 46, -17); // Ajusta la posición de spawn
-			player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
-			player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				if (cap.isAcceptCharacter()) {
+					BlockPos spawnPos = new BlockPos(0, 41, -101); // Ajusta la posición de spawn
+					player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
+					player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+				}
+			});
 		}
 	}
 

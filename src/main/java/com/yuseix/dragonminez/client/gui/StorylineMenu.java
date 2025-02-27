@@ -109,7 +109,7 @@ public class StorylineMenu extends Screen {
 						if (infoMenu) {
 							Quest quest = saiyanSaga.getQuestbyId(questId);
 							if (!quest.isCompleted()) {
-								if (quest.isKillObjective()) {
+								if (quest.isKillObjective() && quest.isBiomeObjective() && quest.isBiomeLocated() || quest.isKillObjective() && !quest.isBiomeObjective()) {
 									startButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 185, altoTexto - 40, Component.translatable("dmz.quests.start"), wa -> {
 										ModMessages.sendToServer(new SummonQuestC2S(quest.getId()));
 										this.removeWidget(startButton);

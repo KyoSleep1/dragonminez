@@ -52,12 +52,12 @@ public class SummonQuestC2S {
 						SaibamanEntity jinkouman = new SaibamanEntity(MainEntity.JINKOUMAN.get(), world);
 						SaibamanEntity tennenman = new SaibamanEntity(MainEntity.TENNENMAN.get(), world);
 
-						saibaman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						kaiwareman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						kyukonman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						copyman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						jinkouman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						tennenman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+						saibaman.moveTo(spawnPos.getX()+1, spawnPos.getY(), spawnPos.getZ()+1, 0, 0);
+						kaiwareman.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ()+2, 0, 0);
+						kyukonman.moveTo(spawnPos.getX()+3, spawnPos.getY(), spawnPos.getZ()-1, 0, 0);
+						copyman.moveTo(spawnPos.getX()-4, spawnPos.getY(), spawnPos.getZ()+4, 0, 0);
+						jinkouman.moveTo(spawnPos.getX()+4, spawnPos.getY(), spawnPos.getZ()+4, 0, 0);
+						tennenman.moveTo(spawnPos.getX()+4, spawnPos.getY(), spawnPos.getZ()-2, 0, 0);
 
 						world.addFreshEntity(saibaman);
 						world.addFreshEntity(kaiwareman);

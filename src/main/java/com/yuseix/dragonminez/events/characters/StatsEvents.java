@@ -137,7 +137,7 @@ public class StatsEvents {
 						}
 					}
 				}
-				if (playerstats.getBabaCooldown() > 10) playerstats.setBabaCooldown(10);
+
 				if (!playerstats.isDmzAlive() && playerstats.getBabaAliveTimer() <= 0) {
 					if (serverPlayer.level().dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 						ServerLevel serverLevel = serverPlayer.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
@@ -146,6 +146,10 @@ public class StatsEvents {
 							serverPlayer.displayClientMessage(Component.translatable("dmz.otherworld.cannot_leave"), true);
 						}
 					}
+				}
+
+				if (playerstats.getDmzForm().equals("oozaru") || playerstats.getDmzForm().equals("giant")) {
+
 				}
 
 				if (playerstats.getBabaCooldown() > 0) playerstats.setBabaCooldown(babaCooldown(playerstats.getBabaCooldown()));
@@ -229,6 +233,7 @@ public class StatsEvents {
 					var ki_manipulation = cap.hasSkill("ki_manipulation");
 					var meditation = cap.hasSkill("meditation");
 					var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
+					int kiManipLevel = cap.getSkillLevel("ki_manipulation");
 					int maxKi = cap.getMaxEnergy();
 					int currKi = cap.getCurrentEnergy();
 					int staminaCost = maxDamage / 10;
@@ -264,31 +269,31 @@ public class StatsEvents {
 								// Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
 								if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
 									if (cap.getKiWeaponId().equals("scythe")) {
-										float danoFinal = adjustedDamage + ((float) danoKiWeapon / 4);
+										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 4)) / 10) * (0.1 * kiManipLevel));
 										int kiCost = (int) (maxKi * 0.10);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											cap.removeCurEnergy(kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeCurEnergy(kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else if (cap.getKiWeaponId().equals("trident")) {
-										float danoFinal = adjustedDamage + ((float) danoKiWeapon / 2);
+										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 2)) / 10) * (0.1 * kiManipLevel));
 										int kiCost = (int) (maxKi * 0.16);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											cap.removeCurEnergy(kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeCurEnergy(kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else {
-										float danoFinal = adjustedDamage + ((float) danoKiWeapon / 8);
+										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 8)) / 10) * (0.1 * kiManipLevel));
 										int kiCost = (int) (maxKi * 0.05);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											cap.removeCurEnergy(kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeCurEnergy(kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
