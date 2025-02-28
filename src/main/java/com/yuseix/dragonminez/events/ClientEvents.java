@@ -83,10 +83,105 @@ public class ClientEvents {
 
 				var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
 				if (renderer instanceof DmzRenderer dmzRenderer) {
-					poseStack.pushPose();
-					poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
-					dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880); // packedLight no deberia ser un valor estático, no aplica iluminación 'dinámica'
-					poseStack.popPose();
+					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+						var raza = cap.getRace();
+						var transf = cap.getDmzForm();
+
+
+						poseStack.pushPose();
+						switch (raza){
+							case 1:
+								switch (transf){
+									case "ssgrade2":
+										poseStack.translate((interpX - camX) + 0.05, (interpY - camY) + 0.05, interpZ - camZ);
+										break;
+									case "ssgrade3":
+										poseStack.translate((interpX - camX) + 0.2, (interpY - camY) + 0.15, interpZ - camZ);
+										break;
+									case "oozaru", "goldenoozaru":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
+										poseStack.scale(4.0f,4.0f,4.0f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										break;
+								}
+								break;
+							case 2:
+								switch (transf){
+									case "giant","orange_giant":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
+										poseStack.scale(4.0f,4.0f,4.0f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							case 3:
+								switch (transf){
+									case "semi_perfect":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.1f, 1.1f, 1.1f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+									break;
+								}
+								break;
+							case 4:
+								switch (transf){
+									case "second_form":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.5f, 1.5f, 1.5f);
+										break;
+									case "third_form":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.3f, 1.3f, 1.3f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							case 5:
+								switch (transf){
+									case "evil":
+										poseStack.translate((interpX - camX) + 0.05f, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+									case "kid":
+										poseStack.translate((interpX - camX) + 0.05f, (interpY - camY) + 0.05f, interpZ - camZ);
+										poseStack.scale(0.8f, 0.8f, 0.8f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							default:
+								switch (transf){
+									case "buffed":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.15, interpZ - camZ);
+										poseStack.scale(1.0f,1.0f,1.0f);
+										break;
+
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f,1.0f,1.0f);
+										break;
+								}
+								break;
+						}
+						dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880);
+						poseStack.popPose();
+
+					});
+
 				}
 
 

@@ -263,7 +263,38 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
             var kiweapon_id = cap.getKiWeaponId();
 
-            var auraColor = cap.getAuraColor();
+            var raza = cap.getRace();
+            var transf = cap.getDmzForm();
+            var auraColor = 0;
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getAuraColor();
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getAuraColor();
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = cap.getAuraColor();
+                        default -> auraColor = 16773525;
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getAuraColor();
+                    break;
+                case 5:
+                    auraColor = cap.getAuraColor();
+                    break;
+                default:
+                    auraColor = cap.getAuraColor();
+                    break;
+            }
+
             var colorR = (auraColor >> 16) / 255.0F;
             var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
             var colorB = (auraColor & 0xff) / 255.0f;
@@ -285,7 +316,6 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                         kiTridentModel.translateToHand(player.getMainArm(), poseStack);
                         getModel().rightArm.translateAndRotate(poseStack);
 
-                        // Renderizar el modelo personalizado
                         kiTridentModel.trident.x = 5.5f;
                         kiTridentModel.trident.y = -1f;
                         VertexConsumer vertexTrident = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.TRIDENT_TEX));

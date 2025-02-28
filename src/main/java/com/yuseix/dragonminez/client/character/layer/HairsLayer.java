@@ -118,8 +118,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                 case 1: //Saiyan
 
                     switch (transformation){
-                        case "ssj1","ssgrade2","ssgrade3", "ssj2","ssj3" -> hairColor = 16773525;
-                        case "ssjfp" -> hairColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        case "ssj1","ssgrade2","ssgrade3" -> hairColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> hairColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
                         default -> hairColor = cap.getHairColor();
                     }
 
@@ -132,8 +132,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     poseStack.pushPose();
 
                     switch (transformation){
-                        case "ssj1","ssgrade2","ssgrade3", "ssj2","ssj3" -> hairColor = 16773525;
-                        case "ssjfp" -> hairColor = 16770889;
+                        case "ssj1","ssgrade2","ssgrade3" -> hairColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> hairColor = 16770889;
                         default -> hairColor = 5515271;
                     }
 
@@ -246,7 +246,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             switch (transformation) {
                 case "oozaru","goldenoozaru":
                     break;
-                case "ssj1":
+                case "ssj1","ssgrade2","ssgrade3","ssjfp":
                     this.getParentModel().getHead().translateAndRotate(poseStack);
 
                     if(hairId == 1){
