@@ -559,7 +559,7 @@ public class StructuresCapability {
                 BlockPos posiblePos = new BlockPos(x, y, z);
                 Holder<Biome> biome = level.getBiome(posiblePos);
 
-                if (y <= 67) {
+                if (y >= 63 && y <= 67) {
                     if (oceanBiomes.stream().anyMatch(biome::is)) {
                         BlockState belowBlockState = level.getBlockState(posiblePos.below());
                         BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());

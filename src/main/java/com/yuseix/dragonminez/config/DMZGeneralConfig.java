@@ -25,6 +25,14 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
 
+    public static final ForgeConfigSpec.ConfigValue<Boolean> OTHERWORLD_ENABLED;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_DBALL_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_DBALL_DRAGON_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_KAMILOOKOUT_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_GOKUHOUSE_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_KAMEHOUSE_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_ELDERGURU_SPAWN;
+
     public static final ForgeConfigSpec.ConfigValue<Integer> DBALL_SPAWN_RANGE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_SHENRON_WISH;
     public static final ForgeConfigSpec.ConfigValue<Integer> CAPSULE_SHENRON_WISH;
@@ -106,6 +114,29 @@ public class DMZGeneralConfig {
                 .defineInRange("Baba Duration: ", 10, 1, 60);
 
         BUILDER.pop();
+
+        BUILDER.push("World Generations Configs");
+
+        OTHERWORLD_ENABLED = BUILDER.comment("Should Otherworld Dimension be Enabled? (Default: true)")
+                .define("Otherworld Enabled: ", true);
+
+        SHOULD_DBALL_SPAWN = BUILDER.comment("Should Dragon Balls Spawn in the World when it is first generated? (Default: true)")
+                .define("First Spawn: ", true);
+
+        SHOULD_DBALL_DRAGON_SPAWN = BUILDER.comment("Should Dragon Balls Spread in the World when Shenron/Porunga despawns? (Default: true)")
+                .define("Spread on Despawn: ", true);
+
+        SHOULD_KAMILOOKOUT_SPAWN = BUILDER.comment("Should Kami's Lookout Spawn in the World when it is first generated? (Default: true)")
+                .define("Kami Lookout Spawn: ", true);
+
+        SHOULD_GOKUHOUSE_SPAWN = BUILDER.comment("Should Goku's House Spawn in the World when it is first generated? (Default: true)")
+                .define("Goku House Spawn: ", true);
+
+        SHOULD_KAMEHOUSE_SPAWN = BUILDER.comment("Should Kame House Spawn in the World when it is first generated? (Default: true)")
+                .define("Kame House Spawn: ", true);
+
+        SHOULD_ELDERGURU_SPAWN = BUILDER.comment("Should Elder Guru's House Spawn in the World when it is first generated? (Default: true)")
+                .define("Elder Guru Spawn: ", true);
 
         BUILDER.push("Shenron / Porunga Wishes");
 

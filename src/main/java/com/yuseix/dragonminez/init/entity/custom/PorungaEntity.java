@@ -176,6 +176,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
 
 	private void onDespawn() {
+		if (!DMZGeneralConfig.SHOULD_DBALL_DRAGON_SPAWN.get()) return;
 		if (this.level() instanceof ServerLevel serverWorld) {
 			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
 				namekDragonBallsCapability.loadFromSavedData(serverWorld);

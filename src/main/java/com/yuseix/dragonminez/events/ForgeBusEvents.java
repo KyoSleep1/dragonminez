@@ -91,6 +91,9 @@ public class ForgeBusEvents {
 			"Pokimons123",
 			"LecuTheAnimator",
 			"InmortalPx",
+			"iLalox",
+			"jean_sama",
+			"ItsLolbeach",
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
 			"SpaceCarp",
@@ -124,6 +127,7 @@ public class ForgeBusEvents {
 			if (stats.isTurboOn()) stats.setTurboOn(false);
 			if (stats.isAuraOn()) stats.setAuraOn(false);
 			if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+			if (stats.isShenronRevive()) stats.setShenronRevive(false);
 			if (stats.isDescendKeyOn()) stats.setDescendKey(false);
 		});
 	}
@@ -139,6 +143,7 @@ public class ForgeBusEvents {
 				if (stats.isTurboOn()) stats.setTurboOn(false);
 				if (stats.isAuraOn()) stats.setAuraOn(false);
 				if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+				if (stats.isShenronRevive()) stats.setShenronRevive(false);
 				if (stats.isDescendKeyOn()) stats.setDescendKey(false);
 			});
 		}
@@ -176,6 +181,7 @@ public class ForgeBusEvents {
 	public void onServerStarting(ServerStartingEvent event) {
 		ServerLevel serverOverworld = event.getServer().getLevel(Level.OVERWORLD);
 		ServerLevel serverNamek = event.getServer().getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
+		if (!DMZGeneralConfig.SHOULD_DBALL_SPAWN.get()) return;
 
 		if (serverOverworld == null) return;
 		if (!serverOverworld.isClientSide()) {
@@ -301,19 +307,19 @@ public class ForgeBusEvents {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
 					// SIEMPRE generamos la Torre de Kami, independientemente del tipo de mundo
-					cap.generateKamisamaStructure(serverLevel);
+					if (DMZGeneralConfig.SHOULD_KAMILOOKOUT_SPAWN.get()) cap.generateKamisamaStructure(serverLevel);
 
 					// Si es un mundo normal, extraplano, o solo de Plains, generamos la casa de Goku
 					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
 						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							cap.generateGokuHouseStructure(serverLevel);
+							if (DMZGeneralConfig.SHOULD_GOKUHOUSE_SPAWN.get()) cap.generateGokuHouseStructure(serverLevel);
 						}));
 					}
 
 					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
 					if (!isSuperflat && !isSingleBiome) {
 						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							cap.generateRoshiHouseStructure(serverLevel);
+							if (DMZGeneralConfig.SHOULD_KAMEHOUSE_SPAWN.get()) cap.generateRoshiHouseStructure(serverLevel);
 						}));
 					}
 				});
@@ -322,13 +328,15 @@ public class ForgeBusEvents {
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
-				capability.ifPresent(cap -> cap.generateHabTiempoStructure(serverLevel));
+				capability.ifPresent(cap -> {
+					//cap.generateHabTiempoStructure(serverLevel);
+				});
 			}
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
 					serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-						cap.generateElderGuru(serverLevel);
+						if (DMZGeneralConfig.SHOULD_ELDERGURU_SPAWN.get()) cap.generateElderGuru(serverLevel);
 					}));
 				});
 
@@ -337,7 +345,7 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
-					cap.generatePalacioEnma(serverLevel);
+					if (DMZGeneralConfig.OTHERWORLD_ENABLED.get()) cap.generatePalacioEnma(serverLevel);
 				});
 			}
 		}
@@ -346,25 +354,42 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event) {
 		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (!DMZGeneralConfig.OTHERWORLD_ENABLED.get()) return;
 
 		ServerLevel level = player.serverLevel();
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-				if (playerstats.isAcceptCharacter()) playerstats.setDmzAlive(false);
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+				if (stats.isAcceptCharacter()) {
+					stats.setDmzAlive(false);
+					if (stats.isTransforming()) stats.setTransforming(false);
+					if (stats.isTurboOn()) stats.setTurboOn(false);
+					if (stats.isAuraOn()) stats.setAuraOn(false);
+					if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+					if (stats.isShenronRevive()) stats.setShenronRevive(false);
+					if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+				}
 			});
 		}
 	}
 
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		if (!DMZGeneralConfig.OTHERWORLD_ENABLED.get()) return;
 		if (event.getEntity() instanceof ServerPlayer player) {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
 
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				if (cap.isAcceptCharacter()) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+				if (stats.isAcceptCharacter()) {
 					BlockPos spawnPos = new BlockPos(0, 41, -101); // Ajusta la posición de spawn
 					player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
 					player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+
+					if (stats.isTransforming()) stats.setTransforming(false);
+					if (stats.isTurboOn()) stats.setTurboOn(false);
+					if (stats.isAuraOn()) stats.setAuraOn(false);
+					if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
+					if (stats.isShenronRevive()) stats.setShenronRevive(false);
+					if (stats.isDescendKeyOn()) stats.setDescendKey(false);
 				}
 			});
 		}
