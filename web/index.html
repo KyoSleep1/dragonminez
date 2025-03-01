@@ -6,38 +6,42 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div class="loader"></div>
+    <p>Charging Ki...</p>
+</div>
+
+<iframe id="background-video"
+        src="https://www.youtube.com/embed/WCTK0wDzIm0?autoplay=1&mute=1&loop=1&playlist=WCTK0wDzIm0&vq=hd1080&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+
 <div class="navbar">
-    <div class="dropdown">
-        <button class="dropbtn">Menu</button>
-        <div class="dropdown-content">
-            <a href="wiki.html">Wiki</a>
-            <a href="roadmap.html">Roadmap</a>
-            <a href="contribute.html">Contribute</a>
-        </div>
-    </div>
-    <button class="discord-button" onclick="location.href='https://discord.gg/b5MgRNb3D7'">Join Discord</button>
+    <a href="https://github.com/DragonMineZ/dragonminez" target="_blank" class="button-55">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo"
+             class="button-logo">GitHub</a>
+    <a href="https://docs.dragonminez.com" target="_blank" class="button-55">Documentation</a>
+    <a href="https://discord.gg/b5MgRNb3D7" target="_blank" class="button-55">Discord</a>
 </div>
 <div class="landing-page">
     <img src="img/dragonminez_big_logo.png" alt="DragonMineZ Logo" class="logo">
+    <p class="description">Taking Dragon Ball into Minecraft, in 1.20.1</p>
     <div class="buttons">
-        <div class="dropdown">
-            <button class="dropbtn">Download</button>
-            <div class="dropdown-content">
-                <a href="https://modrinth.com/mod/dragonminez" target="_blank"
-                   class="button download-button">
-                    <img src="https://cdn.modrinth.com/modrinth-new.png"
-                         alt="Modrinth Page"
-                         class="button-modrinth">Modrinth</a>
-                <a href="https://www.curseforge.com/minecraft/mc-mods/dragonminez" target="_blank"
-                   class="button download-button">
-                    <img src="https://static-00.iconduck.com/assets.00/curseforge-icon-512x275-o0lluzg3.png"
-                         alt="CurseForge Page"
-                         class="button-curseforge">CurseForge</a>
-            </div>
+        <div class="button-container">
+            <a href="https://modrinth.com/mod/dragonminez" target="_blank"
+               class="button download-button">
+                <img src="https://cdn.modrinth.com/modrinth-new.png"
+                     alt="Modrinth Page"
+                     class="button-modrinth">Modrinth</a>
+            <a href="https://www.curseforge.com/minecraft/mc-mods/dragonminez" target="_blank"
+               class="button download-button">
+                <img src="https://static-00.iconduck.com/assets.00/curseforge-icon-512x275-o0lluzg3.png"
+                     alt="CurseForge Page"
+                     class="button-curseforge">CurseForge</a>
         </div>
-        <a href="https://github.com/DragonMineZ/dragonminez" target="_blank" class="button github-button">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo"
-                 class="button-logo">GitHub</a>
     </div>
 </div>
 <div class="content">
@@ -55,12 +59,12 @@
         <p>Join our Discord community to stay updated and get support.</p>
     </section>
     <section id="team">
-        <h2>Our Team</h2>
-        <p>Meet the amazing team behind DragonMineZ.</p>
+        <h2>Contributors & Maintainers</h2>
+        <p>TBD.</p>
     </section>
-    <section id="faq">
+    <section id="Supporters">
         <h2>FAQ</h2>
-        <p>Find answers to the most frequently asked questions.</p>
+        <p>TBD.</p>
     </section>
 </div>
 <script>
@@ -80,5 +84,28 @@
         });
     });
 </script>
+<script>
+    window.addEventListener("load", () => {
+        const preloader = document.getElementById("preloader");
+        const content = document.getElementById("content");
+
+        preloader.style.opacity = "0";
+        setTimeout(() => {
+            preloader.style.display = "none";
+            content.classList.remove("hidden");
+        }, 500); // Small delay to ensure smooth transition
+    });
+</script>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2024-2025 DragonMineZ. GNU General Public License v3.0</p>
+        <p>Follow us on
+            <a href="https://twitter.com/DragonMineZ" target="_blank">Twitter</a>,
+            <a href="https://facebook.com/DragonMineZ" target="_blank">Facebook</a>, and
+            <a href="https://instagram.com/DragonMineZ" target="_blank">Instagram</a>.
+        </p>
+    </div>
+</footer>
 </body>
 </html>
