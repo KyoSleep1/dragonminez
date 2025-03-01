@@ -81,6 +81,10 @@ public class StructuresCapability {
         this.hasKaioPlanet = hasKaioPlanet;
     }
 
+    public boolean getHasTorreKami() {
+        return this.hasTorreKamisama;
+    }
+
     public boolean getHasGokuHouse() {
         return this.hasGokuHouse;
     }

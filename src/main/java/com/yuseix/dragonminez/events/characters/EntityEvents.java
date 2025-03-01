@@ -213,8 +213,10 @@ public class EntityEvents {
 
 		if (player.level().dimension().equals(ServerLevel.OVERWORLD)) {
 			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
-				BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
-				if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
+				if (structures.getHasTorreKami()) {
+					BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
+					if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
+				}
 
 				if (structures.getHasGokuHouse()) {
 					BlockPos posGoku = structures.getGokuHousePosition();

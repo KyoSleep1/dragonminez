@@ -329,7 +329,7 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
-					//cap.generateHabTiempoStructure(serverLevel);
+					cap.generateHabTiempoStructure(serverLevel);
 				});
 			}
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
