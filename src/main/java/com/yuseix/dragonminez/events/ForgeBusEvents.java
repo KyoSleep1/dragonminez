@@ -8,8 +8,6 @@ import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
-import com.yuseix.dragonminez.network.C2S.PorungaC2S;
-import com.yuseix.dragonminez.network.C2S.ShenlongC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -45,7 +43,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
@@ -55,7 +52,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.command.ConfigCommand;
 import org.slf4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
@@ -256,7 +256,7 @@ public class ForgeBusEvents {
 				return;
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
-			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider();
+			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
 
 			event.addCapability(DMZStatsProvider.ID, provider);
 			event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
@@ -312,14 +312,16 @@ public class ForgeBusEvents {
 					// Si es un mundo normal, extraplano, o solo de Plains, generamos la casa de Goku
 					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
 						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							if (DMZGeneralConfig.SHOULD_GOKUHOUSE_SPAWN.get()) cap.generateGokuHouseStructure(serverLevel);
+							if (DMZGeneralConfig.SHOULD_GOKUHOUSE_SPAWN.get())
+								cap.generateGokuHouseStructure(serverLevel);
 						}));
 					}
 
 					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
 					if (!isSuperflat && !isSingleBiome) {
 						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							if (DMZGeneralConfig.SHOULD_KAMEHOUSE_SPAWN.get()) cap.generateRoshiHouseStructure(serverLevel);
+							if (DMZGeneralConfig.SHOULD_KAMEHOUSE_SPAWN.get())
+								cap.generateRoshiHouseStructure(serverLevel);
 						}));
 					}
 				});
