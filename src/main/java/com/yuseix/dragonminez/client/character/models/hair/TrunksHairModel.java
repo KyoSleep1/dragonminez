@@ -272,8 +272,8 @@ public class TrunksHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-			var auraOn = cap.isAuraOn();
-			var turboOn = cap.isTurboOn();
+			var auraOn = cap.getBoolean("aura");
+			var turboOn = cap.getBoolean("turbo");
 
 			if(auraOn || turboOn){
 				var cargaVelocidad = 0.4f;

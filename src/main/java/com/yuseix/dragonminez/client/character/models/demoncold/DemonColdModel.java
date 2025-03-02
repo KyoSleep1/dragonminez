@@ -98,11 +98,11 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap ->{
-			var formRelease = cap.getFormRelease();
-			var isTransfOn = cap.isTransforming();
-			var groupForm = cap.getDmzGroupForm();
-			var dmzform = cap.getDmzForm();
-			var race = cap.getRace();
+			var formRelease = cap.getIntValue("formrelease");
+			var isTransfOn = cap.getBoolean("transform");
+			var groupForm = cap.getStringValue("groupform");
+			var dmzform = cap.getStringValue("form");
+			var race = cap.getIntValue("race");
 
 			switch (race){
 				case 4:

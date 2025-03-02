@@ -1,35 +1,34 @@
 package com.yuseix.dragonminez.utils;
 
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import net.minecraft.world.entity.player.Player;
 
 public interface IDMZDatos {
 
-    int calcularSTR(DMZStatsAttributes stats);
+    int calcStrength(DMZStatsAttributes stats);
 
-    int calcularDEF(DMZStatsAttributes stats, Player player);
-    int calcularCON(DMZStatsAttributes stats);
+    int calcDefense(DMZStatsAttributes stats, Player player);
+    int calcConstitution(DMZStatsAttributes stats);
 
-    int calcularSTM(DMZStatsAttributes stats);
+    int calcStamina(DMZStatsAttributes stats);
 
-    int calcularKiPower(DMZStatsAttributes stats);
+    int calcKiPower(DMZStatsAttributes stats);
 
-    int calcularENE(DMZStatsAttributes stats);
+    int calcEnergy(DMZStatsAttributes stats);
 
-    int calcularKiConsume(DMZStatsAttributes stats);
+    int calcKiConsume(DMZStatsAttributes stats);
 
-    int calcularKiRegen(DMZStatsAttributes stats);
+    int calcKiRegen(DMZStatsAttributes stats);
 
-    double calcularMultiTotal(DMZStatsAttributes stats);
+    double calcTotalMultiplier(DMZStatsAttributes stats);
 
-    double calcularMultiStat(DMZStatsAttributes stats, String stat);
+    double calcStatMultiplier(DMZStatsAttributes stats, String stat);
 
-    int calcularSTRCompleta(DMZStatsAttributes stats);
-    int calcularDEFCompleta(DMZStatsAttributes stats);
+    int calcMultipliedStrength(DMZStatsAttributes stats);
+    int calcMultipliedDefense(DMZStatsAttributes stats);
 
-    int calcularPWRCompleta(DMZStatsAttributes stats);
+    int calcMultipliedKiPower(DMZStatsAttributes stats);
 
-    int calcularCargaKi(DMZStatsAttributes stats);
+    int calcKiCharge(DMZStatsAttributes stats);
 
 }

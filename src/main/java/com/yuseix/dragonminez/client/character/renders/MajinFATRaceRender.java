@@ -177,7 +177,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
@@ -238,10 +238,10 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var raza = cap.getRace();
-            var transf = cap.getDmzForm();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
             var auraColor = 0;
 
             switch (raza){
@@ -249,26 +249,26 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                     switch (transf){
                         case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
                         case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
-                        default -> auraColor = cap.getAuraColor();
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 2:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getAuraColor();
+                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
                         default -> auraColor = 16773525;
                     }
                     break;
                 case 4:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 5:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 default:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
             }
 
@@ -500,8 +500,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -526,8 +526,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -536,7 +536,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             //BODYCOLOR1
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
             //BODYCOLOR2
-            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor2 = cap.getIntValue("bodycolor2");
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
@@ -564,9 +564,9 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            var ojoscolorbase = cap.getEye1Color();
-            int tipoojos = cap.getEyesType();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            var ojoscolorbase = cap.getIntValue("eye1color");
+            int tipoojos = cap.getIntValue("eyestype");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;

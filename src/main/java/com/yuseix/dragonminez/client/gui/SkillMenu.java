@@ -140,10 +140,10 @@ public class SkillMenu extends Screen {
             Player player = this.minecraft.player;
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-                    if (playerstats.isCompactMenu()) {
+                    if (playerstats.getBoolean("compactmenu")) {
                         this.minecraft.setScreen(new AttributesMenu2());
                     } else {
-                        this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                        this.minecraft.setScreen(new AttributesMenu());
                     }
                 });
             })));
@@ -189,7 +189,7 @@ public class SkillMenu extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            var tps = cap.getZpoints();
+            var tps = cap.getIntValue("tps");
 
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
@@ -422,9 +422,9 @@ public class SkillMenu extends Screen {
                             ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
                         });
                         armasBoton = new CustomButtons("igual", this.infoMenu ? startX + 170 - 72 : startX + 170, startY - 2, Component.empty(), btn -> {
-                            if(cap.getKiWeaponId().equals("sword")){
+                            if(cap.getStringValue("kiweapon").equals("sword")){
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",0));
-                            } else if(cap.getKiWeaponId().equals("scythe")){
+                            } else if(cap.getStringValue("kiweapon").equals("scythe")){
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",1));
                             } else {
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",2));
@@ -592,12 +592,12 @@ public class SkillMenu extends Screen {
 
         if(infoMenu){
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                var race = cap.getRace();
+                var race = cap.getIntValue("race");
                 int humanPassive = DMZHumanConfig.KICHARGE_REGEN_BOOST.get();
-                int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get() - cap.getZenkaiCount();
+                int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get() - cap.getIntValue("zenkaicount");
                 int zenkaiHeal = DMZSaiyanConfig.ZENKAI_HEALTH_REGEN.get();
                 int zenkaiBoost = DMZSaiyanConfig.ZENKAI_STAT_BOOST.get();
-                int remainingTicks = cap.getSaiyanZenkaiTimer();
+                int remainingTicks = cap.getIntValue("zenkaitimer");
                 int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
                 int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
                 int namekPassive = DMZNamekConfig.PASSIVE_REGEN.get();

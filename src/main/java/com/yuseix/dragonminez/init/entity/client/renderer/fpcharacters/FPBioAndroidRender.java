@@ -128,7 +128,7 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.getDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
@@ -165,9 +165,9 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -201,9 +201,9 @@ public class FPBioAndroidRender extends LivingEntityRenderer<FPBase, PlayerModel
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
 
-            int eye1color = cap.getEye1Color();
+            int eye1color = cap.getIntValue("eye1color");
 
-            if(cap.getEyesType() == 0){
+            if(cap.getIntValue("eyestype") == 0){
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);

@@ -99,7 +99,7 @@ public class DMZPermaEffectsCommand {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 				playerstats.addDMZPermanentEffect(effectName, true);
 				if (effectName.equals("majin")) {
-					playerstats.setDmzAlignment(0);
+					playerstats.setIntValue("alignment", 0);
 				}
 			});
 		}

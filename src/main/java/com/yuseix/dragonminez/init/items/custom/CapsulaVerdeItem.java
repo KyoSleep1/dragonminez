@@ -45,14 +45,14 @@ public class CapsulaVerdeItem extends Item {
 
         if (!pLevel.isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-                boolean isDmzUser = stats.isAcceptCharacter();
+                boolean isDmzUser = stats.getBoolean("dmzuser");
                 if (isDmzUser) {
-                    int con = stats.getConstitution();
+                    int con = stats.getStat("CON");
                     int maxCon = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
                     if (con < maxCon) {
                         int increment = Math.min(5, maxCon - con);
-                        stats.addCon(increment);
+                        stats.addStat("CON", increment);
 
                         pPlayer.displayClientMessage(
                                 Component.literal("+")

@@ -162,7 +162,7 @@ public class MasterTextMenu extends Screen {
 
 			if (this.minecraft.level.isClientSide()) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
-					if (cap.isAcceptCharacter()) {
+					if (cap.getBoolean("dmzuser")) {
 						this.master = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable(finalBotonMaestro), wa -> {
 							this.minecraft.setScreen(finalScreen);
 						}));

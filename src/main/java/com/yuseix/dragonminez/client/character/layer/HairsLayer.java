@@ -76,13 +76,13 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
-            var raza = cap.getRace();
+            var raza = cap.getIntValue("race");
             var hairColor = 0;
-            var hairId = cap.getHairID();
-            var bodyColor = cap.getBodyColor();
-            var genero = cap.getGender();
-            var transformation = cap.getDmzForm();
-            var tailmode = cap.isTailMode();
+            var hairId = cap.getIntValue("hairid");
+            var bodyColor = cap.getIntValue("bodycolor");
+            var genero = cap.getStringValue("gender");
+            var transformation = cap.getStringValue("form");
+            var tailmode = cap.getBoolean("tailmode");
 
             colorR = (hairColor >> 16) / 255.0F;
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -96,7 +96,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             this.getParentModel().getHead().translateAndRotate(poseStack);
 
-            if(!cap.isDmzAlive()){
+            if(!cap.getBoolean("alive")){
                 VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HALO_TEX));
                 this.haloModel.setupAnim(abstractClientPlayer, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                 this.haloModel.renderToBuffer(poseStack,tex, packedLight, OverlayTexture.NO_OVERLAY, 1.0f,1.0f,1.0f,1.0f);
@@ -106,7 +106,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             switch (raza){
                 case 0: //Humano
-                    hairColor = cap.getHairColor();
+                    hairColor = cap.getIntValue("haircolor");
 
                     colorR = (hairColor >> 16) / 255.0F;
                     colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -120,7 +120,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                     switch (transformation){
                         case "ssj1","ssgrade2","ssgrade3" -> hairColor = 16773525;
                         case "ssjfp", "ssj2","ssj3" -> hairColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
-                        default -> hairColor = cap.getHairColor();
+                        default -> hairColor = cap.getIntValue("haircolor");
                     }
 
                     colorR = (hairColor >> 16) / 255.0F;
@@ -173,7 +173,7 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                 case 5: //Majin
                     switch (transformation){
                         case "evil":
-                            if(!genero.equals("Female")){
+                            if(!genero.equals("female")){
                                 VertexConsumer orejas = multiBufferSource.getBuffer(RenderType.entityTranslucent(MAJIN_ACCES));
                                 colorR = (11314334 >> 16) / 255.0F;
                                 colorG = ((11314334 >> 8) & 0xff) / 255.0f;
@@ -202,8 +202,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
                             break;
 
                         default:
-                            if(genero.equals("Female")){
-                                hairColor = cap.getHairColor();
+                            if(genero.equals("female")){
+                                hairColor = cap.getIntValue("haircolor");
 
                                 colorR = (hairColor >> 16) / 255.0F;
                                 colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -232,8 +232,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
             VertexConsumer hairtex = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
-            var transformation = cap.getDmzForm();
-            var hairId = cap.getHairID();
+            var transformation = cap.getStringValue("form");
+            var hairId = cap.getIntValue("hairid");
 
             colorR = (colorHair >> 16) / 255.0F;
             colorG = ((colorHair >> 8) & 0xff) / 255.0f;

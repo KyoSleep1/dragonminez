@@ -76,7 +76,7 @@ public class ConfigMenu extends Screen {
 		Player player = this.minecraft.player;
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			boolean isCompactMenu = cap.isCompactMenu();
+			boolean isCompactMenu = cap.getBoolean("compactmenu");
 
 			switchButton = new SwitchButton(isCompactMenu, anchoTexto + 80, altoTexto, Component.empty(), button -> {
 				boolean newValue = !isCompactMenu;
@@ -96,10 +96,10 @@ public class ConfigMenu extends Screen {
 			Player player = this.minecraft.player;
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, altoTexto, "stats", Component.empty(), wa -> {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-					if (playerstats.isCompactMenu()) {
+					if (playerstats.getBoolean("compactmenu")) {
 						this.minecraft.setScreen(new AttributesMenu2());
 					} else {
-						this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+						this.minecraft.setScreen(new AttributesMenu());
 					}});
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, altoTexto, "skills", Component.empty(), wa -> {

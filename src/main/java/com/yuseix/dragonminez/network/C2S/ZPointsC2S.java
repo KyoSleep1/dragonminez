@@ -41,13 +41,13 @@ public class ZPointsC2S {
 
                     switch (packet.id) {
                         case 0:
-                            playerstats.addZpoints(packet.cantidad);
+                            playerstats.addIntValue("tps", packet.cantidad);
                             break;
                         case 1:
-                            playerstats.removeZpoints(packet.cantidad);
+                            playerstats.removeIntValue("tps", packet.cantidad);
                             break;
                         case 2:
-                            playerstats.setZpoints(packet.cantidad);
+                            playerstats.setIntValue("tps", packet.cantidad);
                             break;
                         default:
                             //System.out.println("Algo salio mal !");

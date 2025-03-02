@@ -36,7 +36,7 @@ public class ColorButton extends Button {
             switch (tipo) {
                 case "eyeColor1":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getEye1Color(); // blanco
+                    color = cap.getIntValue("eye1color"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -45,7 +45,7 @@ public class ColorButton extends Button {
                     break;
                 case "eyeColor2":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getEye2Color(); // blanco
+                    color = cap.getIntValue("eye2color"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -54,7 +54,7 @@ public class ColorButton extends Button {
                     break;
                 case "bodyColor1":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getBodyColor(); // blanco
+                    color = cap.getIntValue("bodycolor"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -63,7 +63,7 @@ public class ColorButton extends Button {
                     break;
                 case "bodyColor2":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getBodyColor2(); // blanco
+                    color = cap.getIntValue("bodycolor2"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -72,7 +72,7 @@ public class ColorButton extends Button {
                     break;
                 case "bodyColor3":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getBodyColor3(); // blanco
+                    color = cap.getIntValue("bodycolor3"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -81,7 +81,7 @@ public class ColorButton extends Button {
                     break;
                 case "hairColor":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getHairColor(); // blanco
+                    color = cap.getIntValue("haircolor"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;
@@ -90,7 +90,7 @@ public class ColorButton extends Button {
                     break;
                 case "auraColor":
                     //CONVERTIR DE DECIMAL A FLOAT
-                    color = cap.getAuraColor(); // blanco
+                    color = cap.getIntValue("auracolor"); // blanco
                     r = (color >> 16) / 255.0F;
                     g = ((color >> 8) & 0xff) / 255.0f;
                     b = (color & 0xff) / 255.0f;

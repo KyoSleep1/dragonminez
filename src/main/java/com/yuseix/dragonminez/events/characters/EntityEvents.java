@@ -64,9 +64,9 @@ public class EntityEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					boolean isDmzUser = cap.isAcceptCharacter();
+					boolean isDmzUser = cap.getBoolean("dmzuser");
 
-					if (isDmzUser) { cap.removeDmzAlignment(5); } //Remover puntos te hace maligno
+					if (isDmzUser) { cap.removeIntValue("alignment", 5); } //Remover puntos te hace maligno
 				});
 
 				player.displayClientMessage(Component.translatable("lines.alignment.evil"), true);
@@ -80,9 +80,9 @@ public class EntityEvents {
 				Player player = (Player) event.getSource().getEntity();
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					boolean isDmzUser = cap.isAcceptCharacter();
+					boolean isDmzUser = cap.getBoolean("dmzuser");
 
-					if (isDmzUser) { cap.addDmzAlignment(2); } //Agregar puntos te hace bueno
+					if (isDmzUser) { cap.addIntValue("alignment", 2); } //Agregar puntos te hace bueno
 				});
 
 			}
@@ -103,12 +103,12 @@ public class EntityEvents {
 				int finalCalculoTps = calculoTps;
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					boolean isDmzUser = cap.isAcceptCharacter();
+					boolean isDmzUser = cap.getBoolean("dmzuser");
 					int finalTps = Math.round(finalCalculoTps);
 
-					if (cap.getRace() == 4)  finalTps *= DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
+					if (cap.getIntValue("race") == 4)  finalTps *= DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
 
-					if (isDmzUser) cap.addZpoints(finalTps);
+					if (isDmzUser) cap.addIntValue("tps", finalTps);
 					// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
@@ -142,10 +142,10 @@ public class EntityEvents {
 			double finalBaseTps = baseTps;
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				boolean isDmzUser = cap.isAcceptCharacter();
+				boolean isDmzUser = cap.getBoolean("dmzuser");
 				int finalTps = (int) Math.round(finalBaseTps);
-				if (cap.getRace() == 4) finalTps = (int) (finalTps * DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get());
-				if (isDmzUser) { cap.addZpoints(finalTps); }
+				if (cap.getIntValue("race") == 4) finalTps = (int) (finalTps * DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get());
+				if (isDmzUser) { cap.addIntValue("tps", finalTps); }
 
 				// Testing
               /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
@@ -233,7 +233,7 @@ public class EntityEvents {
 		}
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (cap.getDmzForm().equals("oozaru")) {
+			if (cap.getStringValue("form").equals("oozaru")) {
 				soundTimer--;
 				if (soundTimer == 0) {
 					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
@@ -278,15 +278,15 @@ public class EntityEvents {
 	private static void funcLiqCurativo(Player player) {
 		if (player instanceof ServerPlayer serverPlayer) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(stats -> {
-				int maxHp = stats.getMaxHealth();
+				int maxHp = stats.getIntValue("maxhealth");
 				int healHp = (int) (maxHp * HEAL_PERCENTAGE);
-				int maxKi = stats.getMaxEnergy();
+				int maxKi = stats.getIntValue("maxenergy");
 				int healKi = (int) (maxKi * HEAL_PERCENTAGE);
-				boolean isDmzUser = stats.isAcceptCharacter();
+				boolean isDmzUser = stats.getBoolean("dmzuser");
 
 				if (isDmzUser) {
 					serverPlayer.heal(healHp);
-					stats.addCurEnergy(healKi);
+					stats.addIntValue("curenergy", healKi);
 				}
 
 			});

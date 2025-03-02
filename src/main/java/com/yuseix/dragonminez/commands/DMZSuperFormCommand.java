@@ -117,7 +117,7 @@ public class DMZSuperFormCommand {
 
 		for (ServerPlayer player : players) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-				int maxLevel = switch (playerstats.getRace()) {
+				int maxLevel = switch (playerstats.getIntValue("race")) {
 					case 0 -> 3;
 					case 1 -> 4;
 					case 2 -> 4;
@@ -126,6 +126,9 @@ public class DMZSuperFormCommand {
 					case 5 -> 6;
 					default -> 6;
 				};
+
+				System.out.println("Max level: " + maxLevel);
+				System.out.println("Race: " + playerstats.getIntValue("race"));
 
 				int finalLevel = Math.max(1, Math.min(level, maxLevel));
 
@@ -155,13 +158,13 @@ public class DMZSuperFormCommand {
 		for (ServerPlayer player : players) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-				int maxLevel = switch (playerstats.getRace()) {
+				int maxLevel = switch (playerstats.getIntValue("race")) {
 					case 0 -> 3;
-					case 1 -> 8;
+					case 1 -> 4;
 					case 2 -> 4;
 					case 3 -> 4;
-					case 4 -> 8;
-					case 5 -> 8;
+					case 4 -> 6;
+					case 5 -> 6;
 					default -> 6;
 				};
 

@@ -53,7 +53,7 @@ public class NubeNegraEntity extends FlyingMob implements GeoEntity {
 	protected InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
 		if (!this.level().isClientSide) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(playerstats -> {
-				if (playerstats.getDmzAlignment() > 40) {
+				if (playerstats.getIntValue("alignment") > 40) {
 					pPlayer.displayClientMessage(Component.translatable("dmz.nimbus.fail"), true);
 				} else pPlayer.startRiding(this);
 			});

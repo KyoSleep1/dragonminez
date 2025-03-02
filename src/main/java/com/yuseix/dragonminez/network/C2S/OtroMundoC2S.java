@@ -46,8 +46,8 @@ public class OtroMundoC2S {
 						DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 							int babaCooldown = (DMZGeneralConfig.BABA_COOLDOWN.get() * 20 * 60);
 							int babaDuration = (DMZGeneralConfig.BABA_DURATION.get() * 20 * 60);
-							cap.setBabaCooldown(babaCooldown);
-							cap.setBabaAliveTimer(babaDuration);
+							cap.setIntValue("babacooldown", babaCooldown);
+							cap.setIntValue("babaalivetimer", babaDuration);
 						});
 						break;
 				}

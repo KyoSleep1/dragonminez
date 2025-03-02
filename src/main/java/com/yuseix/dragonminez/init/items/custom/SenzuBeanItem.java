@@ -74,13 +74,13 @@ public class SenzuBeanItem extends Item {
 		pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), MainSounds.SENZU_BEAN.get(), SoundSource.NEUTRAL, 1.5F, 1.0F);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-			double VidaTotal = dmzdatos.calcularCON(stats);
-			int energiaMax = dmzdatos.calcularENE(stats);
-			int staminaMax = dmzdatos.calcularSTM(stats);
+			double VidaTotal = dmzdatos.calcConstitution(stats);
+			int energiaMax = dmzdatos.calcEnergy(stats);
+			int staminaMax = dmzdatos.calcStamina(stats);
 
 			player.heal((float) VidaTotal);
-			stats.setCurStam(staminaMax);
-			stats.setCurrentEnergy(energiaMax);
+			stats.setIntValue("curstam", staminaMax);
+			stats.setIntValue("curenergy", energiaMax);
 		});
 
 		player.getFoodData().setFoodLevel(20);

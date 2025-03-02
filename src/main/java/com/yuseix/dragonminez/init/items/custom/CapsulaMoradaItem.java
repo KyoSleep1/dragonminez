@@ -44,14 +44,14 @@ public class CapsulaMoradaItem extends Item {
 
 		if (!pLevel.isClientSide) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-				boolean isDmzUser = stats.isAcceptCharacter();
+				boolean isDmzUser = stats.getBoolean("dmzuser");
 				if (isDmzUser) {
-					int defense = stats.getDefense(); // Defensa actual
+					int defense = stats.getStat("DEF"); // Defensa actual
 					int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
 
 					if (defense < maxDefense) {
 						int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento
-						stats.addDefense(increment);
+						stats.addStat("DEF", increment);
 
 						pPlayer.displayClientMessage(
 								Component.literal("+")

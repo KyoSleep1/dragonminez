@@ -64,7 +64,7 @@ public class MasterSkillsC2S {
 				int finalTpCost = tpCost;
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 					playerstats.addSkill(packet.name, packet.skill);
-					playerstats.removeZpoints(finalTpCost);
+					playerstats.removeIntValue("tps", finalTpCost);
 				});
 			}
 		});

@@ -130,9 +130,9 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
-                var raza = cap.getRace();
+                int bodyType = cap.getIntValue("bodytype");
+                var genero = cap.getStringValue("gender");
+                var raza = cap.getIntValue("race");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if(raza == 0 || raza == 1){
@@ -210,15 +210,15 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
                 //Comprobamos que solo sea humano o saiyajin para que solo renderice a esa raza
-                if(cap.getRace() == 0 || cap.getRace() == 1){
-                    if(cap.getBodytype() > 0){
-                        if(cap.getEyesType() == 0){
+                if(cap.getIntValue("race") == 0 || cap.getIntValue("race") == 1){
+                    if(cap.getIntValue("bodytype") > 0){
+                        if(cap.getIntValue("eyestype") == 0){
 
                             //DELINEADO
                             pPoseStack.translate(0f,0f,-0.002f);
                             playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                        } else if(cap.getEyesType() == 1){
+                        } else if(cap.getIntValue("eyestype") == 1){
                             //DELINEADO
                             pPoseStack.translate(0f,0f,-0.002f);
                             playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
@@ -257,11 +257,11 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
 
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
-            int cabellocolor = cap.getHairColor();
+            int eye1color = cap.getIntValue("eye1color");
+            int eye2color = cap.getIntValue("eye2color");
+            int cabellocolor = cap.getIntValue("haircolor");
 
-            if(cap.getEyesType() == 0){
+            if(cap.getIntValue("eyestype") == 0){
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
@@ -287,7 +287,7 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
-            } else if(cap.getEyesType() == 1){
+            } else if(cap.getIntValue("eyestype") == 1){
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
@@ -323,7 +323,7 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            var ojoscolorbase = cap.getEye1Color();
+            var ojoscolorbase = cap.getIntValue("eye1color");
 
             //OJOS BLANCOS
             pPoseStack.translate(0f,0f,-0.001f);
@@ -356,7 +356,7 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -373,7 +373,7 @@ public class FPSlimHumSaiRender extends LivingEntityRenderer<FPBase, PlayerModel
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;

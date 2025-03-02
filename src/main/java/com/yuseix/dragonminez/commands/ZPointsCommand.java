@@ -75,7 +75,7 @@ public class ZPointsCommand {
                 source.sendSystemMessage(Component.translatable("command.dmzpoints.set", player.getName(), puntos));
             }
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setZpoints(puntos));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("tps", puntos));
         }
         return pPlayers.size();
     }
@@ -88,7 +88,7 @@ public class ZPointsCommand {
                 source.sendSystemMessage(Component.translatable("command.dmzpoints.add", puntos, player.getName()));
             }
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addZpoints(puntos));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addIntValue("tps", puntos));
         }
         return pPlayers.size();
     }
@@ -101,7 +101,7 @@ public class ZPointsCommand {
                 source.sendSystemMessage(Component.translatable("command.dmzpoints.remove", puntos, player.getName()));
             }
 
-            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeZpoints(puntos));
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeIntValue("tps", puntos));
         }
         return pPlayers.size();
     }

@@ -129,7 +129,7 @@ public class MasterMenu extends Screen {
 		//int kaioKenCost = DMZGeneralConfig.KAIOKEN_TP_COST_MASTER.get();
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			int tpActual = cap.getZpoints();
+			int tpActual = cap.getIntValue("tps");
 
 			switch (masterName) {
 				case "goku":

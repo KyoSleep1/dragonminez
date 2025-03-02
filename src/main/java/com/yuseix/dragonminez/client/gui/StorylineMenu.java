@@ -291,10 +291,10 @@ public class StorylineMenu extends Screen {
 			Player player = this.minecraft.player;
 			botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, altoTexto, "stats", Component.empty(), wa -> {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-					if (playerstats.isCompactMenu()) {
+					if (playerstats.getBoolean("compactmenu")) {
 						this.minecraft.setScreen(new AttributesMenu2());
 					} else {
-						this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+						this.minecraft.setScreen(new AttributesMenu());
 					}
 				});
 			})));

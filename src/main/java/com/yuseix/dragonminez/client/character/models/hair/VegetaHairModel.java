@@ -288,7 +288,7 @@ public class VegetaHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-			var auraOn = cap.isAuraOn();
+			var auraOn = cap.getBoolean("aura");
 
 			if (auraOn) {
 				var cargaVelocidad = 0.22f;

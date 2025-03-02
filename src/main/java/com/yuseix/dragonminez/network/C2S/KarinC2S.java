@@ -37,7 +37,7 @@ public class KarinC2S {
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                     Item nubeItem;
-                    if (cap.getDmzAlignment() < 60) nubeItem = MainItems.NUBE_NEGRA_ITEM.get();
+                    if (cap.getIntValue("alignment") < 60) nubeItem = MainItems.NUBE_NEGRA_ITEM.get();
                     else nubeItem = MainItems.NUBE_ITEM.get();
 
                     if(packet.option == 1){
@@ -45,8 +45,8 @@ public class KarinC2S {
                     }else if(packet.option == 2){
                         player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_GIVE.get()));
                     } else if (packet.option == 3) {
-                        //cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
-                        cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get() * 20);
+                        //cap.setIntValue("senzutimer", DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
+                        cap.setIntValue("senzutimer", DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get() * 20);
                     }
                 });
 

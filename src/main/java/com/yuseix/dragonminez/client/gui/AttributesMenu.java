@@ -53,8 +53,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
     // Formateador de números con separadores (por ejemplo, "10.000.000")
     NumberFormat numberFormatter = NumberFormat.getInstance(Locale.US);
 
-    public AttributesMenu(Component pGuiScreen) {
-        super(pGuiScreen);
+    public AttributesMenu() {
+        super(Component.empty());
     }
 
 
@@ -69,7 +69,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             Player player = this.minecraft.player;
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-                    if (playerstats.isCompactMenu()) {
+                    if (playerstats.getBoolean("compactmenu")) {
                         this.minecraft.setScreen(new AttributesMenu2());
                     }
                 });
@@ -120,8 +120,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         this.removeWidget(eneBoton);
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-            var tps = playerstats.getZpoints(); var str = playerstats.getStrength(); var def = playerstats.getDefense();
-            var con = playerstats.getConstitution(); var kipower = playerstats.getKiPower(); var energy = playerstats.getEnergy();
+            var tps = playerstats.getIntValue("tps"); var str = playerstats.getStat("STR"); var def = playerstats.getStat("DEF");
+            var con = playerstats.getStat("CON"); var kipower = playerstats.getStat("PWR"); var energy = playerstats.getStat("ENE");
 
             anchoTexto = 17; alturaTexto = (this.height / 2) + 1;
 
@@ -222,8 +222,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             alturaTexto = 19; anchoTexto = (this.width/2)+2;
 
-            var playername = Minecraft.getInstance().player.getName().getString(); var alignment = playerstats.getDmzAlignment();
-            var raza = playerstats.getRace(); int namecolor;
+            var playername = Minecraft.getInstance().player.getName().getString(); var alignment = playerstats.getIntValue("alignment");
+            var raza = playerstats.getIntValue("race"); int namecolor;
             if (alignment > 60) {
                 namecolor = 0x63FFFF;
             } else if (alignment > 40) {
@@ -262,10 +262,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     public void menu1info(GuiGraphics graphics, int mouseX, int mouseY){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-            var TPS = playerstats.getZpoints();
-            var nivel = (playerstats.getStrength() + playerstats.getDefense() + playerstats.getConstitution()
-                    + playerstats.getKiPower() + playerstats.getEnergy()) / 5;
-            var clase = playerstats.getDmzClass();
+            var TPS = playerstats.getIntValue("tps");
+            var nivel = (playerstats.getStat("STR") + playerstats.getStat("DEF") + playerstats.getStat("CON")
+                    + playerstats.getStat("PWR") + playerstats.getStat("ENE")) / 5;
+            var clase = playerstats.getStringValue("class");
 
             alturaTexto = (this.height / 2) - 83;
 
@@ -279,9 +279,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
 
             //FORMA
-            drawStringWithBorder2(graphics, font, Component.translatable(obtenerFormaLang(playerstats.getDmzForm(), playerstats.getRace())), anchoTexto, alturaTexto + 22, 0xC7EAFC);
+            drawStringWithBorder2(graphics, font, Component.translatable(obtenerFormaLang(playerstats.getStringValue("form"), playerstats.getIntValue("race"), playerstats.getStringValue("gender"))), anchoTexto, alturaTexto + 22, 0xC7EAFC);
             //Clase
-            if(clase.equals("Warrior")){
+            if(clase.equals("warrior")){
                 drawStringWithBorder(graphics, font,Component.literal("Warrior"), 90, alturaTexto + 33, 0xFC4E2B);
             }else {
                 drawStringWithBorder(graphics, font,Component.literal("Spiritualist"), 90, alturaTexto + 33, 0x2BFCFC);
@@ -298,9 +298,9 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             alturaTexto = (this.height / 2) - 16;
             drawStringWithBorder(graphics, font, Component.literal("STATS"), 72, alturaTexto, 0x68CCFF);
 
-            var strdefault = playerstats.getStrength(); var defdefault = playerstats.getDefense(); var condefault = playerstats.getConstitution();
-            var kipowerdefault = playerstats.getKiPower(); var energydefault = playerstats.getEnergy();
-            var transf = playerstats.getDmzForm();
+            var strdefault = playerstats.getStat("STR"); var defdefault = playerstats.getStat("DEF"); var condefault = playerstats.getStat("CON");
+            var kipowerdefault = playerstats.getStat("PWR"); var energydefault = playerstats.getStat("ENE");
+            var transf = playerstats.getStringValue("form");
 
             int[] cantStats = {strdefault, defdefault, condefault, kipowerdefault, energydefault};
             Arrays.sort(cantStats);
@@ -313,14 +313,14 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 1.5);
             int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
 
-            var strcompleta = dmzdatos.calcularSTRCompleta(playerstats);
-            var defcompleta = dmzdatos.calcularDEFCompleta(playerstats);
-            var pwrcompleta = dmzdatos.calcularPWRCompleta(playerstats);
+            var strcompleta = dmzdatos.calcMultipliedStrength(playerstats);
+            var defcompleta = dmzdatos.calcMultipliedDefense(playerstats);
+            var pwrcompleta = dmzdatos.calcMultipliedKiPower(playerstats);
 
-            var STRMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "STR")) * 100) / 100.0;
-            var DEFMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "DEF")) * 100) / 100.0;
-            var KIPOWERMulti = Math.round((dmzdatos.calcularMultiStat(playerstats, "PWR")) * 100) / 100.0;
-            var multiTotal = dmzdatos.calcularMultiTotal(playerstats);
+            var STRMulti = Math.round((dmzdatos.calcStatMultiplier(playerstats, "STR")) * 100) / 100.0;
+            var DEFMulti = Math.round((dmzdatos.calcStatMultiplier(playerstats, "DEF")) * 100) / 100.0;
+            var KIPOWERMulti = Math.round((dmzdatos.calcStatMultiplier(playerstats, "PWR")) * 100) / 100.0;
+            var multiTotal = dmzdatos.calcTotalMultiplier(playerstats);
 
             var isMultiOn = majinOn || frutaOn || !Objects.equals(transf, "base");
             var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
@@ -462,14 +462,14 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin"); var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
             //Datos
-            var transf = playerstats.getDmzForm();
+            var transf = playerstats.getStringValue("form");
 
-            var strMax = dmzdatos.calcularSTR(playerstats);
-            var defMax = dmzdatos.calcularDEF(playerstats, Minecraft.getInstance().player);
-            var conMax = dmzdatos.calcularCON(playerstats);
-            var stmMax = dmzdatos.calcularSTM(playerstats);
-            var KPWMax = dmzdatos.calcularKiPower(playerstats);
-            var enrMax = dmzdatos.calcularENE(playerstats);
+            var strMax = dmzdatos.calcStrength(playerstats);
+            var defMax = dmzdatos.calcDefense(playerstats, Minecraft.getInstance().player);
+            var conMax = dmzdatos.calcConstitution(playerstats);
+            var stmMax = dmzdatos.calcStamina(playerstats);
+            var KPWMax = dmzdatos.calcKiPower(playerstats);
+            var enrMax = dmzdatos.calcEnergy(playerstats);
 
             var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") ? 0xfebc0d : 0xFFD7AB;
 
@@ -480,7 +480,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto+10, alturaTexto + 48, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto+10, alturaTexto + 60, 0xFFD7AB);
 
-            var MultiTotal = Math.round((dmzdatos.calcularMultiTotal(playerstats)) * 100) / 100.0;
+            var MultiTotal = Math.round((dmzdatos.calcTotalMultiplier(playerstats)) * 100) / 100.0;
 
             var multiMajin = DMZGeneralConfig.MULTIPLIER_MAJIN.get();
             var multiFruta = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
@@ -572,14 +572,21 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         return font.split(descripcion, maxWidth);
     }
 
-    private String obtenerFormaLang(String forma, int race){
+    private String obtenerFormaLang(String forma, int race, String gender){
         return switch (race) {
             case 0 -> ("forms.dmz.human." + forma);
             case 1 -> ("forms.dmz.saiyan." + forma);
             case 2 -> ("forms.dmz.namek." + forma);
             case 3 -> ("forms.dmz.bioandroid." + forma);
             case 4 -> ("forms.dmz.colddemon." + forma);
-            case 5 -> ("forms.dmz.majin." + forma);
+            case 5 -> {
+                String result = "";
+                if (forma.equals("super") || forma.equals("ultra")) {
+                    if (gender.equals("female")) result = ("forms.dmz.majin.female." + forma);
+                    if (gender.equals("male")) result = ("forms.dmz.majin.male." + forma);
+                } else result = ("forms.dmz.majin." + forma);
+                yield result;
+            }
             default ->("forms.dmz.human.base");
         };
     }

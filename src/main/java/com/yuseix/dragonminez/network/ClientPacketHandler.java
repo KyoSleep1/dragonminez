@@ -89,7 +89,7 @@ public class ClientPacketHandler {
 				if (compactMenu) {
 					Minecraft.getInstance().setScreen(new AttributesMenu2());
 				} else {
-					Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+					Minecraft.getInstance().setScreen(new AttributesMenu());
 				}
 			} else {
 				Minecraft.getInstance().setScreen(new CFirstPage());
@@ -118,7 +118,7 @@ public class ClientPacketHandler {
 	public static void handleZPointsPacket(int zPoints, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var player = Minecraft.getInstance().player;
 		if (player != null) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setZpoints(zPoints));
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setIntValue("tps", zPoints));
 		}
 	}
 

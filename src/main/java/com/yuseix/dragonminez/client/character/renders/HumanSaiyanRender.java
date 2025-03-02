@@ -86,11 +86,11 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            var transf = cap.getDmzForm();
-            var raza = cap.getRace();
-            var form_group = cap.getDmzGroupForm();
-            var isTransf = cap.isTransforming();
-            var form_release = cap.getFormRelease();
+            var transf = cap.getStringValue("form");
+            var raza = cap.getIntValue("race");
+            var form_group = cap.getStringValue("groupform");
+            var isTransf = cap.getBoolean("transform");
+            var form_release = cap.getIntValue("formrelease");
 
             switch (raza){
                 case 1://Saiyajin
@@ -235,9 +235,9 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                var transf = cap.getDmzForm();
-                var raza = cap.getRace();
+                int bodyType = cap.getIntValue("bodytype");
+                var transf = cap.getStringValue("form");
+                var raza = cap.getIntValue("race");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (raza){
@@ -324,10 +324,10 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var raza = cap.getRace();
-            var transf = cap.getDmzForm();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
             var auraColor = 0;
 
             switch (raza){
@@ -335,26 +335,26 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                     switch (transf){
                         case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
                         case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
-                        default -> auraColor = cap.getAuraColor();
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 2:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getAuraColor();
+                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
                         default -> auraColor = 16773525;
                     }
                     break;
                 case 4:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 5:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 default:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
             }
 
@@ -646,19 +646,19 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
-            int cabellocolor = cap.getHairColor();
-            var transf = cap.getDmzForm();
-            var isTransfOn = cap.isTransforming();
-            var formRelease = cap.getFormRelease();
-            var form_group = cap.getDmzGroupForm();
-            var eyes_type = cap.getEyesType();
-            var raza = cap.getRace();
+            int eye1color = cap.getIntValue("eye1color");
+            int eye2color = cap.getIntValue("eye2color");
+            int cabellocolor = cap.getIntValue("haircolor");
+            var transf = cap.getStringValue("form");
+            var isTransfOn = cap.getBoolean("transform");
+            var formRelease = cap.getIntValue("formrelease");
+            var form_group = cap.getStringValue("groupform");
+            var eyes_type = cap.getIntValue("eyestype");
+            var raza = cap.getIntValue("race");
 
                 switch (raza){
                     case 1://Saiyan
-                        if(cap.getBodytype() > 0) {
+                        if(cap.getIntValue("bodytype") > 0) {
                             if (transf.equals("oozaru") || transf.equals("goldenoozaru")) {
                                 playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
                             } else {
@@ -906,14 +906,14 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
-                if(cap.getBodytype() > 0){
-                    if(cap.getEyesType() == 0){
+                if(cap.getIntValue("bodytype") > 0){
+                    if(cap.getIntValue("eyestype") == 0){
 
                         //DELINEADO
                         pPoseStack.translate(0f,0f,-0.002f);
                         playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                    } else if(cap.getEyesType() == 1){
+                    } else if(cap.getIntValue("eyestype") == 1){
                         //DELINEADO
                         pPoseStack.translate(0f,0f,-0.0011f);
                         playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
@@ -946,17 +946,17 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             int bodyColor = 0;
-            var transf = cap.getDmzForm();
+            var transf = cap.getStringValue("form");
 
             switch (transf){
                 case "evil":
                     bodyColor = 11314334;
                     break;
                 case "kid":
-                    bodyColor = cap.getBodyColor();
+                    bodyColor = cap.getIntValue("bodycolor");
                     break;
                 default:
-                    bodyColor = cap.getBodyColor();
+                    bodyColor = cap.getIntValue("bodycolor");
                     break;
             }
 
@@ -976,7 +976,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
 
                 colorR = (bodyColor1 >> 16) / 255.0F;
                 colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;

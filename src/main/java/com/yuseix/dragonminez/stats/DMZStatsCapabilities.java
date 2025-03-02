@@ -31,7 +31,7 @@ public class DMZStatsCapabilities {
         event.getEntity().refreshDimensions();
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(cap));
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(cap));
         });
 
 
@@ -56,13 +56,13 @@ public class DMZStatsCapabilities {
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
             //VIDAAAAAAA
-            var maxVIDA = dmzdatos.calcularCON(cap);
+            var maxVIDA = dmzdatos.calcConstitution(cap);
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
             event.getEntity().heal((float) maxVIDA);
-            cap.setCurStam(dmzdatos.calcularSTM(cap));
+            cap.setIntValue("curstam", dmzdatos.calcStamina(cap));
 
             //ENERGIAAA
-            cap.setCurrentEnergy(dmzdatos.calcularENE(cap));
+            cap.setIntValue("curenergy", dmzdatos.calcEnergy(cap));
         });
 
     }

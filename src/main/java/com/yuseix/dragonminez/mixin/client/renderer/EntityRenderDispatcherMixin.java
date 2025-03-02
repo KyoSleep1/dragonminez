@@ -50,19 +50,19 @@ public class EntityRenderDispatcherMixin {
 
                 if (player instanceof AbstractClientPlayer abstractClientPlayer) {
                     String modelname = abstractClientPlayer.getModelName();
-                    var transf = cap.getDmzForm();
+                    var transf = cap.getStringValue("form");
 
-                    switch (cap.getRace()) {
+                    switch (cap.getIntValue("race")) {
                         //HUMANO RENDER
                         case 0:
-                            if (cap.getBodytype() == 0) {
+                            if (cap.getIntValue("bodytype") == 0) {
                                 if ("default".equals(modelname)) {
                                     cir.setReturnValue(dmzRendererersV2.get(modelname));
                                 } else if ("slim".equals(modelname)) {
                                     cir.setReturnValue(dmzRendererersV2.get(modelname));
                                 }
-                            } else if (cap.getBodytype() == 1) {
-                                if (cap.getGender().equals("Male")) {
+                            } else if (cap.getIntValue("bodytype") == 1) {
+                                if (cap.getStringValue("gender").equals("male")) {
                                     cir.setReturnValue(dmzRendererersV2.get("default"));
                                 } else {
                                     cir.setReturnValue(dmzRendererersV2.get("slim"));
@@ -78,14 +78,14 @@ public class EntityRenderDispatcherMixin {
                                     cir.setReturnValue(dmzRendererersV2.get("oozaru"));
                                     break;
                                 default:
-                                    if (cap.getBodytype() == 0) {
+                                    if (cap.getIntValue("bodytype") == 0) {
                                         if ("default".equals(modelname)) {
                                             cir.setReturnValue(dmzRendererersV2.get(modelname));
                                         } else if ("slim".equals(modelname)) {
                                             cir.setReturnValue(dmzRendererersV2.get(modelname));
                                         }
-                                    } else if (cap.getBodytype() == 1) {
-                                        if (cap.getGender().equals("Male")) {
+                                    } else if (cap.getIntValue("bodytype") == 1) {
+                                        if (cap.getStringValue("gender").equals("male")) {
                                             cir.setReturnValue(dmzRendererersV2.get("default"));
                                         } else {
                                             cir.setReturnValue(dmzRendererersV2.get("slim"));
@@ -120,7 +120,7 @@ public class EntityRenderDispatcherMixin {
                         case 5:
                             switch (transf){
                                 case "evil":
-                                    if (cap.getGender().equals("Male")) {
+                                    if (cap.getStringValue("gender").equals("male")) {
                                         cir.setReturnValue(dmzRendererersV2.get("majin_evil"));
                                     } else {
                                         cir.setReturnValue(dmzRendererersV2.get("majin_female"));
@@ -133,7 +133,7 @@ public class EntityRenderDispatcherMixin {
                                     cir.setReturnValue(dmzRendererersV2.get("majin_kid"));
                                     break;
                                 default:
-                                    if (cap.getGender().equals("Male")) {
+                                    if (cap.getStringValue("gender").equals("male")) {
                                         cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
                                     } else {
                                         cir.setReturnValue(dmzRendererersV2.get("majin_female"));

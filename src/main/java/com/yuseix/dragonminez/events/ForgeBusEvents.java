@@ -123,12 +123,12 @@ public class ForgeBusEvents {
 
 		// Desactivar al iniciar sesión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-			if (stats.isTransforming()) stats.setTransforming(false);
-			if (stats.isTurboOn()) stats.setTurboOn(false);
-			if (stats.isAuraOn()) stats.setAuraOn(false);
-			if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
-			if (stats.isShenronRevive()) stats.setShenronRevive(false);
-			if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+			if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
+			if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
+			if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
+			if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
+			if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
+			if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
 		});
 	}
 
@@ -139,12 +139,12 @@ public class ForgeBusEvents {
 
 			// Desactivar al cambiar de dimensión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-				if (stats.isTransforming()) stats.setTransforming(false);
-				if (stats.isTurboOn()) stats.setTurboOn(false);
-				if (stats.isAuraOn()) stats.setAuraOn(false);
-				if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
-				if (stats.isShenronRevive()) stats.setShenronRevive(false);
-				if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+				if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
+				if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
+				if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
+				if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
+				if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
+				if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
 			});
 		}
 	}
@@ -359,14 +359,14 @@ public class ForgeBusEvents {
 		ServerLevel level = player.serverLevel();
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-				if (stats.isAcceptCharacter()) {
-					stats.setDmzAlive(false);
-					if (stats.isTransforming()) stats.setTransforming(false);
-					if (stats.isTurboOn()) stats.setTurboOn(false);
-					if (stats.isAuraOn()) stats.setAuraOn(false);
-					if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
-					if (stats.isShenronRevive()) stats.setShenronRevive(false);
-					if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+				if (stats.getBoolean("dmzuser")) {
+					stats.setBoolean("alive", false);
+					if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
+					if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
+					if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
+					if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
+					if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
+					if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
 				}
 			});
 		}
@@ -379,17 +379,17 @@ public class ForgeBusEvents {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-				if (stats.isAcceptCharacter()) {
+				if (stats.getBoolean("dmzuser")) {
 					BlockPos spawnPos = new BlockPos(0, 41, -101); // Ajusta la posición de spawn
 					player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
 					player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
 
-					if (stats.isTransforming()) stats.setTransforming(false);
-					if (stats.isTurboOn()) stats.setTurboOn(false);
-					if (stats.isAuraOn()) stats.setAuraOn(false);
-					if (stats.isPorungaRevive()) stats.setPorungaRevive(false);
-					if (stats.isShenronRevive()) stats.setShenronRevive(false);
-					if (stats.isDescendKeyOn()) stats.setDescendKey(false);
+					if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
+					if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
+					if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
+					if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
+					if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
+					if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
 				}
 			});
 		}
@@ -401,7 +401,7 @@ public class ForgeBusEvents {
 		String message = event.getMessage().getString();
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-			if (stats.isPorungaRevive()) { // Verifica si el jugador está seleccionando nombres
+			if (stats.getBoolean("porungarevive")) { // Verifica si el jugador está seleccionando nombres
 				List<String> porungaNames = Arrays.stream(message.split(","))
 						.map(String::trim)
 						.limit(3) // Máximo 3 nombres
@@ -415,9 +415,9 @@ public class ForgeBusEvents {
 				});
 
 				reviveOthers(player, porungaNames, "Porunga");
-				stats.setPorungaRevive(false);
+				stats.setBoolean("porungarevive", false);
 				event.setCanceled(true);
-			} else if (stats.isShenronRevive()) {
+			} else if (stats.getBoolean("shenronrevive")) {
 				List<String> names = Arrays.stream(message.split(","))
 						.map(String::trim)
 						.limit(3) // Máximo 3 nombres
@@ -431,7 +431,7 @@ public class ForgeBusEvents {
 				});
 
 				reviveOthers(player, names, "Shenron");
-				stats.setShenronRevive(false);
+				stats.setBoolean("shenronrevive", false);
 				event.setCanceled(true);
 			}
 		});
@@ -445,10 +445,10 @@ public class ForgeBusEvents {
 				ServerPlayer target = server.getPlayerList().getPlayerByName(name);
 				if (target != null) {
 					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, target).ifPresent(stats -> {
-						if (!stats.isDmzAlive()) {
-							stats.setDmzAlive(true);
-							stats.setBabaAliveTimer(0);
-							stats.setBabaCooldown(0);
+						if (!stats.getBoolean("alive")) {
+							stats.setBoolean("alive", true);
+							stats.setIntValue("babaalivetimer", 0);
+							stats.setIntValue("babacooldown", 0);
 
 							if (dragon.equals("Shenron")) {
 								target.sendSystemMessage(Component.translatable("lines.shenron.revive.revived", player.getName().getString()));

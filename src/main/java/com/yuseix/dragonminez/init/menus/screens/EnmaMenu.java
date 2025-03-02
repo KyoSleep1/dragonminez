@@ -137,7 +137,7 @@ public class EnmaMenu extends Screen {
 		this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
 				Component.translatable("lines.enma.option.revive"), (button) -> {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
-				if (playerstats.isDmzAlive() || playerstats.getBabaAliveTimer() > 20) {
+				if (playerstats.getBoolean("alive") || playerstats.getIntValue("babaalivetimer") > 20) {
 					PageOption = "revive";
 				} else PageOption = "norevive";
 			});

@@ -128,7 +128,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 if (bodyType == 0) {
@@ -194,8 +194,8 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -220,8 +220,8 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -230,7 +230,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
             //BODYCOLOR1
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
             //BODYCOLOR2
-            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor2 = cap.getIntValue("bodycolor2");
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
@@ -256,9 +256,9 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int ojoscolorbase = cap.getEye1Color();
-            int ojostype = cap.getEyesType();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int ojoscolorbase = cap.getIntValue("eye1color");
+            int ojostype = cap.getIntValue("eyestype");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;

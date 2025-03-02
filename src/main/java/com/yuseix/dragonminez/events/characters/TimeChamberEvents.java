@@ -40,12 +40,12 @@ public class TimeChamberEvents {
 		if (player.isCreative()) return;
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-			int str = stats.getStrength();
-			int def = stats.getDefense();
-			int con = stats.getConstitution();
-			int pwr = stats.getKiPower();
-			int ene = stats.getEnergy();
-			boolean isDmzUser = stats.isAcceptCharacter();
+			int str = stats.getStat("STR");
+			int def = stats.getStat("DEF");
+			int con = stats.getStat("CON");
+			int pwr = stats.getStat("PWR");
+			int ene = stats.getStat("ENE");
+			boolean isDmzUser = stats.getBoolean("dmzuser");
 
 			// Si no creó su personaje, no hacer nada xd
 			if (!isDmzUser) return;

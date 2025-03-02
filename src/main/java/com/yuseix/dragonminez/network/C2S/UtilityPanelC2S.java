@@ -36,24 +36,24 @@ public class UtilityPanelC2S {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					switch (packet.tipo) {
 						case "group" -> {
-							cap.setDmzGroupForm(packet.group);
+							cap.setStringValue("groupform", packet.group);
 						}
 						case "teropc" -> {
-							switch (cap.getRace()) {
+							switch (cap.getIntValue("race")) {
 								case 0 -> {}
-								case 1 -> cap.setTailMode(!cap.isTailMode());
+								case 1 -> cap.setBoolean("tailmode", !cap.getBoolean("tailmode"));
 								case 2 -> {}
 								case 3 -> {
-									switch (cap.getDmzForm()) {
-										case "semi_perfect" -> cap.setDmzForm("base");
-										case "perfect" -> cap.setDmzForm("semi_perfect");
+									switch (cap.getStringValue("form")) {
+										case "semi_perfect" -> cap.setStringValue("form", "base");
+										case "perfect" -> cap.setStringValue("form", "semi_perfect");
 									}
 								}
 								case 4 -> {
-									switch (cap.getDmzForm()) {
-										case "second_form" -> cap.setDmzForm("base");
-										case "third_form" -> cap.setDmzForm("second_form");
-										case "final_form" -> cap.setDmzForm("third_form");
+									switch (cap.getStringValue("form")) {
+										case "second_form" -> cap.setStringValue("form", "base");
+										case "third_form" -> cap.setStringValue("form", "second_form");
+										case "final_form" -> cap.setStringValue("form", "third_form");
 									}
 								}
 								case 5 -> {}

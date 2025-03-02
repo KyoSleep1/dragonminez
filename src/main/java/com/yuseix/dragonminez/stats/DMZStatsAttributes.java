@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class DMZStatsAttributes {
@@ -20,32 +21,19 @@ public class DMZStatsAttributes {
 
     private DMZDatos dmzdatos = new DMZDatos();
 
-    private int races;
-    private int hairID, bodytype, eyesType;
-    private int strength = 5;
-    private int defense = 5;
-    private int constitution = 5, curStam;
+    private int races, hairID, bodytype, eyesType;
+    private int strength = 5, defense = 5, constitution = 5, KiPower = 5, energy = 5, dmzRelease = 5, FormRelease;
+    private int curStam, currentEnergy, dmzAlignment = 100, zpoints;
 
-    private int dmzRelease = 5;
-    private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0, babaCooldown = 0, babaAliveTimer = 0;
-
-    private int zpoints;
-    private int KiPower = 5, zenkaiCount = 0;
-
-    private int energy = 5, currentEnergy;
-    private int dmzAlignment = 100;
+    private int dmzSenzuDaily = 0, saiyanZenkaiTimer = 0, zenkaiCount = 0, babaCooldown = 0, babaAliveTimer = 0;
 
     private int bodyColor, bodyColor2, bodyColor3, eye1Color, eye2Color, hairColor = 921617, auraColor = 8388607;
-    private int FormRelease;
 
-    private String gender = "Male";
-    private String dmzClass = "Warrior";
-    private String dmzKiWeapon = "sword";
-    private String dmzForm = "base";
-    private String dmzGroupForm = "";
-
-    private boolean AcceptCharacter = false, isDescendkeyon = false, isTurbonOn = false, compactMenu = false, isPorungaRevive = false, isShenronRevive = false;
-    private boolean isTransforming = false, isKaioPlanet = false, isAuraOn = false, isDmzAlive = true, tailMode = false;
+    private String gender = "male", dmzClass = "warrior", dmzKiWeapon = "sword";
+    private String dmzForm = "base", dmzGroupForm = "";
+    
+    private boolean AcceptCharacter = false, isAuraOn = false, isTurboOn = false, isDmzAlive = true, tailMode = false;
+    private boolean isTransforming = false, isDescendkeyon = false, compactMenu = false, isKaioPlanet = false, isPorungaRevive = false, isShenronRevive = false;
 
     private final Player player;
 
@@ -53,664 +41,343 @@ public class DMZStatsAttributes {
         this.player = player;
     }
 
-    public boolean isTailMode() {
-        return tailMode;
+    public int getStat(String stat) {
+        int value = 0;
+        switch (stat.toUpperCase(Locale.ROOT)) {
+          case "STR" -> value = strength;
+          case "DEF" -> value = defense;
+          case "CON" -> value = constitution;
+          case "PWR" -> value = KiPower;
+          case "ENE" -> value = energy;
+		}
+        return value;
     }
 
-    public void setTailMode(boolean tailMode) {
-        this.tailMode = tailMode;
-    }
-
-    public boolean isTransforming() {
-        return isTransforming;
-    }
-
-    public void setTransforming(boolean transforming) {
-        isTransforming = transforming;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getFormRelease() {
-        return FormRelease;
-    }
-
-    public void setFormRelease(int formRelease) {
-        this.FormRelease = Math.max(0, Math.min(100, formRelease));
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public String getDmzForm() {
-        return dmzForm;
-    }
-
-    public void setDmzForm(String dmzForm) {
-        this.dmzForm = dmzForm;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public String getDmzGroupForm() {
-        return dmzGroupForm;
-    }
-
-    public void setDmzGroupForm(String dmzGroupForm) {
-        this.dmzGroupForm = dmzGroupForm;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public boolean isTurboOn() {
-        return isTurbonOn;
-    }
-
-    public void setTurboOn(boolean auraOn) {
-        isTurbonOn = auraOn;
-        DMZStatsCapabilities.syncStats(player);
-    }
-    public boolean isAuraOn() {
-        return isAuraOn;
-    }
-
-    public void setAuraOn(boolean auraOn) {
-        isAuraOn = auraOn;
-        DMZStatsCapabilities.syncStats(player);
-    }
-    public boolean isDescendKeyOn() {
-        return isDescendkeyon;
-    }
-
-    public void setDescendKey(boolean descendKey) {
-        isDescendkeyon = descendKey;
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getDmzSenzuDaily() {
-        return dmzSenzuDaily;
-    }
-
-    public void setDmzSenzuDaily(int dmzSenzuDaily) {
-        this.dmzSenzuDaily = dmzSenzuDaily;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getDmzRelease() {
-        return dmzRelease;
-    }
-    public void setDmzRelease(int dmzRelease) {
-        this.dmzRelease = dmzRelease;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public String getDmzClass() {
-        return dmzClass;
-    }
-
-    public int getDmzAlignment() {
-        return dmzAlignment;
-    }
-
-    public int getZpoints() {
-        return zpoints;
-    }
-
-    public void setZpoints(int zpoints) {
-        this.zpoints = zpoints;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getBodyColor() {
-        return bodyColor;
-    }
-
-    public void setBodyColor(int bodyColor) {
-        this.bodyColor = bodyColor;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getBodyColor2() {
-        return bodyColor2;
-    }
-
-    public void setBodyColor2(int bodyColor2) {
-        this.bodyColor2 = bodyColor2;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getBodyColor3() {
-        return bodyColor3;
-    }
-
-    public void setBodyColor3(int bodyColor3) {
-        this.bodyColor3 = bodyColor3;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getEye1Color() {
-        return eye1Color;
-
-    }
-
-    public void setEye1Color(int eye1Color) {
-        this.eye1Color = eye1Color;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getEye2Color() {
-        return eye2Color;
-    }
-
-    public void setEye2Color(int eye2Color) {
-        this.eye2Color = eye2Color;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getHairColor() {
-        return hairColor;
-    }
-
-    public void setHairColor(int hairColor) {
-        this.hairColor = hairColor;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getAuraColor() {
-        return auraColor;
-    }
-
-    public void setAuraColor(int auraColor) {
-        this.auraColor = auraColor;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public void addStrength(int points) {
-
-        if (strength <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            strength += points;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addDefense(int points) {
-
-        if (defense <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            defense += points;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addCon(int points) {
-
-        if (constitution <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            constitution += points;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-
-    public void addKipwr(int points) {
-
-        if (KiPower <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            KiPower += points;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addEnergy(int points) {
-
-        if (energy <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            energy += points;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addZpoints(int points) {
-
-        zpoints += points;
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void removeZpoints(int points) {
-
-        if (this.zpoints >= points) {
-            this.zpoints -= points;
-        } else {
-            this.zpoints = 0;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void removeStrenght(int points) {
-
-        this.strength -= points;
-
-        if (this.strength < 1) {
-            this.strength = 1;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public void removeDefense(int points) {
-
-        this.defense -= points;
-
-        if (this.defense < 1) {
-            this.defense = 1;
+    public void setStat(String stat, int value) {
+        switch (stat.toUpperCase(Locale.ROOT)) {
+          case "STR" -> {
+              this.strength = value;
+              if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              else this.strength = value;
+          }
+          case "DEF" -> {
+                this.defense = value;
+                if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                else this.defense = value;
+          }
+          case "CON" -> {
+              this.constitution = value;
+              if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              else this.constitution = value;
+          }
+          case "PWR" -> {
+              this.KiPower = value;
+              if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              else this.KiPower = value;
+          }
+          case "ENE" -> {
+              this.energy = value;
+              if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              else this.energy = value;
+          }
         }
         DMZStatsCapabilities.syncStats(player);
     }
 
-    public void removeConstitution(int points) {
-
-        this.constitution -= points;
-
-        if (this.constitution < 1) {
-            this.constitution = 1;
+    public void addStat(String stat, int points) {
+        switch (stat.toUpperCase(Locale.ROOT)) {
+          case "STR" -> {
+              if (strength <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) strength += points;
+              if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+          }
+          case "DEF" -> {
+              if (defense <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) defense += points;
+              if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+          }
+          case "CON" -> {
+              if (constitution <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) constitution += points;
+              if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+          }
+          case "PWR" -> {
+              if (KiPower <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) KiPower += points;
+              if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+          }
+          case "ENE" -> {
+              if (energy <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) energy += points;
+              if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+          }
         }
-
         DMZStatsCapabilities.syncStats(player);
     }
 
-    public void removeKiPower(int points) {
-
-        this.KiPower -= points;
-
-        if (this.KiPower < 1) {
-            this.KiPower = 1;
+    public void removeStat(String stat, int points) {
+        switch (stat.toUpperCase(Locale.ROOT)) {
+          case "STR" -> {
+              strength -= points;
+              if (strength < 5) strength = 5;
+          }
+          case "DEF" -> {
+              defense -= points;
+              if (defense < 5) defense = 5;
+          }
+          case "CON" -> {
+              constitution -= points;
+              if (constitution < 5) constitution = 5;
+          }
+          case "PWR" -> {
+              KiPower -= points;
+              if (KiPower < 5) KiPower = 5;
+          }
+          case "ENE" -> {
+              energy -= points;
+              if (energy < 5) energy = 5;
+          }
         }
-
         DMZStatsCapabilities.syncStats(player);
-
     }
 
-    public void removeEnergy(int points) {
-
-        this.energy -= points;
-
-        if (this.energy < 1) {
-            this.energy = 1;
+    public boolean getBoolean(String value) {
+        boolean result = false;
+        switch (value.toLowerCase()) {
+            case "aura" -> result = isAuraOn;
+            case "turbo" -> result = isTurboOn;
+            case "descend" -> result = isDescendkeyon;
+            case "transform" -> result = isTransforming;
+            case "alive" -> result = isDmzAlive;
+            case "tailmode" -> result = tailMode;
+            case "kaioplanet" -> result = isKaioPlanet;
+            case "porungarevive" -> result = isPorungaRevive;
+            case "shenronrevive" -> result = isShenronRevive;
+            case "compactmenu" -> result = compactMenu;
+            case "dmzuser"  -> result = AcceptCharacter;
+            default -> System.out.println("The BOOLEAN value " + value + "could not be found");
         }
-
-        DMZStatsCapabilities.syncStats(player);
-
+        return result;
     }
 
-
-    public int getRace() {
-        return races;
-    }
-
-    public void setRace(int races) {
-        this.races = Math.min(races, 6);
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getHairID() {
-        return hairID;
-    }
-
-    public void setHairID(int hairID) {
-        this.hairID = hairID;
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getBodytype() {
-        return bodytype;
-    }
-
-    public void setBodytype(int bodytype) {
-        this.bodytype = bodytype;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getEyesType() {
-        return eyesType;
-    }
-
-    public void setEyesType(int eyesType) {
-        this.eyesType = eyesType;
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-
-        this.strength = strength;
-
-        if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.strength = strength;
+    public void setBoolean(String value, boolean state) {
+        switch (value.toLowerCase()) {
+            case "aura" -> isAuraOn = state;
+            case "turbo" -> isTurboOn = state;
+            case "descend" -> isDescendkeyon = state;
+            case "transform" -> isTransforming = state;
+            case "alive" -> isDmzAlive = state;
+            case "tailmode" -> tailMode = state;
+            case "kaioplanet" -> isKaioPlanet = state;
+            case "porungarevive" -> isPorungaRevive = state;
+            case "shenronrevive" -> isShenronRevive = state;
+            case "compactmenu" -> compactMenu = state;
+            case "dmzuser" -> AcceptCharacter = state;
+            default -> System.out.println("The BOOLEAN value " + value + "could not be found");
         }
-
         DMZStatsCapabilities.syncStats(player);
-
     }
 
-    public int getDefense() {
-
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-
-        this.defense = defense;
-
-        if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.defense = defense;
+    public int getIntValue(String value) {
+        int result = 0;
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "race" -> result = races;
+            case "formrelease" -> result = FormRelease;
+            case "senzutimer" -> result = dmzSenzuDaily;
+            case "release" -> result = dmzRelease;
+            case "alignment" -> result = dmzAlignment;
+            case "tps" -> result = zpoints;
+            case "bodycolor" -> result = bodyColor;
+            case "bodycolor2" -> result = bodyColor2;
+            case "bodycolor3" -> result = bodyColor3;
+            case "eye1color" -> result = eye1Color;
+            case "eye2color" -> result = eye2Color;
+            case "haircolor" -> result = hairColor;
+            case "hairid" -> result = hairID;
+            case "bodytype" -> result = bodytype;
+            case "eyestype" -> result = eyesType;
+            case "auracolor" -> result = auraColor;
+            case "zenkaicount" -> result = zenkaiCount;
+            case "zenkaitimer" -> result = saiyanZenkaiTimer;
+            case "babacooldown" -> result = babaCooldown;
+            case "babaalivetimer" -> result = babaAliveTimer;
+            case "maxhealth" -> result = dmzdatos.calcConstitution(this);
+            case "maxenergy" -> result = dmzdatos.calcEnergy(this);
+            case "curstam" -> result = curStam;
+            case "curenergy" -> result = currentEnergy;
+            default -> System.out.println("The INT value " + value + "could not be found");
         }
-
-        DMZStatsCapabilities.syncStats(player);
+        return result;
     }
 
-    public int getConstitution() {
-        return constitution;
-    }
-
-    public void setConstitution(int constitution) {
-
-        this.constitution = constitution;
-
-        if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.constitution = constitution;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getKiPower() {
-        return KiPower;
-    }
-
-    public void setKiPower(int kiPower) {
-
-        this.KiPower = kiPower;
-
-        if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.KiPower = kiPower;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void setEnergy(int energy) {
-
-        this.energy = energy;
-
-        if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) {
-            this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
-        } else {
-            this.energy = energy;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public int getCurrentEnergy() {
-        return currentEnergy;
-    }
-
-    public void setCurrentEnergy(int currentEnergy) {
-
-        var maxEne = 0;
-
-        maxEne = dmzdatos.calcularENE(this);
-
-        if(currentEnergy >= maxEne){
-            this.currentEnergy = maxEne;
-        } else {
-            this.currentEnergy = currentEnergy;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void removeCurEnergy(int currentEnergy) {
-        this.currentEnergy -= currentEnergy;
-
-        if (this.currentEnergy < 0) {
-            this.currentEnergy = 0;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addCurEnergy(int currentEnergy) {
-
-        var maxEne = 0;
-
-        maxEne = dmzdatos.calcularENE(this);
-
-        if(currentEnergy >= maxEne){
-            this.currentEnergy = maxEne;
-        } else {
-            this.currentEnergy += currentEnergy;
-
-            if(this.currentEnergy > maxEne){
-                this.currentEnergy = maxEne;
+    public void setIntValue(String value, int points) {
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "race" -> races = Math.min(points, 6);
+            case "formrelease" -> FormRelease = Math.max(0, Math.min(100, points));
+            case "senzutimer" -> dmzSenzuDaily = points;
+            case "release" -> dmzRelease = points;
+            case "alignment" -> dmzAlignment = Math.min(dmzAlignment + points, 100);
+            case "tps" -> zpoints = points;
+            case "bodycolor" -> bodyColor = points;
+            case "bodycolor2" -> bodyColor2 = points;
+            case "bodycolor3" -> bodyColor3 = points;
+            case "eye1color" -> eye1Color = points;
+            case "eye2color" -> eye2Color = points;
+            case "haircolor" -> hairColor = points;
+            case "hairid" -> hairID = points;
+            case "bodytype" -> bodytype = points;
+            case "eyestype" -> eyesType = points;
+            case "auracolor" -> auraColor = points;
+            case "zenkaicount" -> zenkaiCount = points;
+            case "zenkaitimer" -> saiyanZenkaiTimer = points;
+            case "babacooldown" -> babaCooldown = points;
+            case "babaalivetimer" -> babaAliveTimer = points;
+            case "curstam" -> {
+                if (curStam >= dmzdatos.calcStamina(this)) this.curStam = dmzdatos.calcStamina(this);
+                else this.curStam = points;
             }
-        }
-
-
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getMaxHealth() {
-        return dmzdatos.calcularCON(this);
-    }
-
-    public int getMaxEnergy() {
-        return dmzdatos.calcularENE(this);
-    }
-
-    public int getCurStam() {
-
-        return curStam;
-    }
-
-    public void setCurStam(int curStam) {
-
-        var maxStam = dmzdatos.calcularSTM(this);
-
-        if(curStam >= maxStam){
-            this.curStam = maxStam;
-        } else {
-            this.curStam = curStam;
-        }
-
-        //this.curStam = curStam;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public void removeCurStam(int curStam) {
-        this.curStam -= curStam;
-
-        if (this.curStam < 0) {
-            this.curStam = 0;
-        }
-        DMZStatsCapabilities.syncStats(player);
-
-    }
-
-    public void addCurStam(int curStam) {
-        var maxStam = dmzdatos.calcularSTM(this);
-
-        if(curStam >= maxStam){
-            this.curStam = maxStam;
-        } else {
-            this.curStam += curStam;
-
-            if(this.curStam > maxStam){
-                this.curStam = maxStam;
+            case "curenergy" -> {
+                if (currentEnergy >= dmzdatos.calcEnergy(this)) this.currentEnergy = dmzdatos.calcEnergy(this);
+                else this.currentEnergy = points;
             }
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public boolean isAcceptCharacter() {
-        return AcceptCharacter;
-    }
-
-    public void setAcceptCharacter(boolean acceptCharacter) {
-        AcceptCharacter = acceptCharacter;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public String getKiWeaponId() {
-        return dmzKiWeapon;
-    }
-
-    public void setKiWeapon(String dmzKiWeapon) {
-        this.dmzKiWeapon = dmzKiWeapon;
-        DMZStatsCapabilities.syncStats(player);
-    }
-    public void setDmzClass(String dmzClass) {
-        this.dmzClass = dmzClass;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public void setDmzAlignment(int points) {
-        if (points >= 100) {
-            this.dmzAlignment = 100; // Máximo 100
-        } else {
-            this.dmzAlignment = points;
-        }
-
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public void removeDmzAlignment(int puntos) {
-        this.dmzAlignment -= puntos; // Resta 'puntos' a 'dmzAlignment'
-
-        if (this.dmzAlignment < 0) {
-            this.dmzAlignment = 0; // Limita el valor a un mínimo de 0
+            default -> System.out.println("The INT value " + value + "could not be found");
         }
         DMZStatsCapabilities.syncStats(player);
     }
 
-    public void addDmzAlignment(int points) {
-        dmzAlignment = Math.min(dmzAlignment + points, 100); // Esto limita el máximo a 100
+    public void addIntValue(String value, int points) {
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "alignment" -> dmzAlignment = Math.min(dmzAlignment + points, 100);
+            case "tps" -> zpoints += points;
+            case "curstam" -> {
+                this.curStam += points;
+                if (this.curStam >= dmzdatos.calcStamina(this)) this.curStam = dmzdatos.calcStamina(this);
+            }
+            case "curenergy" -> {
+                this.currentEnergy += points;
+                if (this.currentEnergy >= dmzdatos.calcEnergy(this)) this.currentEnergy = dmzdatos.calcEnergy(this);
+            }
+            default -> System.out.println("The INT value " + value + "could not be found");
+        }
         DMZStatsCapabilities.syncStats(player);
     }
+
+    public void removeIntValue(String value, int points) {
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "alignment" -> dmzAlignment = Math.max(dmzAlignment - points, 0);
+            case "tps" -> {
+                zpoints -= points;
+                if (zpoints < 0) zpoints = 0;
+            }
+            case "curstam" -> {
+                this.curStam -= points;
+                if (this.curStam < 0) this.curStam = 0;
+            }
+            case "curenergy" -> {
+                this.currentEnergy -= points;
+                if (this.currentEnergy < 0) this.currentEnergy = 0;
+            }
+            default -> System.out.println("The INT value " + value + "could not be found");
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
+    public String getStringValue(String value) {
+        String result = "";
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "gender" -> result = gender;
+            case "groupform" -> result = dmzGroupForm;
+            case "form" -> result = dmzForm;
+            case "kiweapon" -> result = dmzKiWeapon;
+            case "class" -> result = dmzClass;
+            default -> System.out.println("The STRING value " + value + "could not be found");
+        }
+        return result;
+    }
+
+    public void setStringValue(String value, String newValue) {
+        switch (value.toLowerCase(Locale.ROOT)) {
+            case "gender" -> gender = newValue;
+            case "groupform" -> dmzGroupForm = newValue;
+            case "form" -> dmzForm = newValue;
+            case "kiweapon" -> dmzKiWeapon = newValue;
+            case "class" -> dmzClass = newValue;
+            default -> System.out.println("The STRING value " + value + "could not be found");
+        }
+        DMZStatsCapabilities.syncStats(player);
+    }
+
 
     public void addSkill(String name, DMZSkill skill) {
         DMZSkills.put(name, skill);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
     }
+
     public void addFormSkill(String name, FormsData skill) {
         FormsData.put(name, skill);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncFormsSkills(player);
     }
+
     public DMZSkill getSkill(String name) {
-        if (DMZSkills.containsKey(name)) {
-            return DMZSkills.get(name);
-        }
+        if (DMZSkills.containsKey(name)) return DMZSkills.get(name);
         return null;
     }
+
     public FormsData getFormSkill(String name) {
-        if (FormsData.containsKey(name)) {
-            return FormsData.get(name);
-        }
+        if (FormsData.containsKey(name)) return FormsData.get(name);
         return null;
     }
+
     public void setDMZSkills(Map<String, DMZSkill> DMZSkills) {
         this.DMZSkills = DMZSkills;
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
     }
+
     public void setDMZFormSkill(Map<String, FormsData> DMZFormSkill) {
         this.FormsData = DMZFormSkill;
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncFormsSkills(player);
-
     }
+
     public boolean hasSkill(String name) {
         return DMZSkills.containsKey(name);
     }
+
     public boolean hasFormSkill(String name) {
         return FormsData.containsKey(name);
     }
+
     public Map<String, DMZSkill> getDMZSkills() {
         return DMZSkills;
-
     }
+
     public Map<String, FormsData> getAllDMZForms() {
         return FormsData;
-
     }
+
     public void removeSkill(String name) {
         DMZSkill skill = DMZSkills.get(name);
-
-        if(skill != null){
-            DMZSkills.remove(name);
-        }
-
+        if(skill != null) DMZSkills.remove(name);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
-
     }
+
     public void removeAllSkills() {
         DMZSkills.clear();
-
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
-
     }
+
     public void removeFormSkill(String name) {
         FormsData formskill = FormsData.get(name);
-
-        if(formskill != null){
-            FormsData.remove(name);
-        }
-
+        if(formskill != null) FormsData.remove(name);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncFormsSkills(player);
-
     }
 
     public int getSkillLevel(String name) {
         DMZSkill skill = DMZSkills.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
     }
+
     public int getFormSkillLevel(String name) {
         FormsData skill = FormsData.get(name);
         return skill != null ? skill.getLevel() : -1;  // Devuelve -1 si no existe la habilidad
@@ -718,48 +385,37 @@ public class DMZStatsAttributes {
 
     public boolean isActiveSkill(String name) {
         DMZSkill skill = DMZSkills.get(name);
-        if (skill == null) {
-            return false;
-        }
+        if (skill == null) return false;
         return skill.isActive();
     }
 
     public void setSkillActive(String name, boolean isActive){
         DMZSkill skill = DMZSkills.get(name);
-        if(skill != null){
-            skill.setActive(isActive);
-        }
-
+        if(skill != null) skill.setActive(isActive);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
 
     }
     public void setSkillLvl(String name, int cantidad){
         DMZSkill skill = DMZSkills.get(name);
-        if(skill != null){
-            skill.setLevel(cantidad);
-        }
-
+        if(skill != null) skill.setLevel(cantidad);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncSkills(player);
 
     }
     public void setFormSkillLvl(String skillform, int cantidad){
         FormsData skill = FormsData.get(skillform);
-        if(skill != null){
-            skill.setLevel(cantidad);
-        }
+        if(skill != null) skill.setLevel(cantidad);
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncFormsSkills(player);
 
     }
+
     // Métodos para gestionar los estados permanentes wa
     public void addDMZPermanentEffect(String permanentEffect, boolean isActive) {
         DMZPermanentEffects.put(permanentEffect, isActive);
         DMZStatsCapabilities.syncStats(player);
-
         DMZStatsCapabilities.syncPermanentEffects(player);
-
     }
 
     public Boolean getDMZPermaEffect(String permanentEffect) {
@@ -777,21 +433,17 @@ public class DMZStatsAttributes {
     public void setDMZPermanentEffect(String permanentEffect, boolean isActive) {
         if (DMZPermanentEffects.containsKey(permanentEffect)) {
             DMZPermanentEffects.put(permanentEffect, isActive);
-
             DMZStatsCapabilities.syncStats(player);
             DMZStatsCapabilities.syncPermanentEffects(player);
-
         }
     }
 
     public void removePermanentEffect(String permanentEffect) {
         if (DMZPermanentEffects.containsKey(permanentEffect)) {
             DMZPermanentEffects.remove(permanentEffect);
-
             DMZStatsCapabilities.syncStats(player);
             DMZStatsCapabilities.syncPermanentEffects(player);
         }
-
     }
 
     // Métodos para gestionar los estados temporales wa
@@ -801,11 +453,8 @@ public class DMZStatsAttributes {
 
     public void addDMZTemporalEffect(String temporalEffect, int seconds) {
         DMZTemporalEffects.put(temporalEffect, seconds);
-
         DMZStatsCapabilities.syncStats(player);
         DMZStatsCapabilities.syncTempEffects(player);
-
-
     }
 
 
@@ -820,107 +469,24 @@ public class DMZStatsAttributes {
     public void setDMZTemporalEffect(String permanentEffect, int seconds) {
         if (DMZTemporalEffects.containsKey(permanentEffect)) {
             DMZTemporalEffects.put(permanentEffect, seconds);
-
             DMZStatsCapabilities.syncStats(player);
             DMZStatsCapabilities.syncTempEffects(player);
-
-
         }
     }
-
     public void removeTemporalEffect(String temporalEffect) {
         if (DMZTemporalEffects.containsKey(temporalEffect)) {
             DMZTemporalEffects.remove(temporalEffect);
-
             DMZStatsCapabilities.syncStats(player);
             DMZStatsCapabilities.syncTempEffects(player);
-
         }
     }
 
-    public boolean isCompactMenu() {
-        return compactMenu;
-    }
-
-    public void setCompactMenu(boolean compactMenu) {
-        this.compactMenu = compactMenu;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public boolean isPorungaRevive() {
-        return isPorungaRevive;
-    }
-
-    public void setPorungaRevive(boolean isPorungaRevive) {
-        this.isPorungaRevive = isPorungaRevive;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public boolean isShenronRevive() {
-        return isShenronRevive;
-    }
-
-    public void setShenronRevive(boolean isShenronRevive) {
-        this.isShenronRevive = isShenronRevive;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getZenkaiCount() {
-        return zenkaiCount;
-    }
-
-    public void setZenkaiCount(int zenkaiCount) {
-        this.zenkaiCount = zenkaiCount;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
-    public int getSaiyanZenkaiTimer() {
-        return saiyanZenkaiTimer;
-    }
-
-    public void setSaiyanZenkaiTimer(int saiyanZenkaiTimer) {
-        this.saiyanZenkaiTimer = saiyanZenkaiTimer;
-        DMZStatsCapabilities.syncStats(player);
-    }
-
     public int getDmzBattlePower() {
-        int damage = dmzdatos.calcularSTRCompleta(this);
-        int kiDamage = dmzdatos.calcularPWRCompleta(this);
-        int totalDefense = dmzdatos.calcularDEFCompleta(this);
-        double release = (double) getDmzRelease() / 100;
-		return (int) ((damage + kiDamage + totalDefense + getMaxHealth()) * release);
-    }
-
-    public boolean isKaioPlanet() {
-        return isKaioPlanet;
-    }
-
-    public void setKaioPlanet(boolean isKaioPlanet) {
-        this.isKaioPlanet = isKaioPlanet;
-    }
-
-    public boolean isDmzAlive() {
-        return isDmzAlive;
-    }
-
-    public void setDmzAlive(boolean dmzAlive) {
-        isDmzAlive = dmzAlive;
-    }
-
-    public int getBabaCooldown() {
-        return babaCooldown;
-    }
-
-    public void setBabaCooldown(int babaCooldown) {
-        this.babaCooldown = babaCooldown;
-    }
-
-    public int getBabaAliveTimer() {
-        return babaAliveTimer;
-    }
-
-    public void setBabaAliveTimer(int babaAliveTimer) {
-        this.babaAliveTimer = babaAliveTimer;
+        int damage = dmzdatos.calcMultipliedStrength(this);
+        int kiDamage = dmzdatos.calcMultipliedKiPower(this);
+        int totalDefense = dmzdatos.calcMultipliedDefense(this);
+        double release = (double) getIntValue("release") / 100;
+		return (int) ((damage + kiDamage + totalDefense + getIntValue("maxhealth")) * release);
     }
 
     public CompoundTag saveNBTData() {
@@ -966,7 +532,7 @@ public class DMZStatsAttributes {
         nbt.putInt("zenkaiCount", zenkaiCount);
         nbt.putInt("zenkaiTimer", saiyanZenkaiTimer);
         nbt.putBoolean("isAuraOn", isAuraOn);
-        nbt.putBoolean("isTurboOn", isTurbonOn);
+        nbt.putBoolean("isTurboOn", isTurboOn);
         nbt.putBoolean("isDescendKey", isDescendkeyon);
         nbt.putBoolean("isTransfKey", isTransforming);
         nbt.putBoolean("isDmzAlive", isDmzAlive);
@@ -1075,7 +641,7 @@ public class DMZStatsAttributes {
         zenkaiCount = nbt.getInt("zenkaiCount");
         saiyanZenkaiTimer = nbt.getInt("zenkaiTimer");
         isAuraOn = nbt.getBoolean("isAuraOn");
-        isTurbonOn = nbt.getBoolean("isTurboOn");
+        isTurboOn = nbt.getBoolean("isTurboOn");
         isDescendkeyon = nbt.getBoolean("isDescendKey");
         isTransforming = nbt.getBoolean("isTransfKey");
         tailMode = nbt.getBoolean("tailmode");
