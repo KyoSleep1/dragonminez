@@ -34,6 +34,26 @@ public class StorylineEvents {
 		DebugUtils.dmzLog("StorylineManager initialized");
 	}
 
+	@SubscribeEvent
+	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			syncStoryline(player);
+		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			syncStoryline(player);
+		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		if (event.getEntity() instanceof ServerPlayer player) {
+			syncStoryline(player);
+		}
+	}
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {

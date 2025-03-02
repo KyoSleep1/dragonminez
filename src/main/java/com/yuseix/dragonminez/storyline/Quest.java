@@ -99,13 +99,14 @@ public class Quest {
 
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
+		
+		StorylineEvents.syncStoryline(player);
 
 		if (completed) {
-			DebugUtils.dmzLog("Quest '" + name + "' is now completed!");
+			DebugUtils.dmzLog("Quest '" + name + "' is now completed! for " + player.getName().getString());
 			// Trigger any additional logic for quest completion here
 			player.sendSystemMessage(Component.translatable("quest.completed", getName()));
 		}
-		StorylineEvents.syncStoryline(player);
 	}
 
 	public Map<String, Object> toSerializable() {
