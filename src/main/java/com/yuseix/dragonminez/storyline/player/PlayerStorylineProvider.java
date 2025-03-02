@@ -21,21 +21,13 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 
 	public static final Capability<StorylineManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
 	});
-	private final LazyOptional<StorylineManager> optional = LazyOptional.of(this::getStorylineBackend);
+	private final LazyOptional<StorylineManager> optional;
 
-	private StorylineManager storylineManager = null;
-
-	private final Player player;
+	private final StorylineManager storylineManager;
 
 	public PlayerStorylineProvider(Player player) {
-		this.player = player;
-	}
-
-	private StorylineManager getStorylineBackend() {
-		if (this.storylineManager == null) {
-			this.storylineManager = new StorylineManager(this.player);
-		}
-		return this.storylineManager;
+		this.storylineManager = new StorylineManager(player);
+		this.optional = LazyOptional.of(() -> this.storylineManager);
 	}
 
 	@Override
@@ -50,12 +42,12 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 	@Override
 	public CompoundTag serializeNBT() {
 
-		return getStorylineBackend().saveNBTData();
+		return storylineManager.saveNBTData();
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		getStorylineBackend().loadNBTData(nbt);
+		storylineManager.loadNBTData(nbt);
 	}
 
 }

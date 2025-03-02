@@ -105,6 +105,7 @@ public class StorylineEvents {
 	@SubscribeEvent
 	public void onAdvancement(AdvancementEvent.AdvancementEarnEvent event) {
 
+		DebugUtils.dmzLog("Advancement: " + event.getAdvancement().getId() + " earned by " + event.getEntity().getName().getString());
 
 		//Retrieve the player's storyline capability
 		event.getEntity().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {

@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class SaiyanSaga extends Saga {
 		super("saiyan_saga", "dmz.storyline.saiyan.saga");
 		addQuests(player);
 		addPrerequisites();
+		
+		DebugUtils.dmzLog("Saiyan Saga initialized for " + player.getName().getString());
 	}
 
 	@Override
