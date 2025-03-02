@@ -102,9 +102,9 @@ public class StorylineManager {
 	// Initialize predefined sagas
 	private void initializeSagas() {
 		//Predefined Sagas by the mod
-		Saga saiyanSaga = new SaiyanSaga();
+		Saga saiyanSaga = new SaiyanSaga(player);
 		addSaga(saiyanSaga);
-		Saga friezaSaga = new FriezaSaga();
+		Saga friezaSaga = new FriezaSaga(player);
 		addSaga(friezaSaga);
 
 		//Register sagas from registry, no need for a throws exception as the registry should be checked before
@@ -125,7 +125,9 @@ public class StorylineManager {
 	}
 
 	//Must be public for the sake of the capability
-	public CompoundTag saveNBTData(CompoundTag nbt) {
+	public CompoundTag saveNBTData() {
+
+		CompoundTag nbt = new CompoundTag();
 
 		ListTag sagasTag = new ListTag(); // Main container for all sagas
 		for (Saga saga : sagas.values()) {

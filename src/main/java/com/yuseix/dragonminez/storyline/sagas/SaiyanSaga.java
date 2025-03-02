@@ -1,29 +1,28 @@
 package com.yuseix.dragonminez.storyline.sagas;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
-import com.yuseix.dragonminez.storyline.objectives.ObjectiveCollectItem;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
 public class SaiyanSaga extends Saga {
 
-	public SaiyanSaga() {
+	public SaiyanSaga(Player player) {
 		super("saiyan_saga", "dmz.storyline.saiyan.saga");
-		addQuests();
+		addQuests(player);
 		addPrerequisites();
 	}
 
 	@Override
-	public void addQuests() {
+	public void addQuests(Player player) {
 		// Add quests to the saga
 		Quest quest1 = new Quest(
+				player,
 				"saiyQuest1",
 				"dmz.storyline.saiyan.quest1.title",
 				"dmz.storyline.saiyan.quest1.desc",
@@ -32,6 +31,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest2 = new Quest(
+				player,
 				"saiyQuest2",
 				"dmz.storyline.saiyan.quest2.title",
 				"dmz.storyline.saiyan.quest2.desc",
@@ -40,17 +40,19 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest3 = new Quest(
+				player,
 				"saiyQuest3",
 				"dmz.storyline.saiyan.quest3.title",
 				"dmz.storyline.saiyan.quest3.desc",
 				List.of(new ObjectiveKillEnemy(MainEntity.SAIBAMAN.get(), 1),
-				new ObjectiveKillEnemy(MainEntity.KAIWAREMAN.get(), 1), new ObjectiveKillEnemy(MainEntity.KYUKONMAN.get(), 1),
-				new ObjectiveKillEnemy(MainEntity.COPYMAN.get(), 1), new ObjectiveKillEnemy(MainEntity.JINKOUMAN.get(), 1),
-				new ObjectiveKillEnemy(MainEntity.TENNENMAN.get(), 1)),
+						new ObjectiveKillEnemy(MainEntity.KAIWAREMAN.get(), 1), new ObjectiveKillEnemy(MainEntity.KYUKONMAN.get(), 1),
+						new ObjectiveKillEnemy(MainEntity.COPYMAN.get(), 1), new ObjectiveKillEnemy(MainEntity.JINKOUMAN.get(), 1),
+						new ObjectiveKillEnemy(MainEntity.TENNENMAN.get(), 1)),
 				List.of(quest2) // Prerequisite is the second quest
 		);
 
 		Quest quest4 = new Quest(
+				player,
 				"saiyQuest4",
 				"dmz.storyline.saiyan.quest4.title",
 				"dmz.storyline.saiyan.quest4.desc",
@@ -59,6 +61,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest5 = new Quest(
+				player,
 				"saiyQuest5",
 				"dmz.storyline.saiyan.quest5.title",
 				"dmz.storyline.saiyan.quest5.desc",
@@ -67,6 +70,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest6 = new Quest(
+				player,
 				"saiyQuest6",
 				"dmz.storyline.saiyan.quest6.title",
 				"dmz.storyline.saiyan.quest6.desc",
@@ -75,6 +79,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest7 = new Quest(
+				player,
 				"saiyQuest7",
 				"dmz.storyline.saiyan.quest7.title",
 				"dmz.storyline.saiyan.quest7.desc",
@@ -83,6 +88,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest8 = new Quest(
+				player,
 				"saiyQuest8",
 				"dmz.storyline.saiyan.quest8.title",
 				"dmz.storyline.saiyan.quest8.desc",
@@ -91,6 +97,7 @@ public class SaiyanSaga extends Saga {
 		);
 
 		Quest quest9 = new Quest(
+				player,
 				"saiyQuest9",
 				"dmz.storyline.saiyan.quest9.title",
 				"dmz.storyline.saiyan.quest9.desc",

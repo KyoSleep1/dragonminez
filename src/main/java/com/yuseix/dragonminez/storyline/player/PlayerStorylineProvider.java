@@ -19,7 +19,7 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 
 	public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "storyline");
 
-	public static Capability<StorylineManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+	public static final Capability<StorylineManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
 	});
 	private final LazyOptional<StorylineManager> optional = LazyOptional.of(this::getStorylineBackend);
 
@@ -50,9 +50,7 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 	@Override
 	public CompoundTag serializeNBT() {
 
-		CompoundTag nbt = new CompoundTag();
-		getStorylineBackend().saveNBTData(nbt);
-		return nbt;
+		return getStorylineBackend().saveNBTData();
 	}
 
 	@Override
