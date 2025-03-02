@@ -38,8 +38,6 @@ public class Quest {
 		for (Objective objective : objectives) {
 			objective.setOnCompletion(this::checkQuestCompletion);
 		}
-		
-		DebugUtils.dmzLog("Quest '" + name + "' initialized for " + player.getName().getString());
 
 	}
 

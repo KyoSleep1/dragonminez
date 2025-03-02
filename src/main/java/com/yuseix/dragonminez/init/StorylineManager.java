@@ -5,7 +5,6 @@ import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.sagas.FriezaSaga;
 import com.yuseix.dragonminez.storyline.sagas.SaiyanSaga;
-import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +25,6 @@ public class StorylineManager {
 	 * If you are messy enough you can probably add a "Storyline" to anything and have it work.
 	 */
 	public StorylineManager(Player player) {
-		DebugUtils.dmzLog("Attached StorylineManager to:" + player.getName().getString());
 		this.player = player;
 		initializeSagas();
 	}
