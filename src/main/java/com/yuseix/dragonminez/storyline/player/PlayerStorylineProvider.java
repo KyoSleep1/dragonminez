@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.StorylineManager;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -24,9 +25,15 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 
 	private StorylineManager storylineManager = null;
 
+	private final Player player;
+
+	public PlayerStorylineProvider(Player player) {
+		this.player = player;
+	}
+
 	private StorylineManager getStorylineBackend() {
 		if (this.storylineManager == null) {
-			this.storylineManager = new StorylineManager();
+			this.storylineManager = new StorylineManager(this.player);
 		}
 		return this.storylineManager;
 	}
