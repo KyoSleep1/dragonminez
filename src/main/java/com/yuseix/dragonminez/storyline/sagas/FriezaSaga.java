@@ -1,24 +1,19 @@
 package com.yuseix.dragonminez.storyline.sagas;
 
-import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.registry.IDRegistry;
-import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
-import com.yuseix.dragonminez.storyline.objectives.ObjectiveCollectItem;
-import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToLocation;
-
-import java.util.List;
+import net.minecraft.world.entity.player.Player;
 
 public class FriezaSaga extends Saga {
 
-	public FriezaSaga() {
+	public FriezaSaga(Player player) {
 		super("frieza_saga", "Frieza Saga");
-		addQuests();
+		addQuests(player);
 		addPrerequisites();
 	}
 
 	@Override
-	public void addQuests() {
+	public void addQuests(Player player) {
 		// Add quests to the saga
 	}
 

@@ -21,20 +21,20 @@ public class TickHandler {
 	public void tickRegenConsume(DMZStatsAttributes playerStats, DMZDatos dmzDatos, ServerPlayer player) {
 		DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
 		DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
-		var raza = playerStats.getRace();
+		var raza = playerStats.getIntValue("race");
 
 		// Regeneración de stamina cada 1 segundo
 		staminaRegenCounter++;
 		if (staminaRegenCounter >= 20) {
-			int maxStamina = dmzDatos.calcularSTM(playerStats);
+			int maxStamina = dmzDatos.calcStamina(playerStats);
 			int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
-			if (playerStats.getCurStam() < maxStamina) {
+			if (playerStats.getIntValue("curstam") < maxStamina) {
 				if (meditation != null) {
 					// Si tiene meditación, aumenta o reduce según el nivel de meditación (+5% por nivel)
 					int medLevel = meditation.getLevel();
 					regenStamina += (int) Math.ceil(regenStamina * 0.05 * medLevel);
 				}
-				playerStats.addCurStam(regenStamina);
+				playerStats.addIntValue("curstam", regenStamina);
 				staminaRegenCounter = 0;
 			}
 		}
@@ -42,24 +42,24 @@ public class TickHandler {
 		// Regeneración de energía cada 1 segundo (con turbo activo o no)
 		energyRegenCounter++;
 		if (energyRegenCounter >= 20) {
-			int maxEnergy = dmzDatos.calcularENE(playerStats);
+			int maxEnergy = dmzDatos.calcEnergy(playerStats);
 
-			if (playerStats.isTurboOn()) {
+			if (playerStats.getBoolean("turbo")) {
 				// Si el turbo está activo, consumo de energía
-				int consumeEnergy = dmzDatos.calcularKiRegen(playerStats) * 2;
+				int consumeEnergy = dmzDatos.calcKiRegen(playerStats) * 2;
 				if (consumeEnergy < 2) consumeEnergy = 2;
 				if (meditation != null) {
 					// Reduce 5% del consumo por nivel de meditación
 					int medLevel = meditation.getLevel();
 					consumeEnergy -= (int) Math.ceil(consumeEnergy * 0.05 * medLevel);
 				}
-				playerStats.removeCurEnergy(consumeEnergy);
-			} else if (!playerStats.isTurboOn() && playerStats.getCurrentEnergy() < maxEnergy) {
+				playerStats.removeIntValue("curenergy", consumeEnergy);
+			} else if (!playerStats.getBoolean("turbo") && playerStats.getIntValue("curenergy") < maxEnergy) {
 				if (flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) {
 					// No hacer nada
 				} else {
 					// Si el turbo no está activo, regeneración de energía
-					int regenEnergy = dmzDatos.calcularKiRegen(playerStats) / 2;
+					int regenEnergy = dmzDatos.calcKiRegen(playerStats) / 2;
 					if (regenEnergy < 1) regenEnergy = 1;
 
 					if (meditation != null) {
@@ -73,7 +73,7 @@ public class TickHandler {
 						regenEnergy += (int) Math.ceil(regenEnergy * passiveNamek);
 					}
 
-					playerStats.addCurEnergy(regenEnergy);
+					playerStats.addIntValue("curenergy", regenEnergy);
 				}
 			}
 			energyRegenCounter = 0;
@@ -83,14 +83,14 @@ public class TickHandler {
 		energyConsumeCounter++;
 		if (energyConsumeCounter >= 20) {
 			if (!player.isCreative() && !player.isSpectator()) {
-				int consumeEnergy = dmzDatos.calcularKiConsume(playerStats);
-				if (playerStats.getCurrentEnergy() < consumeEnergy) {
+				int consumeEnergy = dmzDatos.calcKiConsume(playerStats);
+				if (playerStats.getIntValue("curenergy") < consumeEnergy) {
 					System.out.println("Consumes " + consumeEnergy + " energy");
 					System.out.println("No tienes suficiente energía para mantener la forma.");
-					playerStats.setDmzForm("base");
+					playerStats.setStringValue("form", "base");
 					energyConsumeCounter = 0;
 				} else {
-					playerStats.removeCurEnergy(consumeEnergy);
+					playerStats.removeIntValue("curenergy", consumeEnergy);
 					energyConsumeCounter = 0;
 				}
 			}
@@ -101,9 +101,9 @@ public class TickHandler {
 		// Pasiva del Majin: Regen de HP
 		passiveMajinCounter++;
 		if (passiveMajinCounter >= 20) {
-			if (playerstats.getRace() == 5 && player.getHealth() < playerstats.getMaxHealth()) {
+			if (playerstats.getIntValue("race") == 5 && player.getHealth() < playerstats.getIntValue("maxhealth")) {
 				double passiveMajin = DMZMajinConfig.PASSIVE_HEALTH_REGEN.get() / 100;
-				int regenHP = (int) Math.ceil(playerstats.getMaxHealth() * passiveMajin);
+				int regenHP = (int) Math.ceil(playerstats.getIntValue("maxhealth") * passiveMajin);
 				if (regenHP < 1) regenHP = 1;
 				player.heal(regenHP);
 			}
@@ -121,19 +121,19 @@ public class TickHandler {
 		int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get();
 		int zenkaiCooldown = DMZSaiyanConfig.ZENKAI_COOLDOWN.get();
 
-		if (player.getHealth() < (playerstats.getMaxHealth() * 0.10)) {
+		if (player.getHealth() < (playerstats.getIntValue("maxhealth") * 0.10)) {
 			passiveSaiyanCounter++;
-			if (passiveSaiyanCounter >= 20 * 6 && playerstats.getZenkaiCount() < zenkaiCant) {
-				player.heal((int) Math.ceil(playerstats.getMaxHealth() * zenkaiHealth));
-				playerstats.setStrength((int) (playerstats.getStrength() + (playerstats.getStrength() * zenkaiStatBoost)));
-				playerstats.setDefense((int) (playerstats.getDefense() + (playerstats.getDefense() * zenkaiStatBoost)));
-				playerstats.setConstitution((int) (playerstats.getConstitution() + (playerstats.getConstitution() * zenkaiStatBoost)));
-				playerstats.setKiPower((int) (playerstats.getKiPower() + (playerstats.getKiPower() * zenkaiStatBoost)));
-				playerstats.setEnergy((int) (playerstats.getEnergy() + (playerstats.getEnergy() * zenkaiStatBoost)));
-				int cantZenkais = playerstats.getZenkaiCount() + 1;
+			if (passiveSaiyanCounter >= 20 * 6 && playerstats.getIntValue("zenkaicount") < zenkaiCant) {
+				player.heal((int) Math.ceil(playerstats.getIntValue("maxhealth") * zenkaiHealth));
+				playerstats.setStat("STR", (int) (playerstats.getStat("STR") + (playerstats.getStat("STR") * zenkaiStatBoost)));
+				playerstats.setStat("DEF", (int) (playerstats.getStat("DEF") + (playerstats.getStat("DEF") * zenkaiStatBoost)));
+				playerstats.setStat("CON", (int) (playerstats.getStat("CON") + (playerstats.getStat("CON") * zenkaiStatBoost)));
+				playerstats.setStat("PWR", (int) (playerstats.getStat("PWR") + (playerstats.getStat("PWR") * zenkaiStatBoost)));
+				playerstats.setStat("ENE", (int) (playerstats.getStat("ENE") + (playerstats.getStat("ENE") * zenkaiStatBoost)));
+				int cantZenkais = playerstats.getIntValue("zenkaicount") + 1;
 
-				playerstats.setZenkaiCount(cantZenkais);
-				playerstats.setSaiyanZenkaiTimer((zenkaiCooldown * 20 * 60));
+				playerstats.setIntValue("zenkaicount", cantZenkais);
+				playerstats.setIntValue("zenkaitimer", (zenkaiCooldown * 20 * 60));
 				passiveSaiyanCounter = 0;
 			}
 		} else {
@@ -152,30 +152,30 @@ public class TickHandler {
 		DMZSkill flySkill = playerstats.getDMZSkills().get("fly");
 		int potUnlockLevel = potUnlock != null ? potUnlock.getLevel() : 0;
 		int maxRelease = 50 + (potUnlockLevel * 5);
-		var raza = playerstats.getRace();
+		var raza = playerstats.getIntValue("race");
 
 		if (chargeTimer >= 20) {
-			if (playerstats.isAuraOn() && playerstats.isDescendKeyOn()) {
-				if (playerstats.getDmzRelease() > 0) {
-					playerstats.setDmzRelease(playerstats.getDmzRelease() - 1);
-					if (playerstats.getDmzRelease() < 0) {
-						playerstats.setDmzRelease(0);
+			if (playerstats.getBoolean("aura") && playerstats.getBoolean("descend")) {
+				if (playerstats.getIntValue("release") > 0) {
+					playerstats.setIntValue("release", playerstats.getIntValue("release") - 1);
+					if (playerstats.getIntValue("release") < 0) {
+						playerstats.setIntValue("release", 0);
 					}
 				}
 				chargeTimer = 16;
-			} else if (playerstats.isAuraOn()) {
-				if (playerstats.getDmzRelease() < maxRelease) {
-					playerstats.setDmzRelease(playerstats.getDmzRelease() + 5);
-					if (playerstats.getDmzRelease() > maxRelease) {
-						playerstats.setDmzRelease(maxRelease);
+			} else if (playerstats.getBoolean("aura")) {
+				if (playerstats.getIntValue("release") < maxRelease) {
+					playerstats.setIntValue("release", playerstats.getIntValue("release") + 5);
+					if (playerstats.getIntValue("release") > maxRelease) {
+						playerstats.setIntValue("release", maxRelease);
 					}
 				}
-				if (!playerstats.isTurboOn()) {
-					if (playerstats.getCurrentEnergy() < maxenergia) {
-						if ((flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) || playerstats.isTransforming()) {
+				if (!playerstats.getBoolean("turbo")) {
+					if (playerstats.getIntValue("curenergy") < maxenergia) {
+						if ((flySkill != null && flySkill.isActive() && flySkill.getLevel() <= 7) || playerstats.getBoolean("transform")) {
 							// No hacer nada
 						} else {
-							int kiRegen = dmzdatos.calcularCargaKi(playerstats);
+							int kiRegen = dmzdatos.calcKiCharge(playerstats);
 							if (meditation != null) {
 								kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
 							}
@@ -184,12 +184,12 @@ public class TickHandler {
 								// Aumenta 25% (default) de la regeneración por ser humano
 								kiRegen += (int) Math.ceil(kiRegen * passiveHuman);
 							}
-							playerstats.addCurEnergy(kiRegen);
+							playerstats.addIntValue("curenergy", kiRegen);
 						}
 					}
 				}
-				if (playerstats.isTurboOn() && playerstats.getCurrentEnergy() <= 1) {
-					playerstats.setDmzRelease(0);
+				if (playerstats.getBoolean("turbo") && playerstats.getIntValue("curenergy") <= 1) {
+					playerstats.setIntValue("release", 0);
 				}
 				chargeTimer = 0;
 			}
@@ -202,37 +202,37 @@ public class TickHandler {
 		int formLevel = playerstats.getFormSkillLevel("super_form");
 
 
-		if (playerstats.isTransforming() && playerstats.getFormRelease() >= 100) {
+		if (playerstats.getBoolean("transform") && playerstats.getIntValue("formrelease") >= 100) {
 			manejarForms(playerstats);
-			playerstats.setFormRelease(0);
+			playerstats.setIntValue("formrelease", 0);
 		}
 
-		if (playerstats.isTransforming() && playerstats.getFormRelease() >= 0) {
+		if (playerstats.getBoolean("transform") && playerstats.getIntValue("formrelease") >= 0) {
 			if (StatsEvents.getNextForm(playerstats) == null) return;
 			dmzformTimer++;
 			if (dmzformTimer >= 20) {
 				if (StatsEvents.getNextForm(playerstats).equals("oozaru")) {
 					// Si el jugador está mirando hacia arriba y (es de noche + luna llena), aumenta la carga
 					if (player.getXRot() <= -45.0F && player.level().getMoonPhase() == 0 && player.level().getDayTime() % 24000 >= 13000) {
-						playerstats.setFormRelease(playerstats.getFormRelease() + 10);
+						playerstats.setIntValue("formrelease", playerstats.getIntValue("formrelease") + 10);
 					}
-				} else playerstats.setFormRelease(playerstats.getFormRelease() + 5 + (5 * formLevel));
+				} else playerstats.setIntValue("formrelease", playerstats.getIntValue("formrelease") + 5 + (5 * formLevel));
 				dmzformTimer = 0;
 			}
-		} else if (!playerstats.isTransforming() && playerstats.getFormRelease() > 0) {
-			playerstats.setFormRelease(playerstats.getFormRelease() - 1);
+		} else if (!playerstats.getBoolean("transform") && playerstats.getIntValue("formrelease") > 0) {
+			playerstats.setIntValue("formrelease", playerstats.getIntValue("formrelease") - 1);
 			if (dmzformTimer != 0) dmzformTimer = 0;
 		}
 	}
 
 	public void manejarForms(DMZStatsAttributes playerstats) {
-		if (playerstats.getFormRelease() < 100 || !playerstats.hasFormSkill("super_form")) return;
+		if (playerstats.getIntValue("formrelease") < 100 || !playerstats.hasFormSkill("super_form")) return;
 
 		// Obtener la siguiente transformación posible
 		String nextForm = StatsEvents.getNextForm(playerstats);
 
 		if (nextForm != null) {
-			playerstats.setDmzForm(nextForm); // Transformar al jugador
+			playerstats.setStringValue("form", nextForm); // Transformar al jugador
 		}
 	}
 
@@ -254,7 +254,7 @@ public class TickHandler {
 					consumeEnergy = (int) Math.ceil(maxEnergy * 0.02);
 				}
 
-				if (playerStats.getCurrentEnergy() < consumeEnergy) {
+				if (playerStats.getIntValue("curenergy") < consumeEnergy) {
 					if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
 
 					player.getAbilities().flying = false;
@@ -262,7 +262,7 @@ public class TickHandler {
 					player.onUpdateAbilities();
 					flySkill.setActive(false);
 				} else {
-					playerStats.removeCurEnergy(consumeEnergy);
+					playerStats.removeIntValue("curenergy", consumeEnergy);
 					flyTimer = 0;
 				}
 			}

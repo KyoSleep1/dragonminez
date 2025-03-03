@@ -80,10 +80,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            var transf = cap.getDmzForm();
-            var form_group = cap.getDmzGroupForm();
-            var isTransf = cap.isTransforming();
-            var form_release = cap.getFormRelease();
+            var transf = cap.getStringValue("form");
+            var form_group = cap.getStringValue("groupform");
+            var isTransf = cap.getBoolean("transform");
+            var form_release = cap.getIntValue("formrelease");
 
             switch (transf){
                 case "second_form":
@@ -197,9 +197,9 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
-                var transf = cap.getDmzForm();
+                var transf = cap.getStringValue("form");
 
                 switch (transf){
                     case "third_form":
@@ -284,10 +284,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var raza = cap.getRace();
-            var transf = cap.getDmzForm();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
             var auraColor = 0;
 
             switch (raza){
@@ -295,26 +295,26 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
                     switch (transf){
                         case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
                         case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
-                        default -> auraColor = cap.getAuraColor();
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 2:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getAuraColor();
+                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
                         default -> auraColor = 16773525;
                     }
                     break;
                 case 4:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 5:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 default:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
             }
 
@@ -532,7 +532,7 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
             boolean isMajinOn = cap.hasDMZPermaEffect("majin");
-            var transf = cap.getDmzForm();
+            var transf = cap.getStringValue("form");
 
             if(isMajinOn){
                 //Renderizamos la marca majin
@@ -562,10 +562,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -601,10 +601,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -639,10 +639,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -678,10 +678,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -717,10 +717,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -755,10 +755,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -794,8 +794,8 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -818,10 +818,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -856,9 +856,9 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -888,10 +888,10 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
+            int eye1color = cap.getIntValue("eye1color");
+            int eye2color = cap.getIntValue("eye2color");
 
-            if(cap.getEyesType() == 0){
+            if(cap.getIntValue("eyestype") == 0){
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);

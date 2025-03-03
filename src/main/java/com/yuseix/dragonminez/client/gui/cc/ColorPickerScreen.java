@@ -234,7 +234,7 @@ public class ColorPickerScreen extends Screen {
 
     public void panoramas(GuiGraphics graphics, float partialtick){
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-            var race = cap.getRace();
+            var race = cap.getIntValue("race");
 
             if(race == 0){
                 this.customPanorama.render(partialtick, 1.0f);

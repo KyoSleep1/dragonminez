@@ -132,7 +132,7 @@ public class KarinMenu extends Screen {
 			removerBotones();
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
-				if (cap.getDmzSenzuDaily() == 0) {
+				if (cap.getIntValue("senzutimer") == 0) {
 					this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
 						PageOption = "senzu";
 					}));

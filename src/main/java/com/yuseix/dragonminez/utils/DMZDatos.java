@@ -11,21 +11,21 @@ import net.minecraft.world.entity.player.Player;
 public class DMZDatos implements IDMZDatos{
 
     @Override
-    public int calcularSTR(DMZStatsAttributes stats) {
+    public int calcStrength(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "STR");
-        double multTransf = obtenerStatRaza(stats.getRace(), stats.getDmzForm(), "STR");
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "STR");
+        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
         // Fórmula = ((((1 + (StatSTR / 10)) * ConfigRaza) * (Transf * Efectos)) * (Porcentaje / 10))
-        return (int) Math.ceil((((1 + ((double) stats.getStrength() / 10)) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getDmzRelease()/10));
+        return (int) Math.ceil((((1 + ((double) stats.getStat("STR") / 10)) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10));
     }
 
     @Override
-    public int calcularDEF(DMZStatsAttributes stats, Player player) {
+    public int calcDefense(DMZStatsAttributes stats, Player player) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
@@ -34,146 +34,146 @@ public class DMZDatos implements IDMZDatos{
         int DefensaArmor = player.getArmorValue(); int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         int armorTotal = (DefensaArmor + DurezaArmor) * 3;
 
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "DEF");
-        double multTransf = obtenerStatRaza(stats.getRace(), stats.getDmzForm(), "DEF");
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "DEF");
+        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
-        // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 6) + ((DefensaArmor) + (DurezaArmor))
-        return (int) Math.ceil((((((double) stats.getDefense() / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getDmzRelease()/10)) / 5)  + armorTotal;
+        // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 5) + ((DefensaArmor + DurezaArmor) * 3)
+        return (int) Math.ceil((((((double) stats.getStat("DEF") / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
     }
 
     @Override
-    public int calcularCON(DMZStatsAttributes stats) {
+    public int calcConstitution(DMZStatsAttributes stats) {
 
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "CON");
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "CON");
 
         // Fórmula = Math.round(20 + (1.2 * (StatCON * ConfigRaza)))
-        return (int) Math.round(20 + (1.2 * (stats.getConstitution() * multRaza) * 1.6));
+        return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 2.0));
     }
 
     @Override
-    public int calcularSTM(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "STM");
+    public int calcStamina(DMZStatsAttributes stats) {
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
-        return (int) Math.round((stats.getMaxHealth() * 0.65) * multRaza);
+        return (int) Math.round((stats.getIntValue("maxhealth") * 0.75) * multRaza);
     }
 
     @Override
-    public int calcularKiPower(DMZStatsAttributes stats) {
+    public int calcKiPower(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin");boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "PWR");
-        double multTransf = obtenerStatRaza(stats.getRace(), stats.getDmzForm(), "PWR");
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
+        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
-        // Fórmula = Math.ceil(((StatPWR * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
-        return (int) Math.ceil(((stats.getKiPower() * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getDmzRelease()/10));
+        // Fórmula = Math.ceil((((StatPWR / 5) * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
+        return (int) Math.ceil(((((double) stats.getStat("PWR") / 5) * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getIntValue("release")/10));
     }
 
     @Override
-    public int calcularENE(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "ENE");
+    public int calcEnergy(DMZStatsAttributes stats) {
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "ENE");
 
         // Fórmula = Math.round(3 * StatENE * ConfigRaza + 40 * 3)
-        return (int) Math.round(3 * stats.getEnergy() * multRaza + 40 * 3);
+        return (int) Math.round(3 * stats.getStat("ENE") * multRaza + 40 * 3);
     }
 
     @Override
-    public int calcularKiConsume(DMZStatsAttributes stats) {
+    public int calcKiConsume(DMZStatsAttributes stats) {
 		// Fórmula = No hay, es consumo directo. Si en la config SSJ_KI_COST.get() = 50, se consume 50 de ki por segundo.
-        return (int) obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "COST");
+        return (int) obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "COST");
     }
 
     @Override
-    public int calcularKiRegen(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getRace(), stats.getDmzClass(), "REGEN");
+    public int calcKiRegen(DMZStatsAttributes stats) {
+        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "REGEN");
 
         // Fórmula = Math.ceil(EnergiaTotal * ConfigRaza)
 
-        return (int) Math.ceil(stats.getEnergy() * multRaza);
+        return (int) Math.ceil(stats.getStat("ENE") * multRaza);
     }
 
     @Override
-    public double calcularMultiTotal(DMZStatsAttributes stats) {
+    public double calcTotalMultiplier(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multiSTR = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "STR");
-        double multiDEF = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "DEF");
-        double multiPWR = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "PWR");
+        double multiSTR = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDEF = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiPWR = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
         return ((multiSTR + multiDEF + multiPWR) / 3) * efectosTotal;
     }
 
     @Override
-    public double calcularMultiStat(DMZStatsAttributes stats, String stat) {
+    public double calcStatMultiplier(DMZStatsAttributes stats, String stat) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multiTransf = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), stat);
+        double multiTransf = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), stat);
 
         return multiTransf * efectosTotal;
     }
 
     public double calcularMultiTransf(DMZStatsAttributes stats) {
-        double multiStr = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "STR");
-        double multiDef = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "DEF");
-        double multiKiPower = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "PWR");
+        double multiStr = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDef = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiKiPower = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         return (multiStr + multiDef + multiKiPower) / 3;
     }
 
     @Override
-    public int calcularSTRCompleta(DMZStatsAttributes stats) {
+    public int calcMultipliedStrength(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "STR");
+        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
         // Fórmula = (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getStrength() * multForma * efectosDato);
+        return (int) (stats.getStat("STR") * multForma * efectosDato);
     }
 
     @Override
-    public int calcularDEFCompleta(DMZStatsAttributes stats) {
+    public int calcMultipliedDefense(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "DEF");
+        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getDefense() * multForma * efectosDato);
+        return (int) (stats.getStat("DEF") * multForma * efectosDato);
     }
 
     @Override
-    public int calcularPWRCompleta(DMZStatsAttributes stats) {
+    public int calcMultipliedKiPower(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
         double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getRace(), stats.getDmzForm(), "PWR");
+        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Fórmula = (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getKiPower() * multForma * efectosDato);
+        return (int) (stats.getStat("PWR") * multForma * efectosDato);
     }
 
     @Override
-    public int calcularCargaKi(DMZStatsAttributes stats) {
-		return switch (stats.getDmzClass()) {
-			case "Warrior" -> (int) Math.ceil((stats.getMaxEnergy() * 0.02));
-			case "Spiritualist" -> (int) Math.ceil((stats.getMaxEnergy() * 0.04));
+    public int calcKiCharge(DMZStatsAttributes stats) {
+		return switch (stats.getStringValue("class")) {
+			case "Warrior" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.02));
+			case "Spiritualist" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.04));
 			default -> 0;
 		};
     }
@@ -181,92 +181,92 @@ public class DMZDatos implements IDMZDatos{
     public double obtenerStatRaza(int raza, String clase, String stat) {
         return switch (stat) {
             case "STR" -> switch (raza) {
-                case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZHumanConfig.MULTIPLIER_STR_SPIRITUALIST.get();
-                case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZSaiyanConfig.MULTIPLIER_STR_SPIRITUALIST.get();
-                case 2 -> clase.equals("Warrior") ? DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 2 -> clase.equals("warrior") ? DMZNamekConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZNamekConfig.MULTIPLIER_STR_SPIRITUALIST.get();
-                case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZBioAndroidConfig.MULTIPLIER_STR_SPIRITUALIST.get();
-                case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZColdDemonConfig.MULTIPLIER_STR_SPIRITUALIST.get();
-                case 5 -> clase.equals("Warrior") ? DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()
+                case 5 -> clase.equals("warrior") ? DMZMajinConfig.MULTIPLIER_STR_WARRIOR.get()
                         : DMZMajinConfig.MULTIPLIER_STR_SPIRITUALIST.get();
                 default -> 1.0;
             };
             case "DEF" -> switch (raza) {
-                case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZHumanConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
-                case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZSaiyanConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
-                case 2 -> clase.equals("Warrior") ? DMZNamekConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 2 -> clase.equals("warrior") ? DMZNamekConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZNamekConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
-                case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZBioAndroidConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
-                case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZColdDemonConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
-                case 5 -> clase.equals("Warrior") ? DMZMajinConfig.MULTIPLIER_DEF_WARRIOR.get()
+                case 5 -> clase.equals("warrior") ? DMZMajinConfig.MULTIPLIER_DEF_WARRIOR.get()
                         : DMZMajinConfig.MULTIPLIER_DEF_SPIRITUALIST.get();
                 default -> 1.0;
             };
             case "CON" -> switch (raza) {
-                case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZHumanConfig.MULTIPLIER_CON_SPIRITUALIST.get();
-                case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZSaiyanConfig.MULTIPLIER_CON_SPIRITUALIST.get();
-                case 2 -> clase.equals("Warrior") ? DMZNamekConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 2 -> clase.equals("warrior") ? DMZNamekConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZNamekConfig.MULTIPLIER_CON_SPIRITUALIST.get();
-                case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZBioAndroidConfig.MULTIPLIER_CON_SPIRITUALIST.get();
-                case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZColdDemonConfig.MULTIPLIER_CON_SPIRITUALIST.get();
-                case 5 -> clase.equals("Warrior") ? DMZMajinConfig.MULTIPLIER_CON_WARRIOR.get()
+                case 5 -> clase.equals("warrior") ? DMZMajinConfig.MULTIPLIER_CON_WARRIOR.get()
                         : DMZMajinConfig.MULTIPLIER_CON_SPIRITUALIST.get();
                 default -> 1.0;
             };
             case "PWR" -> switch (raza) {
-                case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZHumanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
-                case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZSaiyanConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
-                case 2 -> clase.equals("Warrior") ? DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 2 -> clase.equals("warrior") ? DMZNamekConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZNamekConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
-                case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZBioAndroidConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
-                case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZColdDemonConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
-                case 5 -> clase.equals("Warrior") ? DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
+                case 5 -> clase.equals("warrior") ? DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get()
                         : DMZMajinConfig.MULTIPLIER_KIPOWER_SPIRITUALIST.get();
                 default -> 1.0;
             };
             case "ENE" -> switch (raza) {
-              case 0 -> clase.equals("Warrior") ? DMZHumanConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZHumanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
-              case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZSaiyanConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
-              case 2 -> clase.equals("Warrior") ? DMZNamekConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 2 -> clase.equals("warrior") ? DMZNamekConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZNamekConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
-              case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZBioAndroidConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
-              case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZColdDemonConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
-              case 5 -> clase.equals("Warrior") ? DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get()
+              case 5 -> clase.equals("warrior") ? DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get()
                       : DMZMajinConfig.MULTIPLIER_ENERGY_SPIRITUALIST.get();
               default -> 1.0;
             };
             case "REGEN" -> switch (raza) {
-                case 0 -> clase.equals("Warrior") ? DMZHumanConfig.KI_REGEN_WARRIOR.get()
+                case 0 -> clase.equals("warrior") ? DMZHumanConfig.KI_REGEN_WARRIOR.get()
                         : DMZHumanConfig.KI_REGEN_SPIRITUALIST.get();
-                case 1 -> clase.equals("Warrior") ? DMZSaiyanConfig.KI_REGEN_WARRIOR.get()
+                case 1 -> clase.equals("warrior") ? DMZSaiyanConfig.KI_REGEN_WARRIOR.get()
                         : DMZSaiyanConfig.KI_REGEN_SPIRITUALIST.get();
-                case 2 -> clase.equals("Warrior") ? DMZNamekConfig.KI_REGEN_WARRIOR.get()
+                case 2 -> clase.equals("warrior") ? DMZNamekConfig.KI_REGEN_WARRIOR.get()
                         : DMZNamekConfig.KI_REGEN_SPIRITUALIST.get();
-                case 3 -> clase.equals("Warrior") ? DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()
+                case 3 -> clase.equals("warrior") ? DMZBioAndroidConfig.KI_REGEN_WARRIOR.get()
                         : DMZBioAndroidConfig.KI_REGEN_SPIRITUALIST.get();
-                case 4 -> clase.equals("Warrior") ? DMZColdDemonConfig.KI_REGEN_WARRIOR.get()
+                case 4 -> clase.equals("warrior") ? DMZColdDemonConfig.KI_REGEN_WARRIOR.get()
                         : DMZColdDemonConfig.KI_REGEN_SPIRITUALIST.get();
-                case 5 -> clase.equals("Warrior") ? DMZMajinConfig.KI_REGEN_WARRIOR.get()
+                case 5 -> clase.equals("warrior") ? DMZMajinConfig.KI_REGEN_WARRIOR.get()
                         : DMZMajinConfig.KI_REGEN_SPIRITUALIST.get();
                 default -> 1.0;
             };
@@ -461,9 +461,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     public double transfMultMenu(DMZStatsAttributes stats, String transformation) {
-        double str = obtenerStatTransf(stats.getRace(), transformation, "STR");
-        double def = obtenerStatTransf(stats.getRace(), transformation, "DEF");
-        double pwr = obtenerStatTransf(stats.getRace(), transformation, "PWR");
+        double str = obtenerStatTransf(stats.getIntValue("race"), transformation, "STR");
+        double def = obtenerStatTransf(stats.getIntValue("race"), transformation, "DEF");
+        double pwr = obtenerStatTransf(stats.getIntValue("race"), transformation, "PWR");
 
         return (str + def + pwr) / 3;
     }

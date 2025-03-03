@@ -36,8 +36,7 @@ public class GuruC2S {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 					if(packet.option == 1){
-						DMZSkill skill = playerstats.getSkill("potential_unlock");
-						skill = new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 11, true);
+						DMZSkill skill = new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 11, true);
 						playerstats.addSkill("potential_unlock", skill);
 					} else if(packet.option == 2) {
 						healPlayer(player, playerstats);
@@ -53,13 +52,13 @@ public class GuruC2S {
 
 		player.displayClientMessage(Component.translatable("lines.dende.heal.success"), true);
 
-		double vidaTotal = dmzdatos.calcularCON(playerstats);
-		int energiaMax = dmzdatos.calcularENE(playerstats);
-		int staminaMax = dmzdatos.calcularSTM(playerstats);
+		double vidaTotal = dmzdatos.calcConstitution(playerstats);
+		int energiaMax = dmzdatos.calcEnergy(playerstats);
+		int staminaMax = dmzdatos.calcStamina(playerstats);
 
 		player.heal((float) vidaTotal);
-		playerstats.setCurStam(staminaMax);
-		playerstats.setCurrentEnergy(energiaMax);
+		playerstats.setIntValue("curstam", staminaMax);
+		playerstats.setIntValue("curenergy", energiaMax);
 
 		player.getFoodData().setFoodLevel(20);
 		player.getFoodData().setSaturation(15.0F);

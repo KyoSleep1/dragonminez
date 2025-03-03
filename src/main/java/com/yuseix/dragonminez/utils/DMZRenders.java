@@ -199,8 +199,8 @@ public class DMZRenders {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            var race = cap.getRace();
-            var transf = cap.getDmzForm();
+            var race = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
             var colorAuraFin = 0;
             var colorssj = 16773748;
 

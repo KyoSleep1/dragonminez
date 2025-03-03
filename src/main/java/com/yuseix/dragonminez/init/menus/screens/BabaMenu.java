@@ -88,7 +88,7 @@ public class BabaMenu extends Screen {
 		guiGraphics.drawString(font, Component.literal(babaEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(cap -> {
-			int remainingTicks = cap.getBabaCooldown();
+			int remainingTicks = cap.getIntValue("babacooldown");
 			int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
 			int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
 
@@ -151,7 +151,7 @@ public class BabaMenu extends Screen {
 		this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
 				Component.translatable("lines.baba.option.revive"), (button) -> {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, this.minecraft.player).ifPresent(playerstats -> {
-				if (playerstats.getBabaCooldown() <= 0 && !playerstats.isDmzAlive()) {
+				if (playerstats.getIntValue("babacooldown") <= 0 && !playerstats.getBoolean("alive")) {
 					PageOption = "revive";
 				} else PageOption = "norevive";
 			});

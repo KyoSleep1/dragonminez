@@ -56,12 +56,12 @@ public class PorungaC2S {
 
                 if (packet.option == 8) {
                     DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-                        if (cap.isDmzAlive()) {
+                        if (cap.getBoolean("alive")) {
                             player.displayClientMessage(Component.literal("lines.shenron.new_wish").withStyle(ChatFormatting.RED), true);
                         } else {
-                            cap.setDmzAlive(true);
-                            cap.setBabaCooldown(0);
-                            cap.setBabaAliveTimer(0);
+                            cap.setBoolean("alive", true);
+                            cap.setIntValue("babacooldown", 0);
+                            cap.setIntValue("babaalivetimer", 0);
 
                             player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
                                     entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {

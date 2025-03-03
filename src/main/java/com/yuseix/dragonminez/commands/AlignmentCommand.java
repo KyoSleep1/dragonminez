@@ -67,12 +67,12 @@ public class AlignmentCommand {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.set", player.getName(), 100)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setDmzAlignment(100));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("alignment", 100));
             } else {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.set", player.getName(), puntos)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setDmzAlignment(puntos));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("alignment", puntos));
             }
 
 
@@ -86,12 +86,12 @@ public class AlignmentCommand {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.add", player.getName(), 100)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDmzAlignment(100));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addIntValue("alignment", 100));
             } else {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.add", player.getName(), puntos)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addDmzAlignment(puntos));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.addIntValue("alignment", puntos));
             }
 
 
@@ -105,12 +105,12 @@ public class AlignmentCommand {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.remove", player.getName(), 100)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeDmzAlignment(100));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeIntValue("alignment", 100));
             } else {
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.remove", player.getName(), puntos)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeDmzAlignment(puntos));
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.removeIntValue("alignment", puntos));
             }
 
 

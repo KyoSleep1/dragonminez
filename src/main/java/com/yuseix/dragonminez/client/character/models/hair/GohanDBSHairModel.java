@@ -219,7 +219,7 @@ public class GohanDBSHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-			var auraOn = cap.isAuraOn();
+			var auraOn = cap.getBoolean("aura");
 
 			if(auraOn){
 				var cargaVelocidad = 0.4f;

@@ -340,9 +340,9 @@ public class GokuSSJHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-			var auraOn = cap.isAuraOn();
-			var turboOn = cap.isTurboOn();
-			var transfOn = cap.isTransforming();
+			var auraOn = cap.getBoolean("aura");
+			var turboOn = cap.getBoolean("turbo");
+			var transfOn = cap.getBoolean("transform");
 			var velocidad = 0.4f;
 
 			if(auraOn || turboOn){

@@ -90,7 +90,7 @@ public class GuruMenu extends Screen {
 		pGuiGraphics.drawString(font, Component.literal(guruEntity.getName().getString()).withStyle(ChatFormatting.BOLD), centerX - 120, centerY - 88, 0xFFFFFF);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-			 int raza = playerstats.getRace();
+			 int raza = playerstats.getIntValue("race");
 			 String razaName = "";
 			 switch (raza) {
 				 case 0 -> razaName = "lines.elder_guru.menu.human";
@@ -103,7 +103,7 @@ public class GuruMenu extends Screen {
 			 }
 			 //TEXTO QUE DIRA LA ENTIDAD
 			 if (PageOption.equals("")) {
-				 if (playerstats.getDmzAlignment() <= 60) {
+				 if (playerstats.getIntValue("alignment") <= 60) {
 					 List<FormattedCharSequence> lines = font.split(Component.translatable("lines.elder_guru.menu.evil"), 250);
 					 for (int i = 0; i < lines.size(); i++) {
 						 pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
@@ -162,7 +162,7 @@ public class GuruMenu extends Screen {
 		if (PageButtons == 0) {
 			removerBotones();
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(playerstats -> {
-				if (playerstats.getDmzAlignment() >= 61) {
+				if (playerstats.getIntValue("alignment") >= 61) {
 					this.curar = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.elder_guru.option.potunlock"), wa -> {
 						PageOption = "potunlock";
 					}));

@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.storyline.sagas.FriezaSaga;
 import com.yuseix.dragonminez.storyline.sagas.SaiyanSaga;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,13 +17,15 @@ import static com.yuseix.dragonminez.registry.IDRegistry.sagaRegistry;
 public class StorylineManager {
 	private final Hashtable<String, Saga> sagas = new Hashtable<>();
 	public static volatile boolean hasInitialized; //Thanks Gecko for the idea
+	private final Player player;
 
 	/**
 	 * Constructor for the StorylineManager. Should never be called elsewhere than in PlayerStorylineProvider.
 	 * Will automatically fire the initialization of all sagas for x player when they join.
 	 * If you are messy enough you can probably add a "Storyline" to anything and have it work.
 	 */
-	public StorylineManager() {
+	public StorylineManager(Player player) {
+		this.player = player;
 		initializeSagas();
 	}
 
@@ -99,9 +102,9 @@ public class StorylineManager {
 	// Initialize predefined sagas
 	private void initializeSagas() {
 		//Predefined Sagas by the mod
-		Saga saiyanSaga = new SaiyanSaga();
+		Saga saiyanSaga = new SaiyanSaga(player);
 		addSaga(saiyanSaga);
-		Saga friezaSaga = new FriezaSaga();
+		Saga friezaSaga = new FriezaSaga(player);
 		addSaga(friezaSaga);
 
 		//Register sagas from registry, no need for a throws exception as the registry should be checked before
@@ -122,7 +125,9 @@ public class StorylineManager {
 	}
 
 	//Must be public for the sake of the capability
-	public CompoundTag saveNBTData(CompoundTag nbt) {
+	public CompoundTag saveNBTData() {
+
+		CompoundTag nbt = new CompoundTag();
 
 		ListTag sagasTag = new ListTag(); // Main container for all sagas
 		for (Saga saga : sagas.values()) {

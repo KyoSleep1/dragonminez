@@ -53,11 +53,11 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(SUIT_TEX));
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-            var raza = cap.getRace();
-            var hairColor = cap.getHairColor();
-            var hairId = cap.getHairID();
-            var bodyColor = cap.getBodyColor();
-            var genero = cap.getGender();
+            var raza = cap.getIntValue("race");
+            var hairColor = cap.getIntValue("haircolor");
+            var hairId = cap.getIntValue("hairid");
+            var bodyColor = cap.getIntValue("bodycolor");
+            var genero = cap.getStringValue("gender");
 
             colorR = (hairColor >> 16) / 255.0F;
             colorG = ((hairColor >> 8) & 0xff) / 255.0f;
@@ -145,20 +145,20 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
                     }
                     break;
                 case 5: //Majin
-                    if(genero.equals("Female")){
+                    if(genero.equals("female")){
                         if(hairId == 1){
-                            colorR = (bodyColor >> 16) / 255.0F;
-                            colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
-                            colorB = (bodyColor & 0xff) / 255.0f;
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.femhair.renderToBuffer(poseStack,vertexConsumer, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-                        } else if(hairId == 2){
                             colorR = (bodyColor >> 16) / 255.0F;
                             colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
                             colorB = (bodyColor & 0xff) / 255.0f;
                             VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOKUHAIR_TEXT1));
                             this.getParentModel().getHead().translateAndRotate(poseStack);
                             this.gokuhair.renderToBuffer(poseStack,gokubase, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                        } else if(hairId == 2){
+                            colorR = (bodyColor >> 16) / 255.0F;
+                            colorG = ((bodyColor >> 8) & 0xff) / 255.0f;
+                            colorB = (bodyColor & 0xff) / 255.0f;
+                            this.getParentModel().getHead().translateAndRotate(poseStack);
+                            this.femhair.renderToBuffer(poseStack,vertexConsumer, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
                         } else if(hairId == 3){
                             colorR = (bodyColor >> 16) / 255.0F;
                             colorG = ((bodyColor >> 8) & 0xff) / 255.0f;

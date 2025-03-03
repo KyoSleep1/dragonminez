@@ -83,7 +83,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            var transf = cap.getDmzForm();
+            var transf = cap.getStringValue("form");
 
             switch (transf){
                 case "semi_perfect":
@@ -174,7 +174,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                var transformacion = cap.getDmzForm();
+                var transformacion = cap.getStringValue("form");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (transformacion){
@@ -250,10 +250,10 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var raza = cap.getRace();
-            var transf = cap.getDmzForm();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
             var auraColor = 0;
 
             switch (raza){
@@ -261,26 +261,26 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                     switch (transf){
                         case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
                         case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
-                        default -> auraColor = cap.getAuraColor();
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 2:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getAuraColor();
+                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
                         default -> auraColor = 16773525;
                     }
                     break;
                 case 4:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 case 5:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
                 default:
-                    auraColor = cap.getAuraColor();
+                    auraColor = cap.getIntValue("auracolor");
                     break;
             }
 
@@ -495,9 +495,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
             int bodyColor2 = 16383998;
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -530,9 +530,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -565,9 +565,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -600,8 +600,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int eye1color = cap.getEye1Color();
-            var dmzform = cap.getDmzForm();
+            int eye1color = cap.getIntValue("eye1color");
+            var dmzform = cap.getStringValue("form");
 
             switch (dmzform){
                 case "perfect":
@@ -660,7 +660,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            var transf = cap.getDmzForm();
+            var transf = cap.getStringValue("form");
 
             switch (transf){
                 case "semi_perfect":

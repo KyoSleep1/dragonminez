@@ -25,49 +25,50 @@ public class DescendFormC2S {
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-                    int race = playerstats.getRace();
-                    String currentForm = playerstats.getDmzForm();
+                    int race = playerstats.getIntValue("race");
+                    String currentForm = playerstats.getStringValue("form");
 
                     switch (race) {
                         case 1: // Saiyans
                             switch (currentForm) {
-                                case "goldenoozaru" -> playerstats.setDmzForm("oozaru");
-                                case "oozaru" -> playerstats.setDmzForm("base");
-                                case "ssgrade3" -> playerstats.setDmzForm("ssgrade2");
-                                case "ssgrade2" -> playerstats.setDmzForm("ssj1");
-                                case "ssj1" -> playerstats.setDmzForm("base");
-                                case "ssjfp" -> playerstats.setDmzForm("base");
-                                case "ssj3" -> playerstats.setDmzForm("ssj2");
-                                case "ssj2" -> playerstats.setDmzForm("ssjfp");
+                                case "goldenoozaru" -> playerstats.setStringValue("form", "oozaru");
+                                case "oozaru" -> playerstats.setStringValue("form", "base");
+                                case "ssgrade3" -> playerstats.setStringValue("form", "ssgrade2");
+                                case "ssgrade2" -> playerstats.setStringValue("form", "ssj1");
+                                case "ssj1", "ssjfp" -> playerstats.setStringValue("form", "base");
+                                case "ssj3" -> playerstats.setStringValue("form", "ssj2");
+                                case "ssj2" -> playerstats.setStringValue("form", "ssjfp");
                             }
                             break;
                         case 2: // Namek
                             switch (currentForm) {
-                                case "giant" -> playerstats.setDmzForm("base");
-                                case "full_power" -> playerstats.setDmzForm("giant");
-                                case "super_namek" -> playerstats.setDmzForm("full_power");
-                                case "potential_unleashed" -> playerstats.setDmzForm("base");
-                                case "orange" -> playerstats.setDmzForm("potential_unleashed");
-                                case "orange_giant" -> playerstats.setDmzForm("orange");
+                                case "giant", "potential_unleashed" -> playerstats.setStringValue("form", "base");
+                                case "full_power" -> playerstats.setStringValue("form", "giant");
+                                case "super_namek" -> playerstats.setStringValue("form", "full_power");
+                                case "orange" -> playerstats.setStringValue("form", "potential_unleashed");
+                                case "orange_giant" -> playerstats.setStringValue("form", "orange");
                             }
                             break;
                         case 3:
                             break;
                         case 4:
+                            switch (currentForm) {
+                                case "full_power" -> playerstats.setStringValue("form", "base");
+                            }
                             break;
                         case 5:
                             switch (currentForm) {
-                                case "evil" -> playerstats.setDmzForm("base");
-                                case "kid" -> playerstats.setDmzForm("evil");
-                                case "super" -> playerstats.setDmzForm("kid");
-                                case "ultra" -> playerstats.setDmzForm("super");
+                                case "evil" -> playerstats.setStringValue("form", "base");
+                                case "kid" -> playerstats.setStringValue("form", "evil");
+                                case "super" -> playerstats.setStringValue("form", "kid");
+                                case "ultra" -> playerstats.setStringValue("form", "super");
                             }
                             break;
                         default:
                             switch (currentForm) {
-                                case "buffed" -> playerstats.setDmzForm("base");
-                                case "full_power" -> playerstats.setDmzForm("buffed");
-                                case "potential_unleashed" -> playerstats.setDmzForm("full_power");
+                                case "buffed" -> playerstats.setStringValue("form", "base");
+                                case "full_power" -> playerstats.setStringValue("form", "buffed");
+                                case "potential_unleashed" -> playerstats.setStringValue("form", "full_power");
                             }
                             break;
                     }

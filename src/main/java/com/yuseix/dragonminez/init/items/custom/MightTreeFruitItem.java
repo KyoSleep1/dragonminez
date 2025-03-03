@@ -46,13 +46,13 @@ public class MightTreeFruitItem extends Item {
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (!pLevel.isClientSide && pLivingEntity instanceof ServerPlayer player) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
-                int maxHp = stats.getMaxHealth();
+                int maxHp = stats.getIntValue("maxhealth");
                 int curarVida = (int) (maxHp * HP_RESTORE_PERCENTAGE);
-                int maxKi = stats.getMaxEnergy();
+                int maxKi = stats.getIntValue("maxenergy");
                 int curarKi = (int) (maxKi * KI_RESTORE_PERCENTAGE);
 
                 player.heal(curarVida);
-                stats.addCurEnergy(curarKi);
+                stats.addIntValue("curenergy", curarKi);
 
                 // Aplicar efecto temporal del fruto
                 int duracionTicks = 20 * 60; // Ticks * Segundos

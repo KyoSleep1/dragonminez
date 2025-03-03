@@ -26,9 +26,9 @@ public class DMZReviveCommand {
 	private static int revive(Collection<ServerPlayer> players, CommandSourceStack source) {
 		for (ServerPlayer player : players) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-				cap.setDmzAlive(true);
-				cap.setBabaCooldown(0);
-				cap.setBabaAliveTimer(0);
+				cap.setBoolean("alive", true);
+				cap.setIntValue("babacooldown", 0);
+				cap.setIntValue("babaalivetimer", 0);
 				player.sendSystemMessage(Component.translatable("command.dmzrevive.revived", source.getPlayer().getName()));
 				source.sendSystemMessage(Component.translatable("command.dmzrevive.success", player.getName()));
 			});

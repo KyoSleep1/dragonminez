@@ -82,14 +82,14 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            var colorKi = cap.getAuraColor();
+            var colorKi = cap.getIntValue("auracolor");
             var ki_control = cap.hasSkill("ki_control");
             var ki_manipulation = cap.hasSkill("ki_manipulation");
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
 
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
             var colorR = (colorKi >> 16) / 255.0F;
             var colorG = ((colorKi >> 8) & 0xff) / 255.0f;
@@ -320,12 +320,12 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE,pPlayer).ifPresent(cap -> {
 
-            var raza = cap.getRace();
-            var bodytype = cap.getBodytype();
-            var color1body = cap.getBodyColor();
-            var color2body = cap.getBodyColor2();
-            var color3body = cap.getBodyColor3();
-            var form = cap.getDmzForm();
+            var raza = cap.getIntValue("race");
+            var bodytype = cap.getIntValue("bodytype");
+            var color1body = cap.getIntValue("bodycolor");
+            var color2body = cap.getIntValue("bodycolor2");
+            var color3body = cap.getIntValue("bodycolor3");
+            var form = cap.getStringValue("form");
 
             switch (raza){
                 case 0:
@@ -476,12 +476,12 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            var bodytype = cap.getBodytype();
-            var color1body = cap.getBodyColor();
-            var color2body = cap.getBodyColor2();
-            var color3body = cap.getBodyColor3();
-            var color4body = cap.getHairColor();
-            var transf = cap.getDmzForm();
+            var bodytype = cap.getIntValue("bodytype");
+            var color1body = cap.getIntValue("bodycolor");
+            var color2body = cap.getIntValue("bodycolor2");
+            var color3body = cap.getIntValue("bodycolor3");
+            var color4body = cap.getIntValue("haircolor");
+            var transf = cap.getStringValue("form");
 
             switch (transf){
                 case "final_form":

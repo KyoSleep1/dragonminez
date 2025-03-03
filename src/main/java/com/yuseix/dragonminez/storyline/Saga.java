@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.storyline;
 
 import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public abstract class Saga {
 		return quests.stream().allMatch(Quest::isCompleted);
 	}
 
-	public abstract void addQuests();
+	public abstract void addQuests(Player player);
 
 	public abstract void addPrerequisites();
 

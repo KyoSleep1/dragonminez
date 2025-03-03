@@ -84,8 +84,8 @@ public class ClientEvents {
 				var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
 				if (renderer instanceof DmzRenderer dmzRenderer) {
 					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-						var raza = cap.getRace();
-						var transf = cap.getDmzForm();
+						var raza = cap.getIntValue("race");
+						var transf = cap.getStringValue("form");
 
 
 						poseStack.pushPose();
@@ -186,22 +186,24 @@ public class ClientEvents {
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-					if (cap.isAuraOn() || cap.isTurboOn()) {
+					if (cap.getBoolean("aura") || cap.getBoolean("turbo")) {
 						event.getPoseStack().pushPose();
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.075f : 0.325f;
 
-						RenderSystem.disableDepthTest();
-						DMZRenders.renderAuraBase(
-								(AbstractClientPlayer) player,
-								event.getPoseStack(),
-								minecraft.renderBuffers().bufferSource(),
-								15728880,
-								event.getPartialTick(),
-								transparency,
-								cap.getAuraColor()
-						);
-						event.getPoseStack().popPose();
-						RenderSystem.enableDepthTest();
+						if (!player.isSpectator()) {
+							RenderSystem.disableDepthTest();
+							DMZRenders.renderAuraBase(
+									(AbstractClientPlayer) player,
+									event.getPoseStack(),
+									minecraft.renderBuffers().bufferSource(),
+									15728880,
+									event.getPartialTick(),
+									transparency,
+									cap.getIntValue("auracolor")
+							);
+							event.getPoseStack().popPose();
+							RenderSystem.enableDepthTest();
+						}
 					}
 					});
 			}
@@ -267,12 +269,12 @@ public class ClientEvents {
 					int flyLevel = flySkill.getLevel();
 					int consumeEnergy = 0;
 					if (flyLevel < 4) {
-						consumeEnergy = (int) Math.ceil(cap.getMaxEnergy() * 0.04);
+						consumeEnergy = (int) Math.ceil(cap.getIntValue("maxenergy") * 0.04);
 					} else {
-						consumeEnergy = (int) Math.ceil(cap.getMaxEnergy() * 0.02);
+						consumeEnergy = (int) Math.ceil(cap.getIntValue("maxenergy") * 0.02);
 					}
 
-					if (flySkill.getLevel() > 0 && cap.getCurrentEnergy() > consumeEnergy) {
+					if (flySkill.getLevel() > 0 && cap.getIntValue("curenergy") > consumeEnergy) {
 
 						if (player.onGround()) {
 							// Aplicar el salto inicial

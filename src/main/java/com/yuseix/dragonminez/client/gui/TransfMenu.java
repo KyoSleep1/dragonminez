@@ -83,10 +83,10 @@ public class TransfMenu extends Screen {
 		this.removeWidget(menuButton);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			var tps = cap.getZpoints();
+			var tps = cap.getIntValue("tps");
 
 			Map<String, FormsData> forms = cap.getAllDMZForms();
-			int raza = cap.getRace();
+			int raza = cap.getIntValue("race");
 			boolean buyableTP = DMZGeneralConfig.TRANSFORMATIONS_WITH_TP.get();
 
 			int startX = (this.width - 250) / 2 + 15;
@@ -297,7 +297,7 @@ public class TransfMenu extends Screen {
 
 			for (Map.Entry<String, FormsData> entry : forms.entrySet()) {
 				int level = cap.getFormSkillLevel("super_form");
-				switch (cap.getRace()) {
+				switch (cap.getIntValue("race")) {
 					case 0:
 						switch (entry.getKey()) {
 							case "super_form":
@@ -390,7 +390,7 @@ public class TransfMenu extends Screen {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				int startY = (this.height - 168) / 2 + 18;
 				int startX = (this.width - 250) / 2 + 160;
-				int raza = cap.getRace();
+				int raza = cap.getIntValue("race");
 				Map<String, FormsData> forms = cap.getAllDMZForms();
 
 				for (Map.Entry<String, FormsData> entry : forms.entrySet()) {
@@ -511,7 +511,7 @@ public class TransfMenu extends Screen {
 								//Acá van las transformaciones y sus mults
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.majin.evil").append(" | x").append(String.format("%.2f", multMajinEvil)), startX + 37, startY+46, 0xFFFFFF);
 								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.majin.kid").append(" | x").append(String.format("%.2f", multMajinKid)), startX + 37, startY+57, 0xFFFFFF);
-								if (cap.getGender().equals("Male") || cap.getGender().equals("male")) {
+								if (cap.getStringValue("gender").equals("male") || cap.getStringValue("gender").equals("male")) {
 									drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.majin.male.super").append(" | x").append(String.format("%.2f", multMajinSuper)), startX + 37, startY+68, 0xFFFFFF);
 									drawStringWithBorder2(guiGraphics, this.font, Component.translatable("forms.dmz.majin.male.ultra").append(" | x").append(String.format("%.2f", multMajinUltra)), startX + 37, startY+79, 0xFFFFFF);
 								} else {
@@ -594,10 +594,10 @@ public class TransfMenu extends Screen {
 			Player player = this.minecraft.player;
 			botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, altoTexto, "stats", Component.empty(), wa -> {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-					if (playerstats.isCompactMenu()) {
+					if (playerstats.getBoolean("compactmenu")) {
 						this.minecraft.setScreen(new AttributesMenu2());
 					} else {
-						this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+						this.minecraft.setScreen(new AttributesMenu());
 					}
 				});
 			})));

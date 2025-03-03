@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.init.StorylineManager;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -18,17 +19,15 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 
 	public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "storyline");
 
-	public static Capability<StorylineManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
+	public static final Capability<StorylineManager> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
 	});
-	private final LazyOptional<StorylineManager> optional = LazyOptional.of(this::getStorylineBackend);
+	private final LazyOptional<StorylineManager> optional;
 
-	private StorylineManager storylineManager = null;
+	private final StorylineManager storylineManager;
 
-	private StorylineManager getStorylineBackend() {
-		if (this.storylineManager == null) {
-			this.storylineManager = new StorylineManager();
-		}
-		return this.storylineManager;
+	public PlayerStorylineProvider(Player player) {
+		this.storylineManager = new StorylineManager(player);
+		this.optional = LazyOptional.of(() -> this.storylineManager);
 	}
 
 	@Override
@@ -43,14 +42,12 @@ public class PlayerStorylineProvider implements ICapabilityProvider, INBTSeriali
 	@Override
 	public CompoundTag serializeNBT() {
 
-		CompoundTag nbt = new CompoundTag();
-		getStorylineBackend().saveNBTData(nbt);
-		return nbt;
+		return storylineManager.saveNBTData();
 	}
 
 	@Override
 	public void deserializeNBT(CompoundTag nbt) {
-		getStorylineBackend().loadNBTData(nbt);
+		storylineManager.loadNBTData(nbt);
 	}
 
 }

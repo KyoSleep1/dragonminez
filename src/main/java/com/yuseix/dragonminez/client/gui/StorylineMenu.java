@@ -2,7 +2,10 @@ package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.gui.buttons.*;
+import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
+import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
+import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.network.C2S.SummonQuestC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -13,6 +16,7 @@ import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -75,7 +79,6 @@ public class StorylineMenu extends Screen {
 	}
 
 	public void botonesQuests() {
-		Player player = this.minecraft.player;
 
 		infoButtons.forEach(this::removeWidget);
 		infoButtons.clear();
@@ -85,7 +88,7 @@ public class StorylineMenu extends Screen {
 		this.removeWidget(menuButton);
 		this.removeWidget(startButton);
 
-		player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+		Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
 			int startX = (this.width - 250) / 2 + 28;
 			int startY = (this.height - 168) / 2 + 30;
 			int buttonY = (this.height - 168) / 2 + 18;
@@ -120,7 +123,7 @@ public class StorylineMenu extends Screen {
 						}
 					}
 					if (saiyanSaga.getQuestbyId("saiyQuest9").isCompleted()) {
-						this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", this.infoMenu ? startX +202 - 72 : startX + 202, buttonY + 122,
+						this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", this.infoMenu ? startX + 202 - 72 : startX + 202, buttonY + 122,
 								Component.empty(), wa -> {
 							sagaPage = "freezer";
 						}));
@@ -156,8 +159,7 @@ public class StorylineMenu extends Screen {
 	}
 
 	private void menuQuests(GuiGraphics guiGraphics) {
-		Player player = this.minecraft.player;
-		player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+		Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
 			int startX = (this.width - 250) / 2 + 30;
 			int startY = (this.height - 168) / 2 + 17;
 			int offsetY = 13;
@@ -212,10 +214,9 @@ public class StorylineMenu extends Screen {
 	}
 
 	private void menuInfo(GuiGraphics guiGraphics) {
-		Player player = this.minecraft.player;
 
 		if (infoMenu) {
-			player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+			Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
 				int startY = (this.height - 168) / 2 + 18;
 				int startX = (this.width - 250) / 2 + 160;
 				int objectivesY = startY + 54;
@@ -226,13 +227,13 @@ public class StorylineMenu extends Screen {
 				String nombreQuest = actualSaga.getQuestbyId(questId).getName(), descQuest = actualSaga.getQuestbyId(questId).getDescription();
 
 				for (Objective objective : actualSaga.getQuestbyId(questId).getAllObjectives()) {
-	                drawStringWithBorder2(guiGraphics, this.font, objective.getLang(), startX + 37, objectivesY, 0xFFFFFF);
+					drawStringWithBorder2(guiGraphics, this.font, objective.getLang(), startX + 37, objectivesY, 0xFFFFFF);
 					objectivesY += 8;
 				}
 				drawStringWithBorder(guiGraphics, this.font, Component.translatable(nombreQuest), startX + 93, startY, 0x20e0ff);
 				List<FormattedCharSequence> lines = font.split(Component.translatable(descQuest), 120);
 				for (int i = 0; i < lines.size(); i++) {
-					guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+12) + i * font.lineHeight, 0xFFFFFF);
+					guiGraphics.drawString(font, lines.get(i), startX + 37, (startY + 12) + i * font.lineHeight, 0xFFFFFF);
 				}
 			});
 		}
@@ -240,27 +241,27 @@ public class StorylineMenu extends Screen {
 
 	public void menuPanel(GuiGraphics guiGraphics) {
 		if (infoMenu) {
-			altoTexto = (this.height - 168)/2;
-			anchoTexto = ((this.width - 250)/2) - 72;
+			altoTexto = (this.height - 168) / 2;
+			anchoTexto = ((this.width - 250) / 2) - 72;
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 			guiGraphics.blit(menu, anchoTexto, altoTexto, 0, 0, 250, 168);
 
-			anchoTexto = ((this.width - 250)/2) + 180;
+			anchoTexto = ((this.width - 250) / 2) + 180;
 			guiGraphics.blit(menuinfo, anchoTexto, altoTexto, 0, 0, 145, 168);
 
 			int startX = ((this.width - 250) / 2 + 30) - 72;
 			int startY = (this.height - 168) / 2 + 18;
 			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.quest"), startX + 2, startY, 0xffc134);
 			startX = ((this.width - 250) / 2 + 100) - 72;
-			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.saga"),startX - 10, startY, 0xffffff);
+			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.saga"), startX - 10, startY, 0xffffff);
 			startX = ((this.width - 250) / 2 + 180) - 62;
 			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.status"), startX, startY, 0x20e0ff);
 
 			menuInfo(guiGraphics);
 		} else {
-			altoTexto = (this.height - 168)/2;
-			anchoTexto = (this.width - 250)/2;
+			altoTexto = (this.height - 168) / 2;
+			anchoTexto = (this.width - 250) / 2;
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 			guiGraphics.blit(menu, anchoTexto, altoTexto, 0, 0, 250, 168);
@@ -269,7 +270,7 @@ public class StorylineMenu extends Screen {
 			int startY = (this.height - 168) / 2 + 18;
 			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.quest"), startX + 2, startY, 0xffc134);
 			startX = (this.width - 250) / 2 + 100;
-			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.saga"),startX - 10, startY, 0xffffff);
+			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.saga"), startX - 10, startY, 0xffffff);
 			startX = (this.width - 250) / 2 + 190;
 			drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.quests.status"), startX, startY, 0x20e0ff);
 		}
@@ -285,16 +286,16 @@ public class StorylineMenu extends Screen {
 		botonesMenus.clear();
 
 		altoTexto = (this.height + 168) / 2;
-		anchoTexto = this.infoMenu ? (this.width/2) - 72 : this.width/2;
+		anchoTexto = this.infoMenu ? (this.width / 2) - 72 : this.width / 2;
 
 		if (this.minecraft.level.isClientSide) {
 			Player player = this.minecraft.player;
 			botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, altoTexto, "stats", Component.empty(), wa -> {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-					if (playerstats.isCompactMenu()) {
+					if (playerstats.getBoolean("compactmenu")) {
 						this.minecraft.setScreen(new AttributesMenu2());
 					} else {
-						this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+						this.minecraft.setScreen(new AttributesMenu());
 					}
 				});
 			})));
@@ -352,6 +353,7 @@ public class StorylineMenu extends Screen {
 	public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
 		drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
 	}
+
 	public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
 		drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
 	}

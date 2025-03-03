@@ -77,20 +77,20 @@ public class CFirstPage extends Screen {
 				this.minecraft.setScreen(new CCustomizationPage(Component.empty()));
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-					if (cap.getRace() == 0) {
+					if (cap.getIntValue("race") == 0) {
 						ModMessages.sendToServer(new CharacterC2S("BodyColor1", 16765897));
 						ModMessages.sendToServer(new CharacterC2S("eye1Color", 921617));
 						ModMessages.sendToServer(new CharacterC2S("eye2Color", 921617));
 						ModMessages.sendToServer(new CharacterC2S("hairColor", 921617));
 						ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-					} else if (cap.getRace() == 1) {
+					} else if (cap.getIntValue("race") == 1) {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-					} else if (cap.getRace() == 2) {
+					} else if (cap.getIntValue("race") == 2) {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
-					} else if (cap.getRace() == 3) {
+					} else if (cap.getIntValue("race") == 3) {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 1746688));
-					} else if (cap.getRace() == 4) {
+					} else if (cap.getIntValue("race") == 4) {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 6226175));
 					} else {
 						ModMessages.sendToServer(new CharacterC2S("auraColor", 16739839));
@@ -127,7 +127,7 @@ public class CFirstPage extends Screen {
 		CCustomizationPage.drawStringWithBorder(pGuiGraphics, font, Component.translatable("dmz.ccreation.name"), 3, 3, 0xFFFFFF);
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-			var raza = cap.getRace();
+			var raza = cap.getIntValue("race");
 			alturaTexto = (posY / 2) + 90; anchoTexto = (this.width / 2);
 
 			switch (raza) {
@@ -157,8 +157,8 @@ public class CFirstPage extends Screen {
 	public void personajesMenu(GuiGraphics pGuiGraphics) {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-			if (cap.getRace() == 0) {//HUMANO
-				if (cap.getBodytype() == 0) {
+			if (cap.getIntValue("race") == 0) {//HUMANO
+				if (cap.getIntValue("bodytype") == 0) {
 					if (Minecraft.getInstance().player.getModelName().equals("default")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
@@ -168,7 +168,7 @@ public class CFirstPage extends Screen {
 					}
 
 				} else {
-					if (cap.getGender().equals("Male")) {
+					if (cap.getStringValue("gender").equals("male")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 					} else {
@@ -177,8 +177,8 @@ public class CFirstPage extends Screen {
 					}
 				}
 
-			} else if (cap.getRace() == 1) { //SAIYAN
-				if (cap.getBodytype() == 0) {
+			} else if (cap.getIntValue("race") == 1) { //SAIYAN
+				if (cap.getIntValue("bodytype") == 0) {
 					if (Minecraft.getInstance().player.getModelName().equals("default")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
@@ -188,7 +188,7 @@ public class CFirstPage extends Screen {
 					}
 
 				} else {
-					if (cap.getGender().equals("Male")) {
+					if (cap.getStringValue("gender").equals("male")) {
 						LivingEntity avatar = new FPHumanSaiyanEntity(MainEntity.FP_HUMANSAIYAN.get(), this.minecraft.level);
 						renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 					} else {
@@ -197,23 +197,23 @@ public class CFirstPage extends Screen {
 					}
 				}
 
-			} else if (cap.getRace() == 2) { //NAMEK
+			} else if (cap.getIntValue("race") == 2) { //NAMEK
 				LivingEntity avatar = new FPNamekianEntity(MainEntity.FP_NAMEK.get(), this.minecraft.level);
 
 				renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 
-			} else if (cap.getRace() == 3) { //BIOANDROIDE
+			} else if (cap.getIntValue("race") == 3) { //BIOANDROIDE
 				LivingEntity avatar = new FPBioAndroidEntity(MainEntity.FP_BIOANDROIDE.get(), this.minecraft.level);
 
 				renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 
-			} else if (cap.getRace() == 4) { //NARCO OSEA ARCO JEJE
+			} else if (cap.getIntValue("race") == 4) { //NARCO OSEA ARCO JEJE
 				LivingEntity avatar = new FPDemonColdEntity(MainEntity.FP_DEMONCOLD.get(), this.minecraft.level);
 
 				renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
 
 			} else { // MAJIN
-				if (cap.getGender().equals("Male")) {
+				if (cap.getStringValue("gender").equals("male")) {
 					LivingEntity avatar = new FPMajinGordEntity(MainEntity.FP_MAJINGORDO.get(), this.minecraft.level);
 
 					renderEntityInInventoryFollowsAngle(pGuiGraphics, this.width / 2, alturaTexto - 10, 70, 0, 0, avatar);
@@ -232,7 +232,7 @@ public class CFirstPage extends Screen {
 	public void paginaInfoRazas(GuiGraphics graphics) {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-			var raza = cap.getRace();
+			var raza = cap.getIntValue("race");
 
 			if (raza == 0) {
 				CCustomizationPage.drawStringWithBorder(graphics, font, Component.translatable("dmz.ccreation.human.title").withStyle(ChatFormatting.BOLD), 10, (this.height / 2) - 75, 0x61C3FE);
@@ -330,7 +330,7 @@ public class CFirstPage extends Screen {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-			if (cap.getRace() == 0) {
+			if (cap.getIntValue("race") == 0) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 1));
 					this.removeWidget(botonRazaRight);
@@ -342,7 +342,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 				}));
-			} else if (cap.getRace() == 1) {
+			} else if (cap.getIntValue("race") == 1) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 2));
 					this.removeWidget(botonRazaRight);
@@ -366,7 +366,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 				}));
-			} else if (cap.getRace() == 2) {
+			} else if (cap.getIntValue("race") == 2) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 3));
 					this.removeWidget(botonRazaRight);
@@ -390,7 +390,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairID", 1));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 				}));
-			} else if (cap.getRace() == 3) {
+			} else if (cap.getIntValue("race") == 3) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 4));
 					this.removeWidget(botonRazaRight);
@@ -416,7 +416,7 @@ public class CFirstPage extends Screen {
 					ModMessages.sendToServer(new CharacterC2S("hairID", 0));
 					ModMessages.sendToServer(new CharacterC2S("auraColor", 8388607));
 				}));
-			} else if (cap.getRace() == 4) {
+			} else if (cap.getIntValue("race") == 4) {
 				this.botonRazaRight = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", posX + 60, posY, Component.empty(), button -> {
 					ModMessages.sendToServer(new CharacterC2S("setRace", 5));
 					this.removeWidget(botonRazaRight);
@@ -460,7 +460,7 @@ public class CFirstPage extends Screen {
 
 	public void panoramas(GuiGraphics graphics, float partialtick) {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-			var race = cap.getRace();
+			var race = cap.getIntValue("race");
 
 			if (race == 0) {
 				this.customPanorama.render(partialtick, 1.0f);

@@ -64,21 +64,21 @@ public class UtilityPanelOverlay extends Screen {
 				int centroX = (this.width/ 2) - 3;
 				int centroY = (this.height/ 2) - 48;
 
-				if (getNextGroup(cap.getRace(), cap.getDmzGroupForm()) != null) {
+				if (getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form")) != null) {
 					rb1 = new DMZRightButton("right", centroX + 45, centroY + 37, Component.empty(), wa -> {
-						ModMessages.sendToServer(new UtilityPanelC2S("group", getNextGroup(cap.getRace(), cap.getDmzGroupForm())));
+						ModMessages.sendToServer(new UtilityPanelC2S("group", getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form"))));
 					});
 					this.addRenderableWidget(rb1);
 				}
 
-				if (getPrevGroup(cap.getRace(), cap.getDmzGroupForm()) != null) {
+				if (getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform")) != null) {
 					lb1 = new DMZRightButton("left", centroX - 53, centroY + 37, Component.empty(), wa -> {
-						ModMessages.sendToServer(new UtilityPanelC2S("group", getPrevGroup(cap.getRace(), cap.getDmzGroupForm())));
+						ModMessages.sendToServer(new UtilityPanelC2S("group", getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform"))));
 					});
 					this.addRenderableWidget(lb1);
 				}
 
-				switch (cap.getRace()) {
+				switch (cap.getIntValue("race")) {
 					case 0 -> {}
 					case 1 -> {
 						lb2 = new DMZRightButton("left", centroX - 53, centroY + 77, Component.empty(), wa -> {
@@ -93,7 +93,7 @@ public class UtilityPanelOverlay extends Screen {
 					}
 					case 2 -> {}
 					case 3, 4 -> {
-						if (!cap.getDmzForm().equals("base")) {
+						if (!cap.getStringValue("form").equals("base")) {
 							lb2 = new DMZRightButton("left", centroX - 53, centroY + 77, Component.empty(), wa -> {
 								ModMessages.sendToServer(new UtilityPanelC2S("teropc", ""));
 							});
@@ -111,7 +111,7 @@ public class UtilityPanelOverlay extends Screen {
 		}
 	}
 
-	private String getNextGroup(int race, String group) {
+	private String getNextGroup(int race, String group, int level) {
 		String nextGroup = null;
 		switch (race) {
 			case 0:
@@ -119,7 +119,10 @@ public class UtilityPanelOverlay extends Screen {
 			case 1:
 				switch (group) {
 					case "" ->  nextGroup = "ssgrades";
-					case "ssgrades" ->  nextGroup = "ssj";
+					case "ssgrades" ->  {
+						if (level >= 5) nextGroup = "ssj";
+						else nextGroup = "";
+					}
 					case "ssj" ->  nextGroup = "";
 				}
 				break;
@@ -187,14 +190,14 @@ public class UtilityPanelOverlay extends Screen {
 		String kaioken = "utilitypanel.dmz.kaioken";
 		String langGroup = "groupforms.dmz.general.superform";
 		String tercerOpcion = "utilitypanel.dmz.tbd";
-		switch (stats.getRace()) {
+		switch (stats.getIntValue("race")) {
 			case 0:
 				if (!(stats.getFormSkillLevel("super_form") >= 1)) {
 					langGroup = "groupforms.dmz.human.base";
 				}
 				break;
 			case 1:
-				switch (stats.getDmzGroupForm()) {
+				switch (stats.getStringValue("groupform")) {
 					case "":
 						langGroup = "groupforms.dmz.saiyan.oozarus";
 						break;
@@ -206,7 +209,7 @@ public class UtilityPanelOverlay extends Screen {
 						break;
 				}
 				tercerOpcion = "utilitypanel.dmz.tailmode";
-				colorAUsar = stats.isTailMode() ? colorInactivo : colorActivo;
+				colorAUsar = stats.getBoolean("tailmode") ? colorInactivo : colorActivo;
 				break;
 			case 2:
 				//langGroup = "groupforms.dmz.namek.shenronforms";

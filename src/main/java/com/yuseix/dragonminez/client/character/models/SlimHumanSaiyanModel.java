@@ -84,11 +84,11 @@ public class SlimHumanSaiyanModel<T extends LivingEntity> extends PlayerModel<T>
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap ->{
-			var formRelease = cap.getFormRelease();
-			var isTransfOn = cap.isTransforming();
-			var groupForm = cap.getDmzGroupForm();
-			var dmzform = cap.getDmzForm();
-			var race = cap.getRace();
+			var formRelease = cap.getIntValue("formrelease");
+			var isTransfOn = cap.getBoolean("transform");
+			var groupForm = cap.getStringValue("groupform");
+			var dmzform = cap.getStringValue("form");
+			var race = cap.getIntValue("race");
 
 			switch (race){
 				case 1:
