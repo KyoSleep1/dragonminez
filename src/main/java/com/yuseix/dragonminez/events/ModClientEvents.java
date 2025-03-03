@@ -40,10 +40,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.*;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
-import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
-import com.yuseix.dragonminez.init.particles.HitAttackParticle;
-import com.yuseix.dragonminez.init.particles.NimbusTraceParticle;
-import com.yuseix.dragonminez.init.particles.SacredLeavesParticle;
+import com.yuseix.dragonminez.init.particles.*;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.worldgen.dimension.CustomSpecialEffects;
 import net.minecraft.client.KeyMapping;
@@ -76,7 +73,9 @@ public class ModClientEvents {
 		event.registerSpriteSet(MainParticles.SACRED_LEAVES_PARTICLE.get(), SacredLeavesParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.HIT_ATTACK_PARTICLE.get(), HitAttackParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.NIMBUS_TRACE_PARTICLE.get(), NimbusTraceParticle.Provider::new);
-	}
+		event.registerSpriteSet(MainParticles.KI_SMALL_PARTICLE.get(), KiSmallParticle.Provider::new);
+		event.registerSpriteSet(MainParticles.KI_LARGE_PARTICLE.get(), KiLargeParticle.Provider::new);
+}
 
 	@SubscribeEvent
 	public static void onKeyRegister(RegisterKeyMappingsEvent event) {

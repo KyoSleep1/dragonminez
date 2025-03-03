@@ -1,18 +1,10 @@
 package com.yuseix.dragonminez.init.entity.custom.projectil;
 
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiSmallParticleOptions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
-
-import java.util.Optional;
-import java.util.UUID;
 
 public class KiSmallBallProjectil extends KiAttacksEntity {
 
@@ -21,4 +13,15 @@ public class KiSmallBallProjectil extends KiAttacksEntity {
 
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.level().isClientSide) {
+            int color = this.getColorBorde();
+            this.level().addParticle(new KiSmallParticleOptions(color), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+            this.level().addParticle(new KiLargeParticleOptions(color), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
+        }
+    }
 }

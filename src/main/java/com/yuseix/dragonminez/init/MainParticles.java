@@ -1,6 +1,9 @@
 package com.yuseix.dragonminez.init;
 
+import com.mojang.serialization.Codec;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiSmallParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -21,8 +24,20 @@ public final class MainParticles {
 			() -> new SimpleParticleType(true));
 	public static final RegistryObject<SimpleParticleType> NIMBUS_TRACE_PARTICLE = PARTICLES_REGISTER.register("nimbus_trace_particle",
 			() -> new SimpleParticleType(true));
-
-
+	public static final RegistryObject<ParticleType<KiSmallParticleOptions>> KI_SMALL_PARTICLE = PARTICLES_REGISTER.register("ki_small_particle",
+			() -> new ParticleType<>(false, KiSmallParticleOptions.DESERIALIZER) {
+				@Override
+				public Codec<KiSmallParticleOptions> codec() {
+					return KiSmallParticleOptions.CODEC;
+				}
+			});
+	public static final RegistryObject<ParticleType<KiLargeParticleOptions>> KI_LARGE_PARTICLE = PARTICLES_REGISTER.register("ki_large_particle",
+			() -> new ParticleType<>(false, KiLargeParticleOptions.DESERIALIZER) {
+				@Override
+				public Codec<KiLargeParticleOptions> codec() {
+					return KiLargeParticleOptions.CODEC;
+				}
+			});
 	public static void register(IEventBus busEvent) {
 		PARTICLES_REGISTER.register(busEvent);
 	}

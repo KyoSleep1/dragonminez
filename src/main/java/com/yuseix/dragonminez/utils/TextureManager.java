@@ -131,6 +131,8 @@ public class TextureManager {
     public static final ResourceLocation AURA_BASE2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/auras/aura2.png");
     public static final ResourceLocation AURA_BASE3 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/auras/aura3.png");
 
+    public static final ResourceLocation KI_BALL_1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/kiball_1.png");
+    public static final ResourceLocation KI_BALL_2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/kiball_borde.png");
 
     public static final ResourceLocation MAJINMARCA = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majinmarca.png");
     public static final ResourceLocation MAJINMARCA_RM = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majinmarca_rm.png");

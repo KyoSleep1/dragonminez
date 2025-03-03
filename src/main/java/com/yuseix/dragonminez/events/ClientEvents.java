@@ -210,7 +210,7 @@ public class ClientEvents {
 		//	PRUEBA entidades ki
 		for (Entity entity : minecraft.level.getEntities(null, new AABB(-100, -100, -100, 100, 100, 100))) {
 			if (entity instanceof KiSmallBallProjectil kismall) {
-				DMZRenders.renderKiSmallBall(kismall, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
+				//DMZRenders.renderKiSmallBall(kismall, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
 
 			}
 
