@@ -2,117 +2,166 @@ package com.yuseix.dragonminez.client.hud.spaceship;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.RenderEntityInv;
+import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
+import com.yuseix.dragonminez.events.ClientEvents;
+import com.yuseix.dragonminez.events.characters.EntityEvents;
+import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
-import net.minecraft.client.Minecraft;
+import com.yuseix.dragonminez.network.C2S.UtilityPanelC2S;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class SaiyanSpacePodOverlay implements RenderEntityInv {
+@OnlyIn(Dist.CLIENT)
+public class SaiyanSpacePodOverlay extends Screen {
+    private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/menulargomitad.png");
+    private static final ResourceLocation icons = new ResourceLocation(DragonMineZ.MOD_ID,
+            "textures/gui/spaceshipicons.png");
+    private int altoTexto, anchoTexto;
+    private DMZRightButton tierra, namek, kaio;
 
-    private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
-            "textures/gui/menuspaceship.png");
-    private static int currentPlanetTarget = 0;
-    private static boolean kaioAvailable = false;
+    public SaiyanSpacePodOverlay() {
+        super(Component.empty());
+    }
 
-    public static final IGuiOverlay HUD_SAIYAN = (forgeGui, guiGraphics, v, i, i1) -> {
-        Player player = Minecraft.getInstance().player;
+    @Override
+    protected void init() {
+        super.init();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        botonesOpciones();
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(guiGraphics);
+        menuPanel(guiGraphics);
+
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+    }
+
+    public void botonesOpciones() {
+        Player player = this.minecraft.player;
+
+        removeWidget(tierra);
+        removeWidget(namek);
+        removeWidget(kaio);
+
+        if (player != null) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                int centroX = (this.width/ 2) - 3 + 35;
+                int centroY = (this.height/ 2) - 41;
+
+                tierra = new DMZRightButton("right", centroX, centroY - 18, Component.empty(), wa -> {
+                    System.out.println("Teleportando a la tierra");
+                    ClientEvents.setTeleporting(true, 0);
+                    this.minecraft.setScreen(null);
+                });
+                this.addRenderableWidget(tierra);
+
+
+                namek = new DMZRightButton("right", centroX, centroY + 3, Component.empty(), wa -> {
+                    ClientEvents.setTeleporting(true, 1);
+                    this.minecraft.setScreen(null);
+                });
+                this.addRenderableWidget(namek);
+
+
+                if (cap.getBoolean("kaioplanet")) {
+                    kaio = new DMZRightButton("right", centroX, centroY + 24, Component.empty(), wa -> {
+                        ClientEvents.setTeleporting(true, 3);
+                        this.minecraft.setScreen(null);
+                    });
+                    this.addRenderableWidget(kaio);
+                }
+            });
+        }
+    }
+
+    public void menuPanel(GuiGraphics guiGraphics) {
+        Player player = this.minecraft.player;
+        altoTexto = (this.height/2) - 85;
+        anchoTexto = (this.width/2) - 75;
 
         RenderSystem.enableBlend();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, hud);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        guiGraphics.blit(menu, anchoTexto, altoTexto, 0, 0, 145, 168);
 
-        if (player == null || !(player.getVehicle() instanceof NaveSaiyanEntity)) return;
-
-        if (Minecraft.getInstance().options.renderDebug || Minecraft.getInstance().options.renderDebugCharts || Minecraft.getInstance().options.renderFpsChart) return;
-
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(1.2f, 1.2f, 1.0f);
-
-        // Menú con Kaio bloqueado, Tierra y Namek desbloqueados
-        guiGraphics.blit(hud,
-                0,
-                60,
-                155,
-                1,
-                73,
-                136);
-
-        // Si habló con Kaio, se le pone el planeta disponible. (Se dibuja KaioDisponible por encima del otro)
-        if (SaiyanSpacePodOverlay.isKaioAvailable()) {
-            guiGraphics.blit(hud,
-                    0,
-                    151,
-                    170,
-                    52,
-                    49,
-                    13);
-
-            drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                    Component.translatable("ui.dmz.spacepod.kaio"), 100, 100, 0x00ff00);
+        if (player != null) {
+            DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                updateTextAndColors(guiGraphics, cap);
+                updateIcons(guiGraphics, cap);
+            });
         }
 
         RenderSystem.disableBlend();
-        selectTargetPlanet(guiGraphics);
-        guiGraphics.pose().popPose();
-    };
-
-    public static boolean isKaioAvailable() {
-        return kaioAvailable;
     }
 
-    // Métod0 para actualizar el estado
-    public static void setKaioAvailable(boolean available) {
-        kaioAvailable = available;
+    public void updateTextAndColors(GuiGraphics guiGraphics, DMZStatsAttributes stats) {
+        int centroX = (this.width/ 2) - 3;
+        int centroY = (this.height/ 2) - 57;
+        var colorTexto = 0x20e0ff;
+        var colorAUsar = stats.getBoolean("kaioplanet") ? colorTexto : 0x747678;
+        drawStringWithBorder(guiGraphics, this.font, Component.translatable("ui.dmz.spacepod.overworld").withStyle(ChatFormatting.BOLD), centroX, centroY, colorTexto);
+        drawStringWithBorder(guiGraphics, this.font, Component.translatable("ui.dmz.spacepod.namek").withStyle(ChatFormatting.BOLD), centroX, centroY + 21, colorTexto);
+        drawStringWithBorder(guiGraphics, this.font, Component.translatable("ui.dmz.spacepod.kaio").withStyle(ChatFormatting.BOLD), centroX, centroY + 42, colorAUsar);
+        drawStringWithBorder(guiGraphics, this.font, Component.literal("???").withStyle(ChatFormatting.BOLD), centroX, centroY + 63, 0x747678);
+        drawStringWithBorder(guiGraphics, this.font, Component.literal("???").withStyle(ChatFormatting.BOLD), centroX, centroY + 84, 0x747678);
+        drawStringWithBorder(guiGraphics, this.font, Component.literal("???").withStyle(ChatFormatting.BOLD), centroX, centroY + 105, 0x747678);
     }
 
-    public static void updatePlanetTarget(int selectedPlanet) {
-        currentPlanetTarget = selectedPlanet;  // Actualiza el planeta objetivo actual
-    }
+    public void updateIcons(GuiGraphics guiGraphics, DMZStatsAttributes stats) {
+        int centroX = (this.width/ 2) - 42;
+        int centroY = (this.height/ 2) - 58;
+        int iconX = 3;
+        int iconY = 3;
+        int size = 11;
 
-    public static void selectTargetPlanet(GuiGraphics guiGraphics) {
-        int dibujoX = 7, posX = 83, ancho = 51, alto = 15;
-        var colorTexto = 0x00ff00;
-        var colorSeleccion = 0xfdbf26;
+        guiGraphics.pose().pushPose();
 
-
-
-        // Cambia el HUD según el planeta objetivo actual
-        switch (currentPlanetTarget) {
-            case 0 -> {
-                guiGraphics.blit(hud, dibujoX, 73, posX, 14, ancho, alto);
-                guiGraphics.pose().scale(0.8f, 0.8f, 0.8f);
-                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.overworld"), 16, 96, colorSeleccion);
-                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.namek"), 16, 120, colorTexto);
-            }
-            case 1 -> {
-                guiGraphics.blit(hud, dibujoX, 92, posX, 33, ancho, alto);
-                guiGraphics.pose().scale(0.8f, 0.8f, 0.8f);
-                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.overworld"), 16, 96, colorTexto);
-                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font,
-                        Component.translatable("ui.dmz.spacepod.namek"), 16, 120, colorSeleccion);
-            }
-            case 2 -> {
-                if (isKaioAvailable()) {
-                    guiGraphics.blit(hud, dibujoX, 110, posX, 52, ancho, alto);
-                } else {
-                    currentPlanetTarget = 1;
-                }
-            }
+        guiGraphics.blit(icons, centroX, centroY, iconX, iconY, size, size); // Tierra
+        guiGraphics.blit(icons, centroX, centroY+21, iconX, iconY+14, size, size); // Namek
+        if (stats.getBoolean("kaioplanet")) {
+            guiGraphics.blit(icons, centroX, centroY + 42, iconX, iconY+28, size, size); // Kaiosama (Disponible)
+        } else {
+            guiGraphics.blit(icons, centroX, centroY + 42, iconX+17, iconY+28, size, size); // Kaiosama (Bloqueado)
         }
+        guiGraphics.blit(icons, centroX, centroY + 63, iconX+17, iconY+42, size, size); // Supremo (Bloqueado)
+        guiGraphics.blit(icons, centroX, centroY + 84, iconX+17, iconY+56, size, size); // Cereal (Bloqueado)
+        guiGraphics.blit(icons, centroX, centroY + 105, iconX+17, iconY+70, size, size); // Bills (Bloqueado)
+
+        guiGraphics.pose().popPose();
     }
 
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+        // Calcular la posición centrada
+        int textWidth = font.width(texto);
+        int centeredX = x - (textWidth / 2);
+
+        // Dibujar el texto con el borde
+        guiGraphics.drawString(font, texto, centeredX + 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX - 1, y, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y + 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y - 1, ColorBorde, false);
+        guiGraphics.drawString(font, texto, centeredX, y, ColorTexto);
+    }
+
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto, int ColorBorde) {
+
         guiGraphics.drawString(font, texto, x + 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x - 1, y, ColorBorde, false);
         guiGraphics.drawString(font, texto, x, y + 1, ColorBorde, false);
@@ -123,4 +172,8 @@ public class SaiyanSpacePodOverlay implements RenderEntityInv {
     public static void drawStringWithBorder(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
         drawStringWithBorder(guiGraphics, font, texto, x, y, ColorTexto, 0);
     }
+    public static void drawStringWithBorder2(GuiGraphics guiGraphics, Font font, Component texto, int x, int y, int ColorTexto) {
+        drawStringWithBorder2(guiGraphics, font, texto, x, y, ColorTexto, 0);
+    }
+
 }

@@ -1,28 +1,36 @@
 package com.yuseix.dragonminez.events;
 
+import com.eliotlash.mclib.math.functions.limit.Min;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainParticles;
+import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
+import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZRenders;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -37,8 +45,10 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.Debug;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
@@ -47,6 +57,11 @@ public class ClientEvents {
 	private static final Random RANDOM = new Random();
 	private static final String title = "DragonMine Z - Release v" + "1.2 || Storyline and Skills!";
 	private static boolean isDescending = false;
+
+	private static final int teleportTime = 5; // Segundos
+	private static boolean isTeleporting = false;
+	private static int teleportCountdown = teleportTime;
+	private static int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
 	@SubscribeEvent
 	public static void onRenderTick(TickEvent.RenderTickEvent event) {
@@ -329,6 +344,7 @@ public class ClientEvents {
 		if (event.phase == TickEvent.Phase.START) return;
 		if (!(event.player instanceof LocalPlayer player)) return;
 
+		AtomicBoolean isKaioAvailable = new AtomicBoolean(false);
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
 				isDescending = false;
@@ -366,7 +382,65 @@ public class ClientEvents {
 				player.setDeltaMovement(motion.x, yVelocity, motion.z);
 				player.onUpdateAbilities();
 			}
+
+			if (cap.getBoolean("kaioplanet")) {
+				isKaioAvailable.set(true);
+			}
 		});
+
+		if (player.isPassenger() && player.getVehicle() instanceof NaveSaiyanEntity) {
+
+			if (Keys.FUNCTION.consumeClick()) {
+				System.out.println("isTeleporting: " + isTeleporting);
+				if (isTeleporting) {
+					isTeleporting = false;
+					teleportCountdown = teleportTime;
+					player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport.cancel"), true);
+				} else {
+					System.out.println("Opening the Saiyan Space Pod Overlay");
+					Minecraft.getInstance().setScreen(new SaiyanSpacePodOverlay());
+				}
+			}
+
+			if (isTeleporting) {
+				if (teleportCountdown >= 0) {
+					// Mostrar cuenta regresiva cada segundo
+					if (player.level().getGameTime() % 20 == 0) { // Cada segundo (20 ticks)
+						if (teleportCountdown == 1) {
+							player.playSound(MainSounds.UI_NAVE_TAKEOFF.get(), 0.5F, 1.0F);
+						} else if (teleportCountdown != 0 && teleportCountdown <= teleportTime) {
+							player.playSound(MainSounds.UI_NAVE_COOLDOWN.get(), 0.5F, 1.0F);
+						}
+						player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport", teleportCountdown), true);
+						teleportCountdown--;
+					}
+				} else {
+					// Teletransportar al jugador cuando el contador llegue a 0
+					switch (planetaObjetivo) {
+						case 0 -> {
+							ModMessages.sendToServer(new SpacePodC2S("overworld"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"));
+						}
+						case 1 -> {
+							ModMessages.sendToServer(new SpacePodC2S("namek"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"));
+						}
+						case 3 -> {
+							ModMessages.sendToServer(new SpacePodC2S("otherworld"));
+							player.sendSystemMessage(Component.literal("ui.dmz.spacepod.kaio.arrive"));
+						}
+					}
+
+					// Reiniciar el estado del teletransporte
+					isTeleporting = false;
+					teleportCountdown = teleportTime;
+
+					player.playSound(MainSounds.NAVE_LANDING_OPEN.get(), 0.5F, 1.0F);
+				}
+			} else {
+				teleportCountdown = teleportTime; // Reiniciar el contador si no está activo
+			}
+		}
 	}
 
 	private static void spawnParticles(Level level, SimpleParticleType particleType, BlockPos playerPos) {
@@ -383,5 +457,12 @@ public class ClientEvents {
 
 			level.addParticle(particleType, x, y, z, xSpeed, ySpeed, zSpeed);
 		}
+	}
+
+	public static void setTeleporting(boolean teleporting, int planeta) {
+		isTeleporting = teleporting;
+		planetaObjetivo = planeta;
+		teleportCountdown = teleportTime;
+		System.out.println("isTeleporting: " + teleporting + "Teleporting to: " + planeta + " in " + teleportTime + " seconds");
 	}
 }
