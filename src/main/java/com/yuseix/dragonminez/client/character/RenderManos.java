@@ -91,9 +91,41 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
             var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var colorR = (colorKi >> 16) / 255.0F;
-            var colorG = ((colorKi >> 8) & 0xff) / 255.0f;
-            var colorB = (colorKi & 0xff) / 255.0f;
+            var auraColor = 0;
+            var transf = cap.getStringValue("form");
+            var raza = cap.getIntValue("race");
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 5:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                default:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+            }
+
+            var colorR = (auraColor >> 16) / 255.0F;
+            var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
+            var colorB = (auraColor & 0xff) / 255.0f;
 
             if(ki_control && ki_manipulation && meditation && is_kimanipulation){
                 if(kiweapon_id.equals("scythe")){
@@ -116,7 +148,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
                 } else { //espada
                     poseStack.pushPose();
-                    renderKiSword(player,poseStack,bufferSource,pCombinedLight,OverlayTexture.NO_OVERLAY,0.5f,colorKi);
+                    renderKiSword(player,poseStack,bufferSource,pCombinedLight,OverlayTexture.NO_OVERLAY,0.5f,auraColor);
                     poseStack.popPose();
                 }
 
