@@ -26,6 +26,7 @@ import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Mode
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
+import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallPlaneModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiTrailModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.SaibamanModel;
@@ -282,6 +283,9 @@ public class ModClientEvents {
 		e.registerLayerDefinition(KiScytheModel.LAYER_LOCATION, KiScytheModel::createBodyLayer);
 		e.registerLayerDefinition(KiSwordModel.LAYER_LOCATION, KiSwordModel::createBodyLayer);
 		e.registerLayerDefinition(KiTridentModel.LAYER_LOCATION, KiTridentModel::createBodyLayer);
+
+		e.registerLayerDefinition(KiBallPlaneModel.LAYER_LOCATION, KiBallPlaneModel::createBodyLayer);
+
 	}
 
 	@SubscribeEvent
