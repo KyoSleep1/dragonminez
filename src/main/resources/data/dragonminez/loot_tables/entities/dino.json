@@ -50,7 +50,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "dragonminez:comida_dino_raw",
+          "name": "dragonminez:raw_dino_meat",
           "functions": [
             {
               "function": "minecraft:set_count",

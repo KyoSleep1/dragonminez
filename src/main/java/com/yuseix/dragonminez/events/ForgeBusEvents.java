@@ -91,13 +91,13 @@ public class ForgeBusEvents {
 			"Pokimons123",
 			"LecuTheAnimator",
 			"InmortalPx",
-			"iLalox",
-			"jean_sama",
-			"ItsLolbeach",
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
 			"SpaceCarp",
-			"prolazorbema" // Dssccat
+			"prolazorbema", // Dssccat
+			"iLalox",
+			"Robberto10",
+			"Athrizel"
 	);
 
 	// Recordar comentar esto antes de Buildear una versión Pública.

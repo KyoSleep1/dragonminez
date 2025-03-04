@@ -55,8 +55,8 @@ public class DMZTrHumanConfig {
         MULTIPLIER_BUFFED_FORM_PWR = BUILDER.comment("Multiplier for Buffed Form PWR! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
                 .defineInRange("Multiplier PWR: ", 1.5, 1.0, 200.0);
         
-        BUFFED_FORM_KI_COST = BUILDER.comment("Ki Cost for Buffed Form! (Min: 0 / Max: 20000 / Default: 100)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+        BUFFED_FORM_KI_COST = BUILDER.comment("Ki Cost for Buffed Form! (Min: 0 / Max: 20000 / Default: 250)")
+                .defineInRange("Ki Cost: ", 250, 0, 20000);
         
         BUILDER.pop();
 
@@ -71,8 +71,8 @@ public class DMZTrHumanConfig {
         MULTIPLIER_FP_FORM_PWR = BUILDER.comment("Multiplier for FullPower Form PWR! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
                 .defineInRange("Multiplier PWR: ", 2.0, 1.0, 200.0);
 
-        FP_FORM_KI_COST = BUILDER.comment("Ki Cost for FullPower Form! (Min: 0 / Max: 20000 / Default: 200)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+        FP_FORM_KI_COST = BUILDER.comment("Ki Cost for FullPower Form! (Min: 0 / Max: 20000 / Default: 350)")
+                .defineInRange("Ki Cost: ", 350, 0, 20000);
 
         BUILDER.pop();
         
@@ -87,8 +87,8 @@ public class DMZTrHumanConfig {
         MULTIPLIER_PU_FORM_PWR = BUILDER.comment("Multiplier for Potential Unleashed Form PWR! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
                 .defineInRange("Multiplier PWR: ", 2.5, 1.0, 200.0);
         
-        PU_FORM_KI_COST = BUILDER.comment("Ki Cost for Potential Unleashed Form! (Min: 0 / Max: 20000 / Default: 300)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+        PU_FORM_KI_COST = BUILDER.comment("Ki Cost for Potential Unleashed Form! (Min: 0 / Max: 20000 / Default: 450)")
+                .defineInRange("Ki Cost: ", 450, 0, 20000);
         
         BUILDER.pop();
 

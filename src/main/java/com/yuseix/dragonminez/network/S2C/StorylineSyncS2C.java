@@ -33,11 +33,11 @@ public class StorylineSyncS2C {
 		buf.writeInt(playerId);
 	}
 
-	public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
-		ctxSupplier.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(
-				Dist.CLIENT, () -> () -> ClientPacketHandler.handleStatsSyncPacket(playerId, nbt, ctxSupplier)
+	public void handle(Supplier<NetworkEvent.Context> ctx) {
+		ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(
+				Dist.CLIENT, () -> () -> ClientPacketHandler.handleStorylineSyncPacket(playerId, nbt, ctx)
 		));
-		ctxSupplier.get().setPacketHandled(true);
+		ctx.get().setPacketHandled(true);
 	}
 
 }
