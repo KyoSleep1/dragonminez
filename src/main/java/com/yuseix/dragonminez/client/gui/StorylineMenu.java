@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.network.C2S.SummonQuestC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -88,7 +89,7 @@ public class StorylineMenu extends Screen {
 		this.removeWidget(menuButton);
 		this.removeWidget(startButton);
 
-		Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, this.minecraft.player).ifPresent(story -> {
 			int startX = (this.width - 250) / 2 + 28;
 			int startY = (this.height - 168) / 2 + 30;
 			int buttonY = (this.height - 168) / 2 + 18;
@@ -159,7 +160,7 @@ public class StorylineMenu extends Screen {
 	}
 
 	private void menuQuests(GuiGraphics guiGraphics) {
-		Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, this.minecraft.player).ifPresent(story -> {
 			int startX = (this.width - 250) / 2 + 30;
 			int startY = (this.height - 168) / 2 + 17;
 			int offsetY = 13;
@@ -216,7 +217,7 @@ public class StorylineMenu extends Screen {
 	private void menuInfo(GuiGraphics guiGraphics) {
 
 		if (infoMenu) {
-			Minecraft.getInstance().player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(story -> {
+			PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, this.minecraft.player).ifPresent(story -> {
 				int startY = (this.height - 168) / 2 + 18;
 				int startX = (this.width - 250) / 2 + 160;
 				int objectivesY = startY + 54;

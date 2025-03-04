@@ -63,11 +63,6 @@ import java.util.Random;
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeBusEvents {
-
-	public static final Capability<DMZStatsCapabilities> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {
-	});
-
-
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
 	private static boolean spawnedDB4 = false, spawnedNamekDB4 = false;
@@ -252,8 +247,8 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (event.getObject().getCapability(INSTANCE).isPresent() || event.getObject().getCapability(PlayerStorylineProvider.CAPABILITY).isPresent())
-				return;
+			if (DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getObject()).isPresent() ||
+					PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, event.getObject()).isPresent()) return;
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
