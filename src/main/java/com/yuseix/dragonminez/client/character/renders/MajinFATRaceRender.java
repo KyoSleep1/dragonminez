@@ -257,8 +257,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
-                        default -> auraColor = 16773525;
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 4:

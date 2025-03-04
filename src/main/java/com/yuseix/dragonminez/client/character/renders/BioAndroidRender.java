@@ -269,8 +269,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                     break;
                 case 3:
                     switch (transf){
-                        case "perfect" -> auraColor = cap.getIntValue("auracolor");
-                        default -> auraColor = 16773525;
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
                     }
                     break;
                 case 4:
@@ -625,9 +625,9 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODYCOLA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                     //IRIS DE AMBOS OJOS Y COLOR DE IRIS
-                    colorR = (eye1color >> 16) / 255.0F;
-                    colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                    colorB = (eye1color & 0xff) / 255.0f;
+                    colorR = (942748 >> 16) / 255.0F;
+                    colorG = ((942748 >> 8) & 0xff) / 255.0f;
+                    colorB = (942748 & 0xff) / 255.0f;
                     pPoseStack.translate(0f,0f,-0.001f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
