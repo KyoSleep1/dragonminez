@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -110,6 +111,20 @@ public class ClientPacketHandler {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.loadNBTData(nbt);
 				player.refreshDimensions();
+			});
+		}
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static void handleStorylineSyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = Minecraft.getInstance().level.getEntity(playerId);
+		if (entity instanceof Player player) {
+			player.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(cap -> {
+				cap.loadNBTData(nbt);
+				System.out.println("Storyline loaded");
 			});
 		}
 	}

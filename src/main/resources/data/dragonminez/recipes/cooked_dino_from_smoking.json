@@ -4,7 +4,7 @@
   "cookingtime": 100,
   "experience": 0.35,
   "ingredient": {
-    "item": "dragonminez:comida_dino_raw"
+    "item": "dragonminez:raw_dino_meat"
   },
-  "result": "dragonminez:comida_dino_cooked"
+  "result": "dragonminez:cooked_dino_meat"
 }

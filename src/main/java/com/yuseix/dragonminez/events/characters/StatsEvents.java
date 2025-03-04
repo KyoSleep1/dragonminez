@@ -391,7 +391,6 @@ public class StatsEvents {
 		boolean isDescendKeyPressed = Keys.DESCEND_KEY.isDown();
 		boolean isTurboKeypressed = Keys.TURBO_KEY.consumeClick();
 		boolean isTransformKeyPressed = Keys.TRANSFORM.isDown();
-		boolean isUtilityPanelKeyPressed = Keys.UTILITY_PANEL.isDown();
 
 		LocalPlayer player = Minecraft.getInstance().player;
 

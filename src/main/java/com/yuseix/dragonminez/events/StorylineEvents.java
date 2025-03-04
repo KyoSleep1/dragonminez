@@ -148,6 +148,9 @@ public class StorylineEvents {
 
 		var tracked = event.getTarget();
 		if (tracked instanceof ServerPlayer trackedplayer) {
+			System.out.println("Tracking player " + trackingplayer.getName().getString());
+			System.out.println("serverplayer " + serverplayer.getName().getString());
+			System.out.println("trackedplayer " + trackedplayer.getName().getString());
 			tracked.getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(cap -> ModMessages.sendToPlayer(new StorylineSyncS2C(trackedplayer), serverplayer));
 		}
 	}
