@@ -37,7 +37,9 @@ public class StatsSyncS2C {
 	public void handle(Supplier<NetworkEvent.Context> ctxSupplier) {
 		ctxSupplier.get().enqueueWork(() -> {
 			DistExecutor.unsafeRunWhenOn(
-					Dist.CLIENT, () -> () -> ClientPacketHandler.handleStatsSyncPacket(playerId, nbt, ctxSupplier)
+					Dist.CLIENT, () -> () -> {
+						ClientPacketHandler.handleStatsSyncPacket(playerId, nbt, ctxSupplier);
+					}
 			);
 		});
 		ctxSupplier.get().setPacketHandled(true);

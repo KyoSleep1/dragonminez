@@ -1,14 +1,19 @@
 package com.yuseix.dragonminez.init;
 
+import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
+import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.storyline.sagas.FriezaSaga;
 import com.yuseix.dragonminez.storyline.sagas.SaiyanSaga;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,55 +25,28 @@ public class StorylineManager {
 	public static volatile boolean hasInitialized; //Thanks Gecko for the idea
 	private final Player player;
 
-	/**
-	 * Constructor for the StorylineManager. Should never be called elsewhere than in PlayerStorylineProvider.
-	 * Will automatically fire the initialization of all sagas for x player when they join.
-	 * If you are messy enough you can probably add a "Storyline" to anything and have it work.
-	 */
 	public StorylineManager(Player player) {
 		this.player = player;
 		initializeSagas();
 	}
 
-	/**
-	 * Resets the progress of all quests in all sagas.
-	 * This will set all quests to be incomplete (but not delete them or the saga(s).)
-	 */
 	public void resetProgress() {
 		for (Saga saga : sagas.values()) {
 			for (Quest quest : saga.getQuests()) {
 				quest.setCompleted(false);
 			}
 		}
+		StorylineEvents.syncStoryline(player);
 	}
-
-	/**
-	 * Gets a {@link Saga} by its ID.
-	 *
-	 * @param id The ID of the saga to retrieve.
-	 * @return The saga with the provided ID, or null if it does not exist.
-	 */
 	public Saga getSaga(String id) {
 		return sagas.get(id);
 	}
 
-	/**
-	 * Checks if a {@link Saga} is completed.
-	 *
-	 * @param sagaId The ID of the saga to check.
-	 * @return {@code True} if the saga is completed, {@code False} otherwise.
-	 */
-	@SuppressWarnings("unused") // Temporary suppression until I do something w/ it lol
 	public boolean isSagaCompleted(String sagaId) {
 		Saga saga = sagas.get(sagaId);
 		return saga != null && saga.isCompleted();
 	}
 
-	/**
-	 * Gets all sagas registered in the {@link StorylineManager}.
-	 *
-	 * @return A {@link Hashtable} containing all sagas.
-	 */
 	public Hashtable<String, Saga> getAllSagas() {
 		return sagas;
 	}
@@ -77,11 +55,6 @@ public class StorylineManager {
 		return sagas.values().stream().filter(saga -> saga.canStart() && !saga.isCompleted()).toList();
 	}
 
-	/**
-	 * Converts the {@link StorylineManager} data to a serializable format.
-	 *
-	 * @return A {@link Map} containing the serialized data.
-	 */
 	public Map<String, Object> toSerializable() {
 		Map<String, Object> data = new HashMap<>();
 		List<Map<String, Object>> serializedSagas = new ArrayList<>();
@@ -144,6 +117,7 @@ public class StorylineManager {
 				if (quest.isCompleted()) {
 					CompoundTag questTag = new CompoundTag();
 					questTag.putString("id", quest.getId());
+					questTag.putBoolean("completed", quest.isCompleted()); // Save completion state
 					questsTag.add(questTag);
 				}
 			}
@@ -165,9 +139,6 @@ public class StorylineManager {
 			CompoundTag sagaTag = sagasTag.getCompound(i);
 			String sagaId = sagaTag.getString("id");
 
-			//This was uncommented, but idk if it's necessary or not lol
-			//initializeSagas();
-
 			// Get the existing Saga by ID
 			Saga saga = getSaga(sagaId);
 
@@ -181,7 +152,7 @@ public class StorylineManager {
 					// Get the existing Quest by ID
 					for (Quest quest : saga.getQuests()) {
 						if (quest.getId().equals(questId)) {
-							quest.setCompleted(true); // Update the completed state
+							quest.setCompleted(questTag.getBoolean("completed")); // Update the completed state
 							break;
 						}
 					}

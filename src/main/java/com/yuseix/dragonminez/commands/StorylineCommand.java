@@ -6,12 +6,14 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.init.StorylineManager;
 import com.yuseix.dragonminez.registry.IDRegistry;
 import com.yuseix.dragonminez.storyline.Objective;
 import com.yuseix.dragonminez.storyline.Quest;
 import com.yuseix.dragonminez.storyline.Saga;
 import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
+import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -129,7 +131,7 @@ public class StorylineCommand {
 											if (context.getSource().getPlayer() == null) {
 												return 0;
 											}
-											context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+											PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 													playerStoryline.getSaga(StringArgumentType.getString(context, "id")).getQuests().forEach(quest -> quest.setCompleted(false)));
 											context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.saga_reset", StringArgumentType.getString(context, "id")), true);
 											return 1;
@@ -143,7 +145,7 @@ public class StorylineCommand {
 											if (context.getSource().getPlayer() == null) {
 												return 0;
 											}
-											context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+											PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 													playerStoryline.getAllSagas().values().forEach(saga -> saga.getQuestbyId(StringArgumentType.getString(context, "id")).setCompleted(false)));
 											context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_reset", StringArgumentType.getString(context, "id")), true);
 											return 1;
@@ -156,7 +158,7 @@ public class StorylineCommand {
 									if (context.getSource().getPlayer() == null) {
 										return 0;
 									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(StorylineManager::resetProgress);
+									PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(StorylineManager::resetProgress);
 									context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.all_reset"), true);
 									return 1;
 								})
@@ -168,7 +170,7 @@ public class StorylineCommand {
 									if (context.getSource().getPlayer() == null) {
 										return 0;
 									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+									PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 											playerStoryline.getAllSagas().values().forEach(saga ->
 													context.getSource().sendSuccess(() ->
 															Component.translatable("command.dmzstoryline.saga_list", saga.getName(), saga.getId()), false)));
@@ -180,7 +182,7 @@ public class StorylineCommand {
 									if (context.getSource().getPlayer() == null) {
 										return 0;
 									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+									PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 											playerStoryline.getAllSagas().values().forEach(saga ->
 													saga.getQuests().forEach(quest -> context.getSource().sendSuccess(() ->
 															Component.translatable("command.dmzstoryline.quest_list", quest.getId(), quest.getDescription()), false))));
@@ -192,7 +194,7 @@ public class StorylineCommand {
 									if (context.getSource().getPlayer() == null) {
 										return 0;
 									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+									PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 											playerStoryline.getAllSagas().values().forEach(saga ->
 													saga.getQuests().forEach(quest ->
 															quest.getAllObjectives().forEach(objective -> context.getSource().sendSuccess(() ->
@@ -208,7 +210,7 @@ public class StorylineCommand {
 									if (context.getSource().getPlayer() == null) {
 										return 0;
 									}
-									context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+									PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline -> {
 										String data = playerStoryline.toSerializable().toString();
 										//String url = uploadToHastebin(data);
 										String url = "https://hastebin.com/raw/abuqoqoqog";
@@ -225,7 +227,7 @@ public class StorylineCommand {
 													if (context.getSource().getPlayer() == null) {
 														return 0;
 													}
-													context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+													PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 															playerStoryline.getSaga(StringArgumentType.getString(context, "id")).removeAllPrerequisites());
 													context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.saga_started", StringArgumentType.getString(context, "id")), true);
 													return 1;
@@ -239,7 +241,7 @@ public class StorylineCommand {
 													if (context.getSource().getPlayer() == null) {
 														return 0;
 													}
-													context.getSource().getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline ->
+													PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, context.getSource().getPlayer()).ifPresent(playerStoryline ->
 															playerStoryline.getAllSagas().values().forEach(saga ->
 																	saga.getQuestbyId(StringArgumentType.getString(context, "id")).removeAllPrerequisites()));
 													context.getSource().sendSuccess(() -> Component.translatable("command.dmzstoryline.quest_started", StringArgumentType.getString(context, "id")), true);
@@ -259,7 +261,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			Saga saga = playerStoryline.getSaga(sagaId);
 
 			if (saga == null) {
@@ -287,7 +289,7 @@ public class StorylineCommand {
 		}
 
 		// Access the capability of the player
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			// Iterate through all sagas to find the quest
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getAvailableQuests().stream().filter(q -> q.getId().equals(questId)).findFirst().orElse(null);
@@ -331,7 +333,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getAvailableQuests().stream().filter(q -> q.getId().equals(questId)).findFirst().orElse(null);
 
@@ -369,7 +371,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			Saga saga = playerStoryline.getSaga(sagaId);
 
 			if (saga == null) {
@@ -399,7 +401,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				for (Quest quest : saga.getQuests()) {
 					String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
@@ -420,7 +422,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
@@ -444,7 +446,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			for (Saga saga : playerStoryline.getActiveSagas()) {
 				for (Quest quest : saga.getAvailableQuests()) {
 					String status = quest.isCompleted() ? "COMPLETED" : "INCOMPLETE";
@@ -464,7 +466,7 @@ public class StorylineCommand {
 			return 0;
 		}
 
-		source.getPlayer().getCapability(PlayerStorylineProvider.CAPABILITY).ifPresent(playerStoryline -> {
+		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, source.getPlayer()).ifPresent(playerStoryline -> {
 			for (Saga saga : playerStoryline.getAllSagas().values()) {
 				Quest quest = saga.getQuestbyId(questId);
 				if (quest != null) {

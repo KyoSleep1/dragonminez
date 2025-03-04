@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.storyline.objectives.ObjectiveGetToBiome;
 import com.yuseix.dragonminez.storyline.objectives.ObjectiveKillEnemy;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
@@ -100,12 +101,10 @@ public class Quest {
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
 
-		StorylineEvents.syncStoryline(player);
-
-		if (completed) {
+		if (completed && player != null) {
 			DebugUtils.dmzLog("Quest '" + name + "' is now completed! for " + player.getName().getString());
 			// Trigger any additional logic for quest completion here
-			player.sendSystemMessage(Component.translatable("quest.completed", getName()));
+			StorylineEvents.syncStoryline(player);
 		}
 	}
 
