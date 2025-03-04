@@ -132,18 +132,24 @@ public class StatsEvents {
 					}
 				}
 
-				if (!playerstats.getBoolean("alive") && playerstats.getIntValue("babaalivetimer") <= 0) {
-					if (serverPlayer.level().dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-						ServerLevel serverLevel = serverPlayer.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
-						if (serverLevel != null) {
-							serverPlayer.teleportTo(serverLevel, 121, 46, -17, serverPlayer.getYRot(), serverPlayer.getXRot());
-							serverPlayer.displayClientMessage(Component.translatable("dmz.otherworld.cannot_leave"), true);
+				if (DMZGeneralConfig.OTHERWORLD_ENABLED.get()) {
+					if (!playerstats.getBoolean("alive") && playerstats.getIntValue("babaalivetimer") <= 0) {
+						if (serverPlayer.level().dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
+							ServerLevel serverLevel = serverPlayer.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
+							if (serverLevel != null) {
+								serverPlayer.teleportTo(serverLevel, 0, 41, -101, serverPlayer.getYRot(), serverPlayer.getXRot());
+								serverPlayer.displayClientMessage(Component.translatable("dmz.otherworld.cannot_leave"), true);
+							}
 						}
 					}
 				}
 
-				if (playerstats.getStringValue("form").equals("oozaru") || playerstats.getStringValue("form").equals("giant")) {
-
+				if (serverPlayer.getY() < -70) {
+					float restarVida = 1;
+					float cantVida = ((float) dmzdatos.calcConstitution(playerstats) / 100);
+					if (cantVida > 1) restarVida = cantVida;
+					serverPlayer.setHealth(serverPlayer.getHealth() - restarVida);
+					// Si el jugador está en y < -70, perderá 1% hp cada tick hasta matarlo (por si se cae al vacío)
 				}
 
 				if (playerstats.getIntValue("babacooldown") > 0) playerstats.setIntValue("babacooldown", babaCooldown(playerstats.getIntValue("babacooldown")));

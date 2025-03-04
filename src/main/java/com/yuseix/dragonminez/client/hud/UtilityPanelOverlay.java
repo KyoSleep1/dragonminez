@@ -193,7 +193,7 @@ public class UtilityPanelOverlay extends Screen {
 		switch (stats.getIntValue("race")) {
 			case 0:
 				if (!(stats.getFormSkillLevel("super_form") >= 1)) {
-					langGroup = "groupforms.dmz.human.base";
+					langGroup = "forms.dmz.human.base";
 				}
 				break;
 			case 1:
