@@ -58,28 +58,28 @@ public class ClientEvents {
 			}
 		}
 	}
-	@SubscribeEvent
-	public static void onRenderAttackKi(RenderLevelStageEvent event) {
-		Minecraft minecraft = Minecraft.getInstance();
-		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) return;
-
-		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
-
-		//	PRUEBA entidades ki
-		for (Entity entity : minecraft.level.getEntities(null, new AABB(-100, -100, -100, 100, 100, 100))) {
-			if (entity instanceof KiSmallBallProjectil kismall) {
-				DMZRenders.renderKiSmallBall2(kismall, event.getPartialTick(), event.getPoseStack(), bufferSource);
-				System.out.println("Salio el render");
-			}
-
-			if(entity instanceof KiSmallWaveProjectil kiSmallWaveProjectil){
-				//DMZRenders.renderKiSmallWave(kiSmallWaveProjectil, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
-			}
-		}
-
-		bufferSource.endBatch();
-
-	}
+//	@SubscribeEvent
+//	public static void onRenderAttackKi(RenderLevelStageEvent event) {
+//		Minecraft minecraft = Minecraft.getInstance();
+//		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) return;
+//
+//		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
+//
+//		//	PRUEBA entidades ki
+//		for (Entity entity : minecraft.level.getEntities(null, new AABB(-100, -100, -100, 100, 100, 100))) {
+//			if (entity instanceof KiSmallBallProjectil kismall) {
+//				DMZRenders.renderKiSmallBall2(kismall, event.getPartialTick(), event.getPoseStack(), bufferSource);
+//				System.out.println("Salio el render");
+//			}
+//
+//			if(entity instanceof KiSmallWaveProjectil kiSmallWaveProjectil){
+//				//DMZRenders.renderKiSmallWave(kiSmallWaveProjectil, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
+//			}
+//		}
+//
+//		bufferSource.endBatch();
+//
+//	}
 
 	@SubscribeEvent
 	public static void onRenderLevelLast(RenderLevelStageEvent event) {
