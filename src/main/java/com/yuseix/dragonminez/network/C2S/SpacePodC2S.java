@@ -2,7 +2,9 @@ package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
+import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -61,9 +63,15 @@ public class SpacePodC2S {
                         player.onUpdateAbilities();
                         player.hasChangedDimension();
                     } else if (targetWorld.dimension().location().toString().equals("dragonminez:otherworld")) {
-                        player.teleportTo(targetWorld, 121, 50, 102, player.getYRot(), player.getXRot());
-                        player.onUpdateAbilities();
-                        player.hasChangedDimension();
+                        ServerLevel finalTargetWorld = targetWorld;
+                        targetWorld.getCapability(StructuresProvider.CAPABILITY).ifPresent(cap -> {
+                            BlockPos kaioPos = cap.getKaioPlanetPosition();
+                            player.teleportTo(finalTargetWorld, kaioPos.getX(), kaioPos.getY() + 30, kaioPos.getZ(), player.getYRot(), player.getXRot());
+                            System.out.println("Teleporting to otherworld, pos: " + kaioPos.getX() + ", " + (kaioPos.getY()+30) + ", " + kaioPos.getZ());
+                            player.onUpdateAbilities();
+                            player.hasChangedDimension();
+                        });
+
                     }
 
 

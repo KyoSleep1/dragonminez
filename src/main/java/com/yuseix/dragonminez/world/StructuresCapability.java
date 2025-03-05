@@ -23,15 +23,14 @@ import java.util.List;
 import java.util.Random;
 
 public class StructuresCapability {
-
     private boolean hasTorreKamisama = false;
     private boolean hasHabTiempo = false;
     private boolean hasGokuHouse = false;
     private boolean hasRoshiHouse = false;
     private boolean hasElderGuru = false;
     private boolean hasEnmaPalace = false;
-    private boolean hasSnakeWay = false;
     private boolean hasKaioPlanet = false;
+
     private BlockPos torreKamisamaPosition;
     private BlockPos portalHabTiempoPosition;
     private BlockPos torreKarinPosition;
@@ -42,7 +41,6 @@ public class StructuresCapability {
     private BlockPos elderGuruPosition;
     private BlockPos namekDB4Position;
     private BlockPos enmaPalacePosition;
-    private BlockPos snakeWayPosition;
     private BlockPos kaioPlanetPosition;
 
     public void setHasTorreKamisama(boolean hasTorreKamisama) {
@@ -73,10 +71,6 @@ public class StructuresCapability {
         this.hasEnmaPalace = hasEnmaPalace;
     }
 
-    public void setHasSnakeWay(boolean hasSnakeWay) {
-        this.hasSnakeWay = hasSnakeWay;
-    }
-
     public void setHasKaioPlanet(boolean hasKaioPlanet) {
         this.hasKaioPlanet = hasKaioPlanet;
     }
@@ -95,6 +89,10 @@ public class StructuresCapability {
 
     public boolean getHasElderGuru() {
         return this.hasElderGuru;
+    }
+
+    public boolean getHasKaioPlanet() {
+        return this.hasKaioPlanet;
     }
 
     public void setTorreKamisamaPosition(BlockPos torreKamisamaPosition) {
@@ -131,10 +129,6 @@ public class StructuresCapability {
 
     public void setEnmaPalacePosition(BlockPos enmaPalacePosition) {
         this.enmaPalacePosition = enmaPalacePosition;
-    }
-
-    public void setSnakeWayPosition(BlockPos snakeWayPosition) {
-        this.snakeWayPosition = snakeWayPosition;
     }
 
     public void setKaioPlanetPosition(BlockPos kaioPlanetPosition) {
@@ -181,10 +175,6 @@ public class StructuresCapability {
         return enmaPalacePosition;
     }
 
-    public BlockPos getSnakeWayPosition() {
-        return snakeWayPosition;
-    }
-
     public BlockPos getKaioPlanetPosition() {
         return kaioPlanetPosition;
     }
@@ -196,7 +186,6 @@ public class StructuresCapability {
         nbt.putBoolean("hasRoshiHouse", hasRoshiHouse);
         nbt.putBoolean("hasElderGuru", hasElderGuru);
         nbt.putBoolean("hasEnmaPalace", hasEnmaPalace);
-        nbt.putBoolean("hasSnakeWay", hasSnakeWay);
         nbt.putBoolean("hasKaioPlanet", hasKaioPlanet);
 
         if (torreKamisamaPosition != null || torreKarinPosition != null || portalHabTiempoPosition != null) {
@@ -225,9 +214,6 @@ public class StructuresCapability {
         if (enmaPalacePosition != null) {
             nbt.put("enmaPalacePosition", NbtUtils.writeBlockPos(enmaPalacePosition));
         }
-        if (snakeWayPosition != null) {
-            nbt.put("snakeWayPosition", NbtUtils.writeBlockPos(snakeWayPosition));
-        }
         if (kaioPlanetPosition != null) {
             nbt.put("kaioPlanetPosition", NbtUtils.writeBlockPos(kaioPlanetPosition));
         }
@@ -240,7 +226,6 @@ public class StructuresCapability {
         hasRoshiHouse = nbt.getBoolean("hasRoshiHouse");
         hasElderGuru = nbt.getBoolean("hasElderGuru");
         hasEnmaPalace = nbt.getBoolean("hasEnmaPalace");
-        hasSnakeWay = nbt.getBoolean("hasSnakeWay");
         hasKaioPlanet = nbt.getBoolean("hasKaioPlanet");
 
         if (nbt.contains("torreKamisamaPosition") || nbt.contains("torreKarinPosition") || nbt.contains("portalHabPosition")) {
@@ -268,9 +253,6 @@ public class StructuresCapability {
         }
         if (nbt.contains("enmaPalacePosition")) {
             enmaPalacePosition = NbtUtils.readBlockPos(nbt.getCompound("enmaPalacePosition"));
-        }
-        if (nbt.contains("snakeWayPosition")) {
-            snakeWayPosition = NbtUtils.readBlockPos(nbt.getCompound("snakeWayPosition"));
         }
         if (nbt.contains("kaioPlanetPosition")) {
             kaioPlanetPosition = NbtUtils.readBlockPos(nbt.getCompound("kaioPlanetPosition"));
@@ -701,39 +683,36 @@ public class StructuresCapability {
 
     public void generatePalacioEnma(ServerLevel level) {
         if (!hasEnmaPalace) {
+            StructurePlaceSettings settings = new StructurePlaceSettings();
             BlockPos position = new BlockPos(0, 40, 0);
 
-            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/palacioenma1"));
+            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma1"));
 
             if (template != null) {
-                StructurePlaceSettings settings = new StructurePlaceSettings();
                 template.placeInWorld(level, position, position, settings, level.getRandom(), 2);
             }
 
             BlockPos secPos = position.offset(-129, 0, 0);
 
-            StructureTemplate secTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/palacioenma2"));
+            StructureTemplate secTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma2"));
 
             if (secTemp != null) {
-                StructurePlaceSettings settings = new StructurePlaceSettings();
                 secTemp.placeInWorld(level, secPos, secPos, settings, level.getRandom(), 2);
             }
 
             BlockPos terPos = position.offset(-129, 0, -161);
 
-            StructureTemplate terTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/palacioenma3"));
+            StructureTemplate terTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma3"));
 
             if (terTemp != null) {
-                StructurePlaceSettings settings = new StructurePlaceSettings();
                 terTemp.placeInWorld(level, terPos, terPos, settings, level.getRandom(), 2);
             }
 
             BlockPos quarPos = position.offset(0, 0, -161);
 
-            StructureTemplate quarTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/palacioenma4"));
+            StructureTemplate quarTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma4"));
 
             if (quarTemp != null) {
-                StructurePlaceSettings settings = new StructurePlaceSettings();
                 quarTemp.placeInWorld(level, quarPos, quarPos, settings, level.getRandom(), 2);
             }
 
@@ -743,6 +722,49 @@ public class StructuresCapability {
             setHasEnmaPalace(true);
             setEnmaPalacePosition(spawnPosition);
             System.out.println("[DMZ-Generation] Enma's Palace generated in " + spawnPosition);
+
+            BlockPos snakewayPos = new BlockPos(-67, 40, 146);
+
+            StructureTemplate snakewayInit = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_init"));
+
+            if (snakewayInit != null) {
+                snakewayInit.placeInWorld(level, snakewayPos, snakewayPos, settings, level.getRandom(), 2);
+            }
+            level.setBlock(new BlockPos(0, 42, 149), Blocks.AIR.defaultBlockState(), 3);
+
+            Random random = new Random();
+            int maxLong = random.nextInt(3) + 4;
+            snakewayPos = snakewayPos.offset(-62, 4, 160);
+
+            for (int i = 0; i < maxLong; i++) {
+                StructureTemplate snakewayMid = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_mid"));
+
+                if (snakewayMid != null) {
+                    snakewayMid.placeInWorld(level, snakewayPos, snakewayPos, settings, level.getRandom(), 2);
+                }
+                snakewayPos = snakewayPos.offset(-63, 1, 133);
+            }
+
+            BlockPos endSnakewayPos = snakewayPos.offset(49, -1, 4);
+
+            StructureTemplate snakewayEnd = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_end"));
+
+            if (snakewayEnd != null) {
+                snakewayEnd.placeInWorld(level, endSnakewayPos, endSnakewayPos, settings, level.getRandom(), 2);
+            }
+
+            BlockPos kaioStructure = snakewayPos.offset(-20, 10, 90);
+
+            StructureTemplate kaioPlanet = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/kaioplanet"));
+
+            if (kaioPlanet != null) {
+                kaioPlanet.placeInWorld(level, kaioStructure, kaioStructure, settings, level.getRandom(), 2);
+            }
+
+            BlockPos kaioSpawnPos = new BlockPos(kaioStructure.getX() + 74, kaioStructure.getY() + 127, kaioStructure.getZ() + 29);
+            setHasKaioPlanet(true);
+            setKaioPlanetPosition(kaioSpawnPos);
+            System.out.println("[DMZ-Generation] Kaio's Planet generated in " + kaioSpawnPos);
         }
     }
 }

@@ -181,8 +181,8 @@ public class ModBiomes {
                 .generationSettings(biomeBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects((new BiomeSpecialEffects.Builder())
-                        .waterColor(1479227)
-                        .waterFogColor(676390)
+                        .waterColor(4214155)
+                        .waterFogColor(4214120)
                         .skyColor(0xBE55AA)         // Color del cielo morado
                         .grassColorOverride(0xDCF2FF)
                         .foliageColorOverride(0xDCF2FF)

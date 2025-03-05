@@ -221,7 +221,7 @@ public class EntityEvents {
 			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
 				if (structures.getHasTorreKami()) {
 					BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
-					if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
+					if (playerPos.distSqr(posKami) < 30000) grantAdvancement(serverPlayer, "kamilookout");
 				}
 
 				if (structures.getHasGokuHouse()) {
@@ -232,9 +232,20 @@ public class EntityEvents {
 					BlockPos posRoshi = structures.getRoshiHousePosition();
 					if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
 				}
-
-				//BlockPos posKaio = structures.getKaioPlanetPosition();
-				//if (playerPos.distSqr(posKaio) < 10000) grantAdvancement(serverPlayer, "kaioplanet");
+			});
+		} else if (player.level().dimension().equals(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY)) {
+			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+				if (structures.getHasKaioPlanet()) {
+					BlockPos posKaio = structures.getKaioPlanetPosition();
+					if (playerPos.distSqr(posKaio) < 100000) grantAdvancement(serverPlayer, "kaiosama");
+				}
+			});
+		} else if (player.level().dimension().equals(ModDimensions.NAMEK_DIM_LEVEL_KEY)) {
+			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+				if (structures.getHasElderGuru()) {
+					BlockPos posNamek = structures.getElderGuruPosition();
+					if (playerPos.distSqr(posNamek) < 100000) grantAdvancement(serverPlayer, "patriarca");
+				}
 			});
 		}
 

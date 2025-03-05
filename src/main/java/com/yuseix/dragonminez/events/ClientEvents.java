@@ -391,13 +391,11 @@ public class ClientEvents {
 		if (player.isPassenger() && player.getVehicle() instanceof NaveSaiyanEntity) {
 
 			if (Keys.FUNCTION.consumeClick()) {
-				System.out.println("isTeleporting: " + isTeleporting);
 				if (isTeleporting) {
 					isTeleporting = false;
 					teleportCountdown = teleportTime;
 					player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport.cancel"), true);
 				} else {
-					System.out.println("Opening the Saiyan Space Pod Overlay");
 					Minecraft.getInstance().setScreen(new SaiyanSpacePodOverlay());
 				}
 			}
@@ -427,7 +425,7 @@ public class ClientEvents {
 						}
 						case 3 -> {
 							ModMessages.sendToServer(new SpacePodC2S("otherworld"));
-							player.sendSystemMessage(Component.literal("ui.dmz.spacepod.kaio.arrive"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.kaio.arrive"));
 						}
 					}
 
@@ -463,6 +461,5 @@ public class ClientEvents {
 		isTeleporting = teleporting;
 		planetaObjetivo = planeta;
 		teleportCountdown = teleportTime;
-		System.out.println("isTeleporting: " + teleporting + "Teleporting to: " + planeta + " in " + teleportTime + " seconds");
 	}
 }
