@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.storymode.DMZQuest;
 import com.yuseix.dragonminez.storyline.RegisterAdvancementCriterion;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
 import com.yuseix.dragonminez.worldgen.biome.ModOverworldRegion;
@@ -96,6 +97,8 @@ public class DragonMineZ {
 		MainParticles.register(modEventBus);
 		//Register biomas de Terrablender
 		Regions.register(new ModOverworldRegion());
+		//Register StoryMode
+		DMZQuest.DMZQuestRegistry.registerQuests();
 
 		MinecraftForge.EVENT_BUS.register(this);
 
