@@ -1,14 +1,20 @@
 package com.yuseix.dragonminez.events.characters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZColdDemonConfig;
+import com.yuseix.dragonminez.events.ClientEvents;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
+import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
+import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
@@ -45,10 +51,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.WeakHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
-
 	private static int soundTimer = 200;
 
 	@SubscribeEvent
@@ -215,7 +221,7 @@ public class EntityEvents {
 			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
 				if (structures.getHasTorreKami()) {
 					BlockPos posKami = structures.getTorreKarinPosition(); // La torre de Karin está más abajo, asi que es más factible xd
-					if (playerPos.distSqr(posKami) < 10000) grantAdvancement(serverPlayer, "kamilookout");
+					if (playerPos.distSqr(posKami) < 30000) grantAdvancement(serverPlayer, "kamilookout");
 				}
 
 				if (structures.getHasGokuHouse()) {
@@ -226,11 +232,23 @@ public class EntityEvents {
 					BlockPos posRoshi = structures.getRoshiHousePosition();
 					if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
 				}
-
-				//BlockPos posKaio = structures.getKaioPlanetPosition();
-				//if (playerPos.distSqr(posKaio) < 10000) grantAdvancement(serverPlayer, "kaioplanet");
+			});
+		} else if (player.level().dimension().equals(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY)) {
+			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+				if (structures.getHasKaioPlanet()) {
+					BlockPos posKaio = structures.getKaioPlanetPosition();
+					if (playerPos.distSqr(posKaio) < 100000) grantAdvancement(serverPlayer, "kaiosama");
+				}
+			});
+		} else if (player.level().dimension().equals(ModDimensions.NAMEK_DIM_LEVEL_KEY)) {
+			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
+				if (structures.getHasElderGuru()) {
+					BlockPos posNamek = structures.getElderGuruPosition();
+					if (playerPos.distSqr(posNamek) < 100000) grantAdvancement(serverPlayer, "patriarca");
+				}
 			});
 		}
+
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 			if (cap.getStringValue("form").equals("oozaru")) {

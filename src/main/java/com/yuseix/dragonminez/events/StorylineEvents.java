@@ -151,7 +151,7 @@ public class StorylineEvents {
 	}
 
 	public static void syncStoryline(Player player) {
-		if (!(player instanceof ServerPlayer serverPlayer)) {
+		if (player == null || !(player instanceof ServerPlayer serverPlayer)) {
 			DebugUtils.dmzLog("Player is not a server player");
 			return;
 		}

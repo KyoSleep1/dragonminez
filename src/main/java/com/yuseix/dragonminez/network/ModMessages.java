@@ -77,11 +77,6 @@ public class ModMessages {
 				.encoder(SpacePodC2S::encode)
 				.consumerMainThread(SpacePodC2S::handle)
 				.add();
-		net.messageBuilder(PlanetSelectionC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
-				.decoder(PlanetSelectionC2S::decode)
-				.encoder(PlanetSelectionC2S::encode)
-				.consumerMainThread(PlanetSelectionC2S::handle)
-				.add();
 		net.messageBuilder(UtilityPanelC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
 				.decoder(UtilityPanelC2S::new)
 				.encoder(UtilityPanelC2S::toBytes)
@@ -183,11 +178,6 @@ public class ModMessages {
 				.encoder(DMZPermanentEffectsSyncS2C::toBytes)
 				.decoder(DMZPermanentEffectsSyncS2C::new)
 				.consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
-				.add();
-		net.messageBuilder(UpdatePlanetSelectionS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.encoder(UpdatePlanetSelectionS2C::encode)
-				.decoder(UpdatePlanetSelectionS2C::decode)
-				.consumerMainThread(UpdatePlanetSelectionS2C::handle)
 				.add();
 		net.messageBuilder(UpdateDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(UpdateDragonRadarS2C::encode)

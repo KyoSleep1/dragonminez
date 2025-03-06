@@ -146,11 +146,6 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleUpdatePlanetSelectionPacket(int selectedPlanet, Supplier<NetworkEvent.Context> ctxSupplier) {
-		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
-	}
-
-	@OnlyIn(Dist.CLIENT)
 	public static void handleFlyToggle(boolean isFlying, Supplier<NetworkEvent.Context> ctxSupplier) {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
