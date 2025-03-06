@@ -611,7 +611,7 @@ public class TransfMenu extends Screen {
 			})));
 
 			botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, altoTexto, "storyline", Component.empty(), wa -> {
-				this.minecraft.setScreen(new StorylineMenu(false));
+				//this.minecraft.setScreen(new StorylineMenu(false));
 			})));
 
 			botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, altoTexto, "kitech", Component.empty(), wa -> {

@@ -168,7 +168,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 this.minecraft.setScreen(new TransfMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                this.minecraft.setScreen(new StorylineMenu(false));
+                //this.minecraft.setScreen(new StorylineMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
                 // Agregar acá el menú de Ki Techniques

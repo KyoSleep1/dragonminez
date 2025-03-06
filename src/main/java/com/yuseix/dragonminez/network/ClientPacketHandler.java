@@ -150,7 +150,7 @@ public class ClientPacketHandler {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
 		if (player != null) {
-			player.getAbilities().mayfly = isFlying;
+			if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = isFlying;
 			player.getAbilities().flying = isFlying;
 			player.onUpdateAbilities();
 		}

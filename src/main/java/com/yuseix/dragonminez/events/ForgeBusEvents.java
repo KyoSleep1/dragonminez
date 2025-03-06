@@ -247,14 +247,14 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			if (DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getObject()).isPresent() ||
-					PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, event.getObject()).isPresent()) return;
+			//if (DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getObject()).isPresent() ||
+			//		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, event.getObject()).isPresent()) return;
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
-			final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
+			//final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
 
 			event.addCapability(DMZStatsProvider.ID, provider);
-			event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
+			//event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
 		}
 	}
 

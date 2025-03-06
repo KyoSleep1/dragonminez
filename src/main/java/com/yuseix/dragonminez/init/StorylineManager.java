@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 import static com.yuseix.dragonminez.registry.IDRegistry.sagaRegistry;
 
 public class StorylineManager {
-	private final Hashtable<String, Saga> sagas = new Hashtable<>();
+	private Hashtable<String, Saga> sagas = new Hashtable<>();
 	public static volatile boolean hasInitialized; //Thanks Gecko for the idea
-	private final Player player;
+	private Player player;
 
 	public StorylineManager(Player player) {
-		this.player = player;
-		initializeSagas();
+		//this.player = player;
+		//initializeSagas();
 	}
 
 	public void resetProgress() {

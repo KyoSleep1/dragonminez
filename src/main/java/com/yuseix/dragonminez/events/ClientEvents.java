@@ -346,7 +346,7 @@ public class ClientEvents {
 
 		AtomicBoolean isKaioAvailable = new AtomicBoolean(false);
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
+			if (isDescending && player.getDeltaMovement().y < 0 && !player.isSpectator() && !player.isCreative()) { // Si está cayendo después del salto
 				isDescending = false;
 				ModMessages.sendToServer(new FlyToggleC2S());
 			}

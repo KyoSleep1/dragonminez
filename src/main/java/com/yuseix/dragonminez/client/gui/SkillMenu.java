@@ -157,7 +157,7 @@ public class SkillMenu extends Screen {
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                this.minecraft.setScreen(new StorylineMenu(false));
+                //this.minecraft.setScreen(new StorylineMenu(false));
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
