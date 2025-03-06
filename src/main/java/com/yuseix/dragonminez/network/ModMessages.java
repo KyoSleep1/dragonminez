@@ -149,11 +149,6 @@ public class ModMessages {
 				.encoder(StatsSyncS2C::toBytes)
 				.consumerMainThread(StatsSyncS2C::handle)
 				.add();
-		net.messageBuilder(StorylineSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(StorylineSyncS2C::new)
-				.encoder(StorylineSyncS2C::toBytes)
-				.consumerMainThread(StorylineSyncS2C::handle)
-				.add();
 		net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(MenuS2C::new)
 				.encoder(MenuS2C::toBytes)

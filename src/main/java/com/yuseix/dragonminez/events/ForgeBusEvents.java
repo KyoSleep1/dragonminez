@@ -12,7 +12,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
+import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -252,8 +252,10 @@ public class ForgeBusEvents {
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			//final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
-
+			final DMZQuestProvider provider_quests = new DMZQuestProvider();
 			event.addCapability(DMZStatsProvider.ID, provider);
+			event.addCapability(DMZQuestProvider.ID, provider_quests);
+
 			//event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
 		}
 	}
@@ -282,7 +284,6 @@ public class ForgeBusEvents {
 		new LocationsCommand(event.getDispatcher());
 		new DMZPermaEffectsCommand(event.getDispatcher());
 		new DMZTempEffectsCommand(event.getDispatcher());
-		new StorylineCommand(event.getDispatcher());
 		new DMZSkillsCommand(event.getDispatcher());
 		new DMZSuperFormCommand(event.getDispatcher());
 

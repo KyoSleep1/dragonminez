@@ -53,16 +53,16 @@ public class DMZStoryCapability {
 	}
 
 	public DMZQuest getAvailableQuest() {
-		return DMZQuest.DMZQuestRegistry.getQuest(currentQuestId);
+		return DMZQuestRegistry.getQuest(currentQuestId);
 	}
 
 	public DMZQuest getNextQuest() {
 		DMZQuest currentQuest = getAvailableQuest();
-		return currentQuest != null ? DMZQuest.DMZQuestRegistry.getQuest(currentQuest.getNextQuestId()) : null;
+		return currentQuest != null ? DMZQuestRegistry.getQuest(currentQuest.getNextQuestId()) : null;
 	}
 
 	public boolean isSagaCompleted(Saga saga) {
-		return DMZQuest.DMZQuestRegistry.getTotalQuests(saga) == completedQuests.size();
+		return DMZQuestRegistry.getTotalQuests(saga) == completedQuests.size();
 	}
 
 	public enum Saga {

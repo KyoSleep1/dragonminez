@@ -10,7 +10,6 @@ import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -83,7 +82,6 @@ public class ModBusEvents {
 		event.register(DragonBallGenProvider.class);
 		event.register(NamekDragonBallGenProvider.class);
 		event.register(StructuresCapability.class);
-		event.register(PlayerStorylineProvider.class);
 	}
 
 }

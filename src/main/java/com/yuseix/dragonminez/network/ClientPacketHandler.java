@@ -7,13 +7,11 @@ import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.UtilityPanelOverlay;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.events.RadarEvents;
-import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -115,26 +113,6 @@ public class ClientPacketHandler {
 				cap.loadNBTData(nbt);
 				player.refreshDimensions();
 			});
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void handleStorylineSyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
-		DebugUtils.dmzLog("Handling storyline sync packet for player " + playerId);
-		var clientLevel = Minecraft.getInstance().level;
-		if (clientLevel == null) return;
-
-		var entity = Minecraft.getInstance().level.getEntity(playerId);
-		if (entity instanceof Player player) {
-			DebugUtils.dmzLog("NBT Received: " + nbt);
-			PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, player).ifPresent(cap -> {
-				cap.loadNBTData(nbt);
-				DebugUtils.dmzLog("NBT Loaded: " + nbt);
-				player.refreshDimensions();
-				DebugUtils.dmzLog("Storyline loaded for player " + player.getName().getString());
-			});
-		} else {
-			DebugUtils.dmzLog("Failed to find player with ID: " + playerId);
 		}
 	}
 
