@@ -15,9 +15,9 @@ public abstract class Objective {
 
 	private boolean completed;
 	private Runnable onCompletion;
-	private final String name;
-	private final String description;
-	private final Component lang;
+	private String name;
+	private String description;
+	private Component lang;
 
 	public Objective(boolean completed, String name, String description, Component lang) {
 		this.completed = completed;

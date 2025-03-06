@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Saga {
-	private final String id;
-	private final String name;
-	private final List<Quest> quests;
-	private final List<Saga> sagaPrerequisites;
+	private String id;
+	private String name;
+	private List<Quest> quests;
+	private List<Saga> sagaPrerequisites;
 
 	public Saga(String id, String name) {
 		if (!StorylineManager.hasInitialized) {

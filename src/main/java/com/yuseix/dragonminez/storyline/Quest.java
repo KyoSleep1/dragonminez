@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Quest {
-	private final Player player;
-	private final String id;
-	private final String name;
-	private final String description;
-	private final List<Objective> objectives;
-	private final List<Quest> prerequisites;
+	private Player player;
+	private String id;
+	private String name;
+	private String description;
+	private List<Objective> objectives;
+	private List<Quest> prerequisites;
 	private boolean completed;
 
 	public Quest(Player player, String id, String name, String description, List<Objective> objectives, List<Quest> prerequisites) {
