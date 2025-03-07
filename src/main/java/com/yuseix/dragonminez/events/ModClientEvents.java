@@ -21,6 +21,7 @@ import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.RedRibbonSoldierModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.GokuMasterModel;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
@@ -132,6 +133,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Renderer::new);
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Renderer::new);
 			EntityRenderers.register(MainEntity.MORO_SOLDIER.get(), MoroSoldierRenderer::new);
+			EntityRenderers.register(MainEntity.REDRIBBON_SOLDIER.get(), RedRibbonSoldierRenderer::new);
 
 			//SAGAS
 			EntityRenderers.register(MainEntity.RADITZ_SAGA.get(), RaditzRenderer::new);
@@ -268,6 +270,7 @@ public class ModClientEvents {
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
+		e.registerLayerDefinition(RedRibbonSoldierModel.LAYER_LOCATION, RedRibbonSoldierModel::createBodyLayer);
 
 		//SAGAS
 		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);

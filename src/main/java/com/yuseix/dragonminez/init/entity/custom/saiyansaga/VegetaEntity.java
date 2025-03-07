@@ -4,6 +4,7 @@ import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import net.minecraft.network.chat.Component;
@@ -172,7 +173,7 @@ public class VegetaEntity extends SagaEntity {
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallWaveProjectil kiBlast = new KiSmallWaveProjectil(MainEntity.KI_SMALL_WAVE.get(), this.level());
+        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);
@@ -185,7 +186,7 @@ public class VegetaEntity extends SagaEntity {
         //Color de borde
         kiBlast.setColorBorde(11748327);
 
-        kiBlast.setVelocidad(0.9f);
+        kiBlast.setVelocidad(1.5f);
 
         kiBlast.setDamage(100.0F);
 

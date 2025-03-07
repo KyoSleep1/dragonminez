@@ -117,6 +117,12 @@ public final class MainEntity {
 							.sized(0.8f, 2.1f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "moro_soldier").toString())
 			);
+	public static final RegistryObject<EntityType<RedRibbonSoldierEntity>> REDRIBBON_SOLDIER =
+			ENTITY_TYPES_REGISTER.register("redribbon_soldier",
+					() -> EntityType.Builder.of(RedRibbonSoldierEntity::new, MobCategory.CREATURE)
+							.sized(0.8f, 2.1f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "redribbon_soldier").toString())
+			);
 	public static final RegistryObject<EntityType<NaveSaiyanEntity>> NAVE_SAIYAN =
 			ENTITY_TYPES_REGISTER.register("nave_saiyan",
 					() -> EntityType.Builder.of(NaveSaiyanEntity::new, MobCategory.CREATURE)
