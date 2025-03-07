@@ -174,6 +174,11 @@ public class ModMessages {
 				.decoder(DMZPermanentEffectsSyncS2C::new)
 				.consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
 				.add();
+		net.messageBuilder(DMZCompletedQuestsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(DMZCompletedQuestsSyncS2C::toBytes)
+				.decoder(DMZCompletedQuestsSyncS2C::new)
+				.consumerMainThread(DMZCompletedQuestsSyncS2C::handle)
+				.add();
 		net.messageBuilder(UpdateDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(UpdateDragonRadarS2C::encode)
 				.decoder(UpdateDragonRadarS2C::decode)

@@ -168,16 +168,20 @@ public class StoryEvents {
 	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
 		syncQuestData(event.getEntity());
 		event.getEntity().refreshDimensions();
+		syncCompletedQuests(event.getEntity());
+
 	}
 
 	@SubscribeEvent
 	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
 	}
 
 	@SubscribeEvent
 	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
 	}
 
 	@SubscribeEvent
@@ -212,6 +216,11 @@ public class StoryEvents {
 
 				ModMessages.sendToPlayer(new StorySyncS2C(trackedplayer), serverplayer);
 
+				ModMessages.sendToPlayer(
+						new DMZCompletedQuestsSyncS2C(trackedplayer, cap.getCompletedQuests()),
+						serverplayer
+				);
+
 			});
 
 		}
@@ -219,5 +228,12 @@ public class StoryEvents {
 
 	public static void syncQuestData(Player player) {
 		ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StorySyncS2C(player));
+	}
+
+	public static void syncCompletedQuests(Player player) {
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+					new DMZCompletedQuestsSyncS2C(player, cap.getCompletedQuests()));
+		});
 	}
 }

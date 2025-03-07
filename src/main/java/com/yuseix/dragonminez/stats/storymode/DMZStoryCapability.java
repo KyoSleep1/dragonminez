@@ -125,6 +125,8 @@ public class DMZStoryCapability {
 			completedQuests.remove(questId);
 		}
 		StoryEvents.syncQuestData(player);
+		StoryEvents.syncCompletedQuests(player);
+
 	}
 
 	public void resetProgress() {

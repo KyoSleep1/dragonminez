@@ -25,6 +25,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ClientPacketHandler {
@@ -42,7 +43,20 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleCompletedQuestsPacket(int playerId, Set<String> completedQuests) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return; // Evita errores en pantallas de carga
 
+		var entity = clientLevel.getEntity(playerId);
+		if (!(entity instanceof Player player)) return; // Evita crashes si no es un jugador
+
+		// Modificamos la capability en el cliente
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			cap.getCompletedQuests().clear(); // Limpia la lista anterior
+			cap.getCompletedQuests().addAll(completedQuests); // Añade las misiones sincronizadas
+		});
+	}
 	@OnlyIn(Dist.CLIENT)
 	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var clientLevel = Minecraft.getInstance().level;
