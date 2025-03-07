@@ -104,6 +104,7 @@ public class StorylineMenu extends Screen {
 						for (DMZQuest quest : saiyanQuests) {
 							// Verificar si la misión está completada o es la misión actual
 							if (capability.getCompletedQuests().contains(quest.getId()) || quest.getId().equals(capability.getCurrentQuestId())) {
+								System.out.println("BOTONES: " + quest.getId() + " - " + capability.getCurrentQuestId());
 								CustomButtons infoButton = new CustomButtons("info", this.infoMenu ? startX + 190 - 72 : startX + 190, startY - 2, Component.empty(), btn -> {
 									this.infoMenu = !this.infoMenu;
 									this.questId = quest.getId();
@@ -116,7 +117,7 @@ public class StorylineMenu extends Screen {
 
 							// Mostrar el botón de inicio si la misión está disponible
 							if (infoMenu && quest.getId().equals(capability.getCurrentQuestId())) {
-								if (quest.getRequirement().isFulfilled(this.minecraft.player, capability.getEntityKillCounts(), capability.isStructureFound(), capability.hasRequiredItem())) {
+								if (quest.getRequirement().isFulfilled(this.minecraft.player, capability.getEntityKillCounts(), capability.isStructureFound(), capability.hasCollectedItems())) {
 									startButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 185, altoTexto - 40, Component.translatable("dmz.quests.start"), wa -> {
 										ModMessages.sendToServer(new SummonQuestC2S(quest.getId()));
 										this.removeWidget(startButton);
@@ -189,24 +190,23 @@ public class StorylineMenu extends Screen {
 						// Obtener todas las misiones de la saga "saiyan"
 						Collection<DMZQuest> saiyanQuests = DMZStoryRegistry.getQuestsBySaga(saiyanSaga.getId());
 
-						// Recorrer todas las misiones de la saga
+						// Dibujar las misiones completadas
 						for (DMZQuest quest : saiyanQuests) {
-							// Verificar si la misión está completada o es la misión actual
-							if (capability.getCompletedQuests().contains(quest.getId()) || quest.getId().equals(capability.getCurrentQuestId())) {
-								// Mostrar la misión completada o actual sin obfuscar
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.storyline." + quest.getId() + ".title"), this.infoMenu ? startX - 72 - 13 : startX - 13, startY + offsetY, 0xffc134);
-
-								// Verificar si la misión está completada
-								String status = capability.isQuestComplete(quest, this.minecraft.player) ? "✔" : "❌";
-								int statusColor = capability.isQuestComplete(quest, this.minecraft.player) ? 0x00ff00 : 0xff0000;
-								drawStringWithBorder(guiGraphics, this.font, Component.literal(status).withStyle(ChatFormatting.BOLD), this.infoMenu ? startX - 72 + 160 : startX + 160, startY + offsetY, statusColor);
-
+							if (capability.getCompletedQuests().contains(quest.getId())) {
+								System.out.println("Misión completada: " + quest.getId());
+								drawQuest(guiGraphics, quest, startX, startY, offsetY, capability, true);
 								startY += offsetY;
 							}
 						}
 
-						// Obtener la misión actual
+						// Dibujar la misión actual
 						DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
+						if (currentQuest != null) {
+							System.out.println("Misión actual: " + currentQuest.getId());
+							System.out.println("Siguiente misión: " + currentQuest.getNextQuestId());
+							drawQuest(guiGraphics, currentQuest, startX, startY, offsetY, capability, false);
+							startY += offsetY;
+						}
 
 						// Mostrar la misión siguiente (si existe) con texto obfuscado
 						if (currentQuest != null) {
@@ -222,12 +222,20 @@ public class StorylineMenu extends Screen {
 		});
 	}
 
+	private void drawQuest(GuiGraphics guiGraphics, DMZQuest quest, int startX, int startY, int offsetY, DMZStoryCapability capability, boolean isCompleted) {
+		drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.storyline." + quest.getId() + ".title"), this.infoMenu ? startX - 72 - 13 : startX - 13, startY + offsetY, 0xffc134);
+
+		String status = isCompleted ? "✔" : "❌";
+		int statusColor = isCompleted ? 0x00ff00 : 0xff0000;
+		drawStringWithBorder(guiGraphics, this.font, Component.literal(status).withStyle(ChatFormatting.BOLD), this.infoMenu ? startX - 72 + 160 : startX + 160, startY + offsetY, statusColor);
+	}
+
 	private void menuInfo(GuiGraphics guiGraphics) {
 		if (infoMenu) {
 			this.minecraft.player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(capability -> {
 				int startY = (this.height - 168) / 2 + 18;
 				int startX = (this.width - 250) / 2 + 160;
-				int objectivesY = startY + 54;
+				int objectivesY = startY + 20;
 
 				DMZQuest quest = DMZStoryRegistry.getQuest(questId);
 				if (quest == null) return;
@@ -236,11 +244,14 @@ public class StorylineMenu extends Screen {
 
 				List<Component> objectives = quest.getRequirement().getAllObjectives();
 				for (Component objective : objectives) {
-					drawStringWithBorder2(guiGraphics, this.font, objective, startX + 12, objectivesY, 0xFFFFFF);
+					Component status = capability.isObjectiveComplete(objective, nombreQuest) ? Component.literal("✔").withStyle(ChatFormatting.BOLD) : Component.literal("❌").withStyle(ChatFormatting.BOLD);
+					int statusColor = capability.isObjectiveComplete(objective, nombreQuest) ? 0x00ff00 : 0xff0000;
+					drawStringWithBorder2(guiGraphics, this.font, objective, startX + 32, objectivesY, 0xFFFFFF);
+					drawStringWithBorder(guiGraphics, this.font, status, startX + 150, objectivesY, statusColor);
 					objectivesY += 8;
 				}
 
-				drawStringWithBorder(guiGraphics, this.font, Component.translatable(nombreQuest), startX + 93, startY, 0x20e0ff);
+				drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.storyline." + nombreQuest + ".title"), startX + 93, startY, 0x20e0ff);
 			});
 		}
 	}

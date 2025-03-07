@@ -1,6 +1,11 @@
 package com.yuseix.dragonminez.stats.storymode;
 
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.utils.DMZTags;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,7 +25,7 @@ public class DMZStoryRegistry {
     public static void registerQuests() {
         registerQuest(new DMZQuest(
                 "saiyQuest1",
-                new QuestRequirement(null, null, null, "Kame House"),
+                new QuestRequirement(null, null, Map.of(MainItems.SENZU_BEAN.get().toString(), 3, MainItems.NUBE_ITEM.get().toString(), 1), "Kame House"),
                 "saiyQuest2",
                 "saiyan"
         ));
@@ -78,7 +83,7 @@ public class DMZStoryRegistry {
 
         registerQuest(new DMZQuest(
                 "saiyQuest9",
-                new QuestRequirement(null, "dragonminez:ajissa_plains", null, null),
+                new QuestRequirement(null, ModBiomes.AJISSA_PLAINS.toString(), null, null),
                 "namekQuest1",
                 "saiyan"
         ));

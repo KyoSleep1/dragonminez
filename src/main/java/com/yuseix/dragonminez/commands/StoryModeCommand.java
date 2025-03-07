@@ -147,9 +147,6 @@ public class StoryModeCommand {
 					if (nextQuestId != null) {
 						capability.setCurrentQuestId(nextQuestId);
 						capability.setCurrentSaga(currentQuest.getSagaId());
-						source.sendSuccess(() -> Component.literal("Ahora tienes la misión: " + nextQuestId), true);
-					} else {
-						source.sendSuccess(() -> Component.literal("No hay más misiones disponibles en esta saga."), true);
 					}
 				}
 			} else {

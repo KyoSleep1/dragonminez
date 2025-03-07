@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -23,7 +24,9 @@ public class DMZStoryCapability {
 	private String currentQuestId;
 	private String currentSaga;
 	private final Map<String, Integer> entityKillCounts = new HashMap<>();
+	private final Map<String, Integer> itemCollectionCounts = new HashMap<>();
 	private final Set<String> completedQuests = new HashSet<>();
+	private final Set<String> completedKillObjectives = new HashSet<>();
 	private boolean structureFound = false;
 	private boolean hasRequiredItem = false;
 
@@ -56,15 +59,29 @@ public class DMZStoryCapability {
 	public void setStructureFound(boolean found) {
 		this.structureFound = found;
 	}
-	public boolean hasRequiredItem() {
-		return hasRequiredItem;
-	}
 	public void setHasRequiredItem(boolean hasItem) {
 		this.hasRequiredItem = hasItem;
 	}
-
+	public void addItemCollected(String itemId) {
+		itemCollectionCounts.put(itemId, itemCollectionCounts.getOrDefault(itemId, 0) + 1);
+	}
+	public Map<String, Integer> hasCollectedItems() {
+		return itemCollectionCounts;
+	}
+	public int getItemCollectedCount(String itemId) {
+		return itemCollectionCounts.getOrDefault(itemId, 0);
+	}
 	public void addKill(String entity) {
 		entityKillCounts.put(entity, entityKillCounts.getOrDefault(entity, 0) + 1);
+	}
+	public int getKillCount(String entity) {
+		return entityKillCounts.getOrDefault(entity, 0);
+	}
+	public void setKillObjectiveComplete(String entityId) {
+		completedKillObjectives.add(entityId);
+	}
+	public boolean isKillObjectiveComplete(String entityId) {
+		return completedKillObjectives.contains(entityId);
 	}
 
 	public boolean isQuestComplete(DMZQuest quest, Player player) {
@@ -72,7 +89,33 @@ public class DMZStoryCapability {
 			return true;
 		}
 
-		return quest.getRequirement().isFulfilled(player, this.entityKillCounts, this.structureFound, this.hasRequiredItem);
+		QuestRequirement requirement = quest.getRequirement();
+
+		if (requirement.getRequiredKills() != null) {
+			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
+				if (!this.isKillObjectiveComplete(entry.getKey())) {
+					return false;
+				}
+			}
+		}
+
+		if (requirement.getRequiredItems() != null) {
+			for (Map.Entry<String, Integer> entry : requirement.getRequiredItems().entrySet()) {
+				if (this.getItemCollectedCount(entry.getKey()) < entry.getValue()) {
+					return false;
+				}
+			}
+		}
+
+		if (requirement.getRequiredBiome() != null && !player.level().getBiome(player.blockPosition()).toString().equals(requirement.getRequiredBiome())) {
+			return false;
+		}
+
+		if (requirement.getRequiredStructure() != null && !this.structureFound) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void setQuestCompletion(String questId, boolean completed, Player player) {
@@ -109,13 +152,65 @@ public class DMZStoryCapability {
 		return DMZStoryRegistry.getTotalQuests(saga) == completedQuests.size();
 	}
 
+	public boolean isObjectiveComplete(Component objective, String questId) {
+		DMZQuest quest = DMZStoryRegistry.getQuest(questId);
+		if (quest == null) return false;
+
+		QuestRequirement requirement = quest.getRequirement();
+
+		if (requirement.getRequiredKills() != null) {
+			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
+				String mobName = entry.getKey();
+				int requiredCount = entry.getValue();
+				int playerCount = entityKillCounts.getOrDefault(mobName, 0);
+				if (objective.getString().contains(mobName) && playerCount >= requiredCount) {
+					return true;
+				}
+			}
+		}
+
+		if (requirement.getRequiredBiome() != null) {
+			String requiredBiome = requirement.getRequiredBiome();
+			if (objective.getString().contains(requiredBiome) && structureFound) {
+				return true;
+			}
+		}
+
+		if (requirement.getRequiredItems() != null) {
+			for (Map.Entry<String, Integer> entry : requirement.getRequiredItems().entrySet()) {
+				String itemName = entry.getKey();
+				int requiredCount = entry.getValue();
+				int playerCount = itemCollectionCounts.getOrDefault(itemName, 0);
+				if (objective.getString().contains(itemName) && playerCount >= requiredCount) {
+					return true;
+				}
+			}
+		}
+
+		if (requirement.getRequiredStructure() != null) {
+			String requiredStructure = requirement.getRequiredStructure();
+			if (objective.getString().contains(requiredStructure) && structureFound) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
 	public CompoundTag saveNBTData() {
 		CompoundTag nbt = new CompoundTag();
 		nbt.putString("CurrentSaga", currentSaga);
 		nbt.putString("CurrentQuest", currentQuestId);
+
 		CompoundTag killsTag = new CompoundTag();
 		entityKillCounts.forEach(killsTag::putInt);
 		nbt.put("Kills", killsTag);
+
+		CompoundTag itemsTag = new CompoundTag();
+		itemCollectionCounts.forEach(itemsTag::putInt);
+		nbt.put("Items", itemsTag);
+
 		nbt.putBoolean("StructureFound", structureFound);
 		nbt.putBoolean("HasRequiredItem", hasRequiredItem);
 
@@ -131,14 +226,21 @@ public class DMZStoryCapability {
 	public void loadNBTData(CompoundTag tag) {
 		currentSaga = tag.getString("CurrentSaga");
 		currentQuestId = tag.getString("CurrentQuest");
+
 		CompoundTag killsTag = tag.getCompound("Kills");
 		for (String key : killsTag.getAllKeys()) {
 			entityKillCounts.put(key, killsTag.getInt(key));
 		}
+
+		CompoundTag itemsTag = tag.getCompound("Items");
+		itemCollectionCounts.clear();
+		for (String key : itemsTag.getAllKeys()) {
+			itemCollectionCounts.put(key, itemsTag.getInt(key));
+		}
+
 		structureFound = tag.getBoolean("StructureFound");
 		hasRequiredItem = tag.getBoolean("HasRequiredItem");
 
-		// Cargar misiones completadas
 		completedQuests.clear();
 		ListTag completedQuestsTag = tag.getList("CompletedQuests", Tag.TAG_STRING);
 		for (Tag questTag : completedQuestsTag) {
