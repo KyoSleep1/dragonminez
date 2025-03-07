@@ -10,8 +10,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.recipes.DMZRecipes;
 import com.yuseix.dragonminez.stats.DMZGenericAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.storymode.DMZQuest;
-import com.yuseix.dragonminez.stats.storymode.DMZQuestRegistry;
+import com.yuseix.dragonminez.stats.storymode.DMZStoryRegistry;
 import com.yuseix.dragonminez.utils.GenAttRegistry;
 import com.yuseix.dragonminez.worldgen.biome.ModOverworldRegion;
 import com.yuseix.dragonminez.worldgen.biome.ModSurfaceRules;
@@ -25,8 +24,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forgespi.language.IModInfo;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.config.Configurator;
 import software.bernie.geckolib.GeckoLib;
 import terrablender.api.Regions;
 import terrablender.api.SurfaceRuleManager;
@@ -149,7 +146,7 @@ public class DragonMineZ {
 			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
 
 			ModMessages.register();
-			DMZQuestRegistry.registerQuests();
+			DMZStoryRegistry.registerAll();
 
 		});
 	}

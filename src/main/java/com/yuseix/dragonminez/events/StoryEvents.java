@@ -32,13 +32,18 @@ public class StoryEvents {
 
 				if (quest.getNextQuestId() != null) {
 					cap.setCurrentQuestId(quest.getNextQuestId());
-					cap.setCurrentSaga(quest.getSaga());
+					cap.setCurrentSaga(quest.getSagaId()); // Ahora es un String en vez de un enum
 				}
 
-				System.out.println("La siguiente quest es " + cap.getAvailableQuest().getId());
+				DMZQuest nextQuest = cap.getAvailableQuest();
+				if (nextQuest != null) {
+					System.out.println("La siguiente quest es " + nextQuest.getId());
+				} else {
+					System.out.println("No hay más quests disponibles en esta saga.");
+				}
 
 				cap.resetProgress();
-				syncQuestData(player); // SINCRONIZAMOS DATOS AL CLIENTE
+				syncQuestData(player); // Sincronizamos datos con el cliente
 			}
 		});
 	}

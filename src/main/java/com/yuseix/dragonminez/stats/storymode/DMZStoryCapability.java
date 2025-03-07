@@ -17,21 +17,21 @@ import java.util.Set;
 public class DMZStoryCapability {
 	public static final Capability<DMZStoryCapability> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 	private String currentQuestId;
-	private Saga currentSaga;
+	private String currentSaga;
 	private final Map<String, Integer> entityKillCounts = new HashMap<>();
 	private final Set<String> completedQuests = new HashSet<>();
 	private boolean structureFound = false;
 	private boolean hasRequiredItem = false;
 
-	public DMZStoryCapability(String startQuestId, Saga startSaga) {
+	public DMZStoryCapability(String startQuestId, String startSaga) {
 		this.currentQuestId = startQuestId;
 		this.currentSaga = startSaga;
 	}
 
 	public String getCurrentQuestId() { return currentQuestId; }
 	public void setCurrentQuestId(String QuestId) { this.currentQuestId = QuestId; }
-	public Saga getCurrentSaga() { return currentSaga; }
-	public void setCurrentSaga(Saga saga) { this.currentSaga = saga; }
+	public String getCurrentSaga() { return currentSaga; }
+	public void setCurrentSaga(String saga) { this.currentSaga = saga; }
 	public Set<String> getCompletedQuests() { return completedQuests; }
 	public boolean isStructureFound() { return structureFound; }
 	public void setStructureFound(boolean found) { this.structureFound = found; }
@@ -53,39 +53,21 @@ public class DMZStoryCapability {
 	}
 
 	public DMZQuest getAvailableQuest() {
-		return DMZQuestRegistry.getQuest(currentQuestId);
+		return DMZStoryRegistry.getQuest(currentQuestId);
 	}
 
 	public DMZQuest getNextQuest() {
 		DMZQuest currentQuest = getAvailableQuest();
-		return currentQuest != null ? DMZQuestRegistry.getQuest(currentQuest.getNextQuestId()) : null;
+		return currentQuest != null ? DMZStoryRegistry.getQuest(currentQuest.getNextQuestId()) : null;
 	}
 
-	public boolean isSagaCompleted(Saga saga) {
-		return DMZQuestRegistry.getTotalQuests(saga) == completedQuests.size();
-	}
-
-	public enum Saga {
-		SAIYAN("Saiyan Saga"),
-		NAMEK("Namek Saga"),
-		ANDROID("Android Saga"),
-		CELL("Cell Saga"),
-		BUU("Buu Saga");
-
-		private final String displayName;
-
-		Saga(String displayName) {
-			this.displayName = displayName;
-		}
-
-		public String getDisplayName() {
-			return displayName;
-		}
+	public boolean isSagaCompleted(String saga) {
+		return DMZStoryRegistry.getTotalQuests(saga) == completedQuests.size();
 	}
 
 	public CompoundTag saveNBTData() {
 		CompoundTag nbt = new CompoundTag();
-		nbt.putString("CurrentSaga", currentSaga.name());
+		nbt.putString("CurrentSaga", currentSaga);
 		nbt.putString("CurrentQuest", currentQuestId);
 		CompoundTag killsTag = new CompoundTag();
 		entityKillCounts.forEach(killsTag::putInt);
@@ -97,7 +79,7 @@ public class DMZStoryCapability {
 	}
 
 	public void loadNBTData(CompoundTag tag) {
-		currentSaga = Saga.valueOf(tag.getString("CurrentSaga"));
+		currentSaga = tag.getString("CurrentSaga");
 		currentQuestId = tag.getString("CurrentQuest");
 		CompoundTag killsTag = tag.getCompound("Kills");
 		for (String key : killsTag.getAllKeys()) {

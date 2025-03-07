@@ -10,13 +10,13 @@ public class DMZQuest {
 	private final String id;
 	private final QuestRequirement requirement;
 	private final String nextQuestId;
-	private final DMZStoryCapability.Saga saga;
+	private final String sagaId; // Ahora usa un String en vez de `Saga`
 
-	public DMZQuest(String id, QuestRequirement requirement, String nextQuestId, DMZStoryCapability.Saga saga) {
+	public DMZQuest(String id, QuestRequirement requirement, String nextQuestId, String sagaId) {
 		this.id = id;
 		this.requirement = requirement;
 		this.nextQuestId = nextQuestId;
-		this.saga = saga;
+		this.sagaId = sagaId;
 	}
 
 	public String getId() {
@@ -31,9 +31,7 @@ public class DMZQuest {
 		return nextQuestId;
 	}
 
-	public DMZStoryCapability.Saga getSaga() {
-		return saga;
+	public String getSagaId() {
+		return sagaId;
 	}
-
 }
-
