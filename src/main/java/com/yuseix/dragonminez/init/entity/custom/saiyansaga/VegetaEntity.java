@@ -1,11 +1,9 @@
 package com.yuseix.dragonminez.init.entity.custom.saiyansaga;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -173,7 +171,7 @@ public class VegetaEntity extends SagaEntity {
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
+        KiBallProjectil kiBlast = new KiBallProjectil(MainEntity.KI_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);
@@ -189,6 +187,7 @@ public class VegetaEntity extends SagaEntity {
         kiBlast.setVelocidad(1.5f);
 
         kiBlast.setDamage(100.0F);
+        kiBlast.setTamano(2.2f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());

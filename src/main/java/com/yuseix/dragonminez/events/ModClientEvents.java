@@ -15,7 +15,6 @@ import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
-import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
@@ -36,7 +35,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
-import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiBallRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallWaveRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.*;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
@@ -147,6 +146,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.JINKOUMAN.get(), JinkoumanRenderer::new);
 
 			EntityRenderers.register(MainEntity.VEGETA_SAIYAN.get(), VegetaSaiyanRenderer::new);
+			EntityRenderers.register(MainEntity.VEGETA_OZARU.get(), OzaruVegetaRenderer::new);
 
 
 			//FAKEPLAYERS
@@ -157,9 +157,8 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
 			EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
 			//KI
-			EntityRenderers.register(MainEntity.KI_SMALL_BLAST.get(), KiSmallBallRenderer::new);
+			EntityRenderers.register(MainEntity.KI_BLAST.get(), KiBallRenderer::new);
 			EntityRenderers.register(MainEntity.KI_SMALL_WAVE.get(), KiSmallWaveRenderer::new);
-
 
 			//BLOQUES
 			BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
