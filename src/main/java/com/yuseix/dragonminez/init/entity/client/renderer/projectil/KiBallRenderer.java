@@ -2,10 +2,9 @@ package com.yuseix.dragonminez.init.entity.client.renderer.projectil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallPlaneModel;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.utils.TextureManager;
 import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Camera;
@@ -18,18 +17,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 
-public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
+public class KiBallRenderer extends EntityRenderer<KiBallProjectil> {
 
     private float colorR, colorG, colorB;
     public static final KiBallPlaneModel esferamodel = new KiBallPlaneModel(KiBallPlaneModel.createBodyLayer().bakeRoot());
 
-    public KiSmallBallRenderer(EntityRendererProvider.Context pContext) {
+    public KiBallRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
 
     }
 
     @Override
-    public void render(KiSmallBallProjectil pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(KiBallProjectil pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         // Escala de la entidad
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         Quaternionf cameraRotation = camera.rotation(); // Obtiene la rotación de la cámara en quaternion
@@ -41,7 +40,7 @@ public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
         esferamodel.setupAnim(pEntity, 0.0f, 0.0f, ageInTicks, 0.0f, 0.0f); // 💡 AQUÍ SE LLAMA A setupAnim
 
         // Ajustar la escala del modelo
-        pPoseStack.scale(0.7f, 0.7f, 0.7f);
+        pPoseStack.scale(pEntity.getTamano(), pEntity.getTamano(), pEntity.getTamano());
         pPoseStack.translate(0.0, 0.15, 0.0);
 
         // Renderizar el borde
@@ -71,11 +70,11 @@ public class KiSmallBallRenderer extends EntityRenderer<KiSmallBallProjectil> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(KiSmallBallProjectil kiBlastProyectil) {
+    public ResourceLocation getTextureLocation(KiBallProjectil kiBlastProyectil) {
         return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/ki.png");
     }
 
     @Override
-    protected void renderNameTag(KiSmallBallProjectil pEntity, Component pDisplayName, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    protected void renderNameTag(KiBallProjectil pEntity, Component pDisplayName, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
     }
 }

@@ -8,7 +8,7 @@ import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallPlaneModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiTrailModel;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -23,19 +23,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
-import java.util.List;
-
 public class DMZRenders {
     private static final ResourceLocation textura_ki = new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/ki.png");
     private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
     public static final KiBallPlaneModel esferamodel = new KiBallPlaneModel(Minecraft.getInstance().getEntityModels().bakeLayer(KiBallPlaneModel.LAYER_LOCATION));
 
-    public static void renderKiSmallBall(KiSmallBallProjectil pEntity, float pPartialTick, PoseStack pPoseStack, double camX, double camY, double camZ) {
+    public static void renderKiSmallBall(KiBallProjectil pEntity, float pPartialTick, PoseStack pPoseStack, double camX, double camY, double camZ) {
         Minecraft minecraft = Minecraft.getInstance();
         MultiBufferSource pBuffer = minecraft.renderBuffers().bufferSource();
         int pPackedLight = 15728880; // Iluminación máxima
 
-        KiBallModel<KiSmallBallProjectil> model = new KiBallModel<>(minecraft.getEntityModels().bakeLayer(KiBallModel.LAYER_LOCATION));
+        KiBallModel<KiBallProjectil> model = new KiBallModel<>(minecraft.getEntityModels().bakeLayer(KiBallModel.LAYER_LOCATION));
 
         // Interpolación para suavizar el movimiento
         double interpX = Mth.lerp(pPartialTick, pEntity.xOld, pEntity.getX()) - camX;
@@ -80,7 +78,7 @@ public class DMZRenders {
         pPoseStack.popPose();
     }
 
-    public static void renderKiSmallBall2(KiSmallBallProjectil pEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer) {
+    public static void renderKiSmallBall2(KiBallProjectil pEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer) {
 
         int pPackedLight = 15728880; // Iluminación máxima
 

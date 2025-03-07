@@ -6,9 +6,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 
-public class KiSmallBallProjectil extends KiAttacksEntity {
+public class KiBallProjectil extends KiAttacksEntity {
 
-    public KiSmallBallProjectil(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
+    public KiBallProjectil(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
 
     }
