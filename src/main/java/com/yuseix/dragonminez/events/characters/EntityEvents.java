@@ -239,6 +239,7 @@ public class EntityEvents {
 							DMZQuest quest = cap.getAvailableQuest();
 							if (quest.getId().equals("saiyQuest1")) {
 								cap.setQuestCompletion(quest.getId(), true, player);
+								StoryEvents.onQuestComplete(player, quest.getId());
 							}
 						});
 					}
