@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)
 public class StorylineMenu extends Screen {
@@ -97,14 +98,49 @@ public class StorylineMenu extends Screen {
 				case "":
 					DMZSaga saiyanSaga = DMZStoryRegistry.getSaga("saiyan");
 					if (saiyanSaga != null) {
-						// Obtener todas las misiones de la saga "saiyan"
 						Collection<DMZQuest> saiyanQuests = DMZStoryRegistry.getQuestsBySaga(saiyanSaga.getId());
+						// Crear una lista de misiones completadas en el orden en que se completaron
+						List<DMZQuest> completedQuestsList = capability.getCompletedQuests().stream()
+								.map(DMZStoryRegistry::getQuest) // Convertir IDs a objetos DMZQuest
+								.filter(quest -> quest != null && quest.getSagaId().equals(saiyanSaga.getId())) // Filtrar por saga
+								.toList();
 
-						// Recorrer todas las misiones de la saga
-						for (DMZQuest quest : saiyanQuests) {
-							// Verificar si la misión está completada o es la misión actual
-							if (capability.getCompletedQuests().contains(quest.getId()) || quest.getId().equals(capability.getCurrentQuestId())) {
-								System.out.println("BOTONES: " + quest.getId() + " - " + capability.getCurrentQuestId());
+						// Dibujar el botón de la misión actual
+						DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
+						if (currentQuest != null && !capability.getCompletedQuests().contains(currentQuest.getId())) {
+							CustomButtons infoButton = new CustomButtons("info", this.infoMenu ? startX + 190 - 72 : startX + 190, startY - 2, Component.empty(), btn -> {
+								this.infoMenu = !this.infoMenu;
+								this.questId = currentQuest.getId();
+								this.sagaId = saiyanSaga.getId();
+							});
+							this.addRenderableWidget(infoButton);
+							infoButtons.add(infoButton);
+							startY += offsetY;
+
+							// Verificar si se debe dibujar el botón de start
+							if (infoMenu) {
+								DMZQuest quest = DMZStoryRegistry.getQuest(questId);
+								QuestRequirement requirement = quest.getRequirement();
+								boolean hasKillObjective = requirement.getRequiredKills() != null;
+								boolean iscompleted = capability.getCompletedQuests().contains(quest.getId());
+
+								boolean itemsComplete = requirement.getRequiredItems() == null || requirement.getRequiredItems().isEmpty();
+								boolean biomeComplete = requirement.getRequiredBiome() == null || capability.isBiomeFound();
+
+								boolean killsPending = requirement.getRequiredKills() != null && !requirement.getRequiredKills().isEmpty();
+
+								if (!iscompleted && hasKillObjective && itemsComplete && biomeComplete && killsPending) {
+									startButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 185, altoTexto - 40, Component.translatable("dmz.quests.start"), wa -> {
+										ModMessages.sendToServer(new SummonQuestC2S(currentQuest.getId()));
+										this.removeWidget(startButton);
+										this.minecraft.setScreen(null);
+									}));
+								}
+							}
+						}
+
+						for (DMZQuest quest : completedQuestsList) {
+							if (capability.getCompletedQuests().contains(quest.getId())) {
 								CustomButtons infoButton = new CustomButtons("info", this.infoMenu ? startX + 190 - 72 : startX + 190, startY - 2, Component.empty(), btn -> {
 									this.infoMenu = !this.infoMenu;
 									this.questId = quest.getId();
@@ -113,26 +149,16 @@ public class StorylineMenu extends Screen {
 								this.addRenderableWidget(infoButton);
 								infoButtons.add(infoButton);
 								startY += offsetY;
-							}
 
-							// Mostrar el botón de inicio si la misión está disponible
-							if (infoMenu && quest.getId().equals(capability.getCurrentQuestId())) {
-								if (quest.getRequirement().isFulfilled(this.minecraft.player, capability.getEntityKillCounts(), capability.isStructureFound(), capability.hasCollectedItems())) {
-									startButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 185, altoTexto - 40, Component.translatable("dmz.quests.start"), wa -> {
-										ModMessages.sendToServer(new SummonQuestC2S(quest.getId()));
-										this.removeWidget(startButton);
-										this.minecraft.setScreen(null);
-									}));
-								}
 							}
 						}
 
 						// Verificar si la misión final de la saga está completada
-						if (capability.getCompletedQuests().contains("saiyQuest9")) {
-							this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", this.infoMenu ? startX + 202 - 72 : startX + 202, buttonY + 122,
-									Component.empty(), wa -> {
-								sagaPage = "freezer";
-							}));
+						if (capability.getCompletedQuests().contains("saiyQuest9")) { // Comentado ya que la saga de Freezer no estará disponible aún.
+//							this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", this.infoMenu ? startX + 202 - 72 : startX + 202, buttonY + 122,
+//									Component.empty(), wa -> {
+//								sagaPage = "freezer";
+//							}));
 						}
 					}
 					break;
@@ -143,10 +169,9 @@ public class StorylineMenu extends Screen {
 						// Obtener todas las misiones de la saga "freezer"
 						Collection<DMZQuest> freezerQuests = DMZStoryRegistry.getQuestsBySaga(freezerSaga.getId());
 
-						// Recorrer todas las misiones de la saga
+						// Dibujar los botones de las misiones completadas
 						for (DMZQuest quest : freezerQuests) {
-							// Verificar si la misión está completada o es la misión actual
-							if (capability.getCompletedQuests().contains(quest.getId()) || quest.getId().equals(capability.getCurrentQuestId())) {
+							if (capability.getCompletedQuests().contains(quest.getId())) {
 								CustomButtons infoButton = new CustomButtons("info", this.infoMenu ? startX + 190 - 72 : startX + 190, startY - 2, Component.empty(), btn -> {
 									this.infoMenu = !this.infoMenu;
 									this.questId = quest.getId();
@@ -156,6 +181,19 @@ public class StorylineMenu extends Screen {
 								infoButtons.add(infoButton);
 								startY += offsetY;
 							}
+						}
+
+						// Dibujar el botón de la misión actual
+						DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
+						if (currentQuest != null && !capability.getCompletedQuests().contains(currentQuest.getId())) {
+							CustomButtons infoButton = new CustomButtons("info", this.infoMenu ? startX + 190 - 72 : startX + 190, startY - 2, Component.empty(), btn -> {
+								this.infoMenu = !this.infoMenu;
+								this.questId = currentQuest.getId();
+								this.sagaId = freezerSaga.getId();
+							});
+							this.addRenderableWidget(infoButton);
+							infoButtons.add(infoButton);
+							startY += offsetY;
 						}
 
 						this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", this.infoMenu ? startX - 16 - 72 : startX - 16, buttonY + 122,
@@ -189,30 +227,23 @@ public class StorylineMenu extends Screen {
 
 						// Obtener todas las misiones de la saga "saiyan"
 						Collection<DMZQuest> saiyanQuests = DMZStoryRegistry.getQuestsBySaga(saiyanSaga.getId());
+						List<DMZQuest> completedQuestsList = capability.getCompletedQuests().stream()
+								.map(DMZStoryRegistry::getQuest) // Convertir IDs a objetos DMZQuest
+								.filter(quest -> quest != null && quest.getSagaId().equals(saiyanSaga.getId())) // Filtrar por saga
+								.toList();
 
-						// Dibujar las misiones completadas
-						for (DMZQuest quest : saiyanQuests) {
-							if (capability.getCompletedQuests().contains(quest.getId())) {
-								System.out.println("Misión completada: " + quest.getId());
-								drawQuest(guiGraphics, quest, startX, startY, offsetY, capability, true);
-								startY += offsetY;
-							}
-						}
+						DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
 
 						// Dibujar la misión actual
-						DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
 						if (currentQuest != null) {
-							System.out.println("Misión actual: " + currentQuest.getId());
-							System.out.println("Siguiente misión: " + currentQuest.getNextQuestId());
 							drawQuest(guiGraphics, currentQuest, startX, startY, offsetY, capability, false);
 							startY += offsetY;
 						}
 
-						// Mostrar la misión siguiente (si existe) con texto obfuscado
-						if (currentQuest != null) {
-							DMZQuest nextQuest = DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
-							if (nextQuest != null && !capability.getCompletedQuests().contains(nextQuest.getId())) {
-								drawStringWithBorder2(guiGraphics, this.font, Component.translatable(nextQuest.getId()).withStyle(ChatFormatting.OBFUSCATED), this.infoMenu ? startX - 72 - 13 : startX - 13, startY + offsetY, 0xffc134);
+						// Dibujar las misiones completadas
+						for (DMZQuest quest : completedQuestsList) {
+							if (capability.getCompletedQuests().contains(quest.getId())) {
+								drawQuest(guiGraphics, quest, startX, startY, offsetY, capability, true);
 								startY += offsetY;
 							}
 						}

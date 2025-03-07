@@ -163,8 +163,8 @@ public class ModConfiguredFeatures {
         register(context, NAMEK_DIAMOND_ORE_MIDDLE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 8,1.0f));
         register(context, NAMEK_DIAMOND_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 12,0.7f));
 
-        register(context, NAMEK_KIKONO_ORE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 4));
-        register(context, NAMEK_KIKONO_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 8));
+        register(context, NAMEK_KIKONO_ORE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 8));
+        register(context, NAMEK_KIKONO_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 14));
 
         //GRASS
         register(context, NAMEK_PATCH_GRASS_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(32, 7, 3,

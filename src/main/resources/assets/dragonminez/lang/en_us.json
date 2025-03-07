@@ -198,7 +198,7 @@
   "forms.dmz.majin.female.ultra": "Android (Evil)",
 
   "dmz.storyline.objective.kill_enemy": "Kill %1$s, %2$s time(s).",
-  "dmz.storyline.objective.collect_item": "Collect %1$s.",
+  "dmz.storyline.objective.collect_item": "Collect %1$s %2$s.",
   "dmz.storyline.objective.get_to_location": "Go to %1$s.",
   "dmz.storyline.objective.get_to_biome": "Go to a %1$s biome.",
   "dmz.storyline.summoned": "[%1$s] > Summoned %2$s",
@@ -942,5 +942,8 @@
   "command.dmzstoryline.quest_completed_other": "[\u00A7b Quests \u00A7r] > Quest '%s' has been completed for %s.",
   "command.dmzstoryline.quest_reset_other": "[\u00A7b Quests \u00A7r] > Quest '%s' has been reset for %s.",
   "command.dmzstoryline.all_reset_other": "[\u00A7b Quests \u00A7r] > All sagas, quests and objectives have been reset for %s.",
-  "command.dmzstoryline.quest_incompleted_other": "[\u00A7b Quests \u00A7r] > Quest '%s' has been marked as incomplete for %s."
+  "command.dmzstoryline.quest_incompleted_other": "[\u00A7b Quests \u00A7r] > Quest '%s' has been marked as incomplete for %s.",
+  "dmz.storyline.rewards.tps": "[\u00A7b Quests \u00A7r] > You have received \u00A7b%d TP \u00A7rfor completing the quest '%s'.",
+  "dmz.storyline.rewards.superform": "[\u00A7b Quests \u00A7r] > Your \u00A7bSuper Form \u00A7rskill has been leveled up for completing the quest '%s'.",
+  "dmz.storyline.rewards.item": "[\u00A7b Quests \u00A7r] > You have received \u00A7b%d %s \u00A7rfor completing the quest '%s'."
 }

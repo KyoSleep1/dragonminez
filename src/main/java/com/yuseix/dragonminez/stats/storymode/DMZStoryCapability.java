@@ -7,6 +7,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -28,6 +29,7 @@ public class DMZStoryCapability {
 	private final Set<String> completedQuests = new HashSet<>();
 	private final Set<String> completedKillObjectives = new HashSet<>();
 	private boolean structureFound = false;
+	private boolean biomeFound = false;
 	private boolean hasRequiredItem = false;
 
 	public DMZStoryCapability(String startQuestId, String startSaga) {
@@ -52,6 +54,12 @@ public class DMZStoryCapability {
 	}
 	public Set<String> getCompletedQuests() {
 		return completedQuests;
+	}
+	public boolean isBiomeFound() {
+		return biomeFound;
+	}
+	public void setBiomeFound(boolean found) {
+		this.biomeFound = found;
 	}
 	public boolean isStructureFound() {
 		return structureFound;
@@ -158,9 +166,13 @@ public class DMZStoryCapability {
 		DMZQuest quest = DMZStoryRegistry.getQuest(questId);
 		if (quest == null) return false;
 
+		String key = "";
 		QuestRequirement requirement = quest.getRequirement();
+		if (objective.getContents() instanceof TranslatableContents translatable) {
+			key = translatable.getKey();
+		}
 
-		if (requirement.getRequiredKills() != null) {
+		if (key.equals("dmz.storyline.objective.kill_enemy")) {
 			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
 				String mobName = entry.getKey();
 				int requiredCount = entry.getValue();
@@ -171,14 +183,14 @@ public class DMZStoryCapability {
 			}
 		}
 
-		if (requirement.getRequiredBiome() != null) {
-			String requiredBiome = requirement.getRequiredBiome();
-			if (objective.getString().contains(requiredBiome) && structureFound) {
+		if (key.equals("dmz.storyline.objective.get_to_biome")) {
+			System.out.println("Checking biome objective: " + biomeFound);
+			if (biomeFound) {
 				return true;
 			}
 		}
 
-		if (requirement.getRequiredItems() != null) {
+		if (key.equals("dmz.storyline.objective.collect_item")) {
 			for (Map.Entry<String, Integer> entry : requirement.getRequiredItems().entrySet()) {
 				String itemName = entry.getKey();
 				int requiredCount = entry.getValue();
@@ -189,9 +201,8 @@ public class DMZStoryCapability {
 			}
 		}
 
-		if (requirement.getRequiredStructure() != null) {
-			String requiredStructure = requirement.getRequiredStructure();
-			if (objective.getString().contains(requiredStructure) && structureFound) {
+		if (key.equals("dmz.storyline.objective.get_to_location")) {
+			if (structureFound) {
 				return true;
 			}
 		}
@@ -214,6 +225,7 @@ public class DMZStoryCapability {
 		nbt.put("Items", itemsTag);
 
 		nbt.putBoolean("StructureFound", structureFound);
+		nbt.putBoolean("BiomeFound", biomeFound);
 		nbt.putBoolean("HasRequiredItem", hasRequiredItem);
 
 		ListTag completedQuestsTag = new ListTag();
@@ -241,6 +253,7 @@ public class DMZStoryCapability {
 		}
 
 		structureFound = tag.getBoolean("StructureFound");
+		biomeFound = tag.getBoolean("BiomeFound");
 		hasRequiredItem = tag.getBoolean("HasRequiredItem");
 
 		completedQuests.clear();

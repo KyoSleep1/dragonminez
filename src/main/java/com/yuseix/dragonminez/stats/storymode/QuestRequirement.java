@@ -21,7 +21,7 @@ public class QuestRequirement {
 		this.requiredStructure = requiredStructure;
     }
 
-    public boolean isFulfilled(Player player, Map<String, Integer> entityKillCounts, boolean structureFound, Map<String, Integer> itemCollectionCounts) {
+    public boolean isFulfilled(Player player, Map<String, Integer> entityKillCounts, boolean biomeFound, Map<String, Integer> itemCollectionCounts) {
         if (requiredKills != null) {
             for (Map.Entry<String, Integer> entry : requiredKills.entrySet()) {
                 if (entityKillCounts.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
@@ -30,7 +30,7 @@ public class QuestRequirement {
             }
         }
 
-        if (requiredBiome != null && !player.level().getBiome(player.blockPosition()).toString().equals(requiredBiome)) {
+        if (requiredBiome != null && !biomeFound) {
             return false;
         }
 
@@ -40,10 +40,6 @@ public class QuestRequirement {
                     return false;
                 }
             }
-        }
-
-        if (requiredStructure != null && !structureFound) {
-            return false;
         }
 
         return true;
@@ -70,8 +66,22 @@ public class QuestRequirement {
 
         if (requiredKills != null && !requiredKills.isEmpty()) {
             for (Map.Entry<String, Integer> entry : requiredKills.entrySet()) {
+                String langKills = "";
                 String mobName = entry.getKey();
                 int killCount = entry.getValue();
+                switch (mobName) {
+                    case "entity.dragonminez.saga_raditz" -> langKills = "Raditz";
+                    case "entity.dragonminez.saibaman" -> langKills = "Saibaman";
+                    case "entity.dragonminez.tennenman" -> langKills = "Tennenman";
+                    case "entity.dragonminez.kyukonman" -> langKills = "Kyukonman";
+                    case "entity.dragonminez.copyman" -> langKills = "Copyman";
+                    case "entity.dragonminez.jinkouman" -> langKills = "Jinkouman";
+                    case "entity.dragonminez.kaiwareman" -> langKills = "Kaiwareman";
+                    case "entity.dragonminez.saga_nappa" -> langKills = "Nappa";
+                    case "entity.dragonminez.saga_vegetasaiyan" -> langKills = "Vegeta";
+                    case "entity.dragonminez.saga_vegetaozaru" -> langKills = "Oozaru Vegeta";
+
+                }
                 objectives.add(Component.translatable("dmz.storyline.objective.kill_enemy", mobName, killCount));
             }
         }
@@ -90,7 +100,7 @@ public class QuestRequirement {
             for (Map.Entry<String, Integer> entry : requiredItems.entrySet()) {
                 String itemName = entry.getKey();
                 int itemCount = entry.getValue();
-                objectives.add(Component.translatable("dmz.storyline.objective.collect_item", itemName, itemCount));
+                objectives.add(Component.translatable("dmz.storyline.objective.collect_item", itemCount, itemName));
             }
         }
 
