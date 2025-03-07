@@ -11,9 +11,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
 
-public class DMZReviveCommand {
+public class ReviveCommand {
 
-	public DMZReviveCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+	public ReviveCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 		dispatcher.register(Commands.literal("dmzrevive")
 				.requires(commandSourceStack -> commandSourceStack.hasPermission(2))
 				.then(Commands.argument("player", EntityArgument.players())

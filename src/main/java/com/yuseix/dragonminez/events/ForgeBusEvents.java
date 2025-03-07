@@ -36,9 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -276,16 +273,17 @@ public class ForgeBusEvents {
 
 	@SubscribeEvent
 	public void onCommandsRegister(RegisterCommandsEvent event) {
-		new DMZReviveCommand(event.getDispatcher());
+		new ReviveCommand(event.getDispatcher());
 		new ZPointsCommand(event.getDispatcher());
 		new StatsCommand(event.getDispatcher());
 		new ResetCharacterCommand(event.getDispatcher());
 		new AlignmentCommand(event.getDispatcher());
 		new LocationsCommand(event.getDispatcher());
-		new DMZPermaEffectsCommand(event.getDispatcher());
-		new DMZTempEffectsCommand(event.getDispatcher());
-		new DMZSkillsCommand(event.getDispatcher());
-		new DMZSuperFormCommand(event.getDispatcher());
+		new PermaEffectsCommand(event.getDispatcher());
+		new TempEffectsCommand(event.getDispatcher());
+		new SkillsCommand(event.getDispatcher());
+		new SuperFormCommand(event.getDispatcher());
+		new StoryModeCommand(event.getDispatcher());
 
 		ConfigCommand.register(event.getDispatcher());
 	}

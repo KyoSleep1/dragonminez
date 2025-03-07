@@ -5,29 +5,81 @@ import com.yuseix.dragonminez.init.MainEntity;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DMZStoryRegistry {
     private static final Map<String, DMZQuest> QUESTS = new HashMap<>();
     private static final Map<String, DMZSaga> SAGAS = new HashMap<>();
 
     public static void registerSagas() {
-        registerSaga("saiyan", "Saiyan Saga");
-        registerSaga("namek", "Namek Saga");
-        registerSaga("android", "Android Saga");
+        registerSaga("saiyan");
+        registerSaga("namek");
+        registerSaga("android");
     }
 
     public static void registerQuests() {
         registerQuest(new DMZQuest(
-                "battle_with_raditz",
-                new QuestRequirement(Map.of(MainEntity.RADITZ_SAGA.get().toString(), 1), null, "minecraft:dragon_ball", null),
-                "battle_with_nappa",
+                "saiyQuest1",
+                new QuestRequirement(null, null, null, "Kame House"),
+                "saiyQuest2",
                 "saiyan"
         ));
 
         registerQuest(new DMZQuest(
-                "battle_with_nappa",
-                new QuestRequirement(Map.of(MainEntity.NAPPA_SAGA.get().toString(), 1), "minecraft:plains", null, "minecraft:stronghold"),
-                "battle_with_cui",
+                "saiyQuest2",
+                new QuestRequirement(Map.of(MainEntity.RADITZ_SAGA.get().toString(), 1), "minecraft:plains", null, null),
+                "saiyQuest3",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest3",
+                new QuestRequirement(Map.of(MainEntity.SAIBAMAN.get().toString(), 1, MainEntity.KAIWAREMAN.get().toString(), 1, MainEntity.COPYMAN.get().toString(), 1,
+                        MainEntity.JINKOUMAN.get().toString(), 1, MainEntity.KYUKONMAN.get().toString(), 1, MainEntity.TENNENMAN.get().toString(), 1),
+                        "minecraft:plains", null, null),
+                "saiyQuest4",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest4",
+                new QuestRequirement(Map.of(MainEntity.NAPPA_SAGA.get().toString(), 1), "minecraft:plains", null, null),
+                "saiyQuest5",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest5",
+                new QuestRequirement(Map.of(MainEntity.NAPPA_SAGA.get().toString(), 1), "minecraft:plains", null, null),
+                "saiyQuest6",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest6",
+                new QuestRequirement(Map.of(MainEntity.VEGETA_SAIYAN.get().toString(), 1), "dragonminez:rocky", null, null),
+                "saiyQuest7",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest7",
+                new QuestRequirement(Map.of(MainEntity.VEGETA_SAIYAN.get().toString(), 1), "dragonminez:rocky", null, null),
+                "saiyQuest8",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest8",
+                new QuestRequirement(Map.of(MainEntity.VEGETA_SAIYAN.get().toString(), 1), "dragonminez:rocky", null, null),
+                "saiyQuest9",
+                "saiyan"
+        ));
+
+        registerQuest(new DMZQuest(
+                "saiyQuest9",
+                new QuestRequirement(null, "dragonminez:ajissa_plains", null, null),
+                "namekQuest1",
                 "saiyan"
         ));
     }
@@ -37,8 +89,8 @@ public class DMZStoryRegistry {
         registerSagas();
     }
 
-    public static void registerSaga(String id, String displayName) {
-        SAGAS.put(id, new DMZSaga(id, displayName));
+    public static void registerSaga(String id) {
+        SAGAS.put(id, new DMZSaga(id));
     }
 
     public static void registerQuest(DMZQuest quest) {
@@ -59,5 +111,11 @@ public class DMZStoryRegistry {
 
     public static int getTotalQuests(String sagaId) {
         return (int) QUESTS.values().stream().filter(q -> q.getSagaId().equals(sagaId)).count();
+    }
+
+    public static Collection<DMZQuest> getQuestsBySaga(String sagaId) {
+        return QUESTS.values().stream()
+                .filter(q -> q.getSagaId().equals(sagaId))
+                .collect(Collectors.toList());
     }
 }

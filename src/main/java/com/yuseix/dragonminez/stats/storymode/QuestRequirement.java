@@ -1,7 +1,10 @@
 package com.yuseix.dragonminez.stats.storymode;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class QuestRequirement {
@@ -48,5 +51,31 @@ public class QuestRequirement {
 
     public String getRequiredStructure() {
         return requiredStructure;
+    }
+
+    public List<Component> getAllObjectives() {
+        List<Component> objectives = new ArrayList<>();
+
+        if (requiredKills != null && !requiredKills.isEmpty()) {
+            for (Map.Entry<String, Integer> entry : requiredKills.entrySet()) {
+                String mobName = entry.getKey();
+                int killCount = entry.getValue();
+                objectives.add(Component.translatable("dmz.storyline.objective.kill_enemy", killCount, mobName));
+            }
+        }
+
+        if (requiredBiome != null) {
+            objectives.add(Component.translatable("dmz.storyline.objective.get_to_biome", requiredBiome));
+        }
+
+        if (requiredItem != null) {
+            objectives.add(Component.translatable("dmz.storyline.objective.collect_item", requiredItem));
+        }
+
+        if (requiredStructure != null) {
+            objectives.add(Component.translatable("dmz.storyline.objective.get_to_location", requiredStructure));
+        }
+
+        return objectives;
     }
 }

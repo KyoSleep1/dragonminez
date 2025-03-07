@@ -14,12 +14,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-public class DMZPermaEffectsCommand {
+public class PermaEffectsCommand {
 
 	// Lista de efectos permanentes válidos
 	private static final Set<String> VALID_PERMA_EFFECTS = Set.of("majin");
 
-	public DMZPermaEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+	public PermaEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
 		dispatcher.register(Commands.literal("dmzpermaeffects")
 				.requires(commandSourceStack -> commandSourceStack.hasPermission(2))

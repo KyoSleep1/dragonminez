@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.stats.storymode;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.events.StoryEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
@@ -28,28 +29,68 @@ public class DMZStoryCapability {
 		this.currentSaga = startSaga;
 	}
 
-	public String getCurrentQuestId() { return currentQuestId; }
-	public void setCurrentQuestId(String QuestId) { this.currentQuestId = QuestId; }
-	public String getCurrentSaga() { return currentSaga; }
-	public void setCurrentSaga(String saga) { this.currentSaga = saga; }
-	public Set<String> getCompletedQuests() { return completedQuests; }
-	public boolean isStructureFound() { return structureFound; }
-	public void setStructureFound(boolean found) { this.structureFound = found; }
-	public boolean hasRequiredItem() { return hasRequiredItem; }
-	public void setHasRequiredItem(boolean hasItem) { this.hasRequiredItem = hasItem; }
+	public Map<String, Integer> getEntityKillCounts() {
+		return entityKillCounts;
+	}
+	public String getCurrentQuestId() {
+		return currentQuestId;
+	}
+	public void setCurrentQuestId(String QuestId) {
+		this.currentQuestId = QuestId;
+	}
+	public String getCurrentSaga() {
+		return currentSaga;
+	}
+	public void setCurrentSaga(String saga) {
+		this.currentSaga = saga;
+	}
+	public Set<String> getCompletedQuests() {
+		return completedQuests;
+	}
+	public boolean isStructureFound() {
+		return structureFound;
+	}
+	public void setStructureFound(boolean found) {
+		this.structureFound = found;
+	}
+	public boolean hasRequiredItem() {
+		return hasRequiredItem;
+	}
+	public void setHasRequiredItem(boolean hasItem) {
+		this.hasRequiredItem = hasItem;
+	}
 
 	public void addKill(String entity) {
 		entityKillCounts.put(entity, entityKillCounts.getOrDefault(entity, 0) + 1);
 	}
 
-	public boolean isQuestComplete(DMZQuest Quest, Player player) {
-		return Quest.getRequirement().isFulfilled(player, entityKillCounts, structureFound, hasRequiredItem);
+	public boolean isQuestComplete(DMZQuest quest, Player player) {
+		if (this.completedQuests.contains(quest.getId())) {
+			return true;
+		}
+
+		return quest.getRequirement().isFulfilled(player, this.entityKillCounts, this.structureFound, this.hasRequiredItem);
+	}
+
+	public void setQuestCompletion(String questId, boolean completed, Player player) {
+		if (completed) {
+			completedQuests.add(questId);
+		} else {
+			completedQuests.remove(questId);
+		}
+		StoryEvents.syncQuestData(player);
 	}
 
 	public void resetProgress() {
 		entityKillCounts.clear();
 		structureFound = false;
 		hasRequiredItem = false;
+	}
+
+	public void resetAllProgress() {
+		getCompletedQuests().clear();
+		setCurrentSaga("saiyan");
+		setCurrentQuestId("saiyQuest1");
 	}
 
 	public DMZQuest getAvailableQuest() {

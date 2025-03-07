@@ -1,10 +1,6 @@
 package com.yuseix.dragonminez.stats.storymode;
 
-import com.yuseix.dragonminez.init.MainEntity;
-import net.minecraft.world.entity.player.Player;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class DMZQuest {
 	private final String id;

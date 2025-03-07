@@ -4,6 +4,8 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.storymode.DMZQuest;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,6 +20,8 @@ import net.minecraftforge.network.PacketDistributor;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class StoryEvents {
+
+	@SubscribeEvent
 	public static void onEntityDeath(LivingDeathEvent event) {
 		if (!(event.getSource().getEntity() instanceof ServerPlayer player)) return;
 
@@ -42,9 +46,26 @@ public class StoryEvents {
 					System.out.println("No hay más quests disponibles en esta saga.");
 				}
 
+				onQuestComplete(player, quest.getId());
 				cap.resetProgress();
 				syncQuestData(player); // Sincronizamos datos con el cliente
 			}
+		});
+	}
+
+	public static void onQuestComplete(Player player, String questId) {
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+		switch (questId) {
+			case "saiyQuest1" -> {
+				cap.addIntValue("tps", 350);
+			}
+			case "saiyQuest2" -> {
+				cap.addIntValue("tps", 550);
+			}
+			case "saiyQuest3" -> {
+				cap.addIntValue("tps", 750);
+			}
+		}
 		});
 	}
 

@@ -15,13 +15,13 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.Nonnull;
 
 public class DMZQuestProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "story");
+    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "storymode");
 
     private final DMZStoryCapability backend;
     private final LazyOptional<DMZStoryCapability> optional;
 
     public DMZQuestProvider() {
-        backend = new DMZStoryCapability("battle_with_raditz", "Saiyan Saga"); // Ahora usa String
+        backend = new DMZStoryCapability("saiyQuest1", "saiyan"); // Ahora usa String
         optional = LazyOptional.of(() -> backend);
     }
 

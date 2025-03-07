@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZColdDemonConfig;
 import com.yuseix.dragonminez.events.ClientEvents;
+import com.yuseix.dragonminez.events.StoryEvents;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
@@ -14,6 +15,8 @@ import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.storymode.DMZQuest;
+import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
@@ -230,7 +233,15 @@ public class EntityEvents {
 				}
 				if (structures.getHasRoshiHouse()) {
 					BlockPos posRoshi = structures.getRoshiHousePosition();
-					if (playerPos.distSqr(posRoshi) < 10000) grantAdvancement(serverPlayer, "roshihouse");
+					if (playerPos.distSqr(posRoshi) < 10000) {
+						grantAdvancement(serverPlayer, "roshihouse");
+						player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
+							DMZQuest quest = cap.getAvailableQuest();
+							if (quest.getId().equals("saiyQuest1")) {
+								cap.setQuestCompletion(quest.getId(), true, player);
+							}
+						});
+					}
 				}
 			});
 		} else if (player.level().dimension().equals(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY)) {

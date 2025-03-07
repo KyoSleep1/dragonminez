@@ -15,12 +15,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-public class DMZTempEffectsCommand {
+public class TempEffectsCommand {
 
 	// Lista de efectos temporales válidos
 	private static final Set<String> VALID_TEMP_EFFECTS = Set.of("mightfruit");
 
-	public DMZTempEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+	public TempEffectsCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
 
 		dispatcher.register(Commands.literal("dmztempeffects")
 				.requires(commandSourceStack -> commandSourceStack.hasPermission(2))

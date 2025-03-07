@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
+import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
@@ -109,7 +110,7 @@ public class ConfigMenu extends Screen {
 				this.minecraft.setScreen(new TransfMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, altoTexto, "storyline", Component.empty(), wa -> {
-				//this.minecraft.setScreen(new StorylineMenu(false));
+				this.minecraft.setScreen(new StorylineMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, altoTexto, "kitech", Component.empty(), wa -> {
 				// Agregar acá el menú de Ki Techniques
