@@ -21,7 +21,7 @@ public class DMZQuestProvider implements ICapabilityProvider, INBTSerializable<C
     private final LazyOptional<DMZStoryCapability> optional;
 
     public DMZQuestProvider() {
-        backend = new DMZStoryCapability("battle_with_raditz", DMZStoryCapability.Saga.SAIYAN);
+        backend = new DMZStoryCapability("battle_with_raditz", "Saiyan Saga"); // Ahora usa String
         optional = LazyOptional.of(() -> backend);
     }
 
