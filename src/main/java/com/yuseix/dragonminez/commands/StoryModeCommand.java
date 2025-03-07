@@ -138,6 +138,20 @@ public class StoryModeCommand {
 		targetPlayer.getCapability(DMZStoryCapability.INSTANCE).ifPresent(capability -> {
 			if (completed) {
 				capability.getCompletedQuests().add(questId);
+
+				// Obtener la misión actual y verificar si es la completada
+				DMZQuest currentQuest = capability.getAvailableQuest();
+				if (currentQuest != null && currentQuest.getId().equals(questId)) {
+					// Obtener la siguiente misión
+					String nextQuestId = currentQuest.getNextQuestId();
+					if (nextQuestId != null) {
+						capability.setCurrentQuestId(nextQuestId);
+						capability.setCurrentSaga(currentQuest.getSagaId());
+						source.sendSuccess(() -> Component.literal("Ahora tienes la misión: " + nextQuestId), true);
+					} else {
+						source.sendSuccess(() -> Component.literal("No hay más misiones disponibles en esta saga."), true);
+					}
+				}
 			} else {
 				capability.getCompletedQuests().remove(questId);
 			}

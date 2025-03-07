@@ -3,6 +3,9 @@ package com.yuseix.dragonminez.stats.storymode;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.events.StoryEvents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -116,6 +119,12 @@ public class DMZStoryCapability {
 		nbt.putBoolean("StructureFound", structureFound);
 		nbt.putBoolean("HasRequiredItem", hasRequiredItem);
 
+		ListTag completedQuestsTag = new ListTag();
+		for (String questId : completedQuests) {
+			completedQuestsTag.add(StringTag.valueOf(questId));
+		}
+		nbt.put("CompletedQuests", completedQuestsTag);
+
 		return nbt;
 	}
 
@@ -128,5 +137,12 @@ public class DMZStoryCapability {
 		}
 		structureFound = tag.getBoolean("StructureFound");
 		hasRequiredItem = tag.getBoolean("HasRequiredItem");
+
+		// Cargar misiones completadas
+		completedQuests.clear();
+		ListTag completedQuestsTag = tag.getList("CompletedQuests", Tag.TAG_STRING);
+		for (Tag questTag : completedQuestsTag) {
+			completedQuests.add(questTag.getAsString());
+		}
 	}
 }
