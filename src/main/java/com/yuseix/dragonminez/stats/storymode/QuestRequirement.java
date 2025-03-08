@@ -82,7 +82,7 @@ public class QuestRequirement {
                     case "entity.dragonminez.saga_vegetaozaru" -> langKills = "Oozaru Vegeta";
 
                 }
-                objectives.add(Component.translatable("dmz.storyline.objective.kill_enemy", mobName, killCount));
+                objectives.add(Component.translatable("dmz.storyline.objective.kill_enemy", langKills, killCount));
             }
         }
 
