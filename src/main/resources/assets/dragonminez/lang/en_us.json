@@ -82,10 +82,12 @@
   "entity.dragonminez.kyukonman": "Kyukonman",
   "entity.dragonminez.tennenman": "Tennenman",
   "entity.dragonminez.jinkouman": "Jinkouman",
+  "entity.dragonminez.redribbon_soldier": "Red Ribbon's Soldier",
 
   "entity.dragonminez.saga_raditz": "Raditz",
   "entity.dragonminez.saga_nappa": "Nappa",
   "entity.dragonminez.saga_vegetasaiyan": "Vegeta",
+  "entity.dragonminez.saga_vegetaozaru": "Vegeta (Oozaru)",
 
   "entity.dragonminez.saga_raditz.line1": "» \u00A76Raditz\u00A7f › Ha ha ha ha ha ha ha. Impressive. You actually managed to singe some of my leg hair.",
   "entity.dragonminez.saga_raditz.line2": "» \u00A76Raditz\u00A7f › So you wanna die? Fine, I'll be happy to oblige.",
@@ -96,6 +98,9 @@
   "entity.dragonminez.saga_vegetasaiyan.line1": "» \u00A79Vegeta\u00A7f › I am the prince of all Saiyans, the prideful elite warrior, Vegeta!",
   "entity.dragonminez.saga_vegetasaiyan.line2": "» \u00A79Vegeta\u00A7f › You're a fool! I'm going to teach you the meaning of pain!",
   "entity.dragonminez.saga_vegetasaiyan.die_line": "» \u00A79Vegeta\u00A7f › This is... Not... Done yet...",
+  "entity.dragonminez.saga_vegetaozaru.line1": "» \u00A79Vegeta\u00A7f › HAHAHAHA, YOU'RE NOT A RIVAL FOR ME!",
+  "entity.dragonminez.saga_vegetaozaru.line2": "» \u00A79Vegeta\u00A7f › I'M THE STRONGEST WARRIOR IN THE UNIVERSE!",
+  "entity.dragonminez.saga_vegetaozaru.die_line": "» \u00A79Vegeta\u00A7f › NO... M-MY TAIL...",
 
   "item.dragonminez.dino_spawn_egg": "Dinosaur Spawn Egg",
   "item.dragonminez.namek_frog_spawn_egg": "Namekian Frog Spawn Egg",
@@ -197,7 +202,7 @@
   "forms.dmz.majin.male.ultra": "Ultra",
   "forms.dmz.majin.female.ultra": "Android (Evil)",
 
-  "dmz.storyline.objective.kill_enemy": "Kill %1$s, %2$s time(s).",
+  "dmz.storyline.objective.kill_enemy": "Kill %1$s (%2$s).",
   "dmz.storyline.objective.collect_item": "Collect %1$s %2$s.",
   "dmz.storyline.objective.get_to_location": "Go to %1$s.",
   "dmz.storyline.objective.get_to_biome": "Go to a %1$s biome.",
@@ -549,6 +554,10 @@
   "item.dragonminez.pattern_gamma1": "Red Ribbon Army Pattern (Gamma 1)",
   "item.dragonminez.pattern_gamma2": "Red Ribbon Army Pattern (Gamma 2)",
 
+  "item.dragonminez.invencible_armor_helmet": "Super Hero Armor Helmet (\u00A7eInv\u00A7bin\u00A7ec\u00A77ib\u00A7ble\u00A7r)",
+  "item.dragonminez.invencible_armor_chestplate": "Super Hero Armor Chestplate (\u00A7eInv\u00A7bin\u00A7ec\u00A77ib\u00A7ble\u00A7r)",
+  "item.dragonminez.invencible_armor_leggings": "Super Hero Armor Leggings (\u00A7eInv\u00A7bin\u00A7ec\u00A77ib\u00A7ble\u00A7r)",
+  "item.dragonminez.invencible_armor_boots": "Super Hero Armor Boots (\u00A7eInv\u00A7bin\u00A7ec\u00A77ib\u00A7ble\u00A7r)",
   "block.dragonminez.kikono_armor_station": "Dr. Kikono's Armor Station",
   "block.dragonminez.kikono_armor_station.title": "Armor Station",
   "item.dragonminez.goku_kid_armor_chestplate": "Red Turtle Hermit School GI Chestplate (\u00A76Goku\u00A7r - Kid)",
@@ -847,6 +856,8 @@
 
   "advancements.dragonminez.root.title": "DragonMine Z",
   "advancements.dragonminez.root.description": "Thank you for downloading the Mod, hope you enjoy it!",
+  "advancements.dragonminez.invincible.title": "I am...",
+  "advancements.dragonminez.invincible.description": "Obtain the Mark Grayson's Invincible suit.",
   "advancements.dragonminez.kamilookout.title": "Kami's Lookout",
   "advancements.dragonminez.kamilookout.description": "Reach the Korin's Tower and Kami's Lookout near the Spawn.",
   "advancements.dragonminez.gokuhouse.title": "Mount Paozu",

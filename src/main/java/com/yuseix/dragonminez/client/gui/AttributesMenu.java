@@ -383,13 +383,13 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                     List<FormattedCharSequence> descLines = font.split(descText, 250);
                     descriptionLines.addAll(descLines);
 
-                    if (statKey.equals("STR") && multiTotal > 1) {
+                    if (statKey.equals("STR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(strdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(strcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("DEF") && multiTotal > 1) {
+                    } else if (statKey.equals("DEF") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(defdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(defcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("PWR") && multiTotal > 1) {
+                    } else if (statKey.equals("PWR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(kipowerdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(pwrcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     }
@@ -400,7 +400,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) + 2; anchoTexto = 70;
 
-            if(isMultiOn){ //Si alguna forma, estado esta activo.
+            if(isMultiOn || playerstats.getIntValue("race") == 4){ //Si alguna forma, estado esta activo.
                 drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
                 drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
                 drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);

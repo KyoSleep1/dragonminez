@@ -275,7 +275,6 @@ public class DMZDatos implements IDMZDatos{
     }
 
     public double getTransformationStats(int raza, String transformation, String stat) {
-        System.out.println("Raza: " + raza + " Transf: " + transformation + " Stat: " + stat);
         return switch (stat) {
             case "STR" -> switch (raza) {
                 case 0 -> switch (transformation) { // Humanos
@@ -331,7 +330,7 @@ public class DMZDatos implements IDMZDatos{
                 };
                 case 1 -> switch (transformation) { // Saiyans
                     case "oozaru" -> DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_DEF.get();
-                    case "ssj" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_DEF.get();
+                    case "ssj1" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_DEF.get();
                     case "ssgrade2" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_DEF.get();
                     case "ssgrade3" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_DEF.get();
                     case "mssj" -> DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_DEF.get();
@@ -376,7 +375,7 @@ public class DMZDatos implements IDMZDatos{
                 };
                 case 1 -> switch (transformation) { // Saiyans
                     case "oozaru" -> DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_PWR.get();
-                    case "ssj" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_PWR.get();
+                    case "ssj1" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_PWR.get();
                     case "ssgrade2" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_PWR.get();
                     case "ssgrade3" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_PWR.get();
                     case "mssj" -> DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_PWR.get();
@@ -421,7 +420,7 @@ public class DMZDatos implements IDMZDatos{
                 };
                 case 1 -> switch (transformation) {
                     case "oozaru" -> (double) DMZTrSaiyanConfig.OOZARU_FORM_KI_COST.get();
-                    case "ssj" -> (double) DMZTrSaiyanConfig.SSJ_FORM_KI_COST.get();
+                    case "ssj1" -> (double) DMZTrSaiyanConfig.SSJ_FORM_KI_COST.get();
                     case "ssgrade2" -> (double) DMZTrSaiyanConfig.SSGRADE2_FORM_KI_COST.get();
                     case "ssgrade3" -> (double) DMZTrSaiyanConfig.SSGRADE3_FORM_KI_COST.get();
                     case "mssj" -> (double) DMZTrSaiyanConfig.MSSJ_FORM_KI_COST.get();

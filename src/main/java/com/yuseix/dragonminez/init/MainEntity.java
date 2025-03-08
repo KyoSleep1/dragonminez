@@ -338,6 +338,11 @@ public final class MainEntity {
 				MOTION_BLOCKING,
 				SoldierEntity::canSpawnHere,
 				REPLACE);
+		e.register(MainEntity.REDRIBBON_SOLDIER.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SoldierEntity::canSpawnHere,
+				REPLACE);
 	}
 
 	public static void register(IEventBus bus) {

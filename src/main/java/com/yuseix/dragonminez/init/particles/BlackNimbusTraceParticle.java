@@ -5,8 +5,8 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.NotNull;
 
-public class NimbusTraceParticle extends TextureSheetParticle {
-	protected NimbusTraceParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double motionX, double motionY, double motionZ) {
+public class BlackNimbusTraceParticle extends TextureSheetParticle {
+	protected BlackNimbusTraceParticle(ClientLevel world, double x, double y, double z, SpriteSet sprites, double motionX, double motionY, double motionZ) {
 		super(world, x, y, z, motionX, motionY, motionZ);
 		this.setSpriteFromAge(sprites);
 		this.friction = 0.9F;
@@ -39,4 +39,3 @@ public class NimbusTraceParticle extends TextureSheetParticle {
 		}
 	}
 }
-

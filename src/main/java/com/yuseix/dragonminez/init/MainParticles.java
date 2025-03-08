@@ -25,6 +25,8 @@ public final class MainParticles {
 			() -> new SimpleParticleType(true));
 	public static final RegistryObject<SimpleParticleType> NIMBUS_TRACE_PARTICLE = PARTICLES_REGISTER.register("nimbus_trace_particle",
 			() -> new SimpleParticleType(true));
+	public static final RegistryObject<SimpleParticleType> BLACKNIMBUS_TRACE_PARTICLE = PARTICLES_REGISTER.register("blacknimbus_trace_particle",
+			() -> new SimpleParticleType(true));
 	public static final RegistryObject<ParticleType<KiSmallParticleOptions>> KI_SMALL_PARTICLE = PARTICLES_REGISTER.register("ki_small_particle",
 			() -> new ParticleType<>(false, KiSmallParticleOptions.DESERIALIZER) {
 				@Override

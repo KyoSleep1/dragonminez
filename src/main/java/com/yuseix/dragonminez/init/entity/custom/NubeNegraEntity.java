@@ -24,7 +24,7 @@ import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 
-import static com.yuseix.dragonminez.init.MainParticles.NIMBUS_TRACE_PARTICLE;
+import static com.yuseix.dragonminez.init.MainParticles.BLACKNIMBUS_TRACE_PARTICLE;
 
 public class NubeNegraEntity extends FlyingMob implements GeoEntity {
 
@@ -106,7 +106,7 @@ public class NubeNegraEntity extends FlyingMob implements GeoEntity {
 			}
 
 			if (this.level().isClientSide) {
-				this.level().addParticle(NIMBUS_TRACE_PARTICLE.get(), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+				this.level().addParticle(BLACKNIMBUS_TRACE_PARTICLE.get(), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 			}
 		} else {
 			//Velocidad de descenso de la nube cuando el jugador se baja

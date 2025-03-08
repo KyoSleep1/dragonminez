@@ -6,11 +6,15 @@ import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +29,9 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -114,7 +121,8 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         // Buscar jugadores en un radio de 15 bloques
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
-                player.sendSystemMessage(Component.translatable("entity.dragonminez.saga_nappa.die_line"));
+                player.sendSystemMessage(Component.translatable("entity.dragonminez.saga_vegetaozaru.die_line"));
+                playSoundOnce(MainSounds.VEGETA_OOZARU_DEATH.get());
             }
         }
 
@@ -125,8 +133,8 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         if (!(this.level() instanceof ServerLevel serverLevel)) return;
 
         String[] phrases = {
-                "entity.dragonminez.saga_nappa.line1",
-                "entity.dragonminez.saga_nappa.line2"
+                "entity.dragonminez.saga_vegetaozaru.line1",
+                "entity.dragonminez.saga_vegetaozaru.line2"
         };
 
         String selectedPhrase = phrases[this.random.nextInt(phrases.length)];
@@ -135,8 +143,20 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
                 player.sendSystemMessage(Component.translatable(selectedPhrase));
+                playSoundOnce(MainSounds.VEGETA_OOZARU_GROWL.get());
             }
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static void playSoundOnce(SoundEvent soundEvent) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+                        soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+            }
+        });
     }
 
     @Override
