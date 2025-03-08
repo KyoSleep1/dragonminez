@@ -146,7 +146,7 @@ public class MasterMenu extends Screen {
 						this.kiControlBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(kiControlCost) + " TPs"), wa -> {
 							DebugUtils.dmzLog("Ki Control Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= kiControlCost) {
-								ModMessages.sendToServer(new MasterSkillsC2S("ki_control", new DMZSkill("dmz.skill.ki_control.name", "dmz.skill.ki_control.desc", 1, false)));
+								ModMessages.sendToServer(new MasterSkillsC2S("ki_control", new DMZSkill("dmz.skill.ki_control.name", "dmz.skill.ki_control.desc", 1, true)));
 							} else
 								player.sendSystemMessage(Component.translatable("master.name.notenoughpoints", numFor.format(kiControlCost)));
 						}));
@@ -176,18 +176,18 @@ public class MasterMenu extends Screen {
 						this.meditationBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(meditationCost) + " TPs"), wa -> {
 							DebugUtils.dmzLog("Meditation Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= meditationCost) {
-								ModMessages.sendToServer(new MasterSkillsC2S("meditation", new DMZSkill("dmz.skill.meditation.name", "dmz.skill.meditation.desc", 1, false)));
+								ModMessages.sendToServer(new MasterSkillsC2S("meditation", new DMZSkill("dmz.skill.meditation.name", "dmz.skill.meditation.desc", 1, true)));
 							} else
 								player.sendSystemMessage(Component.translatable("master.name.notenoughpoints", numFor.format(meditationCost)));
 						}));
 					}
 					break;
 				case "kaio":
-					if (cap.getDMZSkills().get("potunlock") == null || cap.getDMZSkills().get("potunlock").getLevel() == 0) {
+					if (cap.getDMZSkills().get("potential_unlock") == null || cap.getDMZSkills().get("potential_unlock").getLevel() == 0) {
 						this.potUnlockBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(potUnlockCost) + " TPs"), wa -> {
 							DebugUtils.dmzLog("Potential Unlock Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= potUnlockCost) {
-								ModMessages.sendToServer(new MasterSkillsC2S("potential_unlock", new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 1, false)));
+								ModMessages.sendToServer(new MasterSkillsC2S("potential_unlock", new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 1, true)));
 							} else
 								player.sendSystemMessage(Component.translatable("master.name.notenoughpoints", numFor.format(potUnlockCost)));
 						}));
