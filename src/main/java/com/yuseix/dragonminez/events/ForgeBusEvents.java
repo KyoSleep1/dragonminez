@@ -100,10 +100,10 @@ public class ForgeBusEvents {
 
 		String username = player.getGameProfile().getName();
 
-		if (!ALLOWED_USERNAMES.contains(username)) {
-			LOGGER.error("The user {} is not allowed to play the mod's beta. The game session will now be terminated.", username);
-			throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
-		}
+		//if (!ALLOWED_USERNAMES.contains(username)) {
+		//	LOGGER.error("The user {} is not allowed to play the mod's beta. The game session will now be terminated.", username);
+		//	throw new IllegalStateException("DMZ: Username not allowed to start gameplay!");
+		//}
 		String dimension = "overworld";
 		if (player.level().dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 			dimension = "namek";
