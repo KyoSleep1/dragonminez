@@ -35,7 +35,7 @@ public class DMZDatos implements IDMZDatos{
         int armorTotal = (DefensaArmor + DurezaArmor) * 3;
 
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "DEF");
-        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 5) + ((DefensaArmor + DurezaArmor) * 3)
         return (int) Math.ceil((((((double) stats.getStat("DEF") / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
@@ -66,7 +66,7 @@ public class DMZDatos implements IDMZDatos{
         var efectosTotal = majinDato * frutaDato;
 
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
-        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Fórmula = Math.ceil((((StatPWR / 5) * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
         return (int) Math.ceil(((((double) stats.getStat("PWR") / 5) * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getIntValue("release")/10));

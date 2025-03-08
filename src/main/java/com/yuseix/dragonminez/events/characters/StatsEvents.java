@@ -209,7 +209,7 @@ public class StatsEvents {
 	}
 
 	@SubscribeEvent
-	public static void Recibirdano(LivingHurtEvent event) {
+	public static void recibirDaño(LivingHurtEvent event) {
 
 		DMZDatos dmzdatos = new DMZDatos();
 
@@ -273,7 +273,8 @@ public class StatsEvents {
 										int kiCost = (int) (maxKi * 0.10);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
@@ -283,7 +284,8 @@ public class StatsEvents {
 										int kiCost = (int) (maxKi * 0.16);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
@@ -293,7 +295,8 @@ public class StatsEvents {
 										int kiCost = (int) (maxKi * 0.05);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
 											event.setAmount(adjustedDamage);
 											sonidosGolpes(atacante);
@@ -311,7 +314,6 @@ public class StatsEvents {
 								// Daño por defecto si al atacante le falta stamina
 								event.setAmount(danoDefault);
 							}
-
 							// Si la entidad que recibe el daño es un jugador
 							if (event.getEntity() instanceof Player objetivo) {
 								DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
@@ -325,20 +327,20 @@ public class StatsEvents {
 								// Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
 								event.setAmount(event.getAmount()); // Aplica tu máximo daño
 							}
-						} else {
-							// Aquí manejamos el caso donde el atacante no es un jugador
-							if (event.getEntity() instanceof Player objetivo) {
-								DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-
-									int defObjetivo = dmzdatos.calcDefense(cap, objetivo);
-
-									// Restar la defensa del objetivo al daño
-									float danoFinal = event.getAmount() - defObjetivo;
-									event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
-								});
-							}
 						}
 					}
+				});
+			}
+		} else {
+			// Aquí manejamos el caso donde el atacante no es un jugador
+			if (event.getEntity() instanceof Player objetivo) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+
+					int defObjetivo = dmzdatos.calcDefense(statsObjetivo, objetivo);
+
+					// Restar la defensa del objetivo al daño
+					float danoFinal = event.getAmount() - defObjetivo;
+					event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
 				});
 			}
 		}

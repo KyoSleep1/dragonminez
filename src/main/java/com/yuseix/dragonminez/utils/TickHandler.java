@@ -174,8 +174,11 @@ public class TickHandler {
 							// No hacer nada
 						} else {
 							int kiRegen = dmzdatos.calcKiCharge(playerstats);
+							if (kiRegen < 1) kiRegen = 3;
+							System.out.println("kiRegen: " + kiRegen);
 							if (meditation != null) {
 								kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
+								System.out.println("Meditation Ki Regen: " + kiRegen);
 							}
 							if (raza == 0) {
 								float passiveHuman = (float) DMZHumanConfig.KICHARGE_REGEN_BOOST.get() / 100;
