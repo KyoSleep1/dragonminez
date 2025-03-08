@@ -658,6 +658,12 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                 switch (raza){
                     case 1://Saiyan
+                        if(cap.getIntValue("bodytype") == 0) {
+                            if (transf.equals("oozaru") || transf.equals("goldenoozaru")) {
+                                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                            }
+                        }
+
                         if(cap.getIntValue("bodytype") > 0) {
                             if (transf.equals("oozaru") || transf.equals("goldenoozaru")) {
                                 playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
@@ -825,7 +831,8 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
 
                         break;
                     default: //Humano
-                        switch (eyes_type){
+                        if(cap.getIntValue("bodytype") > 0) {
+                            switch (eyes_type){
                             case 1:
                                 //CEJAS Y COLOR DE CEJAS
                                 colorR = (cabellocolor >> 16) / 255.0F;
@@ -886,6 +893,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                         }
 
                         break;
+                }
                 }
 
 
