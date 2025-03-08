@@ -71,12 +71,12 @@ public class TitleScreenMixin {
         Minecraft mc = Minecraft.getInstance();
 
         // 🔹 Actualizar el fotograma actual
-        long currentTime = Util.getMillis();
-        if (currentTime - lastFrameTime >= FRAME_DURATION) {
-            currentFrame = (currentFrame + 1) % 192; // NUM_FRAMES es el número total de fotogramas
-            lastFrameTime = currentTime;
-            if (currentFrame >= 192) currentFrame = 0;
-        }
+//        long currentTime = Util.getMillis();
+//        if (currentTime - lastFrameTime >= FRAME_DURATION) {
+//            currentFrame = (currentFrame + 1) % 192; // NUM_FRAMES es el número total de fotogramas
+//            lastFrameTime = currentTime;
+//            if (currentFrame >= 192) currentFrame = 0;
+//        }
 
         // Dibujar el fotograma actual
         ResourceLocation background = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/title/saiyantitle" + currentFrame + ".png");

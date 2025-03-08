@@ -58,7 +58,7 @@ public class RaditzEntity extends SagaEntity {
             }
 
             if(cooldownKiAttack < 30){
-                spawnPurpleParticles();
+                if (target instanceof ServerPlayer) spawnPurpleParticles();
             }
 
             // Si el cooldown llega a 0, lanza el ataque

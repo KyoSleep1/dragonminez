@@ -17,8 +17,8 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "STR");
-        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STR");
+        double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
         // Fórmula = ((((1 + (StatSTR / 10)) * ConfigRaza) * (Transf * Efectos)) * (Porcentaje / 10))
         return (int) Math.ceil((((1 + ((double) stats.getStat("STR") / 10)) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10));
@@ -34,8 +34,8 @@ public class DMZDatos implements IDMZDatos{
         int DefensaArmor = player.getArmorValue(); int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         int armorTotal = (DefensaArmor + DurezaArmor) * 3;
 
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "DEF");
-        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "DEF");
+        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 5) + ((DefensaArmor + DurezaArmor) * 3)
         return (int) Math.ceil((((((double) stats.getStat("DEF") / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
@@ -44,7 +44,7 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcConstitution(DMZStatsAttributes stats) {
 
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "CON");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "CON");
 
         // Fórmula = Math.round(20 + (1.2 * (StatCON * ConfigRaza)))
         return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 2.0));
@@ -52,7 +52,7 @@ public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcStamina(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
         return (int) Math.round((stats.getIntValue("maxhealth") * 0.75) * multRaza);
@@ -65,8 +65,8 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
-        double multTransf = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
+        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Fórmula = Math.ceil((((StatPWR / 5) * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
         return (int) Math.ceil(((((double) stats.getStat("PWR") / 5) * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getIntValue("release")/10));
@@ -74,7 +74,7 @@ public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcEnergy(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "ENE");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "ENE");
 
         // Fórmula = Math.round(3 * StatENE * ConfigRaza + 40 * 3)
         return (int) Math.round(3 * stats.getStat("ENE") * multRaza + 40 * 3);
@@ -83,12 +83,12 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcKiConsume(DMZStatsAttributes stats) {
 		// Fórmula = No hay, es consumo directo. Si en la config SSJ_KI_COST.get() = 50, se consume 50 de ki por segundo.
-        return (int) obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "COST");
+        return (int) getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "COST");
     }
 
     @Override
     public int calcKiRegen(DMZStatsAttributes stats) {
-        double multRaza = obtenerStatRaza(stats.getIntValue("race"), stats.getStringValue("class"), "REGEN");
+        double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "REGEN");
 
         // Fórmula = Math.ceil(EnergiaTotal * ConfigRaza)
 
@@ -102,9 +102,9 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multiSTR = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-        double multiDEF = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-        double multiPWR = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multiSTR = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDEF = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiPWR = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
         return ((multiSTR + multiDEF + multiPWR) / 3) * efectosTotal;
@@ -117,15 +117,15 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosTotal = majinDato * frutaDato;
 
-        double multiTransf = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), stat);
+        double multiTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), stat);
 
         return multiTransf * efectosTotal;
     }
 
     public double calcularMultiTransf(DMZStatsAttributes stats) {
-        double multiStr = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-        double multiDef = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-        double multiKiPower = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multiStr = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDef = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiKiPower = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         return (multiStr + multiDef + multiKiPower) / 3;
     }
@@ -137,7 +137,7 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
         // Fórmula = (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
         return (int) (stats.getStat("STR") * multForma * efectosDato);
@@ -150,7 +150,7 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
         return (int) (stats.getStat("DEF") * multForma * efectosDato);
@@ -163,7 +163,7 @@ public class DMZDatos implements IDMZDatos{
         double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
         var efectosDato = majinDato * frutaDato;
 
-        double multForma = obtenerStatTransf(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Fórmula = (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
         return (int) (stats.getStat("PWR") * multForma * efectosDato);
@@ -172,13 +172,13 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcKiCharge(DMZStatsAttributes stats) {
 		return switch (stats.getStringValue("class")) {
-			case "Warrior" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.02));
-			case "Spiritualist" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.04));
+			case "Warrior" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.08));
+			case "Spiritualist" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.12));
 			default -> 0;
 		};
     }
 
-    public double obtenerStatRaza(int raza, String clase, String stat) {
+    public double getRaceStats(int raza, String clase, String stat) {
         return switch (stat) {
             case "STR" -> switch (raza) {
                 case 0 -> clase.equals("warrior") ? DMZHumanConfig.MULTIPLIER_STR_WARRIOR.get()
@@ -274,7 +274,8 @@ public class DMZDatos implements IDMZDatos{
         };
     }
 
-    public double obtenerStatTransf(int raza, String transformation, String stat) {
+    public double getTransformationStats(int raza, String transformation, String stat) {
+        System.out.println("Raza: " + raza + " Transf: " + transformation + " Stat: " + stat);
         return switch (stat) {
             case "STR" -> switch (raza) {
                 case 0 -> switch (transformation) { // Humanos
@@ -285,7 +286,7 @@ public class DMZDatos implements IDMZDatos{
                 };
                 case 1 -> switch (transformation) { // Saiyans
                     case "oozaru" -> DMZTrSaiyanConfig.MULTIPLIER_OOZARU_FORM_STR.get();
-                    case "ssj" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_STR.get();
+                    case "ssj1" -> DMZTrSaiyanConfig.MULTIPLIER_SSJ_FORM_STR.get();
                     case "ssgrade2" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE2_FORM_STR.get();
                     case "ssgrade3" -> DMZTrSaiyanConfig.MULTIPLIER_SSGRADE3_FORM_STR.get();
                     case "mssj" -> DMZTrSaiyanConfig.MULTIPLIER_MSSJ_FORM_STR.get();
@@ -461,9 +462,9 @@ public class DMZDatos implements IDMZDatos{
     }
 
     public double transfMultMenu(DMZStatsAttributes stats, String transformation) {
-        double str = obtenerStatTransf(stats.getIntValue("race"), transformation, "STR");
-        double def = obtenerStatTransf(stats.getIntValue("race"), transformation, "DEF");
-        double pwr = obtenerStatTransf(stats.getIntValue("race"), transformation, "PWR");
+        double str = getTransformationStats(stats.getIntValue("race"), transformation, "STR");
+        double def = getTransformationStats(stats.getIntValue("race"), transformation, "DEF");
+        double pwr = getTransformationStats(stats.getIntValue("race"), transformation, "PWR");
 
         return (str + def + pwr) / 3;
     }

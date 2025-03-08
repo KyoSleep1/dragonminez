@@ -85,12 +85,10 @@ public class TickHandler {
 			if (!player.isCreative() && !player.isSpectator()) {
 				int consumeEnergy = dmzDatos.calcKiConsume(playerStats);
 				if (playerStats.getIntValue("curenergy") < consumeEnergy) {
-					System.out.println("Consumes " + consumeEnergy + " energy");
-					System.out.println("No tienes suficiente energía para mantener la forma.");
 					playerStats.setStringValue("form", "base");
 					energyConsumeCounter = 0;
 				} else {
-					playerStats.removeIntValue("curenergy", consumeEnergy);
+					playerStats.removeIntValue("curenergy", (consumeEnergy / 4));
 					energyConsumeCounter = 0;
 				}
 			}

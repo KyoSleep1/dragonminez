@@ -245,7 +245,7 @@ public class ClientEvents {
 		}
 
 		for (Player player : level.players()) {
-			if (jugadoresConAura.contains(player.getName().getString())) { // Reemplaza con el nombre correcto
+			if (jugadoresConAura.contains(player.getGameProfile().getName())) { // Reemplaza con el nombre correcto
 				// Obtener la capability del jugador
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(capability -> {
 					if (capability.getBoolean("aura")) { // Si la aura está activa
