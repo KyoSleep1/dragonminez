@@ -55,6 +55,7 @@ public class ClientPacketHandler {
 		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
 			cap.getCompletedQuests().clear(); // Limpia la lista anterior
 			cap.getCompletedQuests().addAll(completedQuests); // Añade las misiones sincronizadas
+			System.out.println("Handling completed quests packet for player " + player.getName().getString());
 		});
 	}
 	@OnlyIn(Dist.CLIENT)

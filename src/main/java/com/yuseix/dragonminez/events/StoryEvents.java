@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.stats.storymode.DMZQuest;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryRegistry;
 import com.yuseix.dragonminez.stats.storymode.QuestRequirement;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -40,7 +41,6 @@ public class StoryEvents {
 
 		if (source.getEntity() instanceof ServerPlayer player) {
 			String entityId = entity.getType().toString();
-			System.out.println("onEntityDeath: entityId: " + entityId + ", source: " + player);
 
 			player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(capability -> {
 				DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
@@ -48,14 +48,12 @@ public class StoryEvents {
 					Map<String, Integer> requiredKills = currentQuest.getRequirement().getRequiredKills();
 
 					if (requiredKills.containsKey(entityId)) {
-						System.out.println("onEntityDeath: requiredKills contiene el entity");
 						capability.addKill(entityId);
 
 						// Verificar si se ha alcanzado el número requerido de kills
 						if (capability.getKillCount(entityId) >= requiredKills.get(entityId)) {
-							System.out.println("onEntityDeath: killCount >= requiredKills.get(entityId)");
 							capability.setKillObjectiveComplete(entityId); // Marcar el objetivo de matar enemigos como completado
-							syncQuestData(player);
+							checkQuestCompletion(player);
 						}
 					}
 				}
@@ -71,18 +69,19 @@ public class StoryEvents {
 				DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
 				// Verificar si el jugador está en el bioma requerido
 				if (currentQuest != null && currentQuest.getRequirement().getRequiredBiome() != null) {
-					System.out.println("onPlayerTick: currentQuest: " + currentQuest.getId());
 					Optional<ResourceKey<Biome>> biomeKey = player.level().getBiome(player.blockPosition()).unwrapKey();
 					if (biomeKey.isPresent()) {
 						String currentBiome = biomeKey.get().location().toString();
-						System.out.println("onPlayerTick: currentBiome: " + currentBiome + ", requiredBiome: " + currentQuest.getRequirement().getRequiredBiome());
+						System.out.println("Bioma encontrado? " + capability.isBiomeFound());
 
-						if (currentBiome.equals(currentQuest.getRequirement().getRequiredBiome())) {
+						if (currentBiome.equals(currentQuest.getRequirement().getRequiredBiome()) && !capability.isBiomeFound()) {
 							System.out.println("onPlayerTick: Bioma encontrado");
-							capability.setStructureFound(true);
-							checkQuestCompletion(player);
-							syncQuestData(player);
+							capability.setBiomeFound(true);
+						} else if (capability.isBiomeFound() && !currentBiome.equals(currentQuest.getRequirement().getRequiredBiome())) {
+							System.out.println("onPlayerTick: Bioma perdido");
+								capability.setBiomeFound(false);
 						}
+						checkQuestCompletion(player);
 					}
 				}
 
@@ -105,7 +104,7 @@ public class StoryEvents {
 
 						if (count >= requiredAmount) {
 							capability.setHasRequiredItem(true);
-							syncQuestData(player);
+							checkQuestCompletion(player);
 						}
 					}
 				}
@@ -114,10 +113,11 @@ public class StoryEvents {
 	}
 
 	public static void checkQuestCompletion(Player player) {
+		System.out.println("Checking quest completion");
 		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(capability -> {
 			DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
 			if (currentQuest != null) {
-				System.out.println("checkQuestCompletion: currentQuest no es null, es: " + currentQuest.getId());
+				System.out.println("Current quest: " + currentQuest.getId());
 				QuestRequirement requirement = currentQuest.getRequirement();
 
 				boolean killsComplete = true;
@@ -131,57 +131,71 @@ public class StoryEvents {
 				}
 
 				// Verificar si todos los objetivos están completos
-				if (killsComplete && requirement.isFulfilled(player, capability.getEntityKillCounts(), capability.isStructureFound(), capability.hasCollectedItems())) {
-					System.out.println("checkQuestCompletion: killsComplete y requirement.isFulfilled son true");
+				if (killsComplete && requirement.isFulfilled(player, capability.getEntityKillCounts(), capability.isBiomeFound(), capability.hasCollectedItems())) {
 					capability.getCompletedQuests().add(currentQuest.getId());
 
 					onQuestComplete(player, currentQuest.getId());
-
-					syncQuestData(player);
 				}
+				syncQuestData(player);
 			}
 		});
 	}
 
 	public static void onQuestComplete(Player player, String questId) {
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-
+			int tps = 0;
 			switch (questId) {
-				case "saiyQuest1" -> cap.addIntValue("tps", 350);
-				case "saiyQuest2" -> cap.addIntValue("tps", 550);
-				case "saiyQuest3" -> cap.addIntValue("tps", 750);
+				case "saiyQuest1" -> {
+					tps = 350;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest2" -> {
+					tps = 550;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest3" -> {
+					tps = 750;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
 			}
-			System.out.println("onQuestComplete: recompensa otorgada, misión completada: " + questId);
+
+			System.out.println("You have completed the quest: " + questId + ". Your reward is: " + cap.getIntValue("tps") + " TPS");
 		});
 		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
 			// Asignar la siguiente misión (si hay alguna)
 			DMZQuest currentQuest = DMZStoryRegistry.getQuest(cap.getCurrentQuestId());
 			DMZQuest nextQuest = DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
-			System.out.println("onQuestComplete: currentQuest: " + currentQuest.getId() + ", nextQuest: " + (nextQuest != null ? nextQuest.getId() : "null"));
 			if (currentQuest.getId().equals(questId) && nextQuest != null) {
 				cap.setCurrentQuestId(nextQuest.getId());
 			}
+			syncCompletedQuests(player);
+			syncQuestData(player);
 		});
 	}
 
 	@SubscribeEvent
 	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
 		event.getEntity().refreshDimensions();
-		syncCompletedQuests(event.getEntity());
 
 	}
 
 	@SubscribeEvent
 	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		syncQuestData(event.getEntity());
 		syncCompletedQuests(event.getEntity());
+		syncQuestData(event.getEntity());
+		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent
 	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-		syncQuestData(event.getEntity());
 		syncCompletedQuests(event.getEntity());
+		syncQuestData(event.getEntity());
+		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent

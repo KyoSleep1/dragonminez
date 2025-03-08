@@ -25,7 +25,7 @@ public class DMZStoryRegistry {
     public static void registerQuests() {
         registerQuest(new DMZQuest(
                 "saiyQuest1",
-                new QuestRequirement(null, null, Map.of(MainItems.SENZU_BEAN.get().toString(), 3, MainItems.NUBE_ITEM.get().toString(), 1), "Kame House"),
+                new QuestRequirement(null, null, null, "Kame House"),
                 "saiyQuest2",
                 "saiyan"
         ));
@@ -69,7 +69,7 @@ public class DMZStoryRegistry {
 
         registerQuest(new DMZQuest(
                 "saiyQuest7",
-                new QuestRequirement(Map.of(MainEntity.VEGETA_SAIYAN.get().toString(), 1), "dragonminez:rocky", null, null),
+                new QuestRequirement(Map.of(MainEntity.VEGETA_OZARU.get().toString(), 1), "dragonminez:rocky", null, null),
                 "saiyQuest8",
                 "saiyan"
         ));
