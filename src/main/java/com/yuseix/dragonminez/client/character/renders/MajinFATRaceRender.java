@@ -575,19 +575,19 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             if(tipoojos == 0){
                 //OJOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
             } else {
 
                 //OJOS NEGROS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //IRIS COLORES
                 colorR = (ojoscolorbase >> 16) / 255.0F;
                 colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
                 colorB = (ojoscolorbase & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 

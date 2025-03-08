@@ -660,13 +660,13 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                     case 1://Saiyan
                         if(cap.getIntValue("bodytype") == 0) {
                             if (transf.equals("oozaru") || transf.equals("goldenoozaru")) {
-                                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
                             }
                         }
 
                         if(cap.getIntValue("bodytype") > 0) {
                             if (transf.equals("oozaru") || transf.equals("goldenoozaru")) {
-                                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                                playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.OOZARU_EYES)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
                             } else {
                                 switch (eyes_type) {
                                     case 1:
@@ -685,25 +685,25 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                             colorB = (16773525 & 0xff) / 255.0f;
                                         }
 
-                                        playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                        playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_EYES1_CEJAS)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                         if (transf.equals("base") && form_group.equals("") && isTransfOn && formRelease > 10) {
                                             //OJOS BLANCOS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_EYES1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 1 Y COLOR DE IRIS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 2 Y COLOR DE IRIS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS2)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                         } else {
                                             //OJOS BLANCOS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_EYES1)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 1 Y COLOR DE IRIS
                                             if (transf.equals("base")) {
@@ -721,7 +721,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                             }
 
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 2 Y COLOR DE IRIS
                                             if (transf.equals("base")) {
@@ -738,7 +738,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                                 colorB = (4712648 & 0xff) / 255.0f;
                                             }
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                         }
                                         break;
@@ -757,25 +757,25 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                             colorG = ((16773525 >> 8) & 0xff) / 255.0f;
                                             colorB = (16773525 & 0xff) / 255.0f;
                                         }
-                                        playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1_CEJAS)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                        playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_EYES1_CEJAS)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                         if (transf.equals("base") && form_group.equals("") && isTransfOn && formRelease > 10) {
                                             //OJOS BLANCOS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_EYES1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 1 Y COLOR DE IRIS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_IRIS1)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 2 Y COLOR DE IRIS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_IRIS2)), pPackedLight, i, 0.79f, 0.071f, 0.071f, flag1 ? 0.15F : 1.0F);
 
                                         } else {
                                             //OJOS BLANCOS
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_EYES1)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_EYES1)), pPackedLight, i, 1.0f, 1.0f, 1.0f, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 1 Y COLOR DE IRIS
                                             if (transf.equals("base")) {
@@ -793,7 +793,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                             }
 
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_IRIS1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                             //IRIS 2 Y COLOR DE IRIS
                                             if (transf.equals("base")) {
@@ -810,7 +810,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
                                                 colorB = (4712648 & 0xff) / 255.0f;
                                             }
                                             pPoseStack.translate(0f, 0f, -0.001f);
-                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_IRIS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+                                            playermodel.head.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_IRIS2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
 
                                         }
                                         break;
