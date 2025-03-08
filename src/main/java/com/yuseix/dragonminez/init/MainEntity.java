@@ -5,12 +5,9 @@ import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -116,6 +113,12 @@ public final class MainEntity {
 					() -> EntityType.Builder.of(MoroSoldierEntity::new, MobCategory.CREATURE)
 							.sized(0.8f, 2.1f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "moro_soldier").toString())
+			);
+	public static final RegistryObject<EntityType<RedRibbonSoldierEntity>> REDRIBBON_SOLDIER =
+			ENTITY_TYPES_REGISTER.register("redribbon_soldier",
+					() -> EntityType.Builder.of(RedRibbonSoldierEntity::new, MobCategory.CREATURE)
+							.sized(0.8f, 2.1f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "redribbon_soldier").toString())
 			);
 	public static final RegistryObject<EntityType<NaveSaiyanEntity>> NAVE_SAIYAN =
 			ENTITY_TYPES_REGISTER.register("nave_saiyan",
@@ -252,6 +255,12 @@ public final class MainEntity {
 							.sized(0.6f, 1.8f)
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_vegetasaiyan").toString())
 			);
+	public static final RegistryObject<EntityType<OzaruVegetaEntity>> VEGETA_OZARU =
+			ENTITY_TYPES_REGISTER.register("saga_vegetaozaru",
+					() -> EntityType.Builder.of(OzaruVegetaEntity::new, MobCategory.CREATURE)
+							.sized(3.0f, 8.0f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "saga_vegetaozaru").toString())
+			);
 	//FAKEPLAYERS
 	public static final RegistryObject<EntityType<FPBioAndroidEntity>> FP_BIOANDROIDE =
 			ENTITY_TYPES_REGISTER.register("fp_bioandroide",
@@ -290,11 +299,11 @@ public final class MainEntity {
 							.build(new ResourceLocation(DragonMineZ.MOD_ID, "fp_slim").toString())
 			);
 	//Ki
-	public static final RegistryObject<EntityType<KiSmallBallProjectil>> KI_SMALL_BLAST =
-			ENTITY_TYPES_REGISTER.register("ki_smallball",
-					() -> EntityType.Builder.of(KiSmallBallProjectil::new, MobCategory.MISC)
-							.sized(0.9f, 0.9f)
-							.build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_smallball").toString())
+	public static final RegistryObject<EntityType<KiBallProjectil>> KI_BLAST =
+			ENTITY_TYPES_REGISTER.register("ki_ball",
+					() -> EntityType.Builder.of(KiBallProjectil::new, MobCategory.MISC)
+							.sized(1.5f, 1.5f)
+							.build(new ResourceLocation(DragonMineZ.MOD_ID, "ki_ball").toString())
 			);
 	public static final RegistryObject<EntityType<KiSmallWaveProjectil>> KI_SMALL_WAVE =
 			ENTITY_TYPES_REGISTER.register("ki_smallwave",
@@ -325,6 +334,11 @@ public final class MainEntity {
 				SoldierEntity::canSpawnHere,
 				REPLACE);
 		e.register(MainEntity.MORO_SOLDIER.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SoldierEntity::canSpawnHere,
+				REPLACE);
+		e.register(MainEntity.REDRIBBON_SOLDIER.get(),
 				ON_GROUND,
 				MOTION_BLOCKING,
 				SoldierEntity::canSpawnHere,

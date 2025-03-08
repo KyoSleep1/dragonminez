@@ -211,7 +211,7 @@ public class DMZStatsAttributes {
             case "formrelease" -> FormRelease = Math.max(0, Math.min(100, points));
             case "senzutimer" -> dmzSenzuDaily = points;
             case "release" -> dmzRelease = points;
-            case "alignment" -> dmzAlignment = Math.min(dmzAlignment + points, 100);
+            case "alignment" -> dmzAlignment = points;
             case "tps" -> zpoints = points;
             case "bodycolor" -> bodyColor = points;
             case "bodycolor2" -> bodyColor2 = points;

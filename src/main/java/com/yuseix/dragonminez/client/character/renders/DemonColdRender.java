@@ -895,21 +895,21 @@ public class DemonColdRender extends LivingEntityRenderer<AbstractClientPlayer, 
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.DEMON_COLD_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //IRIS DE OJO1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_EYES_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.DEMON_COLD_EYES_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS DE OJO2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.002f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DEMON_COLD_EYES_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.DEMON_COLD_EYES_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 

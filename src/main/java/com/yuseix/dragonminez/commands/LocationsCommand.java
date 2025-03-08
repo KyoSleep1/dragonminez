@@ -84,13 +84,9 @@ public class LocationsCommand {
                     messageRef.set(createLocationMessage("command.dmzlocate.gokuhouse", pos, canTeleport, source));
                 }
                 case "kamehouse" -> {
-                    if (level.isFlat()) {
-                        messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));
-                    } else {
-                        pos = structures.getRoshiHousePosition();
-                        canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
-                        messageRef.set(createLocationMessage("command.dmzlocate.kamehouse", pos, canTeleport, source));
-                    }
+                    pos = structures.getRoshiHousePosition();
+                    canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.kamehouse", pos, canTeleport, source));
                 }
                 case "elderguru" -> {
                     pos = structures.getElderGuruPosition();

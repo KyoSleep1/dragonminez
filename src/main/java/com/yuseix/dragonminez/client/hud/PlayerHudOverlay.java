@@ -233,11 +233,11 @@ public class PlayerHudOverlay implements RenderEntityInv {
                         case "oozaru":
                             RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
                             break;
-                        case "ssgrade1","ssgrade2","ssgrade3":
+                        case "ssj1","ssgrade2","ssgrade3":
                             colorR = (16773525 >> 16) / 255.0F;
                             colorG = ((16773525 >> 8) & 0xff) / 255.0f;
                             colorB = (16773525 & 0xff) / 255.0f;
-                            RenderSystem.setShaderColor(0.990f, 0.966f, 0.515f, 1.0f);
+                            RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);
                             break;
                         default:
                             RenderSystem.setShaderColor(colorR, colorG, colorB, 1.0f);

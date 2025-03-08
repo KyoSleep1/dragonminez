@@ -80,7 +80,7 @@ public class DMZTrSaiyanConfig {
                 .defineInRange("Multiplier PWR: ", 1.5, 1.0, 200.0);
 
         OOZARU_FORM_KI_COST = BUILDER.comment("Ki Cost for Oozaru Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 200, 0, 20000);
+                .defineInRange("Ki Cost: ", 175, 0, 20000);
 
         BUILDER.pop();
 
@@ -96,7 +96,7 @@ public class DMZTrSaiyanConfig {
                 .defineInRange("Multiplier PWR: ", 2.0, 1.0, 200.0);
 
         SSJ_FORM_KI_COST = BUILDER.comment("Ki Cost for SSJ Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 350, 0, 20000);
+                .defineInRange("Ki Cost: ", 325, 0, 20000);
 
         BUILDER.pop();
 
@@ -112,7 +112,7 @@ public class DMZTrSaiyanConfig {
                 .defineInRange("Multiplier PWR: ", 2.5, 1.0, 200.0);
 
         SSGRADE2_FORM_KI_COST = BUILDER.comment("Ki Cost for SSGRADE2 Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 500, 0, 20000);
+                .defineInRange("Ki Cost: ", 425, 0, 20000);
 
         BUILDER.pop();
 
@@ -132,7 +132,7 @@ public class DMZTrSaiyanConfig {
 
         BUILDER.pop();
 
-        BUILDER.push(" MSSJ Form");
+        BUILDER.push("MSSJ Form");
 
         MULTIPLIER_MSSJ_FORM_STR = BUILDER.comment("Multiplier for MSSJ Form STR! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
                 .defineInRange("Multiplier STR: ", 1.0, 1.0, 200.0);

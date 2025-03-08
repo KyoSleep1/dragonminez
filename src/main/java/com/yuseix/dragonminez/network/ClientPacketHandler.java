@@ -7,12 +7,11 @@ import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
 import com.yuseix.dragonminez.client.hud.UtilityPanelOverlay;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.events.RadarEvents;
-import com.yuseix.dragonminez.events.StorylineEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
+import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -26,6 +25,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ClientPacketHandler {
@@ -43,7 +43,20 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleCompletedQuestsPacket(int playerId, Set<String> completedQuests) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return; // Evita errores en pantallas de carga
 
+		var entity = clientLevel.getEntity(playerId);
+		if (!(entity instanceof Player player)) return; // Evita crashes si no es un jugador
+
+		// Modificamos la capability en el cliente
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			cap.getCompletedQuests().clear(); // Limpia la lista anterior
+			cap.getCompletedQuests().addAll(completedQuests); // Añade las misiones sincronizadas
+		});
+	}
 	@OnlyIn(Dist.CLIENT)
 	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var clientLevel = Minecraft.getInstance().level;
@@ -118,22 +131,16 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleStorylineSyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
-		DebugUtils.dmzLog("Handling storyline sync packet for player " + playerId);
+	public static void handleStorySyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var clientLevel = Minecraft.getInstance().level;
 		if (clientLevel == null) return;
 
 		var entity = Minecraft.getInstance().level.getEntity(playerId);
 		if (entity instanceof Player player) {
-			DebugUtils.dmzLog("NBT Received: " + nbt);
-			PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, player).ifPresent(cap -> {
+			player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
 				cap.loadNBTData(nbt);
-				DebugUtils.dmzLog("NBT Loaded: " + nbt);
 				player.refreshDimensions();
-				DebugUtils.dmzLog("Storyline loaded for player " + player.getName().getString());
 			});
-		} else {
-			DebugUtils.dmzLog("Failed to find player with ID: " + playerId);
 		}
 	}
 

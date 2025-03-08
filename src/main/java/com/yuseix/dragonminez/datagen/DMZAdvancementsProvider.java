@@ -94,6 +94,20 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                             ).build())
                     ).save(consumer, "dragonminez:kaiosama");
 
+            Advancement invincible = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            MainItems.INVENCIBLE_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.invincible.title"),
+                            Component.translatable("advancements.dragonminez.invincible.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("invincible",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.INVENCIBLE_ARMOR_HELMET.get(),
+                                    MainItems.INVENCIBLE_ARMOR_CHESTPLATE.get(),
+                                    MainItems.INVENCIBLE_ARMOR_LEGGINGS.get(),
+                                    MainItems.INVENCIBLE_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:invincible");
+
             Advancement kamilookout = Advancement.Builder.advancement()
                     .parent(root) // Este depende de X logro (Solo es orden, no requisito)
                     .display(

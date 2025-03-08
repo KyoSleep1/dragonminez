@@ -149,11 +149,6 @@ public class ModMessages {
 				.encoder(StatsSyncS2C::toBytes)
 				.consumerMainThread(StatsSyncS2C::handle)
 				.add();
-		net.messageBuilder(StorylineSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-				.decoder(StorylineSyncS2C::new)
-				.encoder(StorylineSyncS2C::toBytes)
-				.consumerMainThread(StorylineSyncS2C::handle)
-				.add();
 		net.messageBuilder(MenuS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.decoder(MenuS2C::new)
 				.encoder(MenuS2C::toBytes)
@@ -179,6 +174,11 @@ public class ModMessages {
 				.decoder(DMZPermanentEffectsSyncS2C::new)
 				.consumerMainThread(DMZPermanentEffectsSyncS2C::handle)
 				.add();
+		net.messageBuilder(DMZCompletedQuestsSyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(DMZCompletedQuestsSyncS2C::toBytes)
+				.decoder(DMZCompletedQuestsSyncS2C::new)
+				.consumerMainThread(DMZCompletedQuestsSyncS2C::handle)
+				.add();
 		net.messageBuilder(UpdateDragonRadarS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
 				.encoder(UpdateDragonRadarS2C::encode)
 				.decoder(UpdateDragonRadarS2C::decode)
@@ -198,6 +198,11 @@ public class ModMessages {
 				.encoder(SyncDragonBallsS2C::encode)
 				.decoder(SyncDragonBallsS2C::decode)
 				.consumerMainThread(SyncDragonBallsS2C::handle)
+				.add();
+		net.messageBuilder(StorySyncS2C.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(StorySyncS2C::toBytes)
+				.decoder(StorySyncS2C::new)
+				.consumerMainThread(StorySyncS2C::handle)
 				.add();
 	}
 

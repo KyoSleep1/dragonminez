@@ -10,7 +10,7 @@ public class NimbusTraceParticle extends TextureSheetParticle {
 		super(world, x, y, z, motionX, motionY, motionZ);
 		this.setSpriteFromAge(sprites);
 		this.friction = 0.9F;
-		this.quadSize = 0.1F;
+		this.quadSize = 0.4F;
 		this.lifetime = 20; // Lasts 20 ticks (1 second)
 	}
 

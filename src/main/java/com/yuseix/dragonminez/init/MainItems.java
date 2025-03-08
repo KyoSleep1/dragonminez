@@ -216,6 +216,11 @@ public final class MainItems {
     public static final RegistryObject<Item> GAMMA2_ARMOR_CHESTPLATE = capeArItem("gamma2_armor_chestplate", ArmorItem.Type.CHESTPLATE, "gamma2");
     public static final RegistryObject<Item> GAMMA2_ARMOR_LEGGINGS = capeArItem("gamma2_armor_leggings", ArmorItem.Type.LEGGINGS, "gamma2");
     public static final RegistryObject<Item> GAMMA2_ARMOR_BOOTS = capeArItem("gamma2_armor_boots", ArmorItem.Type.BOOTS, "gamma2");
+    //INVENCIBLE
+    public static final RegistryObject<Item> INVENCIBLE_ARMOR_HELMET = armorItem("invencible_armor_helmet", ArmorItem.Type.HELMET, "invencible");
+    public static final RegistryObject<Item> INVENCIBLE_ARMOR_CHESTPLATE = armorItem("invencible_armor_chestplate", ArmorItem.Type.CHESTPLATE, "invencible");
+    public static final RegistryObject<Item> INVENCIBLE_ARMOR_LEGGINGS = armorItem("invencible_armor_leggings", ArmorItem.Type.LEGGINGS, "invencible");
+    public static final RegistryObject<Item> INVENCIBLE_ARMOR_BOOTS = armorItem("invencible_armor_boots", ArmorItem.Type.BOOTS, "invencible");
 
     //LÍQUIDOS
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",

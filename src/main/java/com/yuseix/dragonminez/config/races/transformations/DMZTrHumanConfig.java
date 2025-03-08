@@ -56,7 +56,7 @@ public class DMZTrHumanConfig {
                 .defineInRange("Multiplier PWR: ", 1.5, 1.0, 200.0);
         
         BUFFED_FORM_KI_COST = BUILDER.comment("Ki Cost for Buffed Form! (Min: 0 / Max: 20000 / Default: 250)")
-                .defineInRange("Ki Cost: ", 250, 0, 20000);
+                .defineInRange("Ki Cost: ", 350, 0, 20000);
         
         BUILDER.pop();
 

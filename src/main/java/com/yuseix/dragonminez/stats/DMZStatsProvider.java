@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DMZStatsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "mod");
+    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "stats");
     private final Player player;
     private final DMZStatsAttributes backend;
     private final LazyOptional<DMZStatsAttributes> optional;

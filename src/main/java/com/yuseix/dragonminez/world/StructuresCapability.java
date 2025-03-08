@@ -384,47 +384,22 @@ public class StructuresCapability {
 
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
-            List<ResourceKey<Biome>> gokuBiomes = List.of(
-                    Biomes.PLAINS,
-                    Biomes.FLOWER_FOREST,
-                    Biomes.SUNFLOWER_PLAINS,
-                    Biomes.FOREST,
-                    Biomes.SAVANNA,
-                    Biomes.SAVANNA_PLATEAU,
-                    Biomes.WINDSWEPT_HILLS,
-                    Biomes.WINDSWEPT_GRAVELLY_HILLS,
-                    Biomes.WINDSWEPT_SAVANNA
-            );
-
             while(posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(12000) - 6000;
-                int z = spawnPos.getZ() + random.nextInt(12000) - 6000;
+                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
+                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 
                 int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                 BlockPos posiblePos = new BlockPos(x, y, z);
-                Holder<Biome> biome = level.getBiome(posiblePos);
+                posiblePos = new BlockPos(posiblePos.getX(), posiblePos.getY() + 60, posiblePos.getZ());
 
-                if (y <= 200 && gokuBiomes.stream().anyMatch(biome::is)) {
-                    BlockState belowBlockState = level.getBlockState(posiblePos.below());
-                    BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
-
-                    if (!belowBlockState.isAir() && !(belowBlockState.is(Blocks.WATER))
-                            && !belowBelowBlockState.isAir() && !(belowBelowBlockState.is(Blocks.WATER))) {
-                        posicionValida = posiblePos;
-                    }
-                }
+                if (y <= 200) posicionValida = posiblePos;
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                // Obtener bloques anteriores
                 BlockState blockState = level.getBlockState(posicionValida).getBlock().defaultBlockState();
                 BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
-                BlockState pathBlockState = level.getBlockState(posicionValida.offset(24, 0, 0)).getBlock().defaultBlockState();
-                BlockState pathRedstoneBlockState = level.getBlockState(posicionValida.offset(25, 0, 0)).getBlock().defaultBlockState();
-                BlockState gohanBlockState = level.getBlockState(posicionValida.offset(0, 0, 52)).getBlock().defaultBlockState();
-                BlockState gohanRedstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 52)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
@@ -437,11 +412,11 @@ public class StructuresCapability {
                     CompoundTag nbtData = new CompoundTag();
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
-                    nbtData.putInt("posX", -24);
-                    nbtData.putInt("posY", -3);
-                    nbtData.putInt("posZ", -17);
+                    nbtData.putInt("posX", -95);
+                    nbtData.putInt("posY", -52);
+                    nbtData.putInt("posZ", -50);
                     nbtData.putString("mode", "LOAD");
-                    nbtData.putString("name", "dragonminez:goku_house/goku_house");
+                    nbtData.putString("name", "dragonminez:gokuhouse");
 
                     structureBlockEntity.load(nbtData);
                     structureBlockEntity.setChanged();
@@ -449,73 +424,16 @@ public class StructuresCapability {
 
                     level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
                     level.setBlock(posicionValida, Blocks.AIR.defaultBlockState(), 3);
-                    level.setBlock(posicionValida.offset(0, 3, 0), Blocks.AIR.defaultBlockState(), 3);
                 }
-
-                BlockPos secPos = posicionValida.offset(24, 0, 0);
-
-                level.setBlock(secPos, structureBlock, 3);
-                BlockEntity blockEntity2 = level.getBlockEntity(secPos);
-                if (blockEntity2 instanceof  StructureBlockEntity) {
-                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity2;
-
-                    // Crear y colocar el NBT - GokuHousePath (2/3)
-                    CompoundTag nbtData = new CompoundTag();
-                    nbtData.putString("mirror", "NONE");
-                    nbtData.putString("rotation", "NORTH");
-                    nbtData.putInt("posX", 0);
-                    nbtData.putInt("posY", -3);
-                    nbtData.putInt("posZ", -11);
-                    nbtData.putString("mode", "LOAD");
-                    nbtData.putString("name", "dragonminez:goku_house/goku_path");
-
-                    structureBlockEntity.load(nbtData);
-                    structureBlockEntity.setChanged();
-                    //System.out.println("Comando: /setblock " + secPos.below().below().below().getX() + " " + secPos.below().below().below().getY() + " " + secPos.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
-
-                    level.setBlock(secPos.offset(1, 0, 0), redstoneBlock, 3);
-                    level.setBlock(secPos, Blocks.AIR.defaultBlockState(), 3);
-                    level.setBlock(secPos.offset(0, 3, 0), Blocks.AIR.defaultBlockState(), 3);
-                }
-
-                BlockPos terPos = posicionValida.offset(1, 0, 52);
-
-                level.setBlock(terPos, structureBlock, 3);
-                BlockEntity blockEntity3 = level.getBlockEntity(terPos);
-                if (blockEntity3 instanceof StructureBlockEntity) {
-                    StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity3;
-
-                    // Crear y colocar el NBT - GokuHouseGohan (3/3)
-                    CompoundTag nbtData = new CompoundTag();
-                    nbtData.putString("mirror", "NONE");
-                    nbtData.putString("rotation", "NORTH");
-                    nbtData.putInt("posX", -23);
-                    nbtData.putInt("posY", -3);
-                    nbtData.putInt("posZ", -21);
-                    nbtData.putString("mode", "LOAD");
-                    nbtData.putString("name", "dragonminez:goku_house/goku_gohanhouse");
-
-                    structureBlockEntity.load(nbtData);
-                    structureBlockEntity.setChanged();
-                    //System.out.println("Comando: /setblock " + terPos.below().below().below().getX() + " " + terPos.below().below().below().getY() + " " + terPos.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
-
-                    level.setBlock(terPos.offset(1, 0, 0), redstoneBlock, 3);
-                    level.setBlock(terPos.offset(0, 3, 0), Blocks.AIR.defaultBlockState(), 3);
-                }
-
                 // Colocar bloques anteriores
                 level.setBlock(posicionValida, blockState, 3);
                 level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
-                level.setBlock(secPos, pathBlockState, 3);
-                level.setBlock(secPos.offset(1, 0, 0), pathRedstoneBlockState, 3);
-                level.setBlock(terPos, gohanBlockState, 3);
-                level.setBlock(terPos.offset(1, 0, 0), gohanRedstoneBlockState, 3);
+                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
             }
 
-            BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 30, posicionValida.getY() + 3, posicionValida.getZ() + 9);
+            BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 32, posicionValida.getY() + 5, posicionValida.getZ() - 13);
             // Marcar como generada y guardar la posición
-            setDB4Position(posicionValida.offset(-16, 2, 52));
-            //System.out.println("DB4 generada en " + getDB4Position());
+            setDB4Position(posicionValida.offset(-18, 7, 30));
             setHasGokuHouse(true);
             setGokuHousePosition(spawnPosition);
             System.out.println("[DMZ-Generation] Goku House generated in " + spawnPosition);
@@ -529,52 +447,37 @@ public class StructuresCapability {
             BlockPos spawnPos = level.getSharedSpawnPos();
 
             BlockPos posicionValida = new BlockPos(0, 0, 0);
-            List<ResourceKey<Biome>> oceanBiomes = List.of(
-                    Biomes.OCEAN,
-                    Biomes.DEEP_OCEAN,
-                    Biomes.WARM_OCEAN,
-                    Biomes.LUKEWARM_OCEAN
-            );
 
-            while (posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(30000) - 15000;
-                int z = spawnPos.getZ() + random.nextInt(30000) - 15000;
+            while(posicionValida.equals(new BlockPos(0, 0, 0))) {
+                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
+                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
 
-                level.getChunk(x >> 4, z >> 4);
+                level.getChunk(x >> 4, z >> 4); // Carga el chunk
+
                 int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                 BlockPos posiblePos = new BlockPos(x, y, z);
-                Holder<Biome> biome = level.getBiome(posiblePos);
+                posiblePos = new BlockPos(posiblePos.getX(), posiblePos.getY() + 60, posiblePos.getZ());
 
-                if (y >= 63 && y <= 67) {
-                    if (oceanBiomes.stream().anyMatch(biome::is)) {
-                        BlockState belowBlockState = level.getBlockState(posiblePos.below());
-                        BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
-
-                         if (!belowBlockState.isAir() && belowBlockState.is(Blocks.WATER)
-                                && !belowBelowBlockState.isAir() && belowBelowBlockState.is(Blocks.WATER)) {
-                                posicionValida = posiblePos;
-                         }
-                    }
-                }
+                if (y <= 200) posicionValida = posiblePos;
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida.offset(0, -5, 0)).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, -5, 0)).getBlock().defaultBlockState();
+                BlockState blockState = level.getBlockState(posicionValida.offset(0, 0, 0)).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida.offset(0, -5, 0), structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida.offset(0, -5, 0));
+                level.setBlock(posicionValida.offset(0, 0, 0), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida.offset(0, 0, 0));
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
                     CompoundTag nbtData = new CompoundTag();
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
-                    nbtData.putInt("posX", -33);
-                    nbtData.putInt("posY", 1);
-                    nbtData.putInt("posZ", -33);
+                    nbtData.putInt("posX", -95);
+                    nbtData.putInt("posY", -52);
+                    nbtData.putInt("posZ", -50);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:roshihouse");
 
@@ -582,13 +485,14 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.offset(0, -4, 0).getX() + " " + posicionValida.offset(0, -4, 0).getY() + " " + posicionValida.offset(0, -4, 0).getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.offset(1, -5, 0), redstoneBlock, 3);
+                    level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida.offset(0, -5, 0), blockState, 3);
-                level.setBlock(posicionValida.offset(1, -5, 0), redstoneBlockState, 3);
+                level.setBlock(posicionValida.offset(0, 0, 0), blockState, 3);
+                level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
 
-                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 19, posicionValida.getY() + 5, posicionValida.getZ());
+                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 19, posicionValida.getY() + 10, posicionValida.getZ());
                 setHasRoshiHouse(true);
                 setRoshiHousePosition(spawnPosition);
                 System.out.println("[DMZ-Generation] Roshi House generated in " + spawnPosition);
@@ -603,42 +507,36 @@ public class StructuresCapability {
 
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
-            while (posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-                int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+            while(posicionValida.equals(new BlockPos(0, 0, 0))) {
+                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
+                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
 
-                level.getChunk(x >> 4, z >> 4);
+                level.getChunk(x >> 4, z >> 4); // Carga el chunk
+
                 int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                 BlockPos posiblePos = new BlockPos(x, y, z);
+                posiblePos = new BlockPos(posiblePos.getX(), posiblePos.getY() + 60, posiblePos.getZ());
 
-                if (y > 60 && y <= 66) {
-                    BlockState belowBlockState = level.getBlockState(posiblePos.below());
-                    BlockState belowBelowBlockState = level.getBlockState(posiblePos.below().below());
-
-                    if (!belowBlockState.isAir() && (belowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))
-                            && !belowBelowBlockState.isAir() && (belowBelowBlockState.is(MainBlocks.NAMEK_WATER_LIQUID.get()))) {
-                        posicionValida = posiblePos;
-                    }
-                }
+                if (y <= 200) posicionValida = posiblePos;
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida.below().below().below().below().below()).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.below().below().below().below().below().offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockState blockState = level.getBlockState(posicionValida).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida.below().below().below().below().below(), structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida.below().below().below().below().below());
+                level.setBlock(posicionValida, structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionValida);
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
                     CompoundTag nbtData = new CompoundTag();
                     nbtData.putString("mirror", "NONE");
                     nbtData.putString("rotation", "NORTH");
-                    nbtData.putInt("posX", -29);
-                    nbtData.putInt("posY", 2);
-                    nbtData.putInt("posZ", -33);
+                    nbtData.putInt("posX", -95);
+                    nbtData.putInt("posY", -52);
+                    nbtData.putInt("posZ", -50);
                     nbtData.putString("mode", "LOAD");
                     nbtData.putString("name", "dragonminez:elder_guru");
 
@@ -646,20 +544,18 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.below().below().below().below().below().below().getX() + " " + posicionValida.below().below().below().below().below().below().getY() + " " + posicionValida.below().below().below().below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.below().below().below().below().below().offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida.below().below().below().below().below(), blockState, 3);
-                level.setBlock(posicionValida.below().below().below().below().below().offset(1, 0, 0), redstoneBlockState, 3);
-                //System.out.println("Elder Guru's House generada en " + posicionValida);
-                //System.out.println("Comando: /execute in dragonminez:namek run teleport Dev " + posicionValida.getX() + " " + posicionValida.getY() + " " + posicionValida.getZ());
+                level.setBlock(posicionValida, blockState, 3);
+                level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
 
-                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 7, posicionValida.getY() + 35, posicionValida.getZ() + 24);
-                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 12, posicionValida.getY() + 43, posicionValida.getZ() - 11);
+                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 2, posicionValida.getY() + 5, posicionValida.getZ() + 41);
+                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 8, posicionValida.getY() + 13, posicionValida.getZ() - 2);
                 setHasElderGuru(true);
                 setNamekDB4Position(namekDB4);
                 setElderGuruPosition(spawnPosition);
-                System.out.println("[DMZ-Generation] Elder Guru's House generated in " + spawnPosition);
             }
         }
     }

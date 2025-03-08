@@ -205,6 +205,10 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GAMMA2_ARMOR_CHESTPLATE);
         armorItem(MainItems.GAMMA2_ARMOR_LEGGINGS);
         armorItem(MainItems.GAMMA2_ARMOR_BOOTS);
+        armorItem(MainItems.INVENCIBLE_ARMOR_HELMET);
+        armorItem(MainItems.INVENCIBLE_ARMOR_CHESTPLATE);
+        armorItem(MainItems.INVENCIBLE_ARMOR_LEGGINGS);
+        armorItem(MainItems.INVENCIBLE_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);

@@ -13,7 +13,6 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class StatsSyncS2C {
-
 	private CompoundTag nbt;
 	private int playerId;
 
@@ -23,13 +22,11 @@ public class StatsSyncS2C {
 	}
 
 	public StatsSyncS2C(FriendlyByteBuf buf) {
-
 		nbt = buf.readNbt();
 		playerId = buf.readInt();
 	}
 
 	public void toBytes(FriendlyByteBuf buf) {
-
 		buf.writeNbt(nbt);
 		buf.writeInt(playerId);
 	}
@@ -44,5 +41,4 @@ public class StatsSyncS2C {
 		});
 		ctxSupplier.get().setPacketHandled(true);
 	}
-
 }

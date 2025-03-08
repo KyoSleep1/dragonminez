@@ -15,12 +15,12 @@ import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
-import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import com.yuseix.dragonminez.init.blocks.entity.client.*;
+import com.yuseix.dragonminez.init.entity.client.model.RedRibbonSoldierModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.GokuMasterModel;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier03Model;
@@ -35,7 +35,7 @@ import com.yuseix.dragonminez.init.entity.client.renderer.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.masters.*;
 import com.yuseix.dragonminez.init.entity.client.renderer.namek.*;
-import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallBallRenderer;
+import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiBallRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.projectil.KiSmallWaveRenderer;
 import com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga.*;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
@@ -73,9 +73,12 @@ public class ModClientEvents {
 		event.registerSpriteSet(MainParticles.SACRED_LEAVES_PARTICLE.get(), SacredLeavesParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.HIT_ATTACK_PARTICLE.get(), HitAttackParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.NIMBUS_TRACE_PARTICLE.get(), NimbusTraceParticle.Provider::new);
+		event.registerSpriteSet(MainParticles.BLACKNIMBUS_TRACE_PARTICLE.get(), BlackNimbusTraceParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.KI_SMALL_PARTICLE.get(), KiSmallParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.KI_LARGE_PARTICLE.get(), KiLargeParticle.Provider::new);
-}
+		event.registerSpriteSet(MainParticles.KI_STAR_PARTICLE.get(), KiStarParticle.Provider::new);
+
+	}
 
 	@SubscribeEvent
 	public static void onKeyRegister(RegisterKeyMappingsEvent event) {
@@ -132,6 +135,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Renderer::new);
 			EntityRenderers.register(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Renderer::new);
 			EntityRenderers.register(MainEntity.MORO_SOLDIER.get(), MoroSoldierRenderer::new);
+			EntityRenderers.register(MainEntity.REDRIBBON_SOLDIER.get(), RedRibbonSoldierRenderer::new);
 
 			//SAGAS
 			EntityRenderers.register(MainEntity.RADITZ_SAGA.get(), RaditzRenderer::new);
@@ -145,6 +149,7 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.JINKOUMAN.get(), JinkoumanRenderer::new);
 
 			EntityRenderers.register(MainEntity.VEGETA_SAIYAN.get(), VegetaSaiyanRenderer::new);
+			EntityRenderers.register(MainEntity.VEGETA_OZARU.get(), OzaruVegetaRenderer::new);
 
 
 			//FAKEPLAYERS
@@ -155,9 +160,8 @@ public class ModClientEvents {
 			EntityRenderers.register(MainEntity.FP_NAMEK.get(), FPNamekianRender::new);
 			EntityRenderers.register(MainEntity.FP_MAJINGORDO.get(), FPMajinGordRender::new);
 			//KI
-			EntityRenderers.register(MainEntity.KI_SMALL_BLAST.get(), KiSmallBallRenderer::new);
+			EntityRenderers.register(MainEntity.KI_BLAST.get(), KiBallRenderer::new);
 			EntityRenderers.register(MainEntity.KI_SMALL_WAVE.get(), KiSmallWaveRenderer::new);
-
 
 			//BLOQUES
 			BlockEntityRenderers.register(MainBlockEntities.DBALL1_NAMEK_BLOCK_ENTITY.get(), Dball1NamekBlockRenderer::new);
@@ -268,6 +272,7 @@ public class ModClientEvents {
 		e.registerLayerDefinition(NamekNPCModel.LAYER_LOCATION, NamekNPCModel::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier02Model.LAYER_LOCATION, FriezaSoldier02Model::createBodyLayer);
 		e.registerLayerDefinition(FriezaSoldier03Model.LAYER_LOCATION, FriezaSoldier03Model::createBodyLayer);
+		e.registerLayerDefinition(RedRibbonSoldierModel.LAYER_LOCATION, RedRibbonSoldierModel::createBodyLayer);
 
 		//SAGAS
 		e.registerLayerDefinition(RaditzModel.LAYER_LOCATION, RaditzModel::createBodyLayer);

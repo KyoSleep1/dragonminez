@@ -69,10 +69,12 @@ public class AlignmentCommand {
                 );
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("alignment", 100));
             } else {
+                if (puntos < 0) puntos = 0;
                 player.sendSystemMessage(
                         Component.translatable("command.dmzpoints.set", player.getName(), puntos)
                 );
-                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("alignment", puntos));
+                int finalPuntos = puntos;
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> playerstats.setIntValue("alignment", finalPuntos));
             }
 
 

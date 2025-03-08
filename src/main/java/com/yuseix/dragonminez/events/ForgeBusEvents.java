@@ -12,7 +12,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
+import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -36,9 +36,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -89,7 +86,7 @@ public class ForgeBusEvents {
 			// Patreon
 			"Baby_Poop12311", // Cyanea capillata
 			"SpaceCarp",
-			"prolazorbema", // Dssccat
+			"prolazorbema10", // Dssccat
 			"iLalox",
 			"Robberto10",
 			"Athrizel"
@@ -184,29 +181,31 @@ public class ForgeBusEvents {
 			serverOverworld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
 				dragonBallsCapability.loadFromSavedData(serverNamek);
 
-				if (!dragonBallsCapability.hasDragonBalls()) {
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
-					// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
-					capability.ifPresent(cap -> {
-						if (cap.getHasGokuHouse() && !spawnedDB4) {
-							BlockPos db4pos = cap.getDB4Position();
-							dragonBallPositions.add(db4pos);
-							DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos);
-							spawnedDB4 = true;
-						} else {
-							spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
-						}
-					});
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState(), 5);
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState(), 6);
-					spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
+				serverOverworld.getServer().tell(new TickTask(serverOverworld.getServer().getTickCount() + 40, () -> {
+					if (!dragonBallsCapability.hasDragonBalls()) {
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
+						// La primer vez que se generen las DragonBalls, guarda la posición de la Esfera de 4 Estrellas que está dentro de la casa de Goku
+						capability.ifPresent(cap -> {
+							if (cap.getHasGokuHouse() && !spawnedDB4) {
+								BlockPos db4pos = cap.getDB4Position();
+								dragonBallPositions.add(db4pos);
+								DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos + " (Goku's House)");
+								spawnedDB4 = true;
+							} else {
+								spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
+							}
+						});
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState(), 5);
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState(), 6);
+						spawnDragonBall(serverOverworld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
 
-					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
-					dragonBallsCapability.setHasDragonBalls(true);
-					dragonBallsCapability.saveToSavedData(serverOverworld);
-				}
+						dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
+						dragonBallsCapability.setHasDragonBalls(true);
+						dragonBallsCapability.saveToSavedData(serverOverworld);
+					}
+				}));
 			});
 		}
 
@@ -217,29 +216,31 @@ public class ForgeBusEvents {
 				namekDragonBallsCapability.loadFromSavedData(serverNamek);
 
 				// Verifica si ya se han generado las Dragon Balls
-				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
-					capability.ifPresent(cap -> {
-						if (cap.getHasElderGuru() && !spawnedNamekDB4) {
-							BlockPos namekDB4pos = cap.getNamekDB4Position();
-							namekDragonBallPositions.add(namekDB4pos);
-							DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [4] spawned at " + namekDB4pos);
-							spawnedNamekDB4 = true;
-						} else {
-							spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
-						}
-					});
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
-					spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
+				serverNamek.getServer().tell(new TickTask(serverNamek.getServer().getTickCount() + 40, () -> {
+					if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
+						capability.ifPresent(cap -> {
+							if (cap.getHasElderGuru() && !spawnedNamekDB4) {
+								BlockPos namekDB4pos = cap.getNamekDB4Position();
+								namekDragonBallPositions.add(namekDB4pos);
+								DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [4] spawned at " + namekDB4pos + " (Elder Guru's House)");
+								spawnedNamekDB4 = true;
+							} else {
+								spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
+							}
+						});
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
+						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
 
-					// Indica que las Dragon Balls de Namek han sido generadas
-					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
-					namekDragonBallsCapability.setHasNamekDragonBalls(true);
-					namekDragonBallsCapability.saveToSavedData(serverNamek);
-				}
+						// Indica que las Dragon Balls de Namek han sido generadas
+						namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+						namekDragonBallsCapability.setHasNamekDragonBalls(true);
+						namekDragonBallsCapability.saveToSavedData(serverNamek);
+					}
+				}));
 			});
 		}
 	}
@@ -252,8 +253,10 @@ public class ForgeBusEvents {
 
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
 			//final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
-
+			final DMZQuestProvider provider_quests = new DMZQuestProvider();
 			event.addCapability(DMZStatsProvider.ID, provider);
+			event.addCapability(DMZQuestProvider.ID, provider_quests);
+
 			//event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
 		}
 	}
@@ -274,17 +277,17 @@ public class ForgeBusEvents {
 
 	@SubscribeEvent
 	public void onCommandsRegister(RegisterCommandsEvent event) {
-		new DMZReviveCommand(event.getDispatcher());
+		new ReviveCommand(event.getDispatcher());
 		new ZPointsCommand(event.getDispatcher());
 		new StatsCommand(event.getDispatcher());
 		new ResetCharacterCommand(event.getDispatcher());
 		new AlignmentCommand(event.getDispatcher());
+		new PermaEffectsCommand(event.getDispatcher());
+		new TempEffectsCommand(event.getDispatcher());
+		new SkillsCommand(event.getDispatcher());
+		new SuperFormCommand(event.getDispatcher());
+		new StoryModeCommand(event.getDispatcher());
 		new LocationsCommand(event.getDispatcher());
-		new DMZPermaEffectsCommand(event.getDispatcher());
-		new DMZTempEffectsCommand(event.getDispatcher());
-		new StorylineCommand(event.getDispatcher());
-		new DMZSkillsCommand(event.getDispatcher());
-		new DMZSuperFormCommand(event.getDispatcher());
 
 		ConfigCommand.register(event.getDispatcher());
 	}
@@ -293,35 +296,22 @@ public class ForgeBusEvents {
 	public void onWorldLoad(LevelEvent.Load event) {
 		if (event.getLevel() instanceof ServerLevel serverLevel && !serverLevel.isClientSide()) {
 			if (serverLevel.dimension() == Level.OVERWORLD) {
-				ChunkGenerator generator = serverLevel.getChunkSource().getGenerator();
-				BiomeSource biomeSource = generator.getBiomeSource();
-				boolean isSuperflat = generator instanceof FlatLevelSource;
-				boolean isSingleBiome = biomeSource.possibleBiomes().size() == 1;
-				boolean isSingleBiomePlains = isSingleBiome && biomeSource.possibleBiomes().size() == 1 && biomeSource.possibleBiomes().equals(Biomes.PLAINS);
-
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
-					// SIEMPRE generamos la Torre de Kami, independientemente del tipo de mundo
 					if (DMZGeneralConfig.SHOULD_KAMILOOKOUT_SPAWN.get()) cap.generateKamisamaStructure(serverLevel);
-
-					// Si es un mundo normal, extraplano, o solo de Plains, generamos la casa de Goku
-					if (!isSingleBiome || isSingleBiomePlains || isSuperflat) {
-						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							if (DMZGeneralConfig.SHOULD_GOKUHOUSE_SPAWN.get())
-								cap.generateGokuHouseStructure(serverLevel);
-						}));
-					}
-
-					// Si no es un mundo extraplano y tampoco es de un solo bioma, generamos la casa de Roshi
-					if (!isSuperflat && !isSingleBiome) {
-						serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
-							if (DMZGeneralConfig.SHOULD_KAMEHOUSE_SPAWN.get())
-								cap.generateRoshiHouseStructure(serverLevel);
-						}));
-					}
+					if (DMZGeneralConfig.SHOULD_GOKUHOUSE_SPAWN.get()) cap.generateGokuHouseStructure(serverLevel);
+					if (DMZGeneralConfig.SHOULD_KAMEHOUSE_SPAWN.get()) cap.generateRoshiHouseStructure(serverLevel);
 				});
 
 				serverLevel.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
+			}
+			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
+				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
+				capability.ifPresent(cap -> {
+					if (DMZGeneralConfig.SHOULD_ELDERGURU_SPAWN.get()) cap.generateElderGuru(serverLevel);
+				});
+
+				serverLevel.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(cap -> cap.loadFromSavedData(serverLevel));
 			}
 			if (serverLevel.dimension() == ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
@@ -332,7 +322,7 @@ public class ForgeBusEvents {
 			if (serverLevel.dimension() == ModDimensions.NAMEK_DIM_LEVEL_KEY) {
 				LazyOptional<StructuresCapability> capability = serverLevel.getCapability(StructuresProvider.CAPABILITY);
 				capability.ifPresent(cap -> {
-					serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 100, () -> {
+					serverLevel.getServer().tell(new TickTask(serverLevel.getServer().getTickCount() + 200, () -> {
 						if (DMZGeneralConfig.SHOULD_ELDERGURU_SPAWN.get()) cap.generateElderGuru(serverLevel);
 					}));
 				});

@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -201,6 +200,7 @@ public class MoroSoldierEntity extends SoldierEntity implements GeoEntity, Range
         kiBlast.setVelocidad(0.5f);
 
         kiBlast.setDamage(100.0F);
+        kiBlast.setTamano(1.2f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());

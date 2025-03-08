@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -181,7 +181,7 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_SMALL_BLAST.get(), this.level());
+        KiBallProjectil kiBlast = new KiBallProjectil(MainEntity.KI_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);
@@ -197,6 +197,7 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
         kiBlast.setVelocidad(0.7f);
 
         kiBlast.setDamage(80.0F);
+        kiBlast.setTamano(0.7f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());

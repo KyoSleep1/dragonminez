@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -168,7 +169,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 this.minecraft.setScreen(new TransfMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                //this.minecraft.setScreen(new StorylineMenu(false));
+                this.minecraft.setScreen(new StorylineMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
                 // Agregar acá el menú de Ki Techniques
@@ -354,13 +355,13 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     List<FormattedCharSequence> descLines = font.split(descText, 250);
                     descriptionLines.addAll(descLines);
 
-                    if (statKey.equals("STR") && multiTotal > 1) {
+                    if (statKey.equals("STR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(strdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(strcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("DEF") && multiTotal > 1) {
+                    } else if (statKey.equals("DEF") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(defdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(defcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("PWR") && multiTotal > 1) {
+                    } else if (statKey.equals("PWR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(kipowerdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(pwrcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     }
@@ -370,7 +371,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //STATS CAPABILITY
             alturaTexto = (this.height / 2) -14; anchoTexto = (this.width/2)-65;
 
-            if(isMultiOn){ //Si alguna forma, estado esta activo.
+            if(isMultiOn || playerstats.getIntValue("race") == 4){ //Si alguna forma, estado esta activo.
                 drawStringWithBorder2(graphics, font, STRReal, anchoTexto, alturaTexto, colorEnForma);
                 drawStringWithBorder2(graphics, font, DEFReal, anchoTexto, alturaTexto + 12, colorEnForma);
                 drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(condefault)), anchoTexto, alturaTexto + 24, 0xFFD7AB);

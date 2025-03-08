@@ -4,74 +4,74 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZTrBioAndroidConfig {
 
-    //FORMA BASE
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_BASE;
-    public static final ForgeConfigSpec.ConfigValue<Integer> BASE_FORM_KI_COST;
-    // FORMA SEMI-PERFECT
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_STR;
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_DEF;
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_PWR;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SEMIPERFECT_FORM_KI_COST;
-    // FORMA PERFECT
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_STR;
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_DEF;
-    public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_PWR;
-    public static final ForgeConfigSpec.ConfigValue<Integer> PERFECT_FORM_KI_COST;
+	//FORMA BASE
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_BASE;
+	public static final ForgeConfigSpec.ConfigValue<Integer> BASE_FORM_KI_COST;
+	// FORMA SEMI-PERFECT
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_STR;
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_DEF;
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_SEMIPERFECT_FORM_PWR;
+	public static final ForgeConfigSpec.ConfigValue<Integer> SEMIPERFECT_FORM_KI_COST;
+	// FORMA PERFECT
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_STR;
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_DEF;
+	public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_PERFECT_FORM_PWR;
+	public static final ForgeConfigSpec.ConfigValue<Integer> PERFECT_FORM_KI_COST;
 
 
-    public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static final ForgeConfigSpec SPEC;
+	public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+	public static final ForgeConfigSpec SPEC;
 
-    static {
+	static {
 
-        //Transformaciones
+		//Transformaciones
 
-        BUILDER.comment(" BioAndroid FORMS ");
-        BUILDER.comment(" Note: The Ki Cost represents the exact ki the player will lose per second while transformed. It's not a one-time cost or a percentage of the player's ki.");
+		BUILDER.comment(" BioAndroid FORMS ");
+		BUILDER.comment(" Note: The Ki Cost represents the exact ki the player will lose per second while transformed. It's not a one-time cost or a percentage of the player's ki.");
 
-        BUILDER.push(" Imperfect Form");
+		BUILDER.push(" Imperfect Form");
 
-        MULTIPLIER_BASE = BUILDER.comment("Multiplier for Imperfect Form! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
-                .defineInRange("Multiplier: ", 1.0, 1.0, 200.0);
+		MULTIPLIER_BASE = BUILDER.comment("Multiplier for Imperfect Form! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+				.defineInRange("Multiplier: ", 1.0, 1.0, 200.0);
 
-        BASE_FORM_KI_COST = BUILDER.comment("Ki Cost for Imperfect Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+		BASE_FORM_KI_COST = BUILDER.comment("Ki Cost for Imperfect Form! (Min: 0 / Max: 20000 / Default: 0)")
+				.defineInRange("Ki Cost: ", 0, 0, 20000);
 
-        BUILDER.pop();
+		BUILDER.pop();
 
-        BUILDER.push(" Semi-Perfect Form");
+		BUILDER.push(" Semi-Perfect Form");
 
-        MULTIPLIER_SEMIPERFECT_FORM_STR = BUILDER.comment("Multiplier for Semi-Perfect Form STR! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
-                .defineInRange("Multiplier STR: ", 1.75, 1.0, 200.0);
+		MULTIPLIER_SEMIPERFECT_FORM_STR = BUILDER.comment("Multiplier for Semi-Perfect Form STR! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
+				.defineInRange("Multiplier STR: ", 1.75, 1.0, 200.0);
 
-        MULTIPLIER_SEMIPERFECT_FORM_DEF = BUILDER.comment("Multiplier for Semi-Perfect Form DEF! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
-                .defineInRange("Multiplier DEF: ", 1.75, 1.0, 200.0);
+		MULTIPLIER_SEMIPERFECT_FORM_DEF = BUILDER.comment("Multiplier for Semi-Perfect Form DEF! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
+				.defineInRange("Multiplier DEF: ", 1.75, 1.0, 200.0);
 
-        MULTIPLIER_SEMIPERFECT_FORM_PWR = BUILDER.comment("Multiplier for Semi-Perfect Form PWR! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
-                .defineInRange("Multiplier PWR: ", 1.75, 1.0, 200.0);
+		MULTIPLIER_SEMIPERFECT_FORM_PWR = BUILDER.comment("Multiplier for Semi-Perfect Form PWR! (Min: 1.0 / Max: 200.0 / Default: 1.75)")
+				.defineInRange("Multiplier PWR: ", 1.75, 1.0, 200.0);
 
-        SEMIPERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Semi-Perfect Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+		SEMIPERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Semi-Perfect Form! (Min: 0 / Max: 20000 / Default: 0)")
+				.defineInRange("Ki Cost: ", 0, 0, 20000);
 
-        BUILDER.pop();
+		BUILDER.pop();
 
-        BUILDER.push(" Perfect Form");
+		BUILDER.push(" Perfect Form");
 
-        MULTIPLIER_PERFECT_FORM_STR = BUILDER.comment("Multiplier for Perfect Form STR! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
-                .defineInRange("Multiplier STR: ", 2.5, 1.0, 200.0);
+		MULTIPLIER_PERFECT_FORM_STR = BUILDER.comment("Multiplier for Perfect Form STR! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
+				.defineInRange("Multiplier STR: ", 2.5, 1.0, 200.0);
 
-        MULTIPLIER_PERFECT_FORM_DEF = BUILDER.comment("Multiplier for Perfect Form DEF! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
-                .defineInRange("Multiplier DEF: ", 2.5, 1.0, 200.0);
+		MULTIPLIER_PERFECT_FORM_DEF = BUILDER.comment("Multiplier for Perfect Form DEF! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
+				.defineInRange("Multiplier DEF: ", 2.5, 1.0, 200.0);
 
-        MULTIPLIER_PERFECT_FORM_PWR = BUILDER.comment("Multiplier for Perfect Form PWR! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
-                .defineInRange("Multiplier PWR: ", 2.5, 1.0, 200.0);
+		MULTIPLIER_PERFECT_FORM_PWR = BUILDER.comment("Multiplier for Perfect Form PWR! (Min: 1.0 / Max: 200.0 / Default: 2.5)")
+				.defineInRange("Multiplier PWR: ", 2.5, 1.0, 200.0);
 
-        PERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Perfect Form! (Min: 0 / Max: 20000 / Default: 0)")
-                .defineInRange("Ki Cost: ", 0, 0, 20000);
+		PERFECT_FORM_KI_COST = BUILDER.comment("Ki Cost for Perfect Form! (Min: 0 / Max: 20000 / Default: 0)")
+				.defineInRange("Ki Cost: ", 0, 0, 20000);
 
-        BUILDER.pop();
+		BUILDER.pop();
 
 
-        SPEC = BUILDER.build();
-    }
+		SPEC = BUILDER.build();
+	}
 }

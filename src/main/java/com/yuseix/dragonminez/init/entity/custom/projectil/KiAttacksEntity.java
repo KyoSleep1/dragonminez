@@ -13,18 +13,21 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class KiAttacksEntity  extends ThrowableProjectile {
 
     private int lifetime = 0; // Lleva la cuenta del tiempo en ticks
+    private int tickCounter = 0;
 
     private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COLOR_BORDE = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> DANO = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
 
     private static final EntityDataAccessor<Float> VELOCIDAD = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> TAMANO = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Optional<UUID>> OWNER_UUID = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     private static final EntityDataAccessor<Float> START_X = SynchedEntityData.defineId(KiAttacksEntity.class, EntityDataSerializers.FLOAT);
@@ -36,11 +39,11 @@ public class KiAttacksEntity  extends ThrowableProjectile {
         super(pEntityType, pLevel);
 
         this.setNoGravity(true);
-
         this.entityData.define(COLOR, 11403263); // Color predeterminado (negro)
         this.entityData.define(COLOR_BORDE, 3145727); // Color predeterminado (negro)
         this.entityData.define(DANO, 15.0f);
         this.entityData.define(VELOCIDAD, 0.15f);
+        this.entityData.define(TAMANO, 0.7F);
         this.entityData.define(OWNER_UUID, Optional.empty());
 
         this.entityData.define(START_X, 0.0f);
@@ -72,6 +75,12 @@ public class KiAttacksEntity  extends ThrowableProjectile {
     public void setVelocidad(float velocidad) {
         this.entityData.set(VELOCIDAD, velocidad);
     }
+    public float getTamano() {
+        return this.entityData.get(TAMANO);
+    }
+    public void setTamano(float tamano) {
+        this.entityData.set(TAMANO, tamano);
+    }
 
 
     public void setStartPosition(Vec3 pos) {
@@ -97,34 +106,6 @@ public class KiAttacksEntity  extends ThrowableProjectile {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
-        Entity target = result.getEntity();
-
-        // Verifica que el objetivo no sea el dueño del proyectil
-        if (target.getUUID().equals(this.getOwnerUUID())) {
-            return;
-        }
-
-        // Verifica si el dueño y el objetivo están en un equipo y si pertenecen al mismo equipo
-        if (target instanceof LivingEntity livingTarget) {
-            Entity owner = this.getOwner();
-
-            if (owner instanceof LivingEntity ownerLiving) {
-                if (ownerLiving.getTeam() != null && livingTarget.getTeam() != null &&
-                        ownerLiving.getTeam().equals(livingTarget.getTeam())) {
-                    return; // No hace daño si ambos están en el mismo equipo
-                }
-            }
-
-            // Aplica el daño al objetivo si no pertenece al mismo equipo
-            DamageSource damageSource = (owner != null)
-                    ? level().damageSources().indirectMagic(this, owner)
-                    : level().damageSources().magic();
-
-            livingTarget.hurt(damageSource, this.getDamage());
-        }
-
-        // Lógica para destruir o hacer desaparecer el proyectil después del impacto
-        //this.discard();
     }
 
     @Override
@@ -133,6 +114,9 @@ public class KiAttacksEntity  extends ThrowableProjectile {
 
         // Solo ejecutar en el servidor
         if (!this.level().isClientSide) {
+
+            aplicarDanioEnRadio();
+
             // Incrementa el contador de vida
             lifetime++;
 
@@ -144,6 +128,37 @@ public class KiAttacksEntity  extends ThrowableProjectile {
             // Verifica si han pasado 5 segundos (100 ticks)
             if (lifetime >= 100) {
                 this.discard(); // Destruye la entidad
+            }
+        }
+    }
+
+    private void aplicarDanioEnRadio() {
+        tickCounter++;
+
+        if (tickCounter % 5 == 0) { // Aplica daño cada 10 ticks (0.5s)
+            float radio = this.getTamano() + 0.7f; // Radio de daño
+            List<LivingEntity> entidades = level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(radio));
+
+            for (LivingEntity entidad : entidades) {
+                if (entidad == this.getOwner()) {
+                    continue; // No dañar al dueño
+                }
+
+                // Verifica si el dueño y el objetivo están en el mismo equipo
+                Entity owner = this.getOwner();
+                if (owner instanceof LivingEntity ownerLiving) {
+                    if (ownerLiving.getTeam() != null && entidad.getTeam() != null &&
+                            ownerLiving.getTeam().equals(entidad.getTeam())) {
+                        continue; // No dañar a miembros del mismo equipo
+                    }
+                }
+
+                // Aplica el daño
+                DamageSource damageSource = (owner != null)
+                        ? level().damageSources().indirectMagic(this, owner)
+                        : level().damageSources().magic();
+
+                entidad.hurt(damageSource, this.getDamage());
             }
         }
     }

@@ -290,7 +290,9 @@ public class CCustomizationPage extends Screen {
 
                     ModMessages.sendToServer(new CharacterC2S("isConfirm", 1));
                     DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
-                        initialStats(cap.getIntValue("race"),cap.getStringValue("class"));
+                        if (cap.getStat("STR") <= 10) {
+                            initialStats(cap.getIntValue("race"),cap.getStringValue("class"));
+                        }
                     });
                     this.minecraft.setScreen(null);
 

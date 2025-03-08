@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.events;
 
-import com.eliotlash.mclib.math.functions.limit.Min;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
@@ -8,8 +7,8 @@ import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
@@ -18,26 +17,21 @@ import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZRenders;
-import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.utils.Keys;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -45,9 +39,10 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Debug;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
@@ -55,7 +50,7 @@ public class ClientEvents {
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v" + "1.2 || Storyline and Skills!";
+	private static final String title = "DragonMine Z v" + "1.2 - StoryMode and Skills!";
 	private static boolean isDescending = false;
 
 	private static final int teleportTime = 5; // Segundos
@@ -63,6 +58,18 @@ public class ClientEvents {
 	private static int teleportCountdown = teleportTime;
 	private static int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
+	private static final Set<String> jugadoresConAura = new HashSet<>(Set.of(
+			"Dev",
+			"ezShokkoh",
+			"ImYuseix",
+			"Toji71_",
+			"Baby_Poop12311",
+			"SpaceCarp",
+			"prolazorbema10",
+			"iLalox",
+			"Robberto10",
+			"Athrizel"
+	));
 	@SubscribeEvent
 	public static void onRenderTick(TickEvent.RenderTickEvent event) {
 		if (event.phase == TickEvent.RenderTickEvent.Phase.END) {
@@ -73,28 +80,6 @@ public class ClientEvents {
 			}
 		}
 	}
-//	@SubscribeEvent
-//	public static void onRenderAttackKi(RenderLevelStageEvent event) {
-//		Minecraft minecraft = Minecraft.getInstance();
-//		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) return;
-//
-//		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
-//
-//		//	PRUEBA entidades ki
-//		for (Entity entity : minecraft.level.getEntities(null, new AABB(-100, -100, -100, 100, 100, 100))) {
-//			if (entity instanceof KiSmallBallProjectil kismall) {
-//				DMZRenders.renderKiSmallBall2(kismall, event.getPartialTick(), event.getPoseStack(), bufferSource);
-//				System.out.println("Salio el render");
-//			}
-//
-//			if(entity instanceof KiSmallWaveProjectil kiSmallWaveProjectil){
-//				//DMZRenders.renderKiSmallWave(kiSmallWaveProjectil, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
-//			}
-//		}
-//
-//		bufferSource.endBatch();
-//
-//	}
 
 	@SubscribeEvent
 	public static void onRenderLevelLast(RenderLevelStageEvent event) {
@@ -257,6 +242,26 @@ public class ClientEvents {
 
 		if (level == null || mc.player == null || mc.isPaused() || mc.player.isSpectator()) {
 			return;
+		}
+
+		for (Player player : level.players()) {
+			if (jugadoresConAura.contains(player.getGameProfile().getName())) { // Reemplaza con el nombre correcto
+				// Obtener la capability del jugador
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(capability -> {
+					if (capability.getBoolean("aura")) { // Si la aura está activa
+						int color = 16763441; // Color rojo (puedes cambiarlo)
+
+						// Generar partículas visibles para todos
+						for (int i = 0; i < 5; i++) { // Genera múltiples partículas
+							level.addParticle(new KiStarParticleOptions(color),
+									player.getX() + (Math.random() - 0.5) * 3.5,
+									player.getY() + Math.random() * 3,
+									player.getZ() + (Math.random() - 0.5) * 3.5,
+									0, 0.1, 0);
+						}
+					}
+				});
+			}
 		}
 
 		// Frecuencia de generación (una vez cada 10 ticks)

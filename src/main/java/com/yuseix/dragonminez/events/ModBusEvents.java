@@ -6,11 +6,7 @@ import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
-import com.yuseix.dragonminez.storyline.player.PlayerStorylineProvider;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.*;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -53,6 +49,7 @@ public class ModBusEvents {
 		event.put(MainEntity.FRIEZA_SOLDIER01.get(), FriezaSoldierEntity.setAttributes());
 		event.put(MainEntity.FRIEZA_SOLDIER02.get(), FriezaSoldier02Entity.setAttributes());
 		event.put(MainEntity.FRIEZA_SOLDIER03.get(), FriezaSoldier03Entity.setAttributes());
+		event.put(MainEntity.REDRIBBON_SOLDIER.get(), RedRibbonSoldierEntity.setAttributes());
 		event.put(MainEntity.MORO_SOLDIER.get(), MoroSoldierEntity.setAttributes());
 		event.put(MainEntity.NAVE_SAIYAN.get(), NaveSaiyanEntity.setAttributes());
 
@@ -67,6 +64,7 @@ public class ModBusEvents {
 		event.put(MainEntity.JINKOUMAN.get(), SaibamanEntity.setAttributes());
 
 		event.put(MainEntity.VEGETA_SAIYAN.get(), VegetaEntity.setAttributes());
+		event.put(MainEntity.VEGETA_OZARU.get(), OzaruVegetaEntity.setAttributes());
 
 		//FAKEPLAYERS
 		event.put(MainEntity.FP_BIOANDROIDE.get(), FPBioAndroidEntity.setAttributes());
@@ -83,7 +81,6 @@ public class ModBusEvents {
 		event.register(DragonBallGenProvider.class);
 		event.register(NamekDragonBallGenProvider.class);
 		event.register(StructuresCapability.class);
-		event.register(PlayerStorylineProvider.class);
 	}
 
 }
