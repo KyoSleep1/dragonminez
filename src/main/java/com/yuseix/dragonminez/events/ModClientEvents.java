@@ -75,7 +75,9 @@ public class ModClientEvents {
 		event.registerSpriteSet(MainParticles.NIMBUS_TRACE_PARTICLE.get(), NimbusTraceParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.KI_SMALL_PARTICLE.get(), KiSmallParticle.Provider::new);
 		event.registerSpriteSet(MainParticles.KI_LARGE_PARTICLE.get(), KiLargeParticle.Provider::new);
-}
+		event.registerSpriteSet(MainParticles.KI_STAR_PARTICLE.get(), KiStarParticle.Provider::new);
+
+	}
 
 	@SubscribeEvent
 	public static void onKeyRegister(RegisterKeyMappingsEvent event) {

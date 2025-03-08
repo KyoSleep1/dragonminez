@@ -7,6 +7,8 @@ import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
@@ -38,7 +40,9 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
@@ -54,6 +58,15 @@ public class ClientEvents {
 	private static int teleportCountdown = teleportTime;
 	private static int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
+	private static final Set<String> jugadoresConAura = new HashSet<>(Set.of(
+			"Dev",
+			"Baby_Poop12311",
+			"SpaceCarp",
+			"prolazorbema",
+			"iLalox",
+			"Robberto10",
+			"Athrizel"
+	));
 	@SubscribeEvent
 	public static void onRenderTick(TickEvent.RenderTickEvent event) {
 		if (event.phase == TickEvent.RenderTickEvent.Phase.END) {
@@ -64,28 +77,6 @@ public class ClientEvents {
 			}
 		}
 	}
-//	@SubscribeEvent
-//	public static void onRenderAttackKi(RenderLevelStageEvent event) {
-//		Minecraft minecraft = Minecraft.getInstance();
-//		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS)) return;
-//
-//		MultiBufferSource.BufferSource bufferSource = minecraft.renderBuffers().bufferSource();
-//
-//		//	PRUEBA entidades ki
-//		for (Entity entity : minecraft.level.getEntities(null, new AABB(-100, -100, -100, 100, 100, 100))) {
-//			if (entity instanceof KiSmallBallProjectil kismall) {
-//				DMZRenders.renderKiSmallBall2(kismall, event.getPartialTick(), event.getPoseStack(), bufferSource);
-//				System.out.println("Salio el render");
-//			}
-//
-//			if(entity instanceof KiSmallWaveProjectil kiSmallWaveProjectil){
-//				//DMZRenders.renderKiSmallWave(kiSmallWaveProjectil, event.getPartialTick(), event.getPoseStack(), camX, camY, camZ);
-//			}
-//		}
-//
-//		bufferSource.endBatch();
-//
-//	}
 
 	@SubscribeEvent
 	public static void onRenderLevelLast(RenderLevelStageEvent event) {
@@ -248,6 +239,26 @@ public class ClientEvents {
 
 		if (level == null || mc.player == null || mc.isPaused() || mc.player.isSpectator()) {
 			return;
+		}
+
+		for (Player player : level.players()) {
+			if (jugadoresConAura.contains(player.getName().getString())) { // Reemplaza con el nombre correcto
+				// Obtener la capability del jugador
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(capability -> {
+					if (capability.getBoolean("aura")) { // Si la aura está activa
+						int color = 16763441; // Color rojo (puedes cambiarlo)
+
+						// Generar partículas visibles para todos
+						for (int i = 0; i < 5; i++) { // Genera múltiples partículas
+							level.addParticle(new KiStarParticleOptions(color),
+									player.getX() + (Math.random() - 0.5) * 3.5,
+									player.getY() + Math.random() * 3,
+									player.getZ() + (Math.random() - 0.5) * 3.5,
+									0, 0.1, 0);
+						}
+					}
+				});
+			}
 		}
 
 		// Frecuencia de generación (una vez cada 10 ticks)

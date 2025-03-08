@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
 import com.yuseix.dragonminez.init.particles.particleoptions.KiSmallParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -36,6 +37,13 @@ public final class MainParticles {
 				@Override
 				public Codec<KiLargeParticleOptions> codec() {
 					return KiLargeParticleOptions.CODEC;
+				}
+			});
+	public static final RegistryObject<ParticleType<KiStarParticleOptions>> KI_STAR_PARTICLE = PARTICLES_REGISTER.register("ki_star_particle",
+			() -> new ParticleType<>(false, KiStarParticleOptions.DESERIALIZER) {
+				@Override
+				public Codec<KiStarParticleOptions> codec() {
+					return KiStarParticleOptions.CODEC;
 				}
 			});
 	public static void register(IEventBus busEvent) {
