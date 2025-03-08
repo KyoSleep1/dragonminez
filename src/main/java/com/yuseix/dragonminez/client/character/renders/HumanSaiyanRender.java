@@ -904,7 +904,7 @@ public class HumanSaiyanRender extends LivingEntityRenderer<AbstractClientPlayer
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype1.png");
         var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/humansaiyan/eyes/mmarca_eyestype2.png");
 
-        HumanSaiyanModel<AbstractClientPlayer> playermodel = (HumanSaiyanModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
