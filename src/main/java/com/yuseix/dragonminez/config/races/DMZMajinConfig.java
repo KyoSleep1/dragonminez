@@ -4,6 +4,9 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class DMZMajinConfig {
 
+    //PASIVA
+    public static final ForgeConfigSpec.ConfigValue<Double> PASSIVE_HEALTH_REGEN;
+
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_DEF_WARRIOR;
@@ -42,23 +45,31 @@ public class DMZMajinConfig {
 
         BUILDER.comment(" DRAGONMINEZ - MAJIN CLASS CONFIG ");
 
+        //Pasiva
+        BUILDER.push(" MAJIN PASSIVE SKILL:");
+
+        PASSIVE_HEALTH_REGEN = BUILDER.comment("Passive Health Regeneration per second! (Min: 1.0 / Max: 10.0 / Default: 1.0)")
+                .defineInRange("Health Regen in percentage: ", 1.0, 1.0, 10.0);
+
+        BUILDER.pop();
+
         //GUERRERO
         BUILDER.push(" WARRIOR CLASS MULTIPLIER");
 
-        MULTIPLIER_STR_WARRIOR = BUILDER.comment("Multiplier for Strenght Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Strength: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_STR_WARRIOR = BUILDER.comment("Multiplier for Strenght Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Strength: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_DEF_WARRIOR = BUILDER.comment("Multiplier for Defense Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Defense: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_DEF_WARRIOR = BUILDER.comment("Multiplier for Defense Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Defense: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_CON_WARRIOR = BUILDER.comment("Multiplier for Constitution Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Constitution: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_CON_WARRIOR = BUILDER.comment("Multiplier for Constitution Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Constitution: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_KIPOWER_WARRIOR = BUILDER.comment("Multiplier for KiPower Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("KiPower: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_KIPOWER_WARRIOR = BUILDER.comment("Multiplier for KiPower Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("KiPower: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_ENERGY_WARRIOR = BUILDER.comment("Multiplier for Max KI Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Energy: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_ENERGY_WARRIOR = BUILDER.comment("Multiplier for Max KI Warrior Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Energy: ", 1.0, 1.0, 200.0);
 
         BUILDER.pop();
 
@@ -92,20 +103,20 @@ public class DMZMajinConfig {
         BUILDER.push(" SPIRITUALIST CLASS MULTIPLIER");
 
 
-        MULTIPLIER_STR_SPIRITUALIST = BUILDER.comment("Multiplier for Strenght Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Strength: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_STR_SPIRITUALIST = BUILDER.comment("Multiplier for Strenght Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Strength: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_DEF_SPIRITUALIST = BUILDER.comment("Multiplier for Defense Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Defense: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_DEF_SPIRITUALIST = BUILDER.comment("Multiplier for Defense Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Defense: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_CON_SPIRITUALIST = BUILDER.comment("Multiplier for Constitution Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Constitution: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_CON_SPIRITUALIST = BUILDER.comment("Multiplier for Constitution Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Constitution: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_KIPOWER_SPIRITUALIST = BUILDER.comment("Multiplier for KiPower Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("KiPower: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_KIPOWER_SPIRITUALIST = BUILDER.comment("Multiplier for KiPower Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("KiPower: ", 1.0, 1.0, 200.0);
 
-        MULTIPLIER_ENERGY_SPIRITUALIST = BUILDER.comment("Multiplier for Max KI Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.2)")
-                .defineInRange("Energy: ", 1.2, 1.0, 200.0);
+        MULTIPLIER_ENERGY_SPIRITUALIST = BUILDER.comment("Multiplier for Max KI Spiritualist Attribute! (Min: 1.0 / Max: 200.0 / Default: 1.0)")
+                .defineInRange("Energy: ", 1.0, 1.0, 200.0);
 
 
         BUILDER.pop();

@@ -1,4 +1,46 @@
 {
+  "entity.namekian.vill.ambient": {
+    "subtitle": "sounds.dragonminez.entity.namekian.vill.ambient",
+    "sounds": [
+      "dragonminez:namek_vill_ambient"
+    ]
+  },
+  "entity.namekian.vill.hurt": {
+    "subtitle": "sounds.dragonminez.entity.namekian.vill.hurt",
+    "sounds": [
+      "dragonminez:namek_vill_hurt"
+    ]
+  },
+  "entity.namekian.vill.death": {
+    "subtitle": "sounds.dragonminez.entity.namekian.vill.death",
+    "sounds": [
+      "dragonminez:namek_vill_death"
+    ]
+  },
+  "entity.frieza.s.ambient": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.ambient",
+    "sounds": [
+      "dragonminez:frieza_s_ambient"
+    ]
+  },
+  "entity.frieza.s.hurt": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.hurt",
+    "sounds": [
+      "dragonminez:frieza_s_hurt"
+    ]
+  },
+  "entity.frieza.s.death": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.death",
+    "sounds": [
+      "dragonminez:frieza_s_death"
+    ]
+  },
+  "entity.frieza.s.attack": {
+    "subtitle": "sounds.dragonminez.entity.frieza.s.attack",
+    "sounds": [
+      "dragonminez:frieza_s_attack"
+    ]
+  },
   "ui_menu_switch": {
     "subtitle": "sounds.dragonminez.ui_menu_switch",
     "sounds": [
@@ -153,6 +195,36 @@
     "subtitle": "sounds.dragonminez.turbo_loop",
     "sounds": [
       "dragonminez:turbo_loop"
+    ]
+  },
+  "kiblast_shoot": {
+    "subtitle": "sounds.dragonminez.kiblast_shoot",
+    "sounds": [
+      "dragonminez:kiblast_shoot"
+    ]
+  },
+  "oozaru_heartbeat": {
+    "subtitle": "sounds.dragonminez.oozaru_heartbeat",
+    "sounds": [
+      "dragonminez:oozaru_heartbeat"
+    ]
+  },
+  "oozaru_growl_player": {
+    "subtitle": "sounds.dragonminez.oozaru_growl_player",
+    "sounds": [
+      "dragonminez:oozaru_growl_player"
+    ]
+  },
+  "vegeta_oozaru_growl": {
+    "subtitle": "sounds.dragonminez.vegeta_oozaru_growl",
+    "sounds": [
+      "dragonminez:vegeta_oozaru_growl"
+    ]
+  },
+  "vegeta_oozaru_death": {
+    "subtitle": "sounds.dragonminez.vegeta_oozaru_death",
+    "sounds": [
+      "dragonminez:vegeta_oozaru_death"
     ]
   }
 }

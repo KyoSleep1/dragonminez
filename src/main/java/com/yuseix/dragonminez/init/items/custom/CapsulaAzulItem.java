@@ -42,9 +42,9 @@ public class CapsulaAzulItem extends Item {
 
 		if (!pLevel.isClientSide) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-				boolean isDmzUser = stats.isAcceptCharacter();
+				boolean isDmzUser = stats.getBoolean("dmzuser");
 				if (isDmzUser) {
-					int energy = stats.getEnergy();
+					int energy = stats.getStat("ENE");
 					int maxEnergy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
 					if (energy < maxEnergy) {
@@ -55,7 +55,7 @@ public class CapsulaAzulItem extends Item {
 							increment = maxEnergy - energy;
 						}
 
-						stats.addEnergy(increment);
+						stats.addStat("ENE", increment);
 
 						pPlayer.displayClientMessage(
 								Component.literal("+")

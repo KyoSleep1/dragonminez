@@ -12,6 +12,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class FlyToggleC2S {
+
 	public static void encode(FlyToggleC2S msg, FriendlyByteBuf buf) {
 	}
 
@@ -25,21 +26,19 @@ public class FlyToggleC2S {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					DMZSkill flySkill = cap.getDMZSkills().get("fly");
-					DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
 
 					if (flySkill != null) {
 						int flyLevel = flySkill.getLevel();
 						if (flyLevel > 0) {
-
 							if (!flySkill.isActive()) {
-								flySkill.setActive(true);
-								player.getAbilities().mayfly = true;
+								if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = true;
 								player.getAbilities().flying = true;
+								flySkill.setActive(true);
 							} else {
-								flySkill.setActive(false);
-								if (!player.isCreative() || !player.isSpectator()) player.getAbilities().mayfly = false;
+								if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
 								player.getAbilities().flying = false;
 								player.fallDistance = 0;
+								flySkill.setActive(false);
 							}
 
 							player.onUpdateAbilities();

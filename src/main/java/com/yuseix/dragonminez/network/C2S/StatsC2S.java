@@ -45,35 +45,34 @@ public class StatsC2S {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
                     var vidaMC = 20;
-                    var raza = playerstats.getRace();
-                    var con = playerstats.getConstitution();
+                    var raza = playerstats.getIntValue("race");
+                    var con = playerstats.getStat("CON");
                     int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
                     int incrementoStats = packet.cantidad;
 
                     switch (packet.id) {
                         case 0:
-                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStrength());
-                            playerstats.addStrength(incrementoStats);
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStat("STR"));
+                            playerstats.addStat("STR", incrementoStats);
                             break;
                         case 1:
-                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getDefense());
-                            playerstats.addDefense(incrementoStats);
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStat("DEF"));
+                            playerstats.addStat("DEF", incrementoStats);
                             break;
                         case 2:
-                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getConstitution());
-                            playerstats.addCon(incrementoStats);
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStat("CON"));
+                            playerstats.addStat("CON", incrementoStats);
 
-                            var conMax = dmzdatos.calcularCON(raza, con, vidaMC, playerstats.getDmzClass());
-                            playerstats.setCurStam(dmzdatos.calcularSTM(raza, conMax));
+                            playerstats.setIntValue("curstam", dmzdatos.calcStamina(playerstats));
                             player.refreshDimensions();
                             break;
                         case 3:
-                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getKiPower());
-                            playerstats.addKipwr(incrementoStats);
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStat("PWR"));
+                            playerstats.addStat("PWR", incrementoStats);
                             break;
                         case 4:
-                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getEnergy());
-                            playerstats.addEnergy(incrementoStats);
+                            incrementoStats = Math.min(packet.cantidad, maxStats - playerstats.getStat("ENE"));
+                            playerstats.addStat("ENE", incrementoStats);
                             break;
                         default:
                             //System.out.println("Algo salio mal !");

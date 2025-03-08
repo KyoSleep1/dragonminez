@@ -11,16 +11,18 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class MenuC2S {
+	private String tipo;
 
-	public MenuC2S() {
+	public MenuC2S(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public MenuC2S(FriendlyByteBuf buf) {
-
+		this.tipo = buf.readUtf();
 	}
 
 	public void toBytes(FriendlyByteBuf buf) {
-
+		buf.writeUtf(this.tipo);
 	}
 
 	public static void handle(MenuC2S packet, Supplier<NetworkEvent.Context> ctx) {
@@ -32,10 +34,10 @@ public class MenuC2S {
 			if (player != null) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
 
-					boolean isDmzUser = playerstats.isAcceptCharacter();
-					boolean compactMenu = playerstats.isCompactMenu();
+					boolean isDmzUser = playerstats.getBoolean("dmzuser");
+					boolean compactMenu = playerstats.getBoolean("compactmenu");
 
-					ModMessages.sendToPlayer(new MenuS2C(isDmzUser, compactMenu), player);
+					ModMessages.sendToPlayer(new MenuS2C(packet.tipo, isDmzUser, compactMenu), player);
 				});
 			}
 

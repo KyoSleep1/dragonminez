@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cross",
-  "textures": {
-    "cross": "dragonminez:block/namek_sacred_sapling"
-  }
-}

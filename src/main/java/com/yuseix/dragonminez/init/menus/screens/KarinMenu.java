@@ -9,9 +9,9 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.KarinEntity;
+import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import com.yuseix.dragonminez.network.C2S.KarinC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -132,37 +132,20 @@ public class KarinMenu extends Screen {
 			removerBotones();
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, minecraft.player).ifPresent(cap -> {
-				if(cap.getDmzSenzuDaily() == 0){
+				if (cap.getIntValue("senzutimer") == 0) {
 					this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
 						PageOption = "senzu";
 					}));
 				}
-
-
 			});
 
-
-
-			this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
-				PageOption = "kinton";
-			}));
-
-
-			/*this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22), Component.empty(), wa -> {
-				PageButtons = 1;
-
-			}));*/
-
-		} /*else if (PageButtons == 1) {
-			removerBotones();
-			this.senzu = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23), Component.translatable("lines.master_korin.senzu"), wa -> {
-				PageOption = "senzu";
-
-			}));
-			this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", (this.width / 2) - 120, (this.height - 22), Component.empty(), wa -> {
-				PageButtons = 0;
-			}));
-		}*/
+			// Si el jugador ya tiene una Nube Voladora, no se le mostrará el botón
+			if (!minecraft.player.getInventory().contains(MainItems.NUBE_ITEM.get().getDefaultInstance()) && !minecraft.player.getInventory().contains(MainItems.NUBE_NEGRA_ITEM.get().getDefaultInstance())) {
+				this.kinton = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23), Component.translatable("lines.master_korin.kinton"), wa -> {
+					PageOption = "kinton";
+				}));
+			}
+		}
 	}
 
 	public void PaginaOpciones() {
@@ -191,7 +174,6 @@ public class KarinMenu extends Screen {
 
 							}));
 
-
 						//Rechazar
 						this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47), Component.translatable("lines.menu.decline"), wa -> {
 							this.minecraft.setScreen(null);
@@ -201,9 +183,6 @@ public class KarinMenu extends Screen {
 					default:
 						break;
 				}
-
-
-
 		}
 	}
 }

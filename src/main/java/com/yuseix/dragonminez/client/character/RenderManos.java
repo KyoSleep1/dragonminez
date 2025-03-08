@@ -6,11 +6,9 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
-import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
-import com.yuseix.dragonminez.init.armor.client.SaiyanCapeArmorItem;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
@@ -84,18 +82,50 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            var colorKi = cap.getAuraColor();
+            var colorKi = cap.getIntValue("auracolor");
             var ki_control = cap.hasSkill("ki_control");
             var ki_manipulation = cap.hasSkill("ki_manipulation");
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
 
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var colorR = (colorKi >> 16) / 255.0F;
-            var colorG = ((colorKi >> 8) & 0xff) / 255.0f;
-            var colorB = (colorKi & 0xff) / 255.0f;
+            var auraColor = 0;
+            var transf = cap.getStringValue("form");
+            var raza = cap.getIntValue("race");
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 5:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                default:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+            }
+
+            var colorR = (auraColor >> 16) / 255.0F;
+            var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
+            var colorB = (auraColor & 0xff) / 255.0f;
 
             if(ki_control && ki_manipulation && meditation && is_kimanipulation){
                 if(kiweapon_id.equals("scythe")){
@@ -118,7 +148,7 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
                 } else { //espada
                     poseStack.pushPose();
-                    renderKiSword(player,poseStack,bufferSource,pCombinedLight,OverlayTexture.NO_OVERLAY,0.5f,colorKi);
+                    renderKiSword(player,poseStack,bufferSource,pCombinedLight,OverlayTexture.NO_OVERLAY,0.5f,auraColor);
                     poseStack.popPose();
                 }
 
@@ -322,11 +352,12 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE,pPlayer).ifPresent(cap -> {
 
-            var raza = cap.getRace();
-            var bodytype = cap.getBodytype();
-            var color1body = cap.getBodyColor();
-            var color2body = cap.getBodyColor2();
-            var color3body = cap.getBodyColor3();
+            var raza = cap.getIntValue("race");
+            var bodytype = cap.getIntValue("bodytype");
+            var color1body = cap.getIntValue("bodycolor");
+            var color2body = cap.getIntValue("bodycolor2");
+            var color3body = cap.getIntValue("bodycolor3");
+            var form = cap.getStringValue("form");
 
             switch (raza){
                 case 0:
@@ -342,15 +373,36 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
                     break;
                 case 1:
-                    //SAIYAN
-                    if(bodytype == 0){
-                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(pPlayer.getSkinTextureLocation())), pCombinedLight, OverlayTexture.NO_OVERLAY);
-                    } else if(bodytype == 1){
-                        colorR = (color1body >> 16) / 255.0F;
-                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                        colorB = (color1body & 0xff) / 255.0f;
-                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    switch (form){
+                        case "oozaru":
+
+                            var layer1 = 6888961;
+
+                            colorR = (layer1 >> 16) / 255.0F;
+                            colorG = ((layer1 >> 8) & 0xff) / 255.0f;
+                            colorB = (layer1 & 0xff) / 255.0f;
+
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            colorR = (14922657 >> 16) / 255.0F;
+                            colorG = ((14922657 >> 8) & 0xff) / 255.0f;
+                            colorB = (14922657 & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.OOZARU_2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            break;
+                        default:
+                            //SAIYAN
+                            if(bodytype == 0){
+                                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(pPlayer.getSkinTextureLocation())), pCombinedLight, OverlayTexture.NO_OVERLAY);
+                            } else if(bodytype == 1){
+                                colorR = (color1body >> 16) / 255.0F;
+                                colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                                colorB = (color1body & 0xff) / 255.0f;
+                                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            }
+                            break;
                     }
+
 
                     break;
                 case 2:
@@ -370,30 +422,74 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
                     break;
                 case 3:
-                    //BIOANDROID
-                    colorR = (color1body >> 16) / 255.0F;
-                    colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                    colorB = (color1body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                    colorR = (color2body >> 16) / 255.0F;
-                    colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                    colorB = (color2body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                    colorR = (color3body >> 16) / 255.0F;
-                    colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                    colorB = (color3body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    switch (form){
+                        case "semi_perfect":
+                            //BIOANDROID
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color2body >> 16) / 255.0F;
+                            colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                            colorB = (color2body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            break;
+                        case "perfect":
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (16383998 >> 16) / 255.0F;
+                            colorG = ((16383998 >> 8) & 0xff) / 255.0f;
+                            colorB = (16383998 & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            break;
+                        default:
+                            //BIOANDROID
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color2body >> 16) / 255.0F;
+                            colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                            colorB = (color2body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY2)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            colorR = (color3body >> 16) / 255.0F;
+                            colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                            colorB = (color3body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_BODY3)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+
+                            break;
+                    }
                     break;
                 case 4:
                     //DEMON COLD
                     DEMONCOLD_ARMS(pPlayer, pPoseStack, pBuffer, pCombinedLight, pRendererArm);
                 break;
                 case 5:
-                    //MAJIN
-                    colorR = (color1body >> 16) / 255.0F;
-                    colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                    colorB = (color1body & 0xff) / 255.0f;
-                    pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    switch (form){
+                        case "evil":
+                        colorR = (11314334 >> 16) / 255.0F;
+                        colorG = ((11314334 >> 8) & 0xff) / 255.0f;
+                        colorB = (11314334 & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        break;
+                        default:
+                            colorR = (color1body >> 16) / 255.0F;
+                            colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                            colorB = (color1body & 0xff) / 255.0f;
+                            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entitySolid(TextureManager.SH_BODY1)), pCombinedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                            break;
+                    }
                     break;
                 default:
                     break;
@@ -412,52 +508,97 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            var bodytype = cap.getBodytype();
-            var color1body = cap.getBodyColor();
-            var color2body = cap.getBodyColor2();
-            var color3body = cap.getBodyColor3();
+            var bodytype = cap.getIntValue("bodytype");
+            var color1body = cap.getIntValue("bodycolor");
+            var color2body = cap.getIntValue("bodycolor2");
+            var color3body = cap.getIntValue("bodycolor3");
+            var color4body = cap.getIntValue("haircolor");
+            var transf = cap.getStringValue("form");
 
-            if(bodytype == 0){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, OverlayTexture.NO_OVERLAY,1.0f,1.0f,1.0f,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-            } else if(bodytype == 1){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-            } else if(bodytype == 2){
-                colorR = (color1body >> 16) / 255.0F;
-                colorG = ((color1body >> 8) & 0xff) / 255.0f;
-                colorB = (color1body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color2body >> 16) / 255.0F;
-                colorG = ((color2body >> 8) & 0xff) / 255.0f;
-                colorB = (color2body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
-                colorR = (color3body >> 16) / 255.0F;
-                colorG = ((color3body >> 8) & 0xff) / 255.0f;
-                colorB = (color3body & 0xff) / 255.0f;
-                pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+            switch (transf){
+                case "final_form":
+                    if(bodytype == 0){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color4body >> 16) / 255.0F;
+                        colorG = ((color4body >> 8) & 0xff) / 255.0f;
+                        colorB = (color4body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 1){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 2){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_TF_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    }
+                    break;
+                default:
+                    if(bodytype == 0){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART1_DECO)), pPackedLight, OverlayTexture.NO_OVERLAY,1.0f,1.0f,1.0f,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY1_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 1){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY2_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    } else if(bodytype == 2){
+                        colorR = (color1body >> 16) / 255.0F;
+                        colorG = ((color1body >> 8) & 0xff) / 255.0f;
+                        colorB = (color1body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART1)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color2body >> 16) / 255.0F;
+                        colorG = ((color2body >> 8) & 0xff) / 255.0f;
+                        colorB = (color2body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART2)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                        colorR = (color3body >> 16) / 255.0F;
+                        colorG = ((color3body >> 8) & 0xff) / 255.0f;
+                        colorB = (color3body & 0xff) / 255.0f;
+                        pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.DC_MINIMAL_BODY3_PART3)), pPackedLight, OverlayTexture.NO_OVERLAY,colorR,colorG,colorB,1.0f);
+                    }
+                    break;
             }
+
         });
 
     }
@@ -488,13 +629,6 @@ public class RenderManos extends LivingEntityRenderer<AbstractClientPlayer, Play
 
             var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_layer1.png");
             var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/saiyans/" + armorItem.getItemId() + "_damaged_layer1.png");
-
-            pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
-
-        } if(chestplate.getItem() instanceof SaiyanCapeArmorItem armorItem){
-
-            var textureArmor = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_layer1.png");
-            var textureArmorDamaged = new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/" + armorItem.getItemId() + "_damaged_layer1.png");
 
             pRendererArm.render(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(armorItem.isDamageOn() && isDamaged ? textureArmorDamaged : textureArmor)), pPackedLight, OverlayTexture.NO_OVERLAY);
 

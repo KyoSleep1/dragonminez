@@ -45,14 +45,14 @@ public class CapsulaNaranjaItem extends Item {
 
         if (!pLevel.isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-                boolean isDmzUser = stats.isAcceptCharacter();
+                boolean isDmzUser = stats.getBoolean("dmzuser");
                 if (isDmzUser) {
-                    int kipwr = stats.getKiPower();
+                    int kipwr = stats.getStat("PWR");
                     int maxKipwr = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
                     if (kipwr < maxKipwr) {
                         int increment = Math.min(5, maxKipwr - kipwr);
-                        stats.addKipwr(increment);
+                        stats.addStat("PWR", increment);
 
                         pPlayer.displayClientMessage(
                                 Component.literal("+")

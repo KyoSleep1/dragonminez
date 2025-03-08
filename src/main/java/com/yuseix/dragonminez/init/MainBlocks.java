@@ -37,9 +37,12 @@ public final class MainBlocks {
     //BLOQUES
     public static final RegistryObject<Block> INVISIBLE_LADDER_BLOCK = registerBlock("invisible_ladder_block",
             () -> new ClimbableBlock(BlockBehaviour.Properties.of().noOcclusion().forceSolidOff()
-                    .strength(-1.0F, 3600000.0F).noLootTable()));
+                    .strength(-1.0F, 3600000.0F).noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
+    public static final RegistryObject<Block> OTHERWORLD_CLOUD = registerBlock("otherworld_cloud",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.YELLOW_WOOL).strength(-1.0f,3600000.0F).sound(SoundType.AZALEA)
+                    .noCollission().noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> NAMEK_GRASS_BLOCK = registerBlock("namek_grass_block",
@@ -83,6 +86,8 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_AJISSA_BUTTON = registerBlock("namek_ajissa_button",
             () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).sound(SoundType.CHERRY_WOOD),
                     BlockSetType.OAK, 30, true));
+    public static final RegistryObject<Block> NAMEK_AJISSA_PRESSURE_PLATE = registerBlock("namek_ajissa_pressure_plate",
+            () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE).sound(SoundType.CHERRY_WOOD), BlockSetType.OAK));
 
     //Madera Sagrada de Namek
     public static final RegistryObject<Block> NAMEK_SACRED_SAPLING = registerBlock("namek_sacred_sapling",
@@ -118,6 +123,8 @@ public final class MainBlocks {
     public static final RegistryObject<Block> NAMEK_SACRED_BUTTON = registerBlock("namek_sacred_button",
             () -> new ButtonBlock(BlockBehaviour.Properties.copy(Blocks.DARK_OAK_BUTTON).sound(SoundType.CHERRY_WOOD),
                     BlockSetType.DARK_OAK, 30, true));
+    public static final RegistryObject<Block> NAMEK_SACRED_PRESSURE_PLATE = registerBlock("namek_sacred_pressure_plate",
+            () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(Blocks.DARK_OAK_PRESSURE_PLATE).sound(SoundType.CHERRY_WOOD), BlockSetType.DARK_OAK));
 
     //Ores Nuevos
     public static final RegistryObject<Block> GETE_BLOCK = registerBlock("gete_block",
@@ -133,10 +140,46 @@ public final class MainBlocks {
 
     public static final RegistryObject<Block> NAMEK_STONE = registerBlock("namek_stone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> NAMEK_STONE_SLAB = registerBlock("namek_stone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.STONE_SLAB)));
+    public static final RegistryObject<Block> NAMEK_STONE_STAIRS = registerBlock("namek_stone_stairs",
+            () -> new StairBlock(() -> NAMEK_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.STONE_STAIRS)));
+    public static final RegistryObject<Block> NAMEK_STONE_WALL = registerBlock("namek_stone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_WALL)));
     public static final RegistryObject<Block> NAMEK_COBBLESTONE = registerBlock("namek_cobblestone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> NAMEK_COBBLESTONE_SLAB = registerBlock("namek_cobblestone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_SLAB)));
+    public static final RegistryObject<Block> NAMEK_COBBLESTONE_STAIRS = registerBlock("namek_cobblestone_stairs",
+            () -> new StairBlock(() -> NAMEK_COBBLESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_STAIRS)));
+    public static final RegistryObject<Block> NAMEK_COBBLESTONE_WALL = registerBlock("namek_cobblestone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_WALL)));
     public static final RegistryObject<Block> NAMEK_DEEPSLATE = registerBlock("namek_deepslate",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE).sound(SoundType.DEEPSLATE)));
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_SLAB = registerBlock("namek_deepslate_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICK_SLAB)));
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_STAIRS = registerBlock("namek_deepslate_stairs",
+            () -> new StairBlock(() -> NAMEK_DEEPSLATE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICK_STAIRS)));
+    public static final RegistryObject<Block> NAMEK_DEEPSLATE_WALL = registerBlock("namek_deepslate_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE_BRICK_WALL)));
+    public static final RegistryObject<Block> ROCKY_DIRT = registerBlock("rocky_dirt",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIRT).sound(SoundType.GRAVEL)));
+    public static final RegistryObject<Block> ROCKY_STONE = registerBlock("rocky_stone",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> ROCKY_STONE_SLAB = registerBlock("rocky_stone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.STONE_SLAB)));
+    public static final RegistryObject<Block> ROCKY_STONE_STAIRS = registerBlock("rocky_stone_stairs",
+            () -> new StairBlock(() -> ROCKY_STONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.STONE_STAIRS)));
+    public static final RegistryObject<Block> ROCKY_STONE_WALL = registerBlock("rocky_stone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_WALL)));
+    public static final RegistryObject<Block> ROCKY_COBBLESTONE = registerBlock("rocky_cobblestone",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> ROCKY_COBBLESTONE_SLAB = registerBlock("rocky_cobblestone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_SLAB)));
+    public static final RegistryObject<Block> ROCKY_COBBLESTONE_STAIRS = registerBlock("rocky_cobblestone_stairs",
+            () -> new StairBlock(() -> ROCKY_COBBLESTONE.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_STAIRS)));
+    public static final RegistryObject<Block> ROCKY_COBBLESTONE_WALL = registerBlock("rocky_cobblestone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.COBBLESTONE_WALL)));
 
     //Ores (Default) de Namek
     public static final RegistryObject<Block> NAMEK_DIAMOND_ORE = registerBlock("namek_diamond_ore",
@@ -284,43 +327,43 @@ public final class MainBlocks {
             () -> new Dball1Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL2_BLOCK = BLOCK_REGISTER.register("dball2",
             () -> new Dball2Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL3_BLOCK = BLOCK_REGISTER.register("dball3",
             () -> new Dball3Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL4_BLOCK = BLOCK_REGISTER.register("dball4",
             () -> new Dball4Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL5_BLOCK = BLOCK_REGISTER.register("dball5",
             () -> new Dball5Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL6_BLOCK = BLOCK_REGISTER.register("dball6",
             () -> new Dball6Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
     public static final RegistryObject<Block> DBALL7_BLOCK = BLOCK_REGISTER.register("dball7",
             () -> new Dball7Block(BlockBehaviour.Properties.copy(Blocks.BAMBOO).strength(0.35F)
                     .noOcclusion()
                     .noParticlesOnBreak()
-                    .lightLevel(value -> 15)
+                    .lightLevel(value -> 7)
             ));
 
     //DRAGON BALLS - NAMEK

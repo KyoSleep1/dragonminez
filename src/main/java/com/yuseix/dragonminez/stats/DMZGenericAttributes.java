@@ -21,17 +21,17 @@ public class DMZGenericAttributes {
 
         if (armorAttribute instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) armorAttribute;
-            accessor.setMaxValue(30000.0);
+            accessor.setMaxValue(300000.0);
         }
 
         if (armorToughnessAttribute instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) armorToughnessAttribute;
-            accessor.setMaxValue(30000.0);
+            accessor.setMaxValue(300000.0);
         }
 
         if (maxHealth instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) maxHealth;
-            accessor.setMaxValue(10000000.0);
+            accessor.setMaxValue(100000000.0);
         }
     }
 }

@@ -19,13 +19,13 @@ import java.util.function.Consumer;
 public class DbzArmorItem extends ArmorItem {
 
     private final String itemId;
-    private final boolean isDamageOn;
+    private final boolean isDamageOn; private final boolean hasCape;
 
-    public DbzArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn) {
+    public DbzArmorItem(ArmorMaterial pMaterial, Type pType, Properties pProperties, String itemId, boolean isDamageOn, boolean hasCape) {
         super(pMaterial, pType, pProperties);
         this.itemId = itemId; // ID del item
         this.isDamageOn = isDamageOn;
-
+        this.hasCape = hasCape;
     }
 
     @Override
@@ -91,5 +91,9 @@ public class DbzArmorItem extends ArmorItem {
 
     public boolean isDamageOn() {
         return isDamageOn;
+    }
+
+    public boolean hasCape() {
+        return hasCape;
     }
 }

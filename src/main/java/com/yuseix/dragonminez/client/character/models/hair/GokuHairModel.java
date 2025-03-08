@@ -269,12 +269,13 @@ public class GokuHairModel extends HumanoidModel<AbstractClientPlayer> {
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-			var auraOn = cap.isAuraOn();
-			var turboOn = cap.isTurbonOn();
+			var auraOn = cap.getBoolean("aura");
+			var turboOn = cap.getBoolean("turbo");
+			var transfOn = cap.getBoolean("transform");
 			var velocidad = 0.4f;
 
 			if(auraOn || turboOn){
-				velocidad = 0.4f;
+				velocidad = transfOn ? 0.7f : 0.4f;
 				this.pelo1.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 				this.pelo2.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);
 				this.pelo7.zRot = (float) (Math.cos((pEntity.tickCount+random)*velocidad)*0.03F);

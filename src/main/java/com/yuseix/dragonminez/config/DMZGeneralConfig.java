@@ -7,6 +7,8 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_ATTRIBUTE_VALUE;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> TRANSFORMATIONS_WITH_TP;
+    public static final ForgeConfigSpec.ConfigValue<Integer> TPCOST_TRANSFORMATIONS;
 
     //CONFIGS GENERALES
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
@@ -16,10 +18,20 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_HTC;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_TREE_MIGHT;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_MAJIN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> BABA_COOLDOWN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> BABA_DURATION;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_COOLDOWN;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_GIVE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_DAILY_COOLDOWN;
+
+    public static final ForgeConfigSpec.ConfigValue<Boolean> OTHERWORLD_ENABLED;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_DBALL_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_DBALL_DRAGON_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_KAMILOOKOUT_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_GOKUHOUSE_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_KAMEHOUSE_SPAWN;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SHOULD_ELDERGURU_SPAWN;
 
     public static final ForgeConfigSpec.ConfigValue<Integer> DBALL_SPAWN_RANGE;
     public static final ForgeConfigSpec.ConfigValue<Integer> SENZU_SHENRON_WISH;
@@ -32,18 +44,28 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> JUMP_TP_COST_LEVELS;
     public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_MASTER;
     public static final ForgeConfigSpec.ConfigValue<Integer> FLY_TP_COST_LEVELS;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_MASTER;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SPRINT_TP_COST_LEVELS;
     public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_MASTER;
     public static final ForgeConfigSpec.ConfigValue<Integer> POTUNLOCK_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDITATION_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDITATION_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_CONTROL_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_CONTROL_TP_COST_LEVELS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_MANIPULATION_TP_COST_MASTER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> KI_MANIPULATION_TP_COST_LEVELS;
 
 
 
     static {
         BUILDER.push("Configs for Attributes of DragonMineZ");
 
-        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 10000 / Default: 1000)")
-                .defineInRange("Attributes: ", 1000, 100, 10000);
+        MAX_ATTRIBUTE_VALUE = BUILDER.comment("Max Attributes! (Min: 100 / Max: 100000 / Default: 5000)")
+                .defineInRange("Attributes: ", 5000, 100, 100000);
+
+        TRANSFORMATIONS_WITH_TP = BUILDER.comment("Allow Transformations to be buyable with TP instead of Obtainable via Storyline (Default: false)")
+                .define("Transformations: ", true);
+
+        TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
+                .defineInRange("Transformations Cost: ", 50000, 1, 1000000000);
 
         BUILDER.pop();
 
@@ -58,8 +80,8 @@ public class DMZGeneralConfig {
         MULTIPLIER_ZPOINTS_GAIN = BUILDER.comment("Multiplier for ZPoints Gain (Min: 1.0 / Max: 20.0 / Default: 1.2)")
                 .defineInRange("ZPoints Gain: ", 1.2, 1.0, 20.0);
 
-        MULTIPLIER_ZPOINTS_HTC = BUILDER.comment("Multiplier for ZPoints in the Hyperbolic Time Chamber (Min: 1.0 / Max: 20.0 / Default: 8.0)")
-                .defineInRange("ZPoints (HTC): ", 8.0, 1.0, 60.0);
+        MULTIPLIER_ZPOINTS_HTC = BUILDER.comment("Multiplier for ZPoints in the Hyperbolic Time Chamber (Min: 1.0 / Max: 20.0 / Default: 3.0)")
+                .defineInRange("ZPoints (HTC): ", 3.0, 1.0, 60.0);
 
 
         BUILDER.pop();
@@ -67,11 +89,11 @@ public class DMZGeneralConfig {
 
         BUILDER.push("General Configs");
 
-        MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00 / Default: 0.03)")
-                .defineInRange("FallDmg: ", 0.03, 0.01, 1.00);
+        MULTIPLIER_FALLDMG = BUILDER.comment("Fall Damage Multiplier Percentage (Min: 0.01 / Max: 1.00 / Default: 0.05)")
+                .defineInRange("FallDmg: ", 0.05, 0.01, 1.00);
 
-        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 64 / Default: 10)")
-                .defineInRange("Seconds: ", 10, 1, 64);
+        SENZU_COOLDOWN = BUILDER.comment("Cooldown for Senzu Beans (Min: 1 / Max: 60 / Default: 10)")
+                .defineInRange("Seconds: ", 10, 1, 60);
 
         SENZU_GIVE = BUILDER.comment("Number of Senzu Beans the Master Korin will give (Min: 1 / Max: 10 / Default: 5)")
                 .defineInRange("Number: ", 5, 1, 10);
@@ -85,7 +107,36 @@ public class DMZGeneralConfig {
         MULTIPLIER_MAJIN = BUILDER.comment("Multiplier for the Majin Mark Effect (Min: 1.0 / Max: 20.0 / Default: 1.5)")
                 .defineInRange("Majin Multiplier: ", 1.5, 1.0, 20.0);
 
+        BABA_COOLDOWN = BUILDER.comment("Cooldown for Baba's Temporal Revive in Minutes (Min: 1 / Max: 600 / Default: 30)")
+                .defineInRange("Baba Cooldown: ", 20, 1, 600);
+
+        BABA_DURATION = BUILDER.comment("Duration for Baba's Temporal Revive in Minutes (Min: 1 / Max: 60 / Default: 10)")
+                .defineInRange("Baba Duration: ", 10, 1, 60);
+
         BUILDER.pop();
+
+        BUILDER.push("World Generations Configs");
+
+        OTHERWORLD_ENABLED = BUILDER.comment("Should Otherworld Dimension be Enabled? (Default: true)")
+                .define("Otherworld Enabled: ", true);
+
+        SHOULD_DBALL_SPAWN = BUILDER.comment("Should Dragon Balls Spawn in the World when it is first generated? (Default: true)")
+                .define("First Spawn: ", true);
+
+        SHOULD_DBALL_DRAGON_SPAWN = BUILDER.comment("Should Dragon Balls Spread in the World when Shenron/Porunga despawns? (Default: true)")
+                .define("Spread on Despawn: ", true);
+
+        SHOULD_KAMILOOKOUT_SPAWN = BUILDER.comment("Should Kami's Lookout Spawn in the World when it is first generated? (Default: true)")
+                .define("Kami Lookout Spawn: ", true);
+
+        SHOULD_GOKUHOUSE_SPAWN = BUILDER.comment("Should Goku's House Spawn in the World when it is first generated? (Default: true)")
+                .define("Goku House Spawn: ", true);
+
+        SHOULD_KAMEHOUSE_SPAWN = BUILDER.comment("Should Kame House Spawn in the World when it is first generated? (Default: true)")
+                .define("Kame House Spawn: ", true);
+
+        SHOULD_ELDERGURU_SPAWN = BUILDER.comment("Should Elder Guru's House Spawn in the World when it is first generated? (Default: true)")
+                .define("Elder Guru Spawn: ", true);
 
         BUILDER.push("Shenron / Porunga Wishes");
 
@@ -102,7 +153,7 @@ public class DMZGeneralConfig {
                 .defineInRange("[Porunga] Number of Senzus: ", 8, 1, 64);
 
         CAPSULE_PORUNGA_WISH = BUILDER.comment("Number of Capsules Porunga will give (Min: 1 / Max: 64 / Default: 3)")
-                .defineInRange("[Porunga] Number of Capsules: ", 3, 1, 64);
+                .defineInRange("[Porunga] Number of Capsules: ", 4, 1, 64);
 
         GETE_PORUNGA_WISH = BUILDER.comment("Number of Gete Scraps Porunga will give (Min: 1 / Max: 64 / Default: 3)")
                 .defineInRange("[Porunga] Number of Gete Scraps: ", 3, 1, 64);
@@ -114,26 +165,38 @@ public class DMZGeneralConfig {
         JUMP_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Jump Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
                 .defineInRange("Jump Buy: ", 400, 1, 1000000000);
 
-        JUMP_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Jump Skill (Min: 1 / Max: 1000000000 / Default: 10) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Jump Levels: ", 100, 1, 1000000000);
+        JUMP_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Jump Skill (Min: 1 / Max: 1000000000 / Default: 250) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Jump Levels: ", 250, 1, 1000000000);
 
-        FLY_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Fly Skill from Masters (Min: 1 / Max: 1000000000 / Default: 1000)")
-                .defineInRange("Fly Buy: ", 1000, 1, 1000000000);
+        FLY_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Fly Skill from Masters (Min: 1 / Max: 1000000000 / Default: 1750)")
+                .defineInRange("Fly Buy: ", 1750, 1, 1000000000);
 
-        FLY_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Fly Skill (Min: 1 / Max: 1000000000 / Default: 250) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Fly Levels: ", 250, 1, 1000000000);
-
-        SPRINT_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Sprint Skill from Masters (Min: 1 / Max: 1000000000 / Default: 400)")
-                .defineInRange("Sprint Buy: ", 400, 1, 1000000000);
-
-        SPRINT_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Sprint Skill (Min: 1 / Max: 1000000000 / Default: 100) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Sprint Levels: ", 100, 1, 1000000000);
+        FLY_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Fly Skill (Min: 1 / Max: 1000000000 / Default: 750) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Fly Levels: ", 750, 1, 1000000000);
 
         POTUNLOCK_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Potential Unlock Skill from Masters (Min: 1 / Max: 1000000000 / Default: 3500)")
                 .defineInRange("Potential Unlock Buy: ", 3500, 1, 1000000000);
 
         POTUNLOCK_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Potential Unlock Skill (Min: 1 / Max: 1000000000 / Default: 600) (Formula: Cost * Level * ZPointsCostMultiplier)")
-                .defineInRange("Potential Unlock Levels: ", 600, 1, 1000000000);
+                .defineInRange("Potential Unlock Levels: ", 1300, 1, 1000000000);
+
+        MEDITATION_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Meditation Skill from Masters (Min: 1 / Max: 1000000000 / Default: 500)")
+                .defineInRange("Meditation Buy: ", 500, 1, 1000000000);
+
+        MEDITATION_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Meditation Skill (Min: 1 / Max: 1000000000 / Default: 150) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Meditation Levels: ", 150, 1, 1000000000);
+
+        KI_CONTROL_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Ki Control Skill from Masters (Min: 1 / Max: 1000000000 / Default: 500)")
+                .defineInRange("Ki Control Buy: ", 500, 1, 1000000000);
+
+        KI_CONTROL_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Ki Control Skill (Min: 1 / Max: 1000000000 / Default: 100) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Ki Control Levels: ", 100, 1, 1000000000);
+
+        KI_MANIPULATION_TP_COST_MASTER = BUILDER.comment("ZPoints Cost for Buying the Ki Manipulation Skill from Masters (Min: 1 / Max: 1000000000 / Default: 12500)")
+                .defineInRange("Ki Manipulation Buy: ", 12500, 1, 1000000000);
+
+        KI_MANIPULATION_TP_COST_LEVELS = BUILDER.comment("ZPoints Cost for Leveling Up the Ki Manipulation Skill (Min: 1 / Max: 1000000000 / Default: 5000) (Formula: Cost * Level * ZPointsCostMultiplier)")
+                .defineInRange("Ki Manipulation Levels: ", 5000, 1, 1000000000);
 
         SPEC = BUILDER.build();
     }

@@ -42,114 +42,112 @@ public class CharacterC2S {
                     switch (packet.tipo) {
                         case "Gender":
                             if (packet.cantidad == 0) {
-                                playerstats.setGender("Male");
+                                playerstats.setStringValue("gender", "male");
                             } else {
-                                playerstats.setGender("Female");
+                                playerstats.setStringValue("gender", "female");
                             }
                             break;
                         case "dmzClass":
                             if (packet.cantidad == 0) {
-                                playerstats.setDmzClass("Warrior");
+                                playerstats.setStringValue("class", "warrior");
                             } else {
-                                playerstats.setDmzClass("Spiritualist");
+                                playerstats.setStringValue("class", "spiritualist");
                             }
                             break;
                         case "dmzskiweapon":
                             if (packet.cantidad == 0) {
-                                playerstats.setKiWeapon("scythe");
+                                playerstats.setStringValue("kiweapon", "scythe");
                             } else if(packet.cantidad == 1){
-                                playerstats.setKiWeapon("trident");
+                                playerstats.setStringValue("kiweapon","trident");
                             } else {
-                                playerstats.setKiWeapon("sword");
+                                playerstats.setStringValue("kiweapon","sword");
                             }
                             break;
                         case "dmzAlignment":
-                            playerstats.setDmzAlignment(packet.cantidad);
+                            playerstats.setIntValue("alignment", packet.cantidad);
                             break;
                         case "BodyType":
-                            playerstats.setBodytype(packet.cantidad);
+                            playerstats.setIntValue("bodytype", packet.cantidad);
                             break;
                         case "EyeType":
-                            playerstats.setEyesType(packet.cantidad);
+                            playerstats.setIntValue("eyestype", packet.cantidad);
                             break;
                         case "setRace":
-                            playerstats.setRace(packet.cantidad);
-                            playerstats.setBodytype(0);
-                            playerstats.setEyesType(0);
+                            playerstats.setIntValue("race", packet.cantidad);
+                            playerstats.setIntValue("bodytype", 0);
+                            playerstats.setIntValue("eyestype", 0);
                             break;
                         case "BodyColor1":
-                            playerstats.setBodyColor(packet.cantidad);
+                            playerstats.setIntValue("bodycolor", packet.cantidad);
                             break;
                         case "BodyColor2":
-                            playerstats.setBodyColor2(packet.cantidad);
+                            playerstats.setIntValue("bodycolor2", packet.cantidad);
                             break;
                         case "BodyColor3":
-                            playerstats.setBodyColor3(packet.cantidad);
+                            playerstats.setIntValue("bodycolor3", packet.cantidad);
                             break;
                         case "eye1Color":
-                            playerstats.setEye1Color(packet.cantidad);
+                            playerstats.setIntValue("eye1color", packet.cantidad);
                             break;
                         case "eye2Color":
-                            playerstats.setEye2Color(packet.cantidad);
+                            playerstats.setIntValue("eye2color", packet.cantidad);
                             break;
                         case "hairColor":
-                            playerstats.setHairColor(packet.cantidad);
+                            playerstats.setIntValue("haircolor", packet.cantidad);
                             break;
                         case "auraColor":
-                            playerstats.setAuraColor(packet.cantidad);
+                            playerstats.setIntValue("auracolor", packet.cantidad);
                             break;
                         case "hairID":
-                            playerstats.setHairID(packet.cantidad);
+                            playerstats.setIntValue("hairid", packet.cantidad);
                             break;
                         case "isConfirm":
-                            if (packet.cantidad == 0) {
-                                playerstats.setAcceptCharacter(false);
-                            } else {
-                                playerstats.setAcceptCharacter(true);
-                            }
+							playerstats.setBoolean("dmzuser", packet.cantidad != 0);
                             break;
                         case "isAuraOn":
-                            if (packet.cantidad == 0) {
-                                playerstats.setAuraOn(false);
-                            } else {
-                                playerstats.setAuraOn(true);
-                            }
+							playerstats.setBoolean("aura", packet.cantidad != 0);
                             break;
                         case "isTurboOn":
-                            if (packet.cantidad == 0) {
-                                playerstats.setTurboOn(false);
-                            } else {
-                                playerstats.setTurboOn(true);
-                            }
+                            playerstats.setBoolean("turbo", packet.cantidad != 0);
+                            break;
+                        case "isTransform":
+                            playerstats.setBoolean("transform", packet.cantidad != 0);
                             break;
                         case "isDescendOn":
-                            if (packet.cantidad == 0) {
-                                playerstats.setDescendKey(false);
-                            } else {
-                                playerstats.setDescendKey(true);
-                            }
+                            playerstats.setBoolean("descend", packet.cantidad != 0);
+                            break;
+                        case "zenkaiCount":
+                            playerstats.setIntValue("zenkaicount", packet.cantidad);
+                            break;
+                        case "zenkaiCooldown":
+                            playerstats.setIntValue("zenkaitimer", packet.cantidad * 20 * 60); // Ticks * Segundos * Minutos
                             break;
                         case "isCompactMenu":
-                            if (packet.cantidad == 1) {
-                                playerstats.setCompactMenu(true);
-                            } else {
-                                playerstats.setCompactMenu(false);
-                            }
+                            playerstats.setBoolean("compactmenu", packet.cantidad != 0);
+                            break;
+                        case "setPorungaRevive":
+                            playerstats.setBoolean("porungarevive", packet.cantidad != 0);
+                            break;
+                        case "setShenronRevive":
+                            playerstats.setBoolean("shenronrevive", packet.cantidad != 0);
+                            break;
+                        case "isKaioPlanet":
+                            playerstats.setBoolean("kaioplanet", packet.cantidad != 0);
                             break;
                         case "str":
-                            playerstats.setStrength(packet.cantidad);
+                            playerstats.setStat("STR", packet.cantidad);
                             break;
                         case "def":
-                            playerstats.setDefense(packet.cantidad);
+                            playerstats.setStat("DEF", packet.cantidad);
                             break;
                         case "con":
-                            playerstats.setConstitution(packet.cantidad);
+                            playerstats.setStat("CON", packet.cantidad);
                             break;
                         case "pwr":
-                            playerstats.setKiPower(packet.cantidad);
+                            playerstats.setStat("PWR", packet.cantidad);
                             break;
                         case "ene":
-                            playerstats.setEnergy(packet.cantidad);
+                            playerstats.setStat("ENE", packet.cantidad);
                             break;
                         default:
                             //System.out.println("Algo salio mal !");

@@ -1,31 +1,32 @@
 package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainParticles;
+import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
+import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
+import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DMZRenders;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -38,22 +39,37 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.thread.EffectiveSide;
-import com.yuseix.dragonminez.client.character.models.AuraModel;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v" + "1.1.4";
+	private static final String title = "DragonMine Z v" + "1.2 - StoryMode and Skills!";
 	private static boolean isDescending = false;
 
-	private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
+	private static final int teleportTime = 5; // Segundos
+	private static boolean isTeleporting = false;
+	private static int teleportCountdown = teleportTime;
+	private static int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
-
+	private static final Set<String> jugadoresConAura = new HashSet<>(Set.of(
+			"Dev",
+			"ezShokkoh",
+			"ImYuseix",
+			"Toji71_",
+			"Baby_Poop12311",
+			"SpaceCarp",
+			"prolazorbema10",
+			"iLalox",
+			"Robberto10",
+			"Athrizel"
+	));
 	@SubscribeEvent
 	public static void onRenderTick(TickEvent.RenderTickEvent event) {
 		if (event.phase == TickEvent.RenderTickEvent.Phase.END) {
@@ -70,14 +86,15 @@ public class ClientEvents {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (!event.getStage().equals(RenderLevelStageEvent.Stage.AFTER_PARTICLES)) return;
 
+		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+		// Obtener posición de la cámara
+		double camX = camera.getPosition().x;
+		double camY = camera.getPosition().y;
+		double camZ = camera.getPosition().z;
+
 		for (Player player : minecraft.level.players()) {
 			if (player != null) {
-				Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
 
-				// Obtener posición de la cámara
-				double camX = camera.getPosition().x;
-				double camY = camera.getPosition().y;
-				double camZ = camera.getPosition().z;
 
 				double interpX = Mth.lerp(event.getPartialTick(), player.xOld, player.getX());
 				double interpY = Mth.lerp(event.getPartialTick(), player.yOld, player.getY());
@@ -89,228 +106,133 @@ public class ClientEvents {
 
 				var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
 				if (renderer instanceof DmzRenderer dmzRenderer) {
-					poseStack.pushPose();
-					poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
-					dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880); // packedLight no deberia ser un valor estático, no aplica iluminación 'dinámica'
-					poseStack.popPose();
+					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+						var raza = cap.getIntValue("race");
+						var transf = cap.getStringValue("form");
+
+
+						poseStack.pushPose();
+						switch (raza){
+							case 1:
+								switch (transf){
+									case "ssgrade2":
+										poseStack.translate((interpX - camX) + 0.05, (interpY - camY) + 0.05, interpZ - camZ);
+										break;
+									case "ssgrade3":
+										poseStack.translate((interpX - camX) + 0.2, (interpY - camY) + 0.15, interpZ - camZ);
+										break;
+									case "oozaru", "goldenoozaru":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
+										poseStack.scale(4.0f,4.0f,4.0f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										break;
+								}
+								break;
+							case 2:
+								switch (transf){
+									case "giant","orange_giant":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
+										poseStack.scale(4.0f,4.0f,4.0f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							case 3:
+								switch (transf){
+									case "semi_perfect":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.1f, 1.1f, 1.1f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+									break;
+								}
+								break;
+							case 4:
+								switch (transf){
+									case "second_form":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.5f, 1.5f, 1.5f);
+										break;
+									case "third_form":
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.3f, 1.3f, 1.3f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							case 5:
+								switch (transf){
+									case "evil":
+										poseStack.translate((interpX - camX) + 0.05f, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+									case "kid":
+										poseStack.translate((interpX - camX) + 0.05f, (interpY - camY) + 0.05f, interpZ - camZ);
+										poseStack.scale(0.8f, 0.8f, 0.8f);
+										break;
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f, 1.0f, 1.0f);
+										break;
+								}
+								break;
+							default:
+								switch (transf){
+									case "buffed":
+										poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.15, interpZ - camZ);
+										poseStack.scale(1.0f,1.0f,1.0f);
+										break;
+
+									default:
+										poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
+										poseStack.scale(1.0f,1.0f,1.0f);
+										break;
+								}
+								break;
+						}
+						dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880);
+						poseStack.popPose();
+
+					});
+
 				}
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-
-					if (cap.isAuraOn() || cap.isTurbonOn()) {
+					if (cap.getBoolean("aura") || cap.getBoolean("turbo")) {
 						event.getPoseStack().pushPose();
 						float transparency = isLocalPlayer && minecraft.options.getCameraType().isFirstPerson() ? 0.075f : 0.325f;
 
-						RenderSystem.disableDepthTest();
-						renderAuraBase(
-								(AbstractClientPlayer) player,
-								event.getPoseStack(),
-								minecraft.renderBuffers().bufferSource(),
-								15728880,
-								event.getPartialTick(),
-								transparency,
-								cap.getAuraColor()
-						);
-						event.getPoseStack().popPose();
-						RenderSystem.enableDepthTest();
+						if (!player.isSpectator()) {
+							RenderSystem.disableDepthTest();
+							DMZRenders.renderAuraBase(
+									(AbstractClientPlayer) player,
+									event.getPoseStack(),
+									minecraft.renderBuffers().bufferSource(),
+									15728880,
+									event.getPartialTick(),
+									transparency,
+									cap.getIntValue("auracolor")
+							);
+							event.getPoseStack().popPose();
+							RenderSystem.enableDepthTest();
+						}
 					}
 					});
 			}
 		}
-	}
-
-	private static void renderAuraBase(AbstractClientPlayer player, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float partialTicks, float transparencia, int colorAura) {
-		Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
-
-		// Obtener posición de la cámara
-		double camX = camera.getPosition().x;
-		double camY = camera.getPosition().y;
-		double camZ = camera.getPosition().z;
-
-		// Descomponer el color en sus componentes RGBA
-		float red = (colorAura >> 16 & 255) / 255.0f;
-		float green = (colorAura >> 8 & 255) / 255.0f;
-		float blue = (colorAura & 255) / 255.0f;
-
-		// Obtener posición interpolada del jugador
-		double interpX = Mth.lerp(partialTicks, player.xOld, player.getX());
-		double interpY = Mth.lerp(partialTicks, player.yOld, player.getY());
-		double interpZ = Mth.lerp(partialTicks, player.zOld, player.getZ());
-
-		//ACA YA FUNCIONA
-		poseStack.pushPose();
-
-		//Ajustar posición del aura en el jugador
-		poseStack.translate(interpX - camX, interpY - camY + player.getEyeHeight(), interpZ - camZ);
-
-		poseStack.mulPose(Axis.XP.rotationDegrees(180f));
-
-		float rotationAngle = 0.0F;
-		rotationAngle = (player.tickCount + partialTicks) * 5.0F; // Ajusta la velocidad aquí
-
-		float rotationAngle2 = 0.0F;
-		rotationAngle2 = (player.tickCount + partialTicks) * -7.0F; // Ajusta la velocidad aquí
-
-		VertexConsumer vertexConsumer = buffer.getBuffer(CustomRenderTypes.energy(TextureManager.AURA_BASE));
 
 
-		// PARTE BAJA 1
-		for (int i = 0; i < 8; i++) {  // Ajusta el número de planos
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.7F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(40));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.0D, -0.7D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-
-		//PARTE BAJA 2
-		for (int i = 0; i < 8; i++) {
-			poseStack.pushPose();
-			poseStack.scale(1.4F, 1.9F, 1.4F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(40));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.0D, -0.5D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//PARTE MEDIO 1 interior
-		for (int i = 0; i < 10; i++) {
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.7F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(0));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -0.6D, -0.2D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//parte medio 2 exterior
-		for (int i = 0; i < 10; i++) {
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.7F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(15f));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.0D, -0.4D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//parte medio 3 exterior
-		for (int i = 0; i < 10; i++) {
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.9F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(15f));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.0D, -0.6D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//PARTE ARRIBA 1 interior
-		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.6F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(-35F));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.1D, -0.38D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//Parte 2 arriba exterior
-		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.6F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(25F));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -0.8D, -0.4D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//Parte 3 arriba exterior
-		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.6F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle2 + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(-15F));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.2D, -0.4D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-		//PARTE ARRIBA 4 interior
-		for (int i = 0; i < 10; i++) {  // Ajusta el número de planos
-			poseStack.pushPose();
-			poseStack.scale(1.2F, 1.6F, 1.2F);
-
-			// Rotar cada plano un poco más en Y y X
-			poseStack.mulPose(Axis.YP.rotationDegrees(rotationAngle + i * 45F));  // Cambia 30F por el ángulo que desees
-			poseStack.mulPose(Axis.XP.rotationDegrees(5F));
-
-			// Posicionar el aura un poco más arriba o abajo
-			poseStack.translate(0.0D, -1.5D, -0.38D);
-
-			// Renderizar cada plano
-			AURA_MODEL.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, transparencia);
-
-			poseStack.popPose();
-		}
-
-		poseStack.popPose();
 	}
 
 	@SubscribeEvent
@@ -318,8 +240,28 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Level level = mc.level;
 
-		if (level == null || mc.player == null || mc.isPaused()) {
+		if (level == null || mc.player == null || mc.isPaused() || mc.player.isSpectator()) {
 			return;
+		}
+
+		for (Player player : level.players()) {
+			if (jugadoresConAura.contains(player.getGameProfile().getName())) { // Reemplaza con el nombre correcto
+				// Obtener la capability del jugador
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(capability -> {
+					if (capability.getBoolean("aura")) { // Si la aura está activa
+						int color = 16763441; // Color rojo (puedes cambiarlo)
+
+						// Generar partículas visibles para todos
+						for (int i = 0; i < 5; i++) { // Genera múltiples partículas
+							level.addParticle(new KiStarParticleOptions(color),
+									player.getX() + (Math.random() - 0.5) * 3.5,
+									player.getY() + Math.random() * 3,
+									player.getZ() + (Math.random() - 0.5) * 3.5,
+									0, 0.1, 0);
+						}
+					}
+				});
+			}
 		}
 
 		// Frecuencia de generación (una vez cada 10 ticks)
@@ -336,7 +278,7 @@ public class ClientEvents {
 
 		if (currentBiomeKey == null) return;
 
-		if (playerPos.getY() > 140) return;
+		if (playerPos.getY() > 140 || playerPos.getY() < 62) return;
 
 		// Genera partículas dependiendo del bioma
 		if (currentBiomeKey.equals(ModBiomes.AJISSA_PLAINS)) {
@@ -348,34 +290,56 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public static void onKeyPress(InputEvent.Key event) {
-		if (EffectiveSide.get().isClient()) {
-			if (Keys.FLY_KEY.consumeClick()) {
-				LocalPlayer player = Minecraft.getInstance().player;
+		if (Keys.FLY_KEY.consumeClick()) {
+			LocalPlayer player = Minecraft.getInstance().player;
 
-				if (player != null && player.onGround()) {
-					// Aplicar el salto inicial
-					player.jumpFromGround();
+			if (player != null) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+					DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
+					DMZSkill flySkill = cap.getDMZSkills().get("fly");
+					if (flySkill == null) return;
 
-					DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-						DMZSkill jumpSkill = cap.getDMZSkills().get("jump");
+					int flyLevel = flySkill.getLevel();
+					int consumeEnergy = 0;
+					if (flyLevel < 4) {
+						consumeEnergy = (int) Math.ceil(cap.getIntValue("maxenergy") * 0.04);
+					} else {
+						consumeEnergy = (int) Math.ceil(cap.getIntValue("maxenergy") * 0.02);
+					}
 
-						// Si el jugador tiene habilidad de salto, potenciamos el salto
-						if (jumpSkill != null && jumpSkill.isActive()) {
-							int jumpLevel = jumpSkill.getLevel();
-							if (jumpLevel > 0) {
-								float jumpBoost = 0.1f * jumpLevel;
-								player.setDeltaMovement(player.getDeltaMovement().add(0, jumpBoost, 0));
+					if (flySkill.getLevel() > 0 && cap.getIntValue("curenergy") > consumeEnergy) {
+
+						if (player.onGround()) {
+							// Aplicar el salto inicial
+							player.jumpFromGround();
+
+							// Si el jugador tiene habilidad de salto, potenciamos el salto
+							if (jumpSkill != null && jumpSkill.isActive()) {
+								int jumpLevel = jumpSkill.getLevel();
+								if (jumpLevel > 0) {
+									float jumpBoost = 0.1f * jumpLevel;
+									player.setDeltaMovement(player.getDeltaMovement().add(0, jumpBoost, 0));
+								}
 							}
+							// Si no tiene habilidad de salto, salta normalmente
+							else {
+								player.setDeltaMovement(player.getDeltaMovement().x, 0.42D, player.getDeltaMovement().z);
+							}
+							isDescending = true;
+						} else {
+							ModMessages.sendToServer(new FlyToggleC2S());
 						}
-						// Si no tiene habilidad de salto, salta normalmente
-						else {
-							player.setDeltaMovement(player.getDeltaMovement().x, 0.42D, player.getDeltaMovement().z);
-						}
-						isDescending = true;
-					});
-				} else {
-					ModMessages.sendToServer(new FlyToggleC2S());
-				}
+					}
+
+					if(flySkill.isActive()){
+						ModMessages.sendToServer(new PermaEffC2S("remove", "fly", 1));
+					} else {
+						ModMessages.sendToServer(new PermaEffC2S("add", "fly", 1));
+
+					}
+
+
+				});
 			}
 		}
 	}
@@ -385,8 +349,9 @@ public class ClientEvents {
 		if (event.phase == TickEvent.Phase.START) return;
 		if (!(event.player instanceof LocalPlayer player)) return;
 
+		AtomicBoolean isKaioAvailable = new AtomicBoolean(false);
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (isDescending && player.getDeltaMovement().y < 0) { // Si está cayendo después del salto
+			if (isDescending && player.getDeltaMovement().y < 0 && !player.isSpectator() && !player.isCreative()) { // Si está cayendo después del salto
 				isDescending = false;
 				ModMessages.sendToServer(new FlyToggleC2S());
 			}
@@ -406,28 +371,79 @@ public class ClientEvents {
 
 				// Si mantiene espacio, ascender
 				if (player.input.jumping) {
-					System.out.println("Jumping");
 					yVelocity = 0.1;
 				}
 				// Si mantiene shift, descender
 				else if (player.input.shiftKeyDown) {
-					System.out.println("Sneaking");
 					yVelocity = -0.1;
 				}
 				// Si no presiona nada, descenso lento
 				else {
-					System.out.println("Nothing");
 					if (yVelocity != -0.02) {
 						yVelocity = -0.02;
 					}
 				}
 
-				System.out.println("yVelocity antes: " + yVelocity);
 				player.setDeltaMovement(motion.x, yVelocity, motion.z);
-				System.out.println("yVelocity después: " + player.getDeltaMovement().y);
 				player.onUpdateAbilities();
 			}
+
+			if (cap.getBoolean("kaioplanet")) {
+				isKaioAvailable.set(true);
+			}
 		});
+
+		if (player.isPassenger() && player.getVehicle() instanceof NaveSaiyanEntity) {
+
+			if (Keys.FUNCTION.consumeClick()) {
+				if (isTeleporting) {
+					isTeleporting = false;
+					teleportCountdown = teleportTime;
+					player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport.cancel"), true);
+				} else {
+					Minecraft.getInstance().setScreen(new SaiyanSpacePodOverlay());
+				}
+			}
+
+			if (isTeleporting) {
+				if (teleportCountdown >= 0) {
+					// Mostrar cuenta regresiva cada segundo
+					if (player.level().getGameTime() % 20 == 0) { // Cada segundo (20 ticks)
+						if (teleportCountdown == 1) {
+							player.playSound(MainSounds.UI_NAVE_TAKEOFF.get(), 0.5F, 1.0F);
+						} else if (teleportCountdown != 0 && teleportCountdown <= teleportTime) {
+							player.playSound(MainSounds.UI_NAVE_COOLDOWN.get(), 0.5F, 1.0F);
+						}
+						player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport", teleportCountdown), true);
+						teleportCountdown--;
+					}
+				} else {
+					// Teletransportar al jugador cuando el contador llegue a 0
+					switch (planetaObjetivo) {
+						case 0 -> {
+							ModMessages.sendToServer(new SpacePodC2S("overworld"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"));
+						}
+						case 1 -> {
+							ModMessages.sendToServer(new SpacePodC2S("namek"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"));
+						}
+						case 3 -> {
+							ModMessages.sendToServer(new SpacePodC2S("otherworld"));
+							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.kaio.arrive"));
+						}
+					}
+
+					// Reiniciar el estado del teletransporte
+					isTeleporting = false;
+					teleportCountdown = teleportTime;
+
+					player.playSound(MainSounds.NAVE_LANDING_OPEN.get(), 0.5F, 1.0F);
+				}
+			} else {
+				teleportCountdown = teleportTime; // Reiniciar el contador si no está activo
+			}
+		}
 	}
 
 	private static void spawnParticles(Level level, SimpleParticleType particleType, BlockPos playerPos) {
@@ -444,5 +460,11 @@ public class ClientEvents {
 
 			level.addParticle(particleType, x, y, z, xSpeed, ySpeed, zSpeed);
 		}
+	}
+
+	public static void setTeleporting(boolean teleporting, int planeta) {
+		isTeleporting = teleporting;
+		planetaObjetivo = planeta;
+		teleportCountdown = teleportTime;
 	}
 }

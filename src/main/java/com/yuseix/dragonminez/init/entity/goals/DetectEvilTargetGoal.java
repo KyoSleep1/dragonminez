@@ -35,7 +35,7 @@ public class DetectEvilTargetGoal extends TargetGoal {
             if (capability.isPresent()) {
                 DMZStatsAttributes cap = capability.orElseThrow(IllegalArgumentException::new);
 
-                if(cap.getDmzAlignment() <= 40){
+                if(cap.getIntValue("alignment") <= 40){
                     this.target = player; // Establece el jugador como objetivo si tiene la capability con la condición deseada
                     return true;
                 }

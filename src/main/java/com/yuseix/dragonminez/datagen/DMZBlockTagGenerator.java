@@ -91,8 +91,24 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(MainBlocks.NAMEK_BLOCK.get())
                 .add(MainBlocks.NAMEK_STONE.get())
+                .add(MainBlocks.NAMEK_STONE_SLAB.get())
+                .add(MainBlocks.NAMEK_STONE_STAIRS.get())
+                .add(MainBlocks.NAMEK_STONE_WALL.get())
                 .add(MainBlocks.NAMEK_COBBLESTONE.get())
+                .add(MainBlocks.NAMEK_COBBLESTONE_SLAB.get())
+                .add(MainBlocks.NAMEK_COBBLESTONE_STAIRS.get())
                 .add(MainBlocks.NAMEK_DEEPSLATE.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_SLAB.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_STAIRS.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_WALL.get())
+                .add(MainBlocks.ROCKY_STONE.get())
+                .add(MainBlocks.ROCKY_STONE_SLAB.get())
+                .add(MainBlocks.ROCKY_STONE_STAIRS.get())
+                .add(MainBlocks.ROCKY_STONE_WALL.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_SLAB.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_STAIRS.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_WALL.get())
                 .add(MainBlocks.DBALL1_BLOCK.get())
                 .add(MainBlocks.DBALL2_BLOCK.get())
                 .add(MainBlocks.DBALL3_BLOCK.get())
@@ -175,7 +191,12 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.SLABS)
                 .add(MainBlocks.NAMEK_AJISSA_SLAB.get())
-                .add(MainBlocks.NAMEK_SACRED_SLAB.get());
+                .add(MainBlocks.NAMEK_SACRED_SLAB.get())
+                .add(MainBlocks.NAMEK_STONE_SLAB.get())
+                .add(MainBlocks.NAMEK_COBBLESTONE_SLAB.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_SLAB.get())
+                .add(MainBlocks.ROCKY_STONE_SLAB.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_SLAB.get());
 
         this.tag(BlockTags.WOODEN_STAIRS)
                 .add(MainBlocks.NAMEK_AJISSA_STAIRS.get())
@@ -183,7 +204,12 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
 
         this.tag(BlockTags.STAIRS)
                 .add(MainBlocks.NAMEK_AJISSA_STAIRS.get())
-                .add(MainBlocks.NAMEK_SACRED_STAIRS.get());
+                .add(MainBlocks.NAMEK_SACRED_STAIRS.get())
+                .add(MainBlocks.NAMEK_STONE_STAIRS.get())
+                .add(MainBlocks.NAMEK_COBBLESTONE_STAIRS.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_STAIRS.get())
+                .add(MainBlocks.ROCKY_STONE_STAIRS.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_STAIRS.get());
 
         this.tag(BlockTags.WOODEN_TRAPDOORS)
                 .add(MainBlocks.NAMEK_AJISSA_TRAPDOOR.get())
@@ -201,9 +227,20 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
                 .add(MainBlocks.NAMEK_AJISSA_FENCE.get())
                 .add(MainBlocks.NAMEK_SACRED_FENCE.get());
 
-        this.tag(BlockTags.SAPLINGS)
-                .add(MainBlocks.NAMEK_AJISSA_SAPLING.get())
-                .add(MainBlocks.NAMEK_SACRED_SAPLING.get());
+        this.tag(BlockTags.WOODEN_PRESSURE_PLATES)
+                .add(MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get())
+                .add(MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get());
+
+        this.tag(BlockTags.PRESSURE_PLATES)
+                .add(MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get())
+                .add(MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get());
+
+        this.tag(BlockTags.WALLS)
+                .add(MainBlocks.NAMEK_STONE_WALL.get())
+                .add(MainBlocks.NAMEK_COBBLESTONE_WALL.get())
+                .add(MainBlocks.NAMEK_DEEPSLATE_WALL.get())
+                .add(MainBlocks.ROCKY_STONE_WALL.get())
+                .add(MainBlocks.ROCKY_COBBLESTONE_WALL.get());
 
         this.tag(BlockTags.ANIMALS_SPAWNABLE_ON)
                 .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
@@ -221,7 +258,8 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
         this.tag(BlockTags.DIRT)
                 .add(MainBlocks.NAMEK_DIRT.get())
                 .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
-                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
+                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get())
+                .add(MainBlocks.ROCKY_DIRT.get());
 
         this.tag(BlockTags.COAL_ORES)
                 .add(MainBlocks.NAMEK_COAL_ORE.get())
@@ -286,6 +324,7 @@ public class DMZBlockTagGenerator extends BlockTagsProvider {
         this.tag(BlockTags.VALID_SPAWN)
                 .add(MainBlocks.NAMEK_DIRT.get())
                 .add(MainBlocks.NAMEK_GRASS_BLOCK.get())
-                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get());
+                .add(MainBlocks.NAMEK_SACRED_GRASS_BLOCK.get())
+                .add(MainBlocks.ROCKY_DIRT.get());
     }
 }

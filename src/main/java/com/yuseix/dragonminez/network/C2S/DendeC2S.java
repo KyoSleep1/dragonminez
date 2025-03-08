@@ -7,6 +7,7 @@ import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -47,22 +48,42 @@ public class DendeC2S {
     }
 
     public static void resetPlayerStats(ServerPlayer player, DMZStatsAttributes playerstats) {
-        DMZDatos dmzdatos = new DMZDatos();
-
         player.displayClientMessage(Component.translatable("lines.dende.reset.success"), true);
-        var race = playerstats.getRace();
-        int currentEnergy = 0;
 
-        playerstats.setAcceptCharacter(false);
-        playerstats.setStrength(5);
-        playerstats.setDefense(5);
-        playerstats.setConstitution(5);
-        playerstats.setKiPower(5);
-        playerstats.setEnergy(5);
-        playerstats.setZpoints(0);
+        player.setHealth(20);
+        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+        player.setHealth(20);
 
-        currentEnergy = dmzdatos.calcularENE(race, playerstats.getEnergy(), playerstats.getDmzClass());
-        playerstats.setCurrentEnergy(currentEnergy);
+        playerstats.setBoolean("dmzuser", false);
+        //Luego cambiar cuando decidamos las stats
+        playerstats.setStat("STR", 5);
+        playerstats.setStat("DEF", 5);
+        playerstats.setStat("CON", 5);
+        playerstats.setStat("PWR", 5);
+        playerstats.setStat("ENE", 5);
+        playerstats.setIntValue("tps", 0);
+        playerstats.removeAllSkills();
+        playerstats.setStringValue("form", "base");
+        playerstats.setStringValue("groupform", "");
+        playerstats.setBoolean("turbo", false);
+        playerstats.setBoolean("aura", false);
+        playerstats.setBoolean("kaioplanet", false);
+        playerstats.setIntValue("babaalivetimer", 0);
+        playerstats.setIntValue("babacooldown", 0);
+        playerstats.setIntValue("zenkaitimer", 0);
+        playerstats.setIntValue("zenkaicount", 0);
+        playerstats.setStringValue("form", "base");
+        playerstats.setIntValue("release", 0);
+        playerstats.removeTemporalEffect("mightfruit");
+        playerstats.removePermanentEffect("majin");
+        playerstats.removeFormSkill("super_form");
+        playerstats.setIntValue("curenergy", 0);
+
+        // NOTA: Lo de la vida se hace dos veces, pq a veces se buguea la primera vez xd
+
+        player.setHealth(20);
+        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+        player.setHealth(20);
     }
 
     private static void healPlayer(ServerPlayer player, DMZStatsAttributes playerstats) {
@@ -70,17 +91,13 @@ public class DendeC2S {
 
         player.displayClientMessage(Component.translatable("lines.dende.heal.success"), true);
 
-        var race = playerstats.getRace();
-        var con = playerstats.getConstitution();
-        var energia = playerstats.getEnergy();
-
-        double vidaTotal = dmzdatos.calcularCON(race, con, 20, playerstats.getDmzClass());
-        int energiaMax = dmzdatos.calcularENE(race, energia, playerstats.getDmzClass());
-        int staminaMax = dmzdatos.calcularSTM(race, (int) vidaTotal);
+        double vidaTotal = dmzdatos.calcConstitution(playerstats);
+        int energiaMax = dmzdatos.calcEnergy(playerstats);
+        int staminaMax = dmzdatos.calcStamina(playerstats);
 
         player.heal((float) vidaTotal);
-        playerstats.setCurStam(staminaMax);
-        playerstats.setCurrentEnergy(energiaMax);
+        playerstats.setIntValue("curstam", staminaMax);
+        playerstats.setIntValue("curenergy", energiaMax);
 
         player.getFoodData().setFoodLevel(20);
         player.getFoodData().setSaturation(15.0F);

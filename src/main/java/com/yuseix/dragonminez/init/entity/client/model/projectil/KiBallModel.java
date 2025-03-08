@@ -40,8 +40,10 @@ public class KiBallModel<T extends Entity> extends EntityModel<T> {
 	}
 
 	@Override
-	public void setupAnim(T t, float v, float v1, float v2, float v3, float v4) {
-		//System.out.println("Si se esta llamando");
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		float rotationSpeed = 32.0f;
+
+		this.esfera.zRot = (float) Math.toRadians(ageInTicks * rotationSpeed);
 	}
 
 	@Override

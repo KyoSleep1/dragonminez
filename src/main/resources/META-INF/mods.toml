@@ -1,35 +1,43 @@
-modLoader="javafml"
-loaderVersion="${loader_version_range}"
-license="${mod_license}"
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+issueTrackerURL = "https://github.com/orgs/DragonMineZ/projects/5"
+logoFile = "dmz_logo.png"
 
 [[mods]]
-modId="${mod_id}"
-version="${mod_version}"
-displayName="${mod_name}"
-displayURL="https://discord.gg/b5MgRNb3D7"
-logoFile="assets/dragonminez/dragonminez.png"
-authors="${mod_authors}"
-credits="Thanks to Toji71_ for helping us with the Builds, and CyaneaCapillata for supporting us on Patreon."
-displayTest="MATCH_VERSION" # Checkea misma version en cliente y servidor
-description='''${mod_description}'''
+modId = "dragonminez"
+version = "${mod_version}"
+displayName = "${mod_name}"
+displayURL = "https://discord.gg/b5MgRNb3D7"
+authors = "${mod_authors}"
+credits = "Thanks to Toji71_ for helping us with the Builds. Thanks to CyaneaCapillata, SpaceCarp, iLalox, Robbert10, Athrizel, Dssccat and Eren Jeager for supporting us on Patreon."
+displayTest = "MATCH_VERSION" # Checkea misma version en cliente y servidor
+description = '''${mod_description}'''
 
-[[dependencies.${mod_id}]]
-    modId="forge"
-    mandatory=true
-    versionRange="${forge_version_range}"
-    ordering="NONE"
-    side="BOTH"
+[[dependencies.dragonminez]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_version_range}"
+ordering = "NONE"
+side = "BOTH"
 
-[[dependencies.${mod_id}]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="${minecraft_version_range}"
-    ordering="NONE"
-    side="BOTH"
+[[dependencies.dragonminez]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"
 
-[[dependencies.${mod_id}]]
-    modId="geckolib"
-    mandatory=true
-    versionRange="${geckolib_version_range}"
-    ordering="NONE"
-    side="BOTH"
+[[dependencies.dragonminez]]
+modId = "geckolib"
+mandatory = true
+versionRange = "${geckolib_version_range}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.dragonminez]]
+modId = "terrablender"
+mandatory = true
+versionRange = "${terrablender_version_range}"
+ordering = "AFTER"
+side = "BOTH"

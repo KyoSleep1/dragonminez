@@ -1,0 +1,62 @@
+package com.yuseix.dragonminez.network.C2S;
+
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
+
+public class FormSkillsC2S {
+
+    private String tipo;
+    private String id;
+    private int value;
+
+
+    public FormSkillsC2S(String tipo, String id, int value) {
+        this.tipo = tipo;
+        this.id = id;
+        this.value = value;
+    }
+
+    public FormSkillsC2S(FriendlyByteBuf buf) {
+        tipo = buf.readUtf();
+        id = buf.readUtf();
+        value = buf.readInt();
+    }
+
+    public void toBytes(FriendlyByteBuf buf) {
+        buf.writeUtf(tipo);
+        buf.writeUtf(id);
+        buf.writeInt(value);
+
+    }
+
+    public static void handle(FormSkillsC2S packet, Supplier<NetworkEvent.Context> ctx) {
+        NetworkEvent.Context context = ctx.get();
+        context.enqueueWork(() -> {
+
+            ServerPlayer player = ctx.get().getSender();
+
+            if (player != null) {
+                DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+
+                    switch (packet.tipo){
+                        case "remove":
+                            playerstats.removeFormSkill(packet.id);
+                            break;
+                        case "setlevel":
+                            playerstats.setFormSkillLvl(packet.id, packet.value);
+                        default:
+                            break;
+                    }
+
+                });
+            }
+
+        });
+        context.setPacketHandled(true);
+    }
+}

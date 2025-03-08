@@ -1,12 +1,13 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.network.C2S.PlanetSelectionC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,18 +32,13 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-import static com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay.isKaioAvailable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NaveSaiyanEntity extends Mob implements GeoEntity {
 
 	private static final EntityDataAccessor<Boolean> IS_OPEN = SynchedEntityData.defineId(NaveSaiyanEntity.class, EntityDataSerializers.BOOLEAN);
 	private static final RawAnimation ANIM_ABIERTO = RawAnimation.begin().then("animation.navesaiyan.open", Animation.LoopType.HOLD_ON_LAST_FRAME);
 	private static final RawAnimation ANIM_CERRADO = RawAnimation.begin().then("animation.navesaiyan.close", Animation.LoopType.HOLD_ON_LAST_FRAME);
-	private int teleportHoldTime = 0;  // Contador delay
-	private static final int teleportTime = 5; // Segundos
-	private boolean isTeleporting = false;
-	private int teleportCountdown = teleportTime;
-	private int planetaObjetivo = 0;  // 0: Overworld, 1: Namek, 2: Kaio
 
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
@@ -56,7 +52,8 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 		return Mob.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 50.0D)
 				.add(Attributes.ATTACK_DAMAGE, 50.0D)
-				.add(Attributes.MOVEMENT_SPEED, 0.5F).build();
+				.add(Attributes.MOVEMENT_SPEED, 0.5F)
+				.add(Attributes.FLYING_SPEED, 2.4F).build();
 	}
 
 	@Override
@@ -77,7 +74,6 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 				setOpenNave(false);
 				if (!player.isPassenger()) {
 					player.startRiding(this);
-					ModMessages.sendToServer(new PlanetSelectionC2S(0));
 				}
 			}
 		}
@@ -102,88 +98,6 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 				upward = -0.3f;
 			} else if (!this.onGround()) { //Descenso lento
 				upward = -0.00f;
-			}
-
-			// Actualiza la selección de planeta y envía al servidor cuando cambian las flechas de dirección
-			if (Keys.SELECT_DOWN.consumeClick()) {
-				switch (planetaObjetivo) {
-					case 0 -> planetaObjetivo = 1;
-					case 1 -> planetaObjetivo = isKaioAvailable() ? 2 : 0;
-					case 2 -> planetaObjetivo = 0;
-				}
-
-				//Sonido escoger planeta
-				player.playSound(MainSounds.UI_MENU_SWITCH.get(), 0.5F, 1.0F);
-				ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
-				//System.out.println("Planeta objetivo: ABAJO " + planetaObjetivo);
-			}
-
-			if (Keys.SELECT_UP.consumeClick()) {
-				switch (planetaObjetivo) {
-					case 0 -> planetaObjetivo = isKaioAvailable() ? 2 : 1;
-					case 1 -> planetaObjetivo = 0;
-					case 2 -> planetaObjetivo = 1;
-				}
-
-				//Sonido escoger planeta
-				player.playSound(MainSounds.UI_MENU_SWITCH.get(), 0.5F, 1.0F);
-				ModMessages.sendToServer(new PlanetSelectionC2S(planetaObjetivo));
-				//System.out.println("Planeta objetivo: ARRIBA " + planetaObjetivo);
-			}
-
-			// Al pulsar la tecla, hace "toggle" del teletransporte.
-			if (Keys.FUNCTION.consumeClick()) {
-				if (isTeleporting) {
-					// Si el teletransporte está activo, se cancela y reinicia el contador
-					isTeleporting = false;
-					teleportCountdown = teleportTime;
-					player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport.cancel"), true);
-				} else {
-					// Si está desactivado, lo activa :D
-					isTeleporting = true;
-				}
-			}
-
-			if (isTeleporting) {
-				if (teleportCountdown >= 0) {
-					// Mostrar cuenta regresiva cada segundo
-					if (player.level().getGameTime() % 20 == 0) { // Cada segundo (20 ticks)
-						if (teleportCountdown == 1) {
-							player.playSound(MainSounds.UI_NAVE_TAKEOFF.get(), 0.5F, 1.0F);
-						} else if (teleportCountdown != 0 && teleportCountdown <= teleportTime) {
-							player.playSound(MainSounds.UI_NAVE_COOLDOWN.get(), 0.5F, 1.0F);
-						}
-						player.displayClientMessage(Component.translatable("ui.dmz.spacepod.teleport", teleportCountdown), true);
-						teleportCountdown--;
-					}
-				} else {
-					// Teletransportar al jugador cuando el contador llegue a 0
-					switch (planetaObjetivo) {
-						case 0 -> {
-							ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
-							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.overworld.arrive"));
-						}
-						case 1 -> {
-							ModMessages.sendToServer(new SpacePodC2S(ModDimensions.NAMEK_DIM_LEVEL_KEY));
-							player.sendSystemMessage(Component.translatable("ui.dmz.spacepod.namek.arrive"));
-						}
-						case 2 -> {
-							if (isKaioAvailable()) {
-								ModMessages.sendToServer(new SpacePodC2S(Level.OVERWORLD));
-								player.sendSystemMessage(Component.literal("Has llegado al planeta de Kaio"));
-							} else {
-								player.sendSystemMessage(Component.literal("Kaio no disponible"));
-							}
-						}
-					}
-					// Reiniciar el estado del teletransporte
-					isTeleporting = false;
-					teleportCountdown = teleportTime;
-
-					player.playSound(MainSounds.NAVE_LANDING_OPEN.get(), 0.5F, 1.0F);
-				}
-			} else {
-				teleportCountdown = teleportTime; // Reiniciar el contador si no está activo
 			}
 
 
@@ -222,6 +136,7 @@ public class NaveSaiyanEntity extends Mob implements GeoEntity {
 				return (LivingEntity) passenger;  // Devuelve el jugador que controla la nave
 			}
 		}
+
 		return null;  // Devuelve null si no hay ningún jugador controlando la nave
 	}
 

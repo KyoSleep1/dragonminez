@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.Dynamic;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.goals.VillageAlertSystem;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +160,7 @@ public class NamekianVillagerEntity extends Villager {
 			Random random = new Random();
 			List<CustomTrade> availableTrades = new ArrayList<>(TRADES);
 			for (int i = 0; i < 3; i++) {
-				if (availableTrades.isEmpty())break;
+				if (availableTrades.isEmpty()) break;
 				CustomTrade randomTrade = availableTrades.remove(random.nextInt(availableTrades.size()));
 				this.offers.add(randomTrade.createOffer());
 			}
@@ -210,4 +213,19 @@ public class NamekianVillagerEntity extends Villager {
 	public boolean canBreed() {
 		return false;
 	}
+
+//	@Override
+//	protected SoundEvent getAmbientSound() {
+//		return MainSounds.NAMEKIAN_VILLAGER_AMBIENT.get();
+//	}
+//
+//	@Override
+//	protected @NotNull SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+//		return MainSounds.NAMEKIAN_VILLAGER_HURT.get();
+//	}
+//
+//	@Override
+//	protected @NotNull SoundEvent getDeathSound() {
+//		return MainSounds.NAMEKIAN_VILLAGER_DEATH.get();
+//	}
 }

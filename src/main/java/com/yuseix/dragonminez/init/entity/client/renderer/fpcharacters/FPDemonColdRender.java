@@ -119,31 +119,22 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
-                int transformacion = cap.getDmzState();
 
-                switch (transformacion){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else if(bodyType == 1){
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else if(bodyType == 2){
-                            renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        if(isMajinOn){
-                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else if(bodyType == 1){
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else if(bodyType == 2){
+                    renderBodyType2(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
+
 
             });
 
@@ -176,12 +167,11 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //Comprobamos si no es la skin por defecto de mc, si no lo es se renderiza los delineados
-                if(cap.getDmzState() == 0){
                     //DELINEADO
                     pPoseStack.translate(0f,0f,-0.002f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                }
+
 
             }
 
@@ -194,10 +184,10 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -233,10 +223,10 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -271,10 +261,10 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -310,10 +300,10 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
 
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
+            int eye1color = cap.getIntValue("eye1color");
+            int eye2color = cap.getIntValue("eye2color");
 
-            if(cap.getEyesType() == 0){
+            if(cap.getIntValue("eyestype") == 0){
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);

@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.datagen;
 
-import com.yuseix.dragonminez.datagen.loot.DMZBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;

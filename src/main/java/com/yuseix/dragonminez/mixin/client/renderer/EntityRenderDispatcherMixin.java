@@ -3,6 +3,10 @@ package com.yuseix.dragonminez.mixin.client.renderer;
 import com.google.common.collect.ImmutableMap;
 import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold2Model;
+import com.yuseix.dragonminez.client.character.models.demoncold.Cold3Model;
 import com.yuseix.dragonminez.client.character.models.demoncold.DemonColdModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
@@ -46,18 +50,19 @@ public class EntityRenderDispatcherMixin {
 
                 if (player instanceof AbstractClientPlayer abstractClientPlayer) {
                     String modelname = abstractClientPlayer.getModelName();
+                    var transf = cap.getStringValue("form");
 
-                    switch (cap.getRace()) {
+                    switch (cap.getIntValue("race")) {
                         //HUMANO RENDER
                         case 0:
-                            if (cap.getBodytype() == 0) {
+                            if (cap.getIntValue("bodytype") == 0) {
                                 if ("default".equals(modelname)) {
                                     cir.setReturnValue(dmzRendererersV2.get(modelname));
                                 } else if ("slim".equals(modelname)) {
                                     cir.setReturnValue(dmzRendererersV2.get(modelname));
                                 }
-                            } else if (cap.getBodytype() == 1) {
-                                if (cap.getGender().equals("Male")) {
+                            } else if (cap.getIntValue("bodytype") == 1) {
+                                if (cap.getStringValue("gender").equals("male")) {
                                     cir.setReturnValue(dmzRendererersV2.get("default"));
                                 } else {
                                     cir.setReturnValue(dmzRendererersV2.get("slim"));
@@ -68,19 +73,27 @@ public class EntityRenderDispatcherMixin {
                             break;
                         //SAIYAJIN RENDER
                         case 1:
-                            if (cap.getBodytype() == 0) {
-                                if ("default".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
-                                } else if ("slim".equals(modelname)) {
-                                    cir.setReturnValue(dmzRendererersV2.get(modelname));
-                                }
-                            } else if (cap.getBodytype() == 1) {
-                                if (cap.getGender().equals("Male")) {
-                                    cir.setReturnValue(dmzRendererersV2.get("default"));
-                                } else {
-                                    cir.setReturnValue(dmzRendererersV2.get("slim"));
-                                }
+                            switch (transf){
+                                case "oozaru":
+                                    cir.setReturnValue(dmzRendererersV2.get("oozaru"));
+                                    break;
+                                default:
+                                    if (cap.getIntValue("bodytype") == 0) {
+                                        if ("default".equals(modelname)) {
+                                            cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                        } else if ("slim".equals(modelname)) {
+                                            cir.setReturnValue(dmzRendererersV2.get(modelname));
+                                        }
+                                    } else if (cap.getIntValue("bodytype") == 1) {
+                                        if (cap.getStringValue("gender").equals("male")) {
+                                            cir.setReturnValue(dmzRendererersV2.get("default"));
+                                        } else {
+                                            cir.setReturnValue(dmzRendererersV2.get("slim"));
+                                        }
+                                    }
+                                    break;
                             }
+
                             break;
 
                         //NAMEKIANO RENDER
@@ -89,23 +102,46 @@ public class EntityRenderDispatcherMixin {
                             break;
                         //BIOANDROIDE RENDER
                         case 3:
-                            if(cap.getDmzState() == 0){
-                                cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
-                            } else if(cap.getDmzState() == 1){
-                                cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
+                            switch (transf){
+                                case "semi_perfect" -> cir.setReturnValue(dmzRendererersV2.get("bio_semiperfect"));
+                                case "perfect" -> cir.setReturnValue(dmzRendererersV2.get("bio_perfect"));
+                                default -> cir.setReturnValue(dmzRendererersV2.get("bio_imperfect"));
                             }
                             break;
                         //DEMONCOLD
                         case 4:
-                            cir.setReturnValue(dmzRendererersV2.get("demon_cold"));
+                            switch (transf){
+                                case "second_form" -> cir.setReturnValue(dmzRendererersV2.get("cold2form"));
+                                case "third_form" -> cir.setReturnValue(dmzRendererersV2.get("cold3form"));
+                                default -> cir.setReturnValue(dmzRendererersV2.get("demon_cold"));
+                            }
                             break;
                         //MAJIN RENDER
                         case 5:
-                            if (cap.getGender().equals("Male")) {
-                                cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
-                            } else {
-                                cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                            switch (transf){
+                                case "evil":
+                                    if (cap.getStringValue("gender").equals("male")) {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_evil"));
+                                    } else {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                                    }
+                                    break;
+                                case "kid":
+                                    cir.setReturnValue(dmzRendererersV2.get("majin_kid"));
+                                    break;
+                                case "super":
+                                    cir.setReturnValue(dmzRendererersV2.get("majin_kid"));
+                                    break;
+                                default:
+                                    if (cap.getStringValue("gender").equals("male")) {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_gordo"));
+                                    } else {
+                                        cir.setReturnValue(dmzRendererersV2.get("majin_female"));
+                                    }
+                                    break;
+
                             }
+
                         default:
                             break;
                     }
@@ -126,16 +162,22 @@ public class EntityRenderDispatcherMixin {
         //HUMANO Y SAIYAJIN
         builder.put("default", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         builder.put("slim", new SlimHumanSMajinRender(ctx, new SlimHumanSaiyanModel<>(ctx.bakeLayer(SlimHumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("oozaru", new HumanSaiyanRender(ctx, new OzaruModel<>(ctx.bakeLayer(OzaruModel.LAYER_LOCATION))));
         //NAMEK
         builder.put("namek", new NamekianRender(ctx));
         //BIO ANDROIDE
         builder.put("bio_imperfect", new BioAndroidRender(ctx, new BioAndroidModel<>(ctx.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
-        builder.put("bio_semiperfect", new BioAndroidRender(ctx, new BioAndroidModel<>(ctx.bakeLayer(BioAndroidModel.LAYER_LOCATION))));
+        builder.put("bio_semiperfect", new BioAndroidRender(ctx, new SemiPerfectModel<>(ctx.bakeLayer(SemiPerfectModel.LAYER_LOCATION))));
+        builder.put("bio_perfect", new BioAndroidRender(ctx, new PerfectModel<>(ctx.bakeLayer(PerfectModel.LAYER_LOCATION))));
         //MAJIN
         builder.put("majin_gordo", new MajinFATRaceRender(ctx, new MajinGordoModel<>(ctx.bakeLayer(MajinGordoModel.LAYER_LOCATION))));
         builder.put("majin_female", new SlimHumanSMajinRender(ctx, new MajinFemaleModel<>(ctx.bakeLayer(MajinFemaleModel.LAYER_LOCATION))));
+        builder.put("majin_evil", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
+        builder.put("majin_kid", new HumanSaiyanRender(ctx, new HumanSaiyanModel<>(ctx.bakeLayer(HumanSaiyanModel.LAYER_LOCATION))));
         //DEMON COLD
         builder.put("demon_cold", new DemonColdRender(ctx, new DemonColdModel<>(ctx.bakeLayer(DemonColdModel.LAYER_LOCATION))));
+        builder.put("cold2form", new DemonColdRender(ctx, new Cold2Model<>(ctx.bakeLayer(Cold2Model.LAYER_LOCATION))));
+        builder.put("cold3form", new DemonColdRender(ctx, new Cold3Model<>(ctx.bakeLayer(Cold3Model.LAYER_LOCATION))));
 
         return builder.build();
     }

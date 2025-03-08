@@ -128,23 +128,24 @@ public class BioAndroidModel<T extends LivingEntity> extends PlayerModel<T> {
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
 
-		this.tail1bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.15F);
-		this.tail1bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.05F);
+		this.tail1bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail1bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
 
-		this.tail2bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.075F);
-		this.tail2bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.085F);
+		this.tail2bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail2bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
 
-		this.tail3bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.08F);
-		this.tail3bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.09F);
+		this.tail3bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail3bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
 
-		this.tail4bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.085F);
-		this.tail4bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.095F);
+		this.tail4bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail4bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
 
-		this.tail5bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.09F);
-		this.tail5bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.1F);
+		this.tail5bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail5bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
 
-		this.tail6bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.095F);
-		this.tail6bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.15F);
+		this.tail6bio.yRot = (float) (Math.sin((pAgeInTicks)*0.08f)*0.20F);
+		this.tail6bio.xRot = (float) (Math.sin((pAgeInTicks)*0.05f)*0.20F);
+
 	}
 
 	@Override

@@ -4,12 +4,19 @@ import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class PorungaC2S {
@@ -47,21 +54,48 @@ public class PorungaC2S {
                     case 7 -> player.getInventory().add(new ItemStack(MainItems.GETE_SCRAP.get(), DMZGeneralConfig.GETE_PORUNGA_WISH.get()));
                 }
 
-                // Despawnear la entidad Porunga en el mundo del jugador
-                player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
-                        entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
-                            if (entity instanceof PorungaEntity porunga) {
-                                ServerLevel serverLevel = (ServerLevel) player.level();
-                                serverLevel.setDayTime(porunga.getInvokingTime()); // Restaura el tiempo original
+                if (packet.option == 8) {
+                    DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                        if (cap.getBoolean("alive")) {
+                            player.displayClientMessage(Component.literal("lines.shenron.new_wish").withStyle(ChatFormatting.RED), true);
+                        } else {
+                            cap.setBoolean("alive", true);
+                            cap.setIntValue("babacooldown", 0);
+                            cap.setIntValue("babaalivetimer", 0);
 
-                                switch (packet.wishCount) {
-                                    case 0 -> porunga.setDeseos(3);
-                                    case 1 -> porunga.setDeseos(2);
-                                    case 2 -> porunga.setDeseos(1);
-                                    case 3 -> porunga.setDeseos(0);
+                            player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+                                    entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
+                                if (entity instanceof PorungaEntity porunga) {
+                                    ServerLevel serverLevel = (ServerLevel) player.level();
+                                    serverLevel.setDayTime(porunga.getInvokingTime()); // Restaura el tiempo original
+
+                                    switch (packet.wishCount) {
+                                        case 0 -> porunga.setDeseos(3);
+                                        case 1 -> porunga.setDeseos(2);
+                                        case 2 -> porunga.setDeseos(1);
+                                        case 3 -> porunga.setDeseos(0);
+                                    }
                                 }
+                            });
+                        }
+                    });
+                } else {
+                    player.level().getEntities(player, player.getBoundingBox().inflate(50), entity ->
+                            entity.getType() == MainEntity.PORUNGA.get()).forEach(entity -> {
+                        if (entity instanceof PorungaEntity porunga) {
+                            ServerLevel serverLevel = (ServerLevel) player.level();
+                            serverLevel.setDayTime(porunga.getInvokingTime()); // Restaura el tiempo original
+
+                            switch (packet.wishCount) {
+                                case 0 -> porunga.setDeseos(3);
+                                case 1 -> porunga.setDeseos(2);
+                                case 2 -> porunga.setDeseos(1);
+                                case 3 -> porunga.setDeseos(0);
                             }
-                        });
+                        }
+                    });
+                }
+
             }
         });
         context.setPacketHandled(true);

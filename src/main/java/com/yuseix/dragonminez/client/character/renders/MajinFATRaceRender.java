@@ -6,7 +6,9 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.layer.ArmorCapeLayer;
 import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
+import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
@@ -69,6 +71,9 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new ArmorCapeLayer(this));
+        this.addLayer(new HairsLayer(this));
+
 
     }
 
@@ -83,12 +88,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
-
-            if(transformacion == 0){
                 pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-
-            }
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -177,35 +177,20 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                var genero = cap.getGender();
-                int colorAura = cap.getAuraColor();
-                int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
-                switch (transformacion){
-                    case 0:
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        } else {
-                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                        if(isMajinOn){
-                            renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-                        break;
-
+                if (bodyType == 0) {
+                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                } else {
+                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
 
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-
-
-
+                if(isMajinOn){
+                    renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                }
             });
 
         }
@@ -253,9 +238,40 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var auraColor = cap.getAuraColor();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
+            var auraColor = 0;
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 5:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                default:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+            }
+
             var colorR = (auraColor >> 16) / 255.0F;
             var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
             var colorB = (auraColor & 0xff) / 255.0f;
@@ -484,8 +500,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -510,8 +526,8 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int hair = cap.getHairID();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int hair = cap.getIntValue("hairid");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -520,7 +536,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             //BODYCOLOR1
             playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_TYPE2_MALE_1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
             //BODYCOLOR2
-            int bodyColor2 = cap.getBodyColor2();
+            int bodyColor2 = cap.getIntValue("bodycolor2");
             colorR = (bodyColor2 >> 16) / 255.0F;
             colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
             colorB = (bodyColor2 & 0xff) / 255.0f;
@@ -548,9 +564,9 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            var ojoscolorbase = cap.getEye1Color();
-            int tipoojos = cap.getEyesType();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            var ojoscolorbase = cap.getIntValue("eye1color");
+            int tipoojos = cap.getIntValue("eyestype");
 
             colorR = (bodyColor1 >> 16) / 255.0F;
             colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
@@ -559,19 +575,19 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
             if(tipoojos == 0){
                 //OJOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_MALE_EYES)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
             } else {
 
-                //OJOS BLANCOS
+                //OJOS NEGROS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_FEMALE_EYES_BASE)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //IRIS COLORES
                 colorR = (ojoscolorbase >> 16) / 255.0F;
                 colorG = ((ojoscolorbase >> 8) & 0xff) / 255.0f;
                 colorB = (ojoscolorbase & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.MAJIN_BASE_FEMALE_EYES_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 

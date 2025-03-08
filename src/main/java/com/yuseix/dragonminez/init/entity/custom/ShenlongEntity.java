@@ -1,7 +1,12 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -9,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,6 +43,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class ShenlongEntity extends Mob implements GeoEntity {
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -91,7 +99,7 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		if (this.level().isClientSide) {
 			// Verifica que el UUID de esta entidad coincida con el del jugador
 			if (this.getOwnerName().equals(player.getName().getString())) {
-				//System.out.println("Nombre coincide con el del jugador");
+				//DebugUtils.dmzLog("Nombre coincide con el del jugador");
 				if (getDeseos() > 0) {
 					if (Minecraft.getInstance().player.equals(player)) {
 						Minecraft.getInstance().setScreen(new ShenlongMenu());
@@ -124,6 +132,8 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 		if (this.getDeseos() == 0) {
 			tiempo--;
 		}
+
+		if (this.tickCount == 1) dragonBallPositions.clear();
 
 		if (tiempo == 0) {
 			this.discard();
@@ -169,51 +179,69 @@ public class ShenlongEntity extends Mob implements GeoEntity {
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 
 	private void onDespawn() {
+		if (!DMZGeneralConfig.SHOULD_DBALL_DRAGON_SPAWN.get()) return;
 		if (this.level() instanceof ServerLevel serverWorld) {
 
 			serverWorld.setDayTime(getInvokingTime());
 			serverWorld.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(dragonBallsCapability -> {
+				dragonBallsCapability.loadFromSavedData(serverWorld);
 
 				if (dragonBallsCapability.hasDragonBalls()) {
 					dragonBallsCapability.setHasDragonBalls(false);
 				}
 
-				boolean hasDragonBalls = dragonBallsCapability.hasDragonBalls();
-
-				if (!hasDragonBalls) {
-					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState());
-					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState());
+				if (!dragonBallsCapability.hasDragonBalls()) {
+					spawnDragonBall(serverWorld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL5_BLOCK.get().defaultBlockState(), 5);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL6_BLOCK.get().defaultBlockState(), 6);
+					spawnDragonBall(serverWorld, MainBlocks.DBALL7_BLOCK.get().defaultBlockState(), 7);
 
 					dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
+					ModMessages.sendToClients(new UpdateDragonRadarS2C(dragonBallPositions));
 					dragonBallsCapability.setHasDragonBalls(true);
+					dragonBallsCapability.saveToSavedData(serverWorld);
 				}
 			});
 		}
 	}
 
-	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+	private void spawnDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
+		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		BlockPos posicionValida = new BlockPos(0, 0, 0); // Posición válida inicializada a 0, 0, 0
 
-		serverWorld.getChunk(x >> 4, z >> 4);
+		while (posicionValida.equals(new BlockPos(0, 0, 0))) {
+			// Generar posición aleatoria dentro de un rango de Xk bloques desde el spawn
+			int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+			int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
+			serverWorld.getChunk(x >> 4, z >> 4); // Cargar el chunk
 
-		int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			// Obtener la altura del terreno en esa posición
+			int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			BlockPos posiblePos = new BlockPos(x, y, z);
 
-		BlockPos pos = new BlockPos(x, y, z);
+			BlockState belowBlockState = serverWorld.getBlockState(posiblePos.below()); // Bloque debajo de la posición
+			BlockState belowBelowBlockState = serverWorld.getBlockState(posiblePos.below().below()); // Bloque debajo del bloque anterior
 
-		serverWorld.setBlock(pos, dragonBall, 2);
-		System.out.println("Dragon Ball spawned at " + pos);
+			// Validar que la posición no esté en agua ni aire
+			if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER) &&
+					!belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER)) {
+				posicionValida = posiblePos; // Si es válida, asignamos la posición
+			}
+		}
 
-		dragonBallPositions.add(pos);
+		// Place a Dragon Ball block at the generated position
+		serverWorld.setBlock(posicionValida, dragonBall, 2);
+		DebugUtils.dmzLog("[Shenron] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+
+		dragonBallPositions.add(posicionValida);
 	}
 
 	@Override

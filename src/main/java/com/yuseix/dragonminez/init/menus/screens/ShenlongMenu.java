@@ -11,6 +11,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
+import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.ShenlongC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import net.minecraft.ChatFormatting;
@@ -22,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShenlongMenu extends Screen {
@@ -29,7 +31,7 @@ public class ShenlongMenu extends Screen {
 	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
 			"textures/gui/texto.png");
 
-	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, radar;
+	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, radar, revive, reviveother;
 	private DMZButton AcceptButton, DeclineButton;
 	private DMZRightButton rightButton, leftButton;
 
@@ -136,6 +138,18 @@ public class ShenlongMenu extends Screen {
 					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
 				}
 			}
+			case "revive" -> {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.revive"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			}
+			case "revive_other" -> {
+				List<FormattedCharSequence> lines = font.split(Component.translatable("lines.shenron.revive_other"), 250);
+				for (int i = 0; i < lines.size(); i++) {
+					pGuiGraphics.drawString(font, lines.get(i), (centerX - 120), (centerY - 73) + i * font.lineHeight, 0xFFFFFF);
+				}
+			}
 		}
 
 		//Botones
@@ -155,6 +169,8 @@ public class ShenlongMenu extends Screen {
 		removeWidget(this.capKIPW);
 		removeWidget(this.senzu);
 		removeWidget(this.radar);
+		removeWidget(this.revive);
+		removeWidget(this.reviveother);
 		removeWidget(this.AcceptButton);
 		removeWidget(this.DeclineButton);
 		removeWidget(this.rightButton);
@@ -237,6 +253,27 @@ public class ShenlongMenu extends Screen {
 				this.radar = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
 						Component.translatable("lines.shenron.wish.radar"), wa -> {
 					PageOption = "radar";
+				}));
+				// Revivir
+				this.revive = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) + 5, (this.height - 23),
+						Component.translatable("lines.shenron.wish.revive"), wa -> {
+					PageOption = "revive";
+				}));
+				this.rightButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("right", (this.width / 2) + 120, (this.height - 22),
+						Component.empty(), wa -> {
+					PageButtons = 4;
+				}));
+			}
+			case 4 -> {
+				removerBotones();
+				this.leftButton = (DMZRightButton) this.addRenderableWidget(new DMZRightButton("left", (this.width / 2) - 120, (this.height - 22),
+						Component.empty(), wa -> {
+					PageButtons = 3;
+				}));
+				// Revivir a otros
+				this.reviveother = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 50, (this.height - 23),
+						Component.translatable("lines.shenron.wish.revive_other"), wa -> {
+					PageOption = "revive_other";
 				}));
 			}
 		}
@@ -362,6 +399,38 @@ public class ShenlongMenu extends Screen {
 							Component.translatable("lines.menu.decline"), wa -> {
 						this.minecraft.setScreen(null);
 					}));
+				case "revive":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
+
+						ModMessages.sendToServer(new ShenlongC2S(8)); //Revivir
+
+						this.minecraft.setScreen(null);
+
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
+
+				case "revive_other":
+					//Aceptar
+					this.AcceptButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) - 5, (this.height - 47),
+							Component.translatable("lines.menu.accept"), wa -> {
+						ModMessages.sendToServer(new CharacterC2S("setShenronRevive", 1));
+						this.minecraft.player.sendSystemMessage(Component.translatable("lines.shenron.revive_others_chat"));
+						this.minecraft.setScreen(null);
+
+					}));
+					//Rechazar
+					this.DeclineButton = (DMZButton) this.addRenderableWidget(new DMZButton((this.width / 2) + 60, (this.height - 47),
+							Component.translatable("lines.menu.decline"), wa -> {
+						this.minecraft.setScreen(null);
+					}));
+					break;
 
 				default:
 					break;

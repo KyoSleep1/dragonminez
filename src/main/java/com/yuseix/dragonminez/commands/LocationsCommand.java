@@ -29,6 +29,11 @@ public class LocationsCommand {
                             builder.suggest("KamiLookout");
                             builder.suggest("HyperbolicTimeChamber");
                             builder.suggest("KorinTower");
+                            builder.suggest("GokuHouse");
+                            builder.suggest("KameHouse");
+                            builder.suggest("ElderGuru");
+                            builder.suggest("EnmaPalace");
+                            builder.suggest("KingKaiPlanet");
                             return builder.buildFuture();
                         })
                         .executes(context -> {
@@ -72,6 +77,31 @@ public class LocationsCommand {
                     pos = structures.getTorreKarinPosition();
                     canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
                     messageRef.set(createLocationMessage("command.dmzlocate.korintower", pos, canTeleport, source));
+                }
+                case "gokuhouse" -> {
+                    pos = structures.getGokuHousePosition();
+                    canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.gokuhouse", pos, canTeleport, source));
+                }
+                case "kamehouse" -> {
+                    pos = structures.getRoshiHousePosition();
+                    canTeleport = validateDimension(playerDimension, Level.OVERWORLD, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.kamehouse", pos, canTeleport, source));
+                }
+                case "elderguru" -> {
+                    pos = structures.getElderGuruPosition();
+                    canTeleport = validateDimension(playerDimension, ModDimensions.NAMEK_DIM_LEVEL_KEY, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.grandelderguru", pos, canTeleport, source));
+                }
+                case "enmapalace" -> {
+                    pos = structures.getEnmaPalacePosition();
+                    canTeleport = validateDimension(playerDimension, ModDimensions.OTHERWORLD_DIM_LEVEL_KEY, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.enmapalace", pos, canTeleport, source));
+                }
+                case "kingkaiplanet" -> {
+                    pos = structures.getKaioPlanetPosition();
+                    canTeleport = validateDimension(playerDimension, ModDimensions.OTHERWORLD_DIM_LEVEL_KEY, source);
+                    messageRef.set(createLocationMessage("command.dmzlocate.kaioplanet", pos, canTeleport, source));
                 }
                 default -> {
                     messageRef.set(Component.translatable("command.dmzlocate.unknown_location", location));

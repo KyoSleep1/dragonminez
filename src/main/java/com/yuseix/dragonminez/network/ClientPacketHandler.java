@@ -1,13 +1,18 @@
 package com.yuseix.dragonminez.network;
 
+import com.eliotlash.mclib.math.functions.limit.Min;
 import com.yuseix.dragonminez.client.gui.AttributesMenu;
 import com.yuseix.dragonminez.client.gui.AttributesMenu2;
 import com.yuseix.dragonminez.client.gui.cc.CFirstPage;
+import com.yuseix.dragonminez.client.hud.UtilityPanelOverlay;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -20,6 +25,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ClientPacketHandler {
@@ -37,7 +43,20 @@ public class ClientPacketHandler {
 			});
 		}
 	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleCompletedQuestsPacket(int playerId, Set<String> completedQuests) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return; // Evita errores en pantallas de carga
 
+		var entity = clientLevel.getEntity(playerId);
+		if (!(entity instanceof Player player)) return; // Evita crashes si no es un jugador
+
+		// Modificamos la capability en el cliente
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			cap.getCompletedQuests().clear(); // Limpia la lista anterior
+			cap.getCompletedQuests().addAll(completedQuests); // Añade las misiones sincronizadas
+		});
+	}
 	@OnlyIn(Dist.CLIENT)
 	public static void handleTempEffectsPacket(int playerId, Map<String, Integer> tempEffects, Supplier<NetworkEvent.Context> ctxSupplier) {
 		var clientLevel = Minecraft.getInstance().level;
@@ -66,17 +85,34 @@ public class ClientPacketHandler {
 			});
 		}
 	}
-
 	@OnlyIn(Dist.CLIENT)
-	public static void handleMenuPacket(boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
-		if (openCharacterMenu) {
-			if (compactMenu) {
-				Minecraft.getInstance().setScreen(new AttributesMenu2());
+	public static void handleFormsPacket(int playerId, Map<String, FormsData> formas, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = clientLevel.getEntity(playerId);
+		if (entity instanceof Player player) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				cap.getAllDMZForms().clear(); // Limpia los datos existentes
+				cap.getAllDMZForms().putAll(formas); // Añade los nuevos valores
+			});
+		}
+	}
+	@OnlyIn(Dist.CLIENT)
+	public static void handleMenuPacket(String tipo, boolean openCharacterMenu, boolean compactMenu, Supplier<NetworkEvent.Context> ctxSupplier) {
+		if (tipo.equals("stats")) {
+			if (openCharacterMenu) {
+				if (compactMenu) {
+					Minecraft.getInstance().setScreen(new AttributesMenu2());
+				} else {
+					Minecraft.getInstance().setScreen(new AttributesMenu());
+				}
 			} else {
-				Minecraft.getInstance().setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+				Minecraft.getInstance().setScreen(new CFirstPage());
 			}
-		} else {
-			Minecraft.getInstance().setScreen(new CFirstPage());
+		}
+		if (tipo.equals("utility")) {
+			Minecraft.getInstance().setScreen(new UtilityPanelOverlay());
 		}
 	}
 
@@ -95,21 +131,25 @@ public class ClientPacketHandler {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleZPointsPacket(int zPoints, Supplier<NetworkEvent.Context> ctxSupplier) {
-		var player = Minecraft.getInstance().player;
-		if (player != null) {
-			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setZpoints(zPoints));
+	public static void handleStorySyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var clientLevel = Minecraft.getInstance().level;
+		if (clientLevel == null) return;
+
+		var entity = Minecraft.getInstance().level.getEntity(playerId);
+		if (entity instanceof Player player) {
+			player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
+				cap.loadNBTData(nbt);
+				player.refreshDimensions();
+			});
 		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static void handleKaioPlanetUnlockPacket(boolean isUnlocked, Supplier<NetworkEvent.Context> ctxSupplier) {
-		SaiyanSpacePodOverlay.setKaioAvailable(isUnlocked);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void handleUpdatePlanetSelectionPacket(int selectedPlanet, Supplier<NetworkEvent.Context> ctxSupplier) {
-		SaiyanSpacePodOverlay.updatePlanetTarget(selectedPlanet);
+	public static void handleZPointsPacket(int zPoints, Supplier<NetworkEvent.Context> ctxSupplier) {
+		var player = Minecraft.getInstance().player;
+		if (player != null) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> cap.setIntValue("tps", zPoints));
+		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -117,13 +157,22 @@ public class ClientPacketHandler {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
 		if (player != null) {
-			player.getAbilities().mayfly = isFlying;
+			if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = isFlying;
 			player.getAbilities().flying = isFlying;
 			player.onUpdateAbilities();
 		}
 	}
-	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos>positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+	public static void handleUpdateDragonBallsPositionsPacket(List<BlockPos> positions, Supplier<NetworkEvent.Context> ctxSupplier) {
 		Minecraft.getInstance().execute(() -> RadarEvents.updateDragonBallsPositions(positions));
+	}
+	public static void handleUpdateNamekDragonBallsPositionsPacket(List<BlockPos> positions, Supplier<NetworkEvent.Context> ctxSupplier) {
+		Minecraft.getInstance().execute(() -> RadarEvents.updateNamekDragonBallsPositions(positions));
+	}
+	public static void handleSyncDragonBallsPacket(List<BlockPos> earthDragonBalls, List<BlockPos> namekDragonBalls, Supplier<NetworkEvent.Context> ctxSupplier) {
+		Minecraft.getInstance().execute(() -> {
+			RadarEvents.updateDragonBallsPositions(earthDragonBalls);
+			RadarEvents.updateNamekDragonBallsPositions(namekDragonBalls);
+		});
 	}
 
 }

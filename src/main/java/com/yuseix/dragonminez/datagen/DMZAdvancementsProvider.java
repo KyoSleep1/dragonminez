@@ -1,7 +1,9 @@
 package com.yuseix.dragonminez.datagen;
 
+import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
@@ -16,6 +18,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -37,13 +42,71 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             MainItems.DBALL4_BLOCK_ITEM.get(), // Ítem de muestra
                             Component.translatable("advancements.dragonminez.root.title"), // Título
                             Component.translatable("advancements.dragonminez.root.description"), // Descripción
-                            new ResourceLocation("textures/gui/advancements/backgrounds/stone.png"), // Textura de fondo
+                            new ResourceLocation(DragonMineZ.MOD_ID, "textures/block/rocky_stone.png"), // Textura de fondo
                             FrameType.TASK, true, true, false
                     ) // Tipo de marco, si se muestra en la esquina superior derecha, si se muestra en el chat y si se oculta en los Logros ("Logro Oculto/Secreto")
                     .addCriterion("first_spawn_in_world", // Nombre del criterio
                             PlayerTrigger.TriggerInstance.located(EntityPredicate.Builder.entity().of(EntityType.PLAYER).build())) // Criterio
                     .rewards(AdvancementRewards.Builder.experience(0)) // Recompensa de experiencia (Se pueden poner más tipos xd)
                     .save(consumer, "dragonminez:root"); // Logro "raíz" o "inicial"; el primero de todos.
+
+            Advancement rockybiome = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            MainBlocks.ROCKY_STONE.get(),
+                            Component.translatable("advancements.dragonminez.rockybiome.title"),
+                            Component.translatable("advancements.dragonminez.rockybiome.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("found_rockybiome",
+                            PlayerTrigger.TriggerInstance.located(
+                                    LocationPredicate.Builder.location()
+                                            .setBiome(ModBiomes.ROCKY).build()
+                            )
+                    ).save(consumer, "dragonminez:rockybiome");
+
+            Advancement otherworld = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            MainBlocks.OTHERWORLD_CLOUD.get(),
+                            Component.translatable("advancements.dragonminez.otherworld.title"),
+                            Component.translatable("advancements.dragonminez.otherworld.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("found_otherworld",
+                            ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY)
+                    ).save(consumer, "dragonminez:otherworld");
+
+            Advancement kaiosama = Advancement.Builder.advancement()
+                    .parent(otherworld)
+                    .display(
+                            MainItems.CAPSULA_ROJA.get(),
+                            Component.translatable("advancements.dragonminez.kaiosama.title"),
+                            Component.translatable("advancements.dragonminez.kaiosama.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("kaiosama",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:kaiosama");
+
+            Advancement invincible = Advancement.Builder.advancement()
+                    .parent(root)
+                    .display(
+                            MainItems.INVENCIBLE_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.invincible.title"),
+                            Component.translatable("advancements.dragonminez.invincible.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("invincible",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.INVENCIBLE_ARMOR_HELMET.get(),
+                                    MainItems.INVENCIBLE_ARMOR_CHESTPLATE.get(),
+                                    MainItems.INVENCIBLE_ARMOR_LEGGINGS.get(),
+                                    MainItems.INVENCIBLE_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:invincible");
 
             Advancement kamilookout = Advancement.Builder.advancement()
                     .parent(root) // Este depende de X logro (Solo es orden, no requisito)
@@ -54,6 +117,7 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                             null, FrameType.GOAL, true, true, false
                     ).addCriterion("kamilookout",
                             // Criterio para que se active el logro al llegar a cualquier coordenada entre 2147482 y 2147483 (Muy lejos xd)
+                            // Esto es para que el logro sea imposible de obtener de manera normal, y lo damos mediante un evento al encontrar la Estructura.
                             PlayerTrigger.TriggerInstance.located(
                                     EntityPredicate.Builder.entity()
                                             .of(EntityType.PLAYER)
@@ -64,6 +128,44 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                                     .build()
                                             ).build())
                     ).save(consumer, "dragonminez:kamilookout");
+
+            Advancement gokuhouse = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            MainBlocks.DBALL4_BLOCK.get(),
+                            Component.translatable("advancements.dragonminez.gokuhouse.title"),
+                            Component.translatable("advancements.dragonminez.gokuhouse.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("gokuhouse",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:gokuhouse");
+
+            Advancement roshihouse = Advancement.Builder.advancement()
+                    .parent(kamilookout)
+                    .display(
+                            Blocks.SAND,
+                            Component.translatable("advancements.dragonminez.roshihouse.title"),
+                            Component.translatable("advancements.dragonminez.roshihouse.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("roshihouse",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:roshihouse");
 
             Advancement timechamber = Advancement.Builder.advancement()
                     .parent(kamilookout)
@@ -137,6 +239,25 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                     ).addCriterion("namekdim",
                             ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.NAMEK_DIM_LEVEL_KEY)
                     ).save(consumer, "dragonminez:namekdim");
+
+            Advancement patriarca = Advancement.Builder.advancement()
+                    .parent(namekdim)
+                    .display(
+                            MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE.get(),
+                            Component.translatable("advancements.dragonminez.patriarca.title"),
+                            Component.translatable("advancements.dragonminez.patriarca.description"),
+                            null, FrameType.GOAL, true, true, false
+                    ).addCriterion("patriarca",
+                            PlayerTrigger.TriggerInstance.located(
+                                    EntityPredicate.Builder.entity()
+                                            .of(EntityType.PLAYER)
+                                            .located(LocationPredicate.Builder.location()
+                                                    .setX(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setY(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .setZ(MinMaxBounds.Doubles.between(2147482, 2147483))
+                                                    .build()
+                                            ).build())
+                    ).save(consumer, "dragonminez:patriarca");
 
             Advancement radarnamek = Advancement.Builder.advancement()
                     .parent(namekdim)
@@ -237,6 +358,33 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.GOTEN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:gotenarmor");
 
+            Advancement greatsaiyamanarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.greatsaiyamanarmor.title"),
+                            Component.translatable("advancements.dragonminez.greatsaiyamanarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("greatsaiyamanarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GREAT_SAIYAMAN_ARMOR_HELMET.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_LEGGINGS.get(),
+                                    MainItems.GREAT_SAIYAMAN_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:greatsaiyamanarmor");
+
+            Advancement futuregohanarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.futuregohanarmor.title"),
+                            Component.translatable("advancements.dragonminez.futuregohanarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("futuregohanarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE.get(),
+                                    MainItems.FUTURE_GOHAN_ARMOR_LEGGINGS.get(),
+                                    MainItems.FUTURE_GOHAN_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:futuregohanarmor");
+
             Advancement vegetaarmor = Advancement.Builder.advancement()
                     .parent(patternz)
                     .display(
@@ -249,6 +397,32 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS.get(),
                                     MainItems.VEGETA_SAIYAN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:vegetaarmor");
+
+            Advancement vegettoarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.VEGETTO_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.vegettoarmor.title"),
+                            Component.translatable("advancements.dragonminez.vegettoarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("vegettoarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.VEGETTO_ARMOR_CHESTPLATE.get(),
+                                    MainItems.VEGETTO_ARMOR_LEGGINGS.get(),
+                                    MainItems.VEGETTO_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:vegettoarmor");
+
+            Advancement gogetaarmor = Advancement.Builder.advancement()
+                    .parent(patternz)
+                    .display(
+                            MainItems.GOGETA_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gogetaarmor.title"),
+                            Component.translatable("advancements.dragonminez.gogetaarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gogetaarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GOGETA_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GOGETA_ARMOR_LEGGINGS.get(),
+                                    MainItems.GOGETA_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gogetaarmor");
 
             Advancement piccoloarmor = Advancement.Builder.advancement()
                     .parent(patternz)
@@ -355,6 +529,45 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.SHIN_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:shinarmor");
 
+            Advancement blackarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.BLACK_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.blackarmor.title"),
+                            Component.translatable("advancements.dragonminez.blackarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("blackarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.BLACK_ARMOR_CHESTPLATE.get(),
+                                    MainItems.BLACK_ARMOR_LEGGINGS.get(),
+                                    MainItems.BLACK_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:blackarmor");
+
+            Advancement zamasuarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.ZAMASU_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.zamasuarmor.title"),
+                            Component.translatable("advancements.dragonminez.zamasuarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("zamasuarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.ZAMASU_ARMOR_CHESTPLATE.get(),
+                                    MainItems.ZAMASU_ARMOR_LEGGINGS.get(),
+                                    MainItems.ZAMASU_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:zamasuarmor");
+
+            Advancement fusionzamasuarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.FUSION_ZAMASU_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.fusionzamasuarmor.title"),
+                            Component.translatable("advancements.dragonminez.fusionzamasuarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("fusionzamasuarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.FUSION_ZAMASU_ARMOR_CHESTPLATE.get(),
+                                    MainItems.FUSION_ZAMASU_ARMOR_LEGGINGS.get(),
+                                    MainItems.FUSION_ZAMASU_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:fusionzamasuarmor");
+
             Advancement pridetrooparmor = Advancement.Builder.advancement()
                     .parent(patternsuper)
                     .display(
@@ -380,6 +593,35 @@ public class DMZAdvancementsProvider extends AdvancementProvider {
                                     MainItems.HIT_ARMOR_LEGGINGS.get(),
                                     MainItems.HIT_ARMOR_BOOTS.get())
                     ).save(consumer, "dragonminez:hitarmor");
+
+            Advancement gasarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.GAS_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gasarmor.title"),
+                            Component.translatable("advancements.dragonminez.gasarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gasarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GAS_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAS_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAS_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gasarmor");
+
+            Advancement gammasarmor = Advancement.Builder.advancement()
+                    .parent(patternsuper)
+                    .display(
+                            MainItems.GAMMA1_ARMOR_CHESTPLATE.get(),
+                            Component.translatable("advancements.dragonminez.gammasarmor.title"),
+                            Component.translatable("advancements.dragonminez.gammasarmor.description"),
+                            null, FrameType.TASK, true, true, false
+                    ).addCriterion("gammasarmor",
+                            InventoryChangeTrigger.TriggerInstance.hasItems(MainItems.GAMMA1_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAMMA1_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAMMA1_ARMOR_BOOTS.get(),
+                                    MainItems.GAMMA2_ARMOR_CHESTPLATE.get(),
+                                    MainItems.GAMMA2_ARMOR_LEGGINGS.get(),
+                                    MainItems.GAMMA2_ARMOR_BOOTS.get())
+                    ).save(consumer, "dragonminez:gammasarmor");
         }
     }
 }

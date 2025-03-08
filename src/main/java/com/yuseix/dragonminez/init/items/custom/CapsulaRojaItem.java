@@ -42,14 +42,14 @@ public class CapsulaRojaItem extends Item {
 
         if (!pLevel.isClientSide) {
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pPlayer).ifPresent(stats -> {
-                boolean isDmzUser = stats.isAcceptCharacter();
+                boolean isDmzUser = stats.getBoolean("dmzuser");
                 if (isDmzUser) {
-                    int strength = stats.getStrength();
+                    int strength = stats.getStat("STR");
                     int maxStrength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
 
                     if (strength < maxStrength) {
                         int increment = Math.min(5, maxStrength - strength);
-                        stats.addStrength(increment);
+                        stats.addStat("STR", increment);
 
                         pPlayer.displayClientMessage(
                                 Component.literal("+")

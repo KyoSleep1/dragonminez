@@ -1,7 +1,13 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
+import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
+import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -22,6 +28,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
@@ -115,13 +122,15 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		//System.out.println("[P] Deseos del Jugador: " + getDeseos());
-		//System.out.println("[P] Nombre del jugador: " + getOwnerName());
+		//DebugUtils.dmzLog("[P] Deseos del Jugador: " + getDeseos());
+		//DebugUtils.dmzLog("[P] Nombre del jugador: " + getOwnerName());
 
 
 		if (this.getDeseos() == 0) {
 			tiempo--;
 		}
+
+		if (this.tickCount == 1) namekDragonBallPositions.clear();
 
 		if (tiempo == 0) {
 			this.discard();
@@ -167,49 +176,67 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
 
 	private void onDespawn() {
+		if (!DMZGeneralConfig.SHOULD_DBALL_DRAGON_SPAWN.get()) return;
 		if (this.level() instanceof ServerLevel serverWorld) {
 			serverWorld.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(namekDragonBallsCapability -> {
+				namekDragonBallsCapability.loadFromSavedData(serverWorld);
 
 				if (namekDragonBallsCapability.hasNamekDragonBalls()) {
 					namekDragonBallsCapability.setHasNamekDragonBalls(false);
 				}
 
-				boolean hasNamekDragonBalls = namekDragonBallsCapability.hasNamekDragonBalls();
-
-				if (!hasNamekDragonBalls) {
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState());
-					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState());
+				if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL5_NAMEK_BLOCK.get().defaultBlockState(), 5);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL6_NAMEK_BLOCK.get().defaultBlockState(), 6);
+					spawnNamekDragonBall(serverWorld, MainBlocks.DBALL7_NAMEK_BLOCK.get().defaultBlockState(), 7);
 
 					namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
+					ModMessages.sendToClients(new UpdateNamekDragonRadarS2C(namekDragonBallPositions));
 					namekDragonBallsCapability.setHasNamekDragonBalls(true);
+					namekDragonBallsCapability.saveToSavedData(serverWorld);
 				}
 			});
 		}
 	}
 
-	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall) {
+	private void spawnNamekDragonBall(ServerLevel serverWorld, BlockState dragonBall, int dBallNum) {
+		//Spawn the dragon balls
 		BlockPos spawnPos = serverWorld.getSharedSpawnPos();
 		Random random = new Random();
+		int range = DMZGeneralConfig.DBALL_SPAWN_RANGE.get();
 
-		int x = spawnPos.getX() + random.nextInt(10000) - 5000;
-		int z = spawnPos.getZ() + random.nextInt(10000) - 5000;
+		BlockPos posicionValida = new BlockPos(0, 0, 0); // Posición válida inicializada a 0, 0, 0
 
-		serverWorld.getChunk(x >> 4, z >> 4);
+		while (posicionValida.equals(new BlockPos(0, 0, 0))) {
+			// Generar posición aleatoria dentro de un rango de Xk bloques desde el spawn
+			int x = spawnPos.getX() + random.nextInt(range * 2) - range;
+			int z = spawnPos.getZ() + random.nextInt(range * 2) - range;
 
+			serverWorld.getChunk(x >> 4, z >> 4); // Cargar el chunk
 
-		int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			// Obtener la altura del terreno en esa posición
+			int y = serverWorld.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+			BlockPos posiblePos = new BlockPos(x, y, z);
 
-		BlockPos pos = new BlockPos(x, y, z);
+			BlockState belowBlockState = serverWorld.getBlockState(posiblePos.below()); // Bloque debajo de la posición
+			BlockState belowBelowBlockState = serverWorld.getBlockState(posiblePos.below().below()); // Bloque debajo del bloque anterior
 
-		serverWorld.setBlock(pos, dragonBall, 2);
-		System.out.println("Namekian Dragon Ball spawned at " + pos);
+			// Validar que la posición no esté en agua ni aire
+			if (!belowBlockState.isAir() && !(belowBlockState.getBlock() == Blocks.WATER) && !(belowBelowBlockState.getBlock() == MainBlocks.NAMEK_WATER_LIQUID.get()) &&
+					!belowBelowBlockState.isAir() && !(belowBelowBlockState.getBlock() == Blocks.WATER) && !(belowBelowBlockState.getBlock() == MainBlocks.NAMEK_WATER_LIQUID.get())) {
+				posicionValida = posiblePos; // Si es válida, asignamos la posición
+			}
+		}
 
-		namekDragonBallPositions.add(pos);
+		// Place a Dragon Ball block at the generated position
+		serverWorld.setBlock(posicionValida, dragonBall, 2);
+		DebugUtils.dmzLog("[Porunga] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+
+		namekDragonBallPositions.add(posicionValida);
 	}
 
 	@Override

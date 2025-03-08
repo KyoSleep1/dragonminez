@@ -3,6 +3,8 @@ package com.yuseix.dragonminez.client.character.models.demoncold;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -13,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "dc_minim");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "cd_minim");
 	private final ModelPart Head;
 	private final ModelPart orejas;
 	private final ModelPart cuernos;
@@ -94,6 +96,60 @@ public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	@Override
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
 		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap ->{
+			var formRelease = cap.getIntValue("formrelease");
+			var isTransfOn = cap.getBoolean("transform");
+			var groupForm = cap.getStringValue("groupform");
+			var dmzform = cap.getStringValue("form");
+			var race = cap.getIntValue("race");
+
+			switch (race){
+				case 4:
+					if(dmzform.equals("base") && isTransfOn && formRelease > 1){
+						float scaleFactor = 1.0F + 0.03F * (float) Math.sin(pAgeInTicks * 0.4F);
+						body.xScale = scaleFactor;
+						body.yScale = scaleFactor;
+						body.zScale = scaleFactor;
+
+						rightArm.xScale = scaleFactor;
+						rightArm.yScale = scaleFactor;
+						rightArm.zScale = scaleFactor;
+
+						leftArm.xScale = scaleFactor;
+						leftArm.yScale = scaleFactor;
+						leftArm.zScale = scaleFactor;
+
+						leftArm.zRot = -0.2f;
+						rightArm.zRot = 0.2f;
+
+					} else {
+						body.xScale = 1.0f;
+						body.yScale = 1.0f;
+						body.zScale = 1.0f;
+						rightArm.xScale = 1.0f;
+						rightArm.yScale = 1.0f;
+						rightArm.zScale = 1.0f;
+						leftArm.xScale = 1.0f;
+						leftArm.yScale = 1.0f;
+						leftArm.zScale = 1.0f;
+					}
+
+					if(dmzform.equals("full_power")){
+						rightArm.xScale = 1.3f;
+						leftArm.xScale = 1.3f;
+					} else {
+						rightArm.xScale = 1.0f;
+						leftArm.xScale = 1.0f;
+					}
+
+					break;
+				default:
+					break;
+			}
+
+
+		});
 
 		this.tail1bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.15F);
 		this.tail1bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.05F);

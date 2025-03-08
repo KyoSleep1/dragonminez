@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.datagen;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
+import net.minecraft.data.Main;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
@@ -17,21 +18,26 @@ public class DMZBlockStateProvider extends BlockStateProvider {
     }
 
     @Override
-    public void registerStatesAndModels() {
-        //Bloques
+    public void registerStatesAndModels() {//Bloques
         blockWithItem(MainBlocks.NAMEK_BLOCK);
         blockWithItem(MainBlocks.NAMEK_DIRT);
         blockWithItem(MainBlocks.NAMEK_STONE);
         blockWithItem(MainBlocks.NAMEK_COBBLESTONE);
+        blockWithItem(MainBlocks.ROCKY_DIRT);
+        blockWithItem(MainBlocks.ROCKY_STONE);
+        blockWithItem(MainBlocks.ROCKY_COBBLESTONE);
         blockWithItem(MainBlocks.TIME_CHAMBER_BLOCK);
         axisBlock(((RotatedPillarBlock) MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
         blockWithItem(MainBlocks.TIME_CHAMBER_PORTAL);
+        blockWithItem(MainBlocks.OTHERWORLD_CLOUD);
 
-        //Madera de Ajissa de Namek
+        //Madera de Namek
         blockWithItem(MainBlocks.NAMEK_AJISSA_PLANKS);
         leavesBlock(MainBlocks.NAMEK_AJISSA_LEAVES);
         blockWithItem(MainBlocks.NAMEK_SACRED_PLANKS);
         leavesBlock(MainBlocks.NAMEK_SACRED_LEAVES);
+        saplingBlock(MainBlocks.NAMEK_AJISSA_SAPLING);
+        saplingBlock(MainBlocks.NAMEK_SACRED_SAPLING);
 
         //Ores Nuevos
         blockWithItem(MainBlocks.GETE_BLOCK);
@@ -60,6 +66,42 @@ public class DMZBlockStateProvider extends BlockStateProvider {
 
         //BlockEntities
         blockWithItem(MainBlocks.GETE_FURNACE);
+
+
+        // Variantes de bloques convencionales
+        stairsBlock(((StairBlock) MainBlocks.NAMEK_AJISSA_STAIRS.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        slabBlock(((SlabBlock) MainBlocks.NAMEK_AJISSA_SLAB.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        buttonBlock(((ButtonBlock) MainBlocks.NAMEK_AJISSA_BUTTON.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        pressurePlateBlock(((PressurePlateBlock) MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        fenceBlock(((FenceBlock) MainBlocks.NAMEK_AJISSA_FENCE.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        fenceGateBlock(((FenceGateBlock) MainBlocks.NAMEK_AJISSA_FENCE_GATE.get()), blockTexture(MainBlocks.NAMEK_AJISSA_PLANKS.get()));
+        doorBlockWithRenderType(((DoorBlock) MainBlocks.NAMEK_AJISSA_DOOR.get()), modLoc("block/namek_ajissa_door_bottom"), modLoc("block/namek_ajissa_door_top"), "cutout");
+        trapdoorBlockWithRenderType(((TrapDoorBlock) MainBlocks.NAMEK_AJISSA_TRAPDOOR.get()), modLoc("block/namek_ajissa_trapdoor"), true, "cutout");
+
+        stairsBlock(((StairBlock) MainBlocks.NAMEK_SACRED_STAIRS.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        slabBlock(((SlabBlock) MainBlocks.NAMEK_SACRED_SLAB.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        buttonBlock(((ButtonBlock) MainBlocks.NAMEK_SACRED_BUTTON.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        pressurePlateBlock(((PressurePlateBlock) MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        fenceBlock(((FenceBlock) MainBlocks.NAMEK_SACRED_FENCE.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        fenceGateBlock(((FenceGateBlock) MainBlocks.NAMEK_SACRED_FENCE_GATE.get()), blockTexture(MainBlocks.NAMEK_SACRED_PLANKS.get()));
+        doorBlockWithRenderType(((DoorBlock) MainBlocks.NAMEK_SACRED_DOOR.get()), modLoc("block/namek_sacred_door_bottom"), modLoc("block/namek_sacred_door_top"), "cutout");
+        trapdoorBlockWithRenderType(((TrapDoorBlock) MainBlocks.NAMEK_SACRED_TRAPDOOR.get()), modLoc("block/namek_sacred_trapdoor"), true, "cutout");
+
+        stairsBlock(((StairBlock) MainBlocks.NAMEK_STONE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.NAMEK_STONE_SLAB.get()), blockTexture(MainBlocks.NAMEK_STONE.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
+        wallBlock(((WallBlock) MainBlocks.NAMEK_STONE_WALL.get()), blockTexture(MainBlocks.NAMEK_STONE.get()));
+        stairsBlock(((StairBlock) MainBlocks.NAMEK_COBBLESTONE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.NAMEK_COBBLESTONE_SLAB.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
+        wallBlock(((WallBlock) MainBlocks.NAMEK_COBBLESTONE_WALL.get()), blockTexture(MainBlocks.NAMEK_COBBLESTONE.get()));
+        stairsBlock(((StairBlock) MainBlocks.NAMEK_DEEPSLATE_STAIRS.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        slabBlock(((SlabBlock) MainBlocks.NAMEK_DEEPSLATE_SLAB.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        wallBlock(((WallBlock) MainBlocks.NAMEK_DEEPSLATE_WALL.get()), blockTexture(MainBlocks.NAMEK_DEEPSLATE.get()));
+        stairsBlock(((StairBlock) MainBlocks.ROCKY_STONE_STAIRS.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.ROCKY_STONE_SLAB.get()), blockTexture(MainBlocks.ROCKY_STONE.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        wallBlock(((WallBlock) MainBlocks.ROCKY_STONE_WALL.get()), blockTexture(MainBlocks.ROCKY_STONE.get()));
+        stairsBlock(((StairBlock) MainBlocks.ROCKY_COBBLESTONE_STAIRS.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
+        slabBlock(((SlabBlock) MainBlocks.ROCKY_COBBLESTONE_SLAB.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
+        wallBlock(((WallBlock) MainBlocks.ROCKY_COBBLESTONE_WALL.get()), blockTexture(MainBlocks.ROCKY_COBBLESTONE.get()));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {
@@ -72,5 +114,9 @@ public class DMZBlockStateProvider extends BlockStateProvider {
     private void leavesBlock(RegistryObject<Block> blockRegistryObject) {
         simpleBlockWithItem(blockRegistryObject.get(), models().singleTexture(ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath(),
                 new ResourceLocation("minecraft:block/leaves"), "all", blockTexture(blockRegistryObject.get())).renderType("cutout"));
+    }
+    private void saplingBlock(RegistryObject<Block> blockRegistryObject) {
+        simpleBlock(blockRegistryObject.get(),
+                models().cross(ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath(), blockTexture(blockRegistryObject.get())).renderType("cutout"));
     }
 }

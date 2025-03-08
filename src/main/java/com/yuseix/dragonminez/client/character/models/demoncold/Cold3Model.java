@@ -1,0 +1,153 @@
+package com.yuseix.dragonminez.client.character.models.demoncold;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.yuseix.dragonminez.DragonMineZ;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+
+public class Cold3Model<T extends LivingEntity> extends PlayerModel<T> {
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "cd_third");
+	private final ModelPart head;
+	private final ModelPart orejas;
+	private final ModelPart cuernos;
+	private final ModelPart cuernos2;
+	private final ModelPart cuernos3;
+	private final ModelPart cuernos4;
+	private final ModelPart body;
+	private final ModelPart tail1bio;
+	private final ModelPart tail2bio;
+	private final ModelPart tail3bio;
+	private final ModelPart tail4bio;
+	private final ModelPart tail5bio;
+	private final ModelPart tail6bio;
+	private final ModelPart right_arm;
+	private final ModelPart left_arm;
+	private final ModelPart right_leg;
+	private final ModelPart left_leg;
+
+	public Cold3Model(ModelPart root) {
+        super(root, false);
+        this.head = root.getChild("head");
+		this.orejas = this.head.getChild("orejas");
+		this.cuernos = this.head.getChild("cuernos");
+		this.cuernos2 = this.head.getChild("cuernos2");
+		this.cuernos3 = this.head.getChild("cuernos3");
+		this.cuernos4 = this.head.getChild("cuernos4");
+		this.body = root.getChild("body");
+		this.tail1bio = this.body.getChild("tail1bio");
+		this.tail2bio = this.tail1bio.getChild("tail2bio");
+		this.tail3bio = this.tail2bio.getChild("tail3bio");
+		this.tail4bio = this.tail3bio.getChild("tail4bio");
+		this.tail5bio = this.tail4bio.getChild("tail5bio");
+		this.tail6bio = this.tail5bio.getChild("tail6bio");
+		this.right_arm = root.getChild("right_arm");
+		this.left_arm = root.getChild("left_arm");
+		this.right_leg = root.getChild("right_leg");
+		this.left_leg = root.getChild("left_leg");
+	}
+
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = PlayerModel.createMesh(CubeDeformation.NONE, false);
+		PartDefinition partdefinition = meshdefinition.getRoot();
+
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(32, 32).addBox(-4.0F, -8.0F, 4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(32, 32).addBox(-4.0F, -8.0F, 12.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(16, 34).addBox(-2.0F, -3.0F, -6.0F, 4.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition orejas = head.addOrReplaceChild("orejas", CubeListBuilder.create().texOffs(42, 0).addBox(3.75F, -5.5F, -1.5F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+		.texOffs(42, 0).addBox(-4.75F, -5.5F, -1.5F, 1.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition cuernos = head.addOrReplaceChild("cuernos", CubeListBuilder.create(), PartPose.offset(0.0F, 0.45F, 0.0F));
+
+		PartDefinition cube_r1 = cuernos.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-6.0F, -8.85F, 0.0F, 0.0F, 0.0F, -0.48F));
+
+		PartDefinition cube_r2 = cuernos.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.25F, -7.5F, 0.0F, 0.0F, 0.0F, -1.0908F));
+
+		PartDefinition cuernos2 = head.addOrReplaceChild("cuernos2", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.5F, 0.0F, 0.0F, 3.1416F, 0.0F));
+
+		PartDefinition cube_r3 = cuernos2.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-6.0F, -8.85F, 0.0F, 0.0F, 0.0F, -0.48F));
+
+		PartDefinition cube_r4 = cuernos2.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.25F, -7.5F, 0.0F, 0.0F, 0.0F, -1.0908F));
+
+		PartDefinition cuernos3 = head.addOrReplaceChild("cuernos3", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 1.5F, 11.0F, 0.0F, 3.1416F, 0.0F));
+
+		PartDefinition cube_r5 = cuernos3.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(-6.6F, -10.6F, 0.0F, 0.0F, 0.0F, 0.2618F));
+
+		PartDefinition cube_r6 = cuernos3.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-6.0F, -8.85F, 0.0F, 0.0F, 0.0F, -0.48F));
+
+		PartDefinition cube_r7 = cuernos3.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.25F, -7.5F, 0.0F, 0.0F, 0.0F, -1.0908F));
+
+		PartDefinition cuernos4 = head.addOrReplaceChild("cuernos4", CubeListBuilder.create(), PartPose.offset(0.0F, 1.45F, 11.0F));
+
+		PartDefinition cube_r8 = cuernos4.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.3F)), PartPose.offsetAndRotation(-6.6F, -10.6F, 0.0F, 0.0F, 0.0F, 0.2618F));
+
+		PartDefinition cube_r9 = cuernos4.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(-6.0F, -8.85F, 0.0F, 0.0F, 0.0F, -0.48F));
+
+		PartDefinition cube_r10 = cuernos4.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(55, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.25F, -7.5F, 0.0F, 0.0F, 0.0F, -1.0908F));
+
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition tail1bio = body.addOrReplaceChild("tail1bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 9.5F, 3.2F));
+
+		PartDefinition tail2bio = tail1bio.addOrReplaceChild("tail2bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.3F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 1.8F));
+
+		PartDefinition tail3bio = tail2bio.addOrReplaceChild("tail3bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -1.1F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 4.0F));
+
+		PartDefinition tail4bio = tail3bio.addOrReplaceChild("tail4bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.6F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
+
+		PartDefinition tail5bio = tail4bio.addOrReplaceChild("tail5bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.2F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.0F));
+
+		PartDefinition tail6bio = tail5bio.addOrReplaceChild("tail6bio", CubeListBuilder.create().texOffs(1, 32).addBox(-1.5F, -1.5F, -0.5F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 3.75F));
+
+		PartDefinition right_arm = partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.0F, 2.0F, 0.0F));
+
+		PartDefinition left_arm = partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(32, 48).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 2.0F, 0.0F));
+
+		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
+
+		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(16, 48).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+
+		return LayerDefinition.create(meshdefinition, 64, 64);
+	}
+
+	@Override
+	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+		super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
+
+		this.tail1bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.15F);
+		this.tail1bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.05F);
+
+		this.tail2bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.075F);
+		this.tail2bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.085F);
+
+		this.tail3bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.08F);
+		this.tail3bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.09F);
+
+		this.tail4bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.085F);
+		this.tail4bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.095F);
+
+		this.tail5bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.09F);
+		this.tail5bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.1F);
+
+		this.tail6bio.yRot = (float) (Math.sin((pEntity.tickCount)*0.08f)*0.095F);
+		this.tail6bio.xRot = (float) (Math.sin((pEntity.tickCount)*0.05f)*0.15F);
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		right_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		left_arm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		right_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		left_leg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+}

@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://media.forgecdn.net/attachments/description/null/description_d48ff53a-9b39-4c33-90cf-afaf519f6224.png" alt="DMZ Banner" width="70%" />
+  <img src=".github/docs/dragonminez_big_logo.png" alt="DMZ Banner" width="70%" />
 </div>
 
 ## About
@@ -12,16 +12,16 @@ revamping the vanilla experience.
 
 ### Contributing
 
-Would you like to help? Cool! Check out the [contribution guide](CONTRIBUTING.md) to start.
+Would you like to help? Cool! Check out the [contribution guide](.github/CONTRIBUTING.md) to start.
 
 ### 🌍 Translations
 
-- [Instrucciones en Español](./README_ES.md)
+- [Instrucciones en Español](README_ES.md)
 
 <div align="center">
-  <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&amp;logo=Discord&amp;logoColor=white&amp;label=Discord&amp;color=orange" alt="Discord"></a>&nbsp;&nbsp;
-  <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&amp;logo=Patreon" alt="Patreon"></a>&nbsp;&nbsp;
-  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&amp;logo=GitHub" alt="GitHub Progress Board"></a>
+  <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&logo=Discord&logoColor=white&label=Discord&color=orange" alt="Discord"></a>  
+  <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&logo=Patreon" alt="Patreon"></a>  
+  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&logo=GitHub" alt="GitHub Progress Board"></a>
 </div>
 
 ## 🚀 Download
@@ -49,7 +49,7 @@ Some sounds are used from the [Zapsplat](https://www.zapsplat.com/) and [Freesou
 ### Acknowledgments
 
 This project includes code from [GeckoLib](https://github.com/bernie-g/geckolib), which is licensed under the MIT
-License.  
+License.
 Copyright © 2024 GeckoThePecko. See the `THIRD_PARTY_LICENSES` file for details.
 
 ## ✨ Authors
@@ -68,6 +68,7 @@ Copyright © 2024 GeckoThePecko. See the `THIRD_PARTY_LICENSES` file for details
 ### Patreons
 
 - CyaneaCapillata
+- Robberto10
 
 ## License
 

@@ -1,15 +1,13 @@
 package com.yuseix.dragonminez.init.entity.custom.namek;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallBallProjectil;
+import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -108,8 +106,6 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
             controller.setAnimation(RawAnimation.begin().then("animation.soldado1.idle", Animation.LoopType.LOOP));
         }
 
-
-
         return PlayState.CONTINUE;
     }
 
@@ -185,7 +181,7 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
         double dy = target.getEyeY() - this.getEyeY();
         double dz = target.getZ() - this.getZ();
 
-        KiSmallBallProjectil kiBlast = new KiSmallBallProjectil(MainEntity.KI_BLAST.get(), this.level());
+        KiBallProjectil kiBlast = new KiBallProjectil(MainEntity.KI_BLAST.get(), this.level());
 
         //Aplicar el owner normal para que diga que te mato el
         kiBlast.setOwner(this);
@@ -201,6 +197,7 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
         kiBlast.setVelocidad(0.7f);
 
         kiBlast.setDamage(80.0F);
+        kiBlast.setTamano(0.7f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador
         kiBlast.setPos(this.getX(), this.getEyeY() - 0.8, this.getZ());

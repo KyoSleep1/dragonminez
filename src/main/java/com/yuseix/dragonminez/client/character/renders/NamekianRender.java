@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.layer.ArmorCapeLayer;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
@@ -67,6 +68,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new HairsLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new ArmorCapeLayer(this));
 
 
     }
@@ -82,12 +84,22 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getStringValue("form");
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F);
-
+            switch (transf){
+                case "super_namek":
+                    pPoseStack.scale(0.96F, 0.96F, 0.96F);
+                    break;
+                case "potential_unleashed":
+                    break;
+                case "giant", "orange_giant":
+                    pPoseStack.scale(3.9375F, 3.9375F, 3.9375F);
+                    break;
+                case "orange":
+                    break;
+                default: //base
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    break;
             }
         });
 
@@ -177,22 +189,25 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                int colorAura = cap.getAuraColor();
-                boolean isAuraOn = cap.isAuraOn();
+                int bodyType = cap.getIntValue("bodytype");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
+                var form = cap.getStringValue("form");
 
+                switch (form){
+                    case "orange","orange_giant":
+                        break;
+                    default:
+                        if (bodyType == 0) {
+                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
 
-                if (bodyType == 0) {
-                    renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                } else if (bodyType == 1) {
-                    pPoseStack.translate(0f, 0f, 0f);
-                    renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        } else if (bodyType == 1) {
+                            pPoseStack.translate(0f, 0f, 0f);
+                            renderBodyType1(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        }
+                        break;
                 }
 
                 renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
 
                 if(isMajinOn){
                     renderMarcaMajin(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
@@ -246,9 +261,40 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var auraColor = cap.getAuraColor();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
+            var auraColor = 0;
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 5:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                default:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+            }
+
             var colorR = (auraColor >> 16) / 255.0F;
             var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
             var colorB = (auraColor & 0xff) / 255.0f;
@@ -270,7 +316,6 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                         kiTridentModel.translateToHand(player.getMainArm(), poseStack);
                         getModel().rightArm.translateAndRotate(poseStack);
 
-                        // Renderizar el modelo personalizado
                         kiTridentModel.trident.x = 5.5f;
                         kiTridentModel.trident.y = -1f;
                         VertexConsumer vertexTrident = bufferSource.getBuffer(CustomRenderTypes.energy2(RenderManos.TRIDENT_TEX));
@@ -457,7 +502,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        NamekianModel<AbstractClientPlayer> playermodel = (NamekianModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
@@ -467,13 +512,13 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
                 pPoseStack.translate(0f,0f,-0.002f);
                 playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.MAJINMARCA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                if(cap.getEyesType() == 0){
+                if(cap.getIntValue("eyestype") == 0){
 
                     //DELINEADO
                     pPoseStack.translate(0f,0f,-0.0011f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                } else if(cap.getEyesType() == 1){
+                } else if(cap.getIntValue("eyestype") == 1){
                     //DELINEADO
                     pPoseStack.translate(0f,0f,-0.0011f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
@@ -493,60 +538,60 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
 
-            int eye1color = cap.getEye1Color();
-            int eye2color = cap.getEye2Color();
-            int cejascolor = cap.getBodyColor();
+            int eye1color = cap.getIntValue("eye1color");
+            int eye2color = cap.getIntValue("eye2color");
+            int cejascolor = cap.getIntValue("bodycolor");
 
-            if(cap.getEyesType() == 0){
+            if(cap.getIntValue("eyestype") == 0){
 
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.N_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cejascolor >> 16) / 255.0F;
                 colorG = ((cejascolor >> 8) & 0xff) / 255.0f;
                 colorB = (cejascolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.N_EYES1_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.N_EYES1_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
-            } else if(cap.getEyesType() == 1){
+            } else if(cap.getIntValue("eyestype") == 1){
                 //OJOS BLANCOS
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_EYES1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
                 //CEJAS Y COLOR DE CEJAS
                 colorR = (cejascolor >> 16) / 255.0F;
                 colorG = ((cejascolor >> 8) & 0xff) / 255.0f;
                 colorB = (cejascolor & 0xff) / 255.0f;
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.N_EYES1_CEJAS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 1 Y COLOR DE IRIS
                 colorR = (eye1color >> 16) / 255.0F;
                 colorG = ((eye1color >> 8) & 0xff) / 255.0f;
                 colorB = (eye1color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS1)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
                 //IRIS 2 Y COLOR DE IRIS
                 colorR = (eye2color >> 16) / 255.0F;
                 colorG = ((eye2color >> 8) & 0xff) / 255.0f;
                 colorB = (eye2color & 0xff) / 255.0f;
                 pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.SH_2_IRIS2)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
             }
 
@@ -560,9 +605,9 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -592,10 +637,10 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
-            int bodyColor4 = cap.getHairColor();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+            int bodyColor4 = cap.getIntValue("haircolor");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;

@@ -44,17 +44,134 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         oreSmelting(pWriter, Carbon, RecipeCategory.MISC, Items.COAL, 0.1f, 200, "coal");
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
-                RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
+                        RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
                 .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_campfire"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get(), 1)
+                .pattern("##")
+                .define('#', MainBlocks.NAMEK_AJISSA_PLANKS.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_AJISSA_PLANKS.get()), has(MainBlocks.NAMEK_AJISSA_PLANKS.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get(), 1)
+                .pattern("##")
+                .define('#', MainBlocks.NAMEK_SACRED_PLANKS.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_SACRED_PLANKS.get()), has(MainBlocks.NAMEK_SACRED_PLANKS.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_SLAB.get(), 4)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
+                .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_STONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_SLAB.get(), 6)
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_STAIRS.get(), 4)
+                .pattern("#  ")
+                .pattern("## ")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_WALL.get(), 6)
+                .pattern("###")
+                .pattern("###")
+                .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
+                .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
+                .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, MainItems.NAVE_SAIYAN_ITEM.get(), 1)
                 .pattern("IRI")
@@ -102,15 +219,15 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.DBALL_RADAR_ITEM.get(), 1)
-                 .pattern("OPO")
-                 .pattern("PGP")
-                 .pattern("CPC")
-                 .define('O', Items.OBSERVER)
-                 .define('G', MainItems.T1_RADAR_CPU.get())
-                 .define('C', MainItems.T1_RADAR_CHIP.get())
-                 .define('P', MainItems.RADAR_PIECE.get())
-                 .unlockedBy(getHasName(MainItems.T1_RADAR_CPU.get()), has(MainItems.T1_RADAR_CPU.get()))
-                 .group("dragonminez").save(pWriter);
+                .pattern("OPO")
+                .pattern("PGP")
+                .pattern("CPC")
+                .define('O', Items.OBSERVER)
+                .define('G', MainItems.T1_RADAR_CPU.get())
+                .define('C', MainItems.T1_RADAR_CHIP.get())
+                .define('P', MainItems.RADAR_PIECE.get())
+                .unlockedBy(getHasName(MainItems.T1_RADAR_CPU.get()), has(MainItems.T1_RADAR_CPU.get()))
+                .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.T2_RADAR_CHIP.get(), 1)
                 .pattern("ROR")
@@ -239,6 +356,18 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
                 .group("dragonminez").save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_YARDRAT.get(), 1)
+                .pattern("W#P")
+                .pattern("WBW")
+                .pattern("BYB")
+                .define('W', Items.WHITE_DYE)
+                .define('P', Items.PINK_DYE)
+                .define('B', Items.BLUE_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOTEN.get(), 1)
                 .pattern("B#B")
                 .pattern("OBO")
@@ -268,6 +397,29 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GREAT_SAIYAMAN.get(), 1)
+                .pattern("R#R")
+                .pattern("GGG")
+                .pattern("BYB")
+                .define('R', Items.RED_DYE)
+                .define('G', Items.GREEN_DYE)
+                .define('B', Items.BLACK_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_FUTURE_GOHAN.get(), 1)
+                .pattern("B#B")
+                .pattern("OBO")
+                .pattern("ORO")
+                .define('B', Items.BLUE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('R', Items.CLOCK)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
                 .group("dragonminez").save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA1.get(), 1)
@@ -320,6 +472,29 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C', Items.CYAN_DYE)
                 .define('W', Items.WHITE_DYE)
                 .define('Y', Items.YELLOW_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETTO.get(), 1)
+                .pattern("B#B")
+                .pattern("BOB")
+                .pattern("WCW")
+                .define('B', Items.BLUE_DYE)
+                .define('W', Items.WHITE_DYE)
+                .define('O', Items.ORANGE_DYE)
+                .define('C', Items.CYAN_DYE)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOGETA.get(), 1)
+                .pattern("Y#Y")
+                .pattern("B B")
+                .pattern("CCC")
+                .define('Y', Items.YELLOW_DYE)
+                .define('B', Items.BLACK_DYE)
+                .define('C', Items.CYAN_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
                 .group("dragonminez").save(pWriter);
@@ -455,6 +630,39 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
                 .group("dragonminez").save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BLACK.get(), 1)
+                .pattern("B#B")
+                .pattern("GBG")
+                .pattern("RGR")
+                .define('B', Items.BLACK_DYE)
+                .define('G', Items.GRAY_DYE)
+                .define('R', Items.RED_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_ZAMASU.get(), 1)
+                .pattern("B#B")
+                .pattern("PBP")
+                .pattern("LLL")
+                .define('B', Items.BLACK_DYE)
+                .define('P', Items.PURPLE_DYE)
+                .define('L', Items.LIGHT_BLUE_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_FUSION_ZAMASU.get(), 1)
+                .pattern("G#G")
+                .pattern("BGB")
+                .pattern("RRR")
+                .define('G', Items.GRAY_DYE)
+                .define('B', Items.BLACK_DYE)
+                .define('R', Items.RED_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PRIDE_TROOPS.get(), 1)
                 .pattern("B#B")
                 .pattern("RBR")
@@ -476,6 +684,52 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
                 .group("dragonminez").save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAS.get(), 1)
+                .pattern("Y#Y")
+                .pattern("RYR")
+                .pattern("RWR")
+                .define('Y', Items.YELLOW_DYE)
+                .define('R', Items.RED_DYE)
+                .define('W', Items.WHITE_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_MAJIN_BUU.get(), 1)
+                .pattern("B#B")
+                .pattern("MMM")
+                .pattern("BYB")
+                .define('B', Items.BLACK_DYE)
+                .define('M', Items.MAGENTA_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('#', MainItems.BLANK_PATTERN_Z.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAMMA1.get(), 1)
+                .pattern("R#R")
+                .pattern("YYY")
+                .pattern("BGB")
+                .define('R', Items.RED_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('B', Items.BLACK_DYE)
+                .define('G', Items.GRAY_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAMMA2.get(), 1)
+                .pattern("C#C")
+                .pattern("YYY")
+                .pattern("BGB")
+                .define('C', Items.CYAN_DYE)
+                .define('Y', Items.YELLOW_DYE)
+                .define('B', Items.BLACK_DYE)
+                .define('G', Items.GRAY_DYE)
+                .define('#', MainItems.BLANK_PATTERN_SUPER.get())
+                .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
+                .group("dragonminez").save(pWriter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, MainBlocks.KIKONO_ARMOR_STATION.get(), 1)
                 .pattern("ACA")
                 .pattern("KLK")
@@ -489,6 +743,7 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.DIAMOND_CHESTPLATE), has(Items.DIAMOND_CHESTPLATE))
                 .group("dragonminez")
                 .save(pWriter);
+
     }
 
     private static final List<ItemLike> Gete = List.of(MainBlocks.GETE_ORE.get());

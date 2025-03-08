@@ -6,10 +6,13 @@ import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.RenderManos;
 import com.yuseix.dragonminez.client.character.layer.ArmasLayer;
+import com.yuseix.dragonminez.client.character.layer.ArmorCapeLayer;
+import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
+import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
-import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -65,6 +68,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         this.addLayer(new SpinAttackEffectLayer(this, pContext.getModelSet()));
         this.addLayer(new BeeStingerLayer(this));
         this.addLayer(new ArmasLayer(this));
+        this.addLayer(new ArmorCapeLayer(this));
+        this.addLayer(new HairsLayer(this));
 
     }
     @Override
@@ -78,13 +83,17 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         pPoseStack.pushPose();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
-            int transformacion = cap.getDmzState();
+            var transf = cap.getStringValue("form");
 
-            if(transformacion == 0){
-                pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
-                //pPoseStack.scale(1.01F, 1.03F, 1.01F); //Tamano Semiperfecto cell
-
+            switch (transf){
+                case "semi_perfect":
+                    pPoseStack.scale(1.1F, 1.03F, 1.01F);
+                    break;
+                default: //Imperfect
+                    pPoseStack.scale(0.9375F, 0.9375F, 0.9375F); //Tamano default de jugador
+                    break;
             }
+
         });
 
         playermodel.attackTime = this.getAttackAnim(pEntity, pPartialTicks);
@@ -165,27 +174,25 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-                int bodyType = cap.getBodytype();
-                int colorAura = cap.getAuraColor();
-                int transformacion = cap.getDmzState();
-                boolean isAuraOn = cap.isAuraOn();
+                var transformacion = cap.getStringValue("form");
                 boolean isMajinOn = cap.hasDMZPermaEffect("majin");
 
                 switch (transformacion){
-                    case 0:
-
-                        if (bodyType == 0) {
-                            renderBodyType0(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-
-                            renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
-                        }
-
-
-
+                    case "semi_perfect":
+                        renderBodySemiPerfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        break;
+                    case "perfect":
+                        renderBodyPerfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+                        break;
+                    default: //IMPERFECT
+                        renderBodyImperfect(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                         break;
                 }
 
-                if(cap.getDMZPermaEffect("majin")){
+                renderEyes(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
+
+
+                if(isMajinOn){
                     renderMajinMarca(pEntity, pPoseStack, pBuffer, pPackedLight, i, flag1);
                 }
 
@@ -243,9 +250,40 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
             var meditation = cap.hasSkill("meditation");
 
             var is_kimanipulation = cap.isActiveSkill("ki_manipulation");
-            var kiweapon_id = cap.getKiWeaponId();
+            var kiweapon_id = cap.getStringValue("kiweapon");
 
-            var auraColor = cap.getAuraColor();
+            var raza = cap.getIntValue("race");
+            var transf = cap.getStringValue("form");
+            var auraColor = 0;
+
+            switch (raza){
+                case 1:
+                    switch (transf){
+                        case "ssj1","ssgrade2","ssgrade3" -> auraColor = 16773525;
+                        case "ssjfp", "ssj2","ssj3" -> auraColor = 16770889; // El SSJFP tiene un color más pastel (Visto en la saga de Cell cuando Goku sale de la Hab del Tiempo)
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 2:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 3:
+                    switch (transf){
+                        case "perfect" -> auraColor = 16773525;
+                        default -> auraColor = cap.getIntValue("auracolor");
+                    }
+                    break;
+                case 4:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                case 5:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+                default:
+                    auraColor = cap.getIntValue("auracolor");
+                    break;
+            }
+
             var colorR = (auraColor >> 16) / 255.0F;
             var colorG = ((auraColor >> 8) & 0xff) / 255.0f;
             var colorB = (auraColor & 0xff) / 255.0f;
@@ -451,16 +489,85 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
         poseStack.popPose();
     }
 
+    private void renderBodyPerfect(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-    private void renderBodyType0(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
+        PerfectModel<AbstractClientPlayer> playermodel = (PerfectModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = 16383998;
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODY3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR LA COLA DEL CUERPO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_PERFECT_BODYCOLA)), pPackedLight, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+
+    private void renderBodySemiPerfect(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
+
+        SemiPerfectModel<AbstractClientPlayer> playermodel = (SemiPerfectModel)this.getModel();
+
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
+
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 1
+            colorR = (bodyColor1 >> 16) / 255.0F;
+            colorG = ((bodyColor1 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor1 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY1)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 2
+            colorR = (bodyColor2 >> 16) / 255.0F;
+            colorG = ((bodyColor2 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor2 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY2)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR EL CUERPO ENTERO PARTE 3
+            colorR = (bodyColor3 >> 16) / 255.0F;
+            colorG = ((bodyColor3 >> 8) & 0xff) / 255.0f;
+            colorB = (bodyColor3 & 0xff) / 255.0f;
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODY3)), pPackedLight, i, colorR, colorG, colorB, flag1 ? 0.15F : 1.0F);
+
+            //RENDERIZAR LA COLA DEL CUERPO
+            playermodel.renderToBuffer(pPoseStack, pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_SEMI_BODYCOLA)), pPackedLight, i, 1.0F, 1.0F, 1.0F, flag1 ? 0.15F : 1.0F);
+
+        });
+
+    }
+
+    private void renderBodyImperfect(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
         BioAndroidModel<AbstractClientPlayer> playermodel = (BioAndroidModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            int bodyColor1 = cap.getBodyColor();
-            int bodyColor2 = cap.getBodyColor2();
-            int bodyColor3 = cap.getBodyColor3();
+            int bodyColor1 = cap.getIntValue("bodycolor");
+            int bodyColor2 = cap.getIntValue("bodycolor2");
+            int bodyColor3 = cap.getIntValue("bodycolor3");
 
             //RENDERIZAR EL CUERPO ENTERO PARTE 1
             colorR = (bodyColor1 >> 16) / 255.0F;
@@ -489,27 +596,57 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     private void renderEyes(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int i, boolean flag1){
 
-        BioAndroidModel<AbstractClientPlayer> playermodel = (BioAndroidModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
+            int eye1color = cap.getIntValue("eye1color");
+            var dmzform = cap.getStringValue("form");
 
-            int eye1color = cap.getEye1Color();
+            switch (dmzform){
+                case "perfect":
+                    //OJOS BLANCOS
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_PERFECT_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_PERFECT_BODYCOLA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-            if(cap.getEyesType() == 0){
+                    //IRIS DE AMBOS OJOS Y COLOR DE IRIS
+                    colorR = (eye1color >> 16) / 255.0F;
+                    colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                    colorB = (eye1color & 0xff) / 255.0f;
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_PERFECT_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
-                //OJOS BLANCOS
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    break;
+                case "semi_perfect":
+                    //OJOS BLANCOS
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_SEMI_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_SEMI_BODYCOLA)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
 
-                //IRIS DE AMBOS OJOS Y COLOR DE IRIS
-                colorR = (eye1color >> 16) / 255.0F;
-                colorG = ((eye1color >> 8) & 0xff) / 255.0f;
-                colorB = (eye1color & 0xff) / 255.0f;
-                pPoseStack.translate(0f,0f,-0.001f);
-                playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(TextureManager.B_IMPERFECT_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+                    //IRIS DE AMBOS OJOS Y COLOR DE IRIS
+                    colorR = (942748 >> 16) / 255.0F;
+                    colorG = ((942748 >> 8) & 0xff) / 255.0f;
+                    colorB = (942748 & 0xff) / 255.0f;
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_SEMI_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
 
+                    break;
+                default:
+                    //OJOS BLANCOS
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_IMPERFECT_EYES)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+
+                    //IRIS DE AMBOS OJOS Y COLOR DE IRIS
+                    colorR = (eye1color >> 16) / 255.0F;
+                    colorG = ((eye1color >> 8) & 0xff) / 255.0f;
+                    colorB = (eye1color & 0xff) / 255.0f;
+                    pPoseStack.translate(0f,0f,-0.001f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucentCull(TextureManager.B_IMPERFECT_IRIS)),pPackedLight, i, colorR,colorG,colorB,flag1 ? 0.15F : 1.0F);
+
+                    break;
             }
+
 
         });
     }
@@ -517,18 +654,30 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
     private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
+        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/perfect/eyes/eyesmajin.png");
 
-        BioAndroidModel<AbstractClientPlayer> playermodel = (BioAndroidModel)this.getModel();
+        PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
-            if(cap.getDmzState() == 0){
+            var transf = cap.getStringValue("form");
+
+            switch (transf){
+                case "semi_perfect":
                     //DELINEADO
-                pPoseStack.translate(0f,0f,-0.0012f);
+                    pPoseStack.translate(0f,0f,-0.0012f);
                     playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
-
+                    break;
+                case "perfect":
+                    pPoseStack.translate(0f,0f,-0.0012f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado2)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    break;
+                default: //IMPERFECT
+                    //DELINEADO
+                    pPoseStack.translate(0f,0f,-0.0012f);
+                    playermodel.head.render(pPoseStack,pBuffer.getBuffer(RenderType.entityTranslucent(delineado1)),pPackedLight, i, 1.0f,1.0f,1.0f,flag1 ? 0.15F : 1.0F);
+                    break;
             }
-
 
 
         });

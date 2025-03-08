@@ -46,6 +46,22 @@ public final class MainSounds {
 	public static final RegistryObject<SoundEvent> UI_NAVE_COOLDOWN = registerSoundEvent("ui_nave_cooldown");
 	public static final RegistryObject<SoundEvent> UI_NAVE_TAKEOFF = registerSoundEvent("ui_nave_takeoff");
 
+	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_AMBIENT = registerSoundEvent("entity.frieza.s.ambient");
+	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_HURT = registerSoundEvent("entity.frieza.s.hurt");
+	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_DEATH = registerSoundEvent("entity.friezas.s.death");
+	public static final RegistryObject<SoundEvent> FRIEZA_SOLDIER_ATTACK = registerSoundEvent("entity.friezas.s.attack");
+
+	public static final RegistryObject<SoundEvent> NAMEKIAN_VILLAGER_AMBIENT = registerSoundEvent("entity.namekian.vill.ambient");
+	public static final RegistryObject<SoundEvent> NAMEKIAN_VILLAGER_HURT = registerSoundEvent("entity.namekian.vill.hurt");
+	public static final RegistryObject<SoundEvent> NAMEKIAN_VILLAGER_DEATH = registerSoundEvent("entity.namekian.vill.death");
+
+	public static final RegistryObject<SoundEvent> KIBLAST_ATTACK = registerSoundEvent("kiblast_shoot");
+
+	public static final RegistryObject<SoundEvent> OOZARU_HEARTBEAT = registerSoundEvent("oozaru_heartbeat");
+	public static final RegistryObject<SoundEvent> OOZARU_GROWL_PLAYER = registerSoundEvent("oozaru_growl_player");
+	public static final RegistryObject<SoundEvent> VEGETA_OOZARU_GROWL = registerSoundEvent("vegeta_oozaru_growl");
+	public static final RegistryObject<SoundEvent> VEGETA_OOZARU_DEATH = registerSoundEvent("vegeta_oozaru_death");
+
 	private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
 		ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
 

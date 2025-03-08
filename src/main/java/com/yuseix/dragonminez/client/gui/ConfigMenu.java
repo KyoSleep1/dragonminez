@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
+import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
@@ -76,12 +77,11 @@ public class ConfigMenu extends Screen {
 		Player player = this.minecraft.player;
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			boolean isCompactMenu = cap.isCompactMenu();
+			boolean isCompactMenu = cap.getBoolean("compactmenu");
 
 			switchButton = new SwitchButton(isCompactMenu, anchoTexto + 80, altoTexto, Component.empty(), button -> {
 				boolean newValue = !isCompactMenu;
 				int newValueInt = newValue ? 1 : 0;
-				cap.setCompactMenu(newValue);
 				ModMessages.sendToServer(new CharacterC2S("isCompactMenu", newValueInt));
 			});
 			this.addRenderableWidget(switchButton);
@@ -97,22 +97,20 @@ public class ConfigMenu extends Screen {
 			Player player = this.minecraft.player;
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, altoTexto, "stats", Component.empty(), wa -> {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-					if (playerstats.isCompactMenu()) {
+					if (playerstats.getBoolean("compactmenu")) {
 						this.minecraft.setScreen(new AttributesMenu2());
 					} else {
-						this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+						this.minecraft.setScreen(new AttributesMenu());
 					}});
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 55, altoTexto, "skills", Component.empty(), wa -> {
-				this.minecraft.setScreen(new SkillMenu());
+				this.minecraft.setScreen(new SkillMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, altoTexto, "transf", Component.empty(), wa -> {
-				// Agregar acá el menú de Transf
-				// this.minecraft.setScreen(new TransfMenu());
+				this.minecraft.setScreen(new TransfMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, altoTexto, "storyline", Component.empty(), wa -> {
-				// Agregar acá el menú de Story
-				// this.minecraft.setScreen(new TransfMenu());
+				this.minecraft.setScreen(new StorylineMenu(false));
 			}));
 			this.menuButton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, altoTexto, "kitech", Component.empty(), wa -> {
 				// Agregar acá el menú de Ki Techniques

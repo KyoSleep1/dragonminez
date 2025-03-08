@@ -2,7 +2,9 @@ package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
+import com.yuseix.dragonminez.world.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,32 +16,31 @@ import java.rmi.registry.Registry;
 import java.util.function.Supplier;
 
 public class SpacePodC2S {
-    private final ResourceKey<Level> targetDimension;
+    private final String targetDimension;
 
-    public SpacePodC2S(ResourceKey<Level> targetDimension) {
+    public SpacePodC2S(String targetDimension) {
         this.targetDimension = targetDimension;
     }
 
     public static void encode(SpacePodC2S msg, FriendlyByteBuf buf) {
-        buf.writeResourceLocation(msg.targetDimension.location());
+        buf.writeUtf(msg.targetDimension);
     }
 
     public static SpacePodC2S decode(FriendlyByteBuf buf) {
-        ResourceLocation location = buf.readResourceLocation();
-        ResourceKey<Level> targetDimension = switch (location.toString()) {
-            case "minecraft:overworld" -> Level.OVERWORLD;
-            case "dragonminez:namek" -> ModDimensions.NAMEK_DIM_LEVEL_KEY;
-            default -> Level.OVERWORLD;
-        };
-        return new SpacePodC2S(targetDimension);
+        return new SpacePodC2S(buf.readUtf(32767));
     }
 
     public static void handle(SpacePodC2S msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             if (ctx.get().getSender() != null) {
                 var player = ctx.get().getSender();
-                ServerLevel currentWorld = (ServerLevel) player.level();
-                ServerLevel targetWorld = player.server.getLevel(msg.targetDimension);
+                ServerLevel currentWorld = player.server.getLevel(player.getCommandSenderWorld().dimension());
+                ServerLevel targetWorld = null;
+                switch (msg.targetDimension) {
+                    case "overworld" -> targetWorld = player.getServer().getLevel(Level.OVERWORLD);
+                    case "namek" -> targetWorld = player.getServer().getLevel(ModDimensions.NAMEK_DIM_LEVEL_KEY);
+                    case "otherworld" -> targetWorld = player.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
+                }
                 if (targetWorld != null && player.level() != targetWorld) {
                     var entities = currentWorld.getEntitiesOfClass(NaveSaiyanEntity.class, player.getBoundingBox().inflate(50.0D));
 
@@ -50,13 +51,29 @@ public class SpacePodC2S {
                         }
                     }
 
-                    if (player.getY() < 0 ) {
-                        player.teleportTo(targetWorld, player.getX(), player.getY()+180, player.getZ(), player.getYRot(), player.getXRot());
-                    } else if (player.getY() > 0 && player.getY() < 60) {
-                        player.teleportTo(targetWorld, player.getX(), player.getY()+90, player.getZ(), player.getYRot(), player.getXRot());
-                    } else {
-                        player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                    if (targetWorld.dimension().location().toString().equals("dragonminez:namek") ||
+                            targetWorld.dimension().location().toString().equals("minecraft:overworld"))  {
+                        if (player.getY() < 0 ) {
+                            player.teleportTo(targetWorld, player.getX(), player.getY()+180, player.getZ(), player.getYRot(), player.getXRot());
+                        } else if (player.getY() > 0 && player.getY() < 60) {
+                            player.teleportTo(targetWorld, player.getX(), player.getY()+90, player.getZ(), player.getYRot(), player.getXRot());
+                        } else {
+                            player.teleportTo(targetWorld, player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+                        }
+                        player.onUpdateAbilities();
+                        player.hasChangedDimension();
+                    } else if (targetWorld.dimension().location().toString().equals("dragonminez:otherworld")) {
+                        ServerLevel finalTargetWorld = targetWorld;
+                        targetWorld.getCapability(StructuresProvider.CAPABILITY).ifPresent(cap -> {
+                            BlockPos kaioPos = cap.getKaioPlanetPosition();
+                            player.teleportTo(finalTargetWorld, kaioPos.getX(), kaioPos.getY() + 30, kaioPos.getZ(), player.getYRot(), player.getXRot());
+                            System.out.println("Teleporting to otherworld, pos: " + kaioPos.getX() + ", " + (kaioPos.getY()+30) + ", " + kaioPos.getZ());
+                            player.onUpdateAbilities();
+                            player.hasChangedDimension();
+                        });
+
                     }
+
 
                     NaveSaiyanEntity naveEntity = new NaveSaiyanEntity(MainEntity.NAVE_SAIYAN.get(), targetWorld);
                     naveEntity.setPos(player.getX(), player.getY(), player.getZ());

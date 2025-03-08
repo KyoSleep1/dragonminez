@@ -4,32 +4,21 @@
  */
 
 buildscript {
+    //Lo de acá adentro solo sirve para cosas de build.gradle y solo para el script.
     repositories {
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
-    }
-    dependencies {
-        classpath 'org.spongepowered:mixingradle:0.7.38'
     }
 }
 
 plugins {
-    id 'eclipse'
-    id 'idea'
-    id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    // ShadowJar
-    id 'com.gradleup.shadow' version '8.3.5'
     id 'java'
-    // SpongePowered para GeckoLib
-    id 'org.spongepowered.mixin' version '0.7.38'
+    id 'idea'
+    //ForgeGradle
+    id 'net.minecraftforge.gradle' version '6.0.30'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    // Mixins
+    id 'org.spongepowered.mixin' version '0.7.38'
 }
-
-apply plugin: 'org.spongepowered.mixin'
 
 version = mod_version
 group = mod_group_id
@@ -40,53 +29,27 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+//Some info that gets printed in the console when the game is launched.
+println "Java: ${System.getProperty 'java.version'}, " +
+        "JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), " +
+        "Arch: ${System.getProperty 'os.arch'}"
 
-minecraft {
+mixin {
+    // MixinGradle Settings
+    add sourceSets.main, 'mixins.dragonminez.refmap.json'
+    config 'dragonminez.mixins.json'
+    debug = false // Default to false
 
-    mappings channel: mapping_channel, version: mapping_version
-
-    copyIdeResources = true
-
-
-    runs {
-        configureEach {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        client {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
-
-        server {
-            property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
-        }
-
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', mod_id
-        }
-
-        data {
-            workingDirectory project.file('run-data')
-
-            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+    // Enable debug only for runClient task in IntelliJ debug mode
+    gradle.taskGraph.whenReady { taskGraph ->
+        if (taskGraph.hasTask(':runClient') && System.getProperty('idea.active') != null) {
+            debug = true
         }
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources/' }
-
+//La diferencia de esto con el buildScript, es que este pone los repositorios como librerías + los de build.gradle
+// + cuando se hace el jar, estas cosas se incluyen.
 repositories {
     maven {
         name = 'GeckoLib'
@@ -100,12 +63,44 @@ repositories {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/" // Integración para el JEI, NO ES DEPENDENCIA, ES COMPATIBILIDAD.
     }
-    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    maven {
+        url = "https://cursemaven.com"
+    }
 }
 
-configurations {
-    shade // <- Create a 'shade' configuration
-    implementation.extendsFrom(shade) // <- Add the shade configuration to implementation
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'fml.earlyprogresswindow', 'false'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main //False-positive in IntelliJ IDEA
+                }
+            }
+        }
+
+        client {
+            property 'forge.logging.console.level', 'debug'
+        }
+        server {
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        gameTestServer {
+            property 'forge.enabledGameTestNamespaces', mod_id
+        }
+
+        data {
+            workingDirectory('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
 }
 
 dependencies {
@@ -117,6 +112,9 @@ dependencies {
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.7')
     implementation 'com.eliotlash.mclib:mclib:20'
 
+    //Terrablender
+    implementation fg.deobf('com.github.glitchfiend:TerraBlender-forge:1.20.1-3.0.1.7')
+
     //Corrección a puntos vulnerables de dependencias en Forge:
     implementation 'com.google.guava:guava:33.4.0-jre'
     implementation 'io.netty:netty-codec:4.1.118.Final'
@@ -126,17 +124,27 @@ dependencies {
     // Just Enough Items (JEI)
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    compileOnly(fg.deobf("org.embeddedt:embeddium-1.20.1:0.3.9-git.f603a93+mc1.20.1"))
     // Este es solo para el runClient, no es necesario para el jar
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+    runtimeOnly(fg.deobf("org.embeddedt:embeddium-1.20.1:0.3.9-git.f603a93+mc1.20.1"))
+
+    // Mods (Solo en runClient) que aportan cosas útiles para el desarrollo.
+    runtimeOnly(fg.deobf("curse.maven:worldedit-225608:4586218")) // WorldEdit, nada más que decir xd
+    runtimeOnly(fg.deobf("curse.maven:cyanide-541676:5778405")) // Cyanide es un mod para saber exactamente qué y dónde está fallando un archivo Json (Muy util en worldgen)
 }
 
-tasks.named('processResources', ProcessResources).configure {
+sourceSets.main.resources { srcDir 'src/generated/resources/' }
+
+tasks.named('processResources', ProcessResources) {
     var replaceProperties = [
-            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version       : forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: mod_description, geckolib_version_range: geckolib_version_range
+            minecraft_version         : minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version             : forge_version, forge_version_range: forge_version_range,
+            loader_version_range      : loader_version_range,
+            mod_id                    : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors               : mod_authors, mod_description: mod_description,
+            geckolib_version_range    : geckolib_version_range,
+            terrablender_version_range: terrablender_version_range
     ]
     inputs.properties replaceProperties
 
@@ -145,71 +153,19 @@ tasks.named('processResources', ProcessResources).configure {
     }
 }
 
-tasks.withType(JavaExec) {
-    systemProperty 'mod_version', project.findProperty('mod_version') ?: 'unknown'
-}
-
-mixin {
-    // MixinGradle Settings
-    add sourceSets.main, 'mixins.dragonminez.refmap.json'
-    config 'dragonminez.mixins.json'
-
-    debug.verbose = true
-    debug.export = true
-}
-
 jar {
     manifest {
         attributes([
                 'Specification-Title'     : mod_id,
                 'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Specification-Version'   : mod_version,
                 'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Version'  : project.version,
                 'Implementation-Vendor'   : mod_authors,
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
-    }
-    from(configurations.shade) {
-        into('lib')
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     finalizedBy 'reobfJar'
 }
-
-/*
-shadowJar {
-    archiveClassifier = '-shadow'
-    configurations = [project.configurations.shade]
-
-    finalizedBy 'reobfShadowJar'
-}
-
-assemble.dependsOn shadowJar
-
-reobf {
-    shadowJar {}
-}
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            artifact jar
-        }
-        shadow(MavenPublication) {
-            components.shadow
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-jar.finalizedBy('reobfShadowJar') */

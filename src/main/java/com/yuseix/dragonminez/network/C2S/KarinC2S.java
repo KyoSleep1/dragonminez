@@ -1,15 +1,12 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.cc.StatsEvents;
 import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.MenuS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -39,14 +36,17 @@ public class KarinC2S {
 
             if (player != null) {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                    Item nubeItem;
+                    if (cap.getIntValue("alignment") < 60) nubeItem = MainItems.NUBE_NEGRA_ITEM.get();
+                    else nubeItem = MainItems.NUBE_ITEM.get();
 
                     if(packet.option == 1){
-                        player.getInventory().add(new ItemStack(MainItems.NUBE_ITEM.get()));
+                        player.getInventory().add(new ItemStack(nubeItem));
                     }else if(packet.option == 2){
                         player.getInventory().add(new ItemStack(MainItems.SENZU_BEAN.get(), DMZGeneralConfig.SENZU_GIVE.get()));
                     } else if (packet.option == 3) {
-                        //cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
-                        cap.setDmzSenzuDaily(DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get() * 20);
+                        //cap.setIntValue("senzutimer", DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get());
+                        cap.setIntValue("senzutimer", DMZGeneralConfig.SENZU_DAILY_COOLDOWN.get() * 20);
                     }
                 });
 

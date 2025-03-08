@@ -13,26 +13,19 @@ import org.jetbrains.annotations.Nullable;
 
 public class DragonBallGenProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<DragonBallsCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {
-    });
+    public static Capability<DragonBallsCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     private final LazyOptional<DragonBallsCapability> optional = LazyOptional.of(this::getDballsBackend);
 
     private DragonBallsCapability Dballs = null;
 
     private DragonBallsCapability getDballsBackend() {
-        if (this.Dballs == null) {
-            this.Dballs = new DragonBallsCapability();
-        }
+        if (this.Dballs == null) this.Dballs = new DragonBallsCapability();
         return this.Dballs;
     }
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CAPABILITY) {
-            return this.optional.cast();
-        } else {
-            return LazyOptional.empty();
-        }
+		return cap == CAPABILITY ? this.optional.cast() : LazyOptional.empty();
     }
 
     @Override
@@ -46,5 +39,4 @@ public class DragonBallGenProvider implements ICapabilityProvider, INBTSerializa
     public void deserializeNBT(CompoundTag nbt) {
         getDballsBackend().loadNBTData(nbt);
     }
-
 }

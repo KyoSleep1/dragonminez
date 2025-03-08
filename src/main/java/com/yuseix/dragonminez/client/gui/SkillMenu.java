@@ -6,7 +6,9 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
@@ -14,6 +16,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -25,8 +28,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,21 +41,22 @@ public class SkillMenu extends Screen {
     private static final ResourceLocation menuinfo = new ResourceLocation(DragonMineZ.MOD_ID,
             "textures/gui/menulargomitad.png");
 
-    private static boolean infoMenu = false;
+    private static boolean infoMenu;
     private static String skillsId = "";
     private int alturaTexto, anchoTexto;
 
     private final List<AbstractWidget> skillButtons = new ArrayList<>();
-    private final List<AbstractWidget> botonesArmas = new ArrayList<>();;
+    private final List<AbstractWidget> botonesArmas = new ArrayList<>();
     private List<DMZGuiButtons> botonesMenus = new ArrayList<>();
 
-    private CustomButtons infoButton, deleteButton, armasBoton;
+    private CustomButtons infoButton, deleteButton, armasBoton, passiveButton;
     private DMZGuiButtons menuButton;
     private TextButton upgradeButton;
     private SwitchButton switchButton;
 
-    public SkillMenu() {
+    public SkillMenu(boolean infoMenu) {
         super(Component.empty());
+        this.infoMenu = infoMenu;
     }
 
     @Override
@@ -121,7 +125,7 @@ public class SkillMenu extends Screen {
         RenderSystem.disableBlend();
     }
 
-    public void botonesMenus(){
+    public void botonesMenus() {
         this.removeWidget(infoButton);
 
         for (DMZGuiButtons boton : botonesMenus) {
@@ -137,10 +141,10 @@ public class SkillMenu extends Screen {
             Player player = this.minecraft.player;
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 85, alturaTexto, "stats", Component.empty(), wa -> {
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-                    if (playerstats.isCompactMenu()) {
+                    if (playerstats.getBoolean("compactmenu")) {
                         this.minecraft.setScreen(new AttributesMenu2());
                     } else {
-                        this.minecraft.setScreen(new AttributesMenu(Component.translatable("menu.title.dragonminez.menuzmzmzm")));
+                        this.minecraft.setScreen(new AttributesMenu());
                     }
                 });
             })));
@@ -150,13 +154,11 @@ public class SkillMenu extends Screen {
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto - 25, alturaTexto, "transf", Component.empty(), wa -> {
-                // Agregar menú de transformación
-                // this.minecraft.setScreen(new TransfMenu());
+                this.minecraft.setScreen(new TransfMenu(false));
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 5, alturaTexto, "storyline", Component.empty(), wa -> {
-                // Agregar menú de historia
-                // this.minecraft.setScreen(new StoryMenu());
+                this.minecraft.setScreen(new StorylineMenu(false));
             })));
 
             botonesMenus.add(this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
@@ -170,7 +172,9 @@ public class SkillMenu extends Screen {
         }
     }
 
-    private void botonesSkills(){
+
+
+    private void botonesSkills() {
 
         Player player = this.minecraft.player;
 
@@ -186,12 +190,12 @@ public class SkillMenu extends Screen {
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 
-            var tps = cap.getZpoints();
+            var tps = cap.getIntValue("tps");
 
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 13;
-            int startY = (this.height - 168) / 2 + 30;
+            int startY = (this.height - 168) / 2 + 45;
             int offsetY = 13; // Espacio vertical entre cada habilidad
 
             // Renderizar cada habilidad
@@ -201,28 +205,35 @@ public class SkillMenu extends Screen {
                 double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
                 int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get();
                 int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
-                int sprintCost = DMZGeneralConfig.SPRINT_TP_COST_LEVELS.get();
                 int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
+                int meditationCost = DMZGeneralConfig.MEDITATION_TP_COST_LEVELS.get();
+                int kiControlCost = DMZGeneralConfig.KI_CONTROL_TP_COST_LEVELS.get();
+                int kiManipulationCost = DMZGeneralConfig.KI_MANIPULATION_TP_COST_LEVELS.get();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
+                    case "passive":
+                        break;
                     case "potential_unlock":
                         if(this.infoMenu){
                             if(skillId.equals(skillsId)){
                                 // Subir de nivel
                                 int currentLevel = skill.getLevel();
-                                int maxLevel = 10; // maximo nivel
+                                int maxLevel = 13; // maximo nivel
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
-                                Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (pUnlockCost * 2 * mult),
-                                        3, (int) (pUnlockCost * 3 * mult),
-                                        4, (int) (pUnlockCost * 4 * mult),
-                                        5, (int) (pUnlockCost * 5 * mult),
-                                        6, (int) (pUnlockCost * 6 * mult),
-                                        7, (int) (pUnlockCost * 7 * mult),
-                                        8, (int) (pUnlockCost * 8 * mult),
-                                        9, (int) (pUnlockCost * 9 * mult),
-                                        10, (int) (pUnlockCost * 10 * mult)
+                                Map<Integer, Integer> levelCosts = Map.ofEntries(
+                                        Map.entry(2, (int) (pUnlockCost * 2 * mult)),
+                                        Map.entry(3, (int) (pUnlockCost * 3 * mult)),
+                                        Map.entry(4, (int) (pUnlockCost * 4 * mult)),
+                                        Map.entry(5, (int) (pUnlockCost * 5 * mult)),
+                                        Map.entry(6, (int) (pUnlockCost * 6 * mult)),
+                                        Map.entry(7, (int) (pUnlockCost * 7 * mult)),
+                                        Map.entry(8, (int) (pUnlockCost * 8 * mult)),
+                                        Map.entry(9, (int) (pUnlockCost * 9 * mult)),
+                                        Map.entry(10, (int) (pUnlockCost * 10 * mult)),
+                                        Map.entry(11, (int) (pUnlockCost * 1000000 * mult)), // Gran Patriarca
+                                        Map.entry(12, (int) (pUnlockCost * 15 * mult)),
+                                        Map.entry(13, (int) (pUnlockCost * 20 * mult))
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -230,11 +241,19 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
-                                            ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
-                                            ModMessages.sendToServer(new ZPointsC2S(1, cost));
-                                            this.removeWidget(upgradeButton);
-                                        }));
+                                        if (currentLevel < 10) {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                                ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                                ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                                this.removeWidget(upgradeButton);
+                                            }));
+                                        } else if (currentLevel >= 11) {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                                ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
+                                                ModMessages.sendToServer(new ZPointsC2S(1, cost));
+                                                this.removeWidget(upgradeButton);
+                                            }));
+                                        }
                                     }
                                 }
                             }
@@ -333,15 +352,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (flyCost * 2 * mult),
-                                        3, (int) (flyCost * 3 * mult),
-                                        4, (int) (flyCost * 4 * mult),
-                                        5, (int) (flyCost * 5 * mult),
-                                        6, (int) (flyCost * 6 * mult),
-                                        7, (int) (flyCost * 7 * mult),
-                                        8, (int) (flyCost * 8 * mult),
-                                        9, (int) (flyCost * 9 * mult),
-                                        10, (int) (flyCost * 10 * mult)
+                                        2, (int) (kiControlCost * 2 * mult),
+                                        3, (int) (kiControlCost * 3 * mult),
+                                        4, (int) (kiControlCost * 4 * mult),
+                                        5, (int) (kiControlCost * 5 * mult),
+                                        6, (int) (kiControlCost * 6 * mult),
+                                        7, (int) (kiControlCost * 7 * mult),
+                                        8, (int) (kiControlCost * 8 * mult),
+                                        9, (int) (kiControlCost * 9 * mult),
+                                        10, (int) (kiControlCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -369,15 +388,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (flyCost * 2 * mult),
-                                        3, (int) (flyCost * 3 * mult),
-                                        4, (int) (flyCost * 4 * mult),
-                                        5, (int) (flyCost * 5 * mult),
-                                        6, (int) (flyCost * 6 * mult),
-                                        7, (int) (flyCost * 7 * mult),
-                                        8, (int) (flyCost * 8 * mult),
-                                        9, (int) (flyCost * 9 * mult),
-                                        10, (int) (flyCost * 10 * mult)
+                                        2, (int) (meditationCost * 2 * mult),
+                                        3, (int) (meditationCost * 3 * mult),
+                                        4, (int) (meditationCost * 4 * mult),
+                                        5, (int) (meditationCost * 5 * mult),
+                                        6, (int) (meditationCost * 6 * mult),
+                                        7, (int) (meditationCost * 7 * mult),
+                                        8, (int) (meditationCost * 8 * mult),
+                                        9, (int) (meditationCost * 9 * mult),
+                                        10, (int) (meditationCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -404,9 +423,9 @@ public class SkillMenu extends Screen {
                             ModMessages.sendToServer(new SkillActivateC2S("active",skillId, newStateint));
                         });
                         armasBoton = new CustomButtons("igual", this.infoMenu ? startX + 170 - 72 : startX + 170, startY - 2, Component.empty(), btn -> {
-                            if(cap.getKiWeaponId().equals("sword")){
+                            if(cap.getStringValue("kiweapon").equals("sword")){
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",0));
-                            } else if(cap.getKiWeaponId().equals("scythe")){
+                            } else if(cap.getStringValue("kiweapon").equals("scythe")){
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",1));
                             } else {
                                 ModMessages.sendToServer(new CharacterC2S("dmzskiweapon",2));
@@ -428,15 +447,15 @@ public class SkillMenu extends Screen {
 
                                 // Nivel, (Costo * Nivel * MultiplicadorTPS)
                                 Map<Integer, Integer> levelCosts = Map.of(
-                                        2, (int) (jumpCost * 2 * mult),
-                                        3, (int) (jumpCost * 3 * mult),
-                                        4, (int) (jumpCost * 4 * mult),
-                                        5, (int) (jumpCost * 5 * mult),
-                                        6, (int) (jumpCost * 6 * mult),
-                                        7, (int) (jumpCost * 7 * mult),
-                                        8, (int) (jumpCost * 8 * mult),
-                                        9, (int) (jumpCost * 9 * mult),
-                                        10, (int) (jumpCost * 10 * mult)
+                                        2, (int) (kiManipulationCost * 2 * mult),
+                                        3, (int) (kiManipulationCost * 3 * mult),
+                                        4, (int) (kiManipulationCost * 4 * mult),
+                                        5, (int) (kiManipulationCost * 5 * mult),
+                                        6, (int) (kiManipulationCost * 6 * mult),
+                                        7, (int) (kiManipulationCost * 7 * mult),
+                                        8, (int) (kiManipulationCost * 8 * mult),
+                                        9, (int) (kiManipulationCost * 9 * mult),
+                                        10, (int) (kiManipulationCost * 10 * mult)
                                 );
 
                                 if (currentLevel < maxLevel) {
@@ -469,10 +488,12 @@ public class SkillMenu extends Screen {
                 }
 
                 // Crear un botón base para todos
+
                 CustomButtons button = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 2, Component.empty(), btn -> {
                     this.infoMenu = !infoMenu; // Alternar infoMenu
                     this.skillsId = skillId;
                 });
+
                 this.addRenderableWidget(button);
                 skillButtons.add(button);
 
@@ -480,7 +501,18 @@ public class SkillMenu extends Screen {
                 startY += offsetY;
             }
 
+
         });
+
+        int startX = (this.width - 250) / 2 + 13;
+        int startY = (this.height - 168) / 2 + 45;
+
+        CustomButtons passiveButton = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 15, Component.empty(), btn -> {
+            this.infoMenu = !infoMenu; // Alternar infoMenu
+            this.skillsId = "passive";
+        });
+        this.addRenderableWidget(passiveButton);
+        skillButtons.add(passiveButton);
     }
 
     private void menuSkills(GuiGraphics guiGraphics) {
@@ -491,8 +523,13 @@ public class SkillMenu extends Screen {
             Map<String, DMZSkill> skills = cap.getDMZSkills();
 
             int startX = (this.width - 250) / 2 + 15;
-            int startY = (this.height - 168) / 2 + 30;
+            int startY = (this.height - 168) / 2 + 45;
             int offsetY = 13; // Espacio vertical entre cada habilidad
+
+            // Pasiva
+            drawStringWithBorder(guiGraphics, this.font, Component.literal("1"), this.infoMenu ? startX + 16 - 72 : startX + 16, startY - 13, 0xFFFFFF);
+            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skill.passive.name"), this.infoMenu ? startX + 85 - 72 : startX + 85, startY - 13, 0xFFFFFF);
+            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.on"), this.infoMenu ? startX + 155 - 72: startX + 155, startY - 13, 0x60fb58);
 
             // Renderizar cada habilidad
             for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
@@ -512,14 +549,13 @@ public class SkillMenu extends Screen {
                         } else {
                             drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.off"), this.infoMenu ? startX + 155 - 72: startX + 155, startY, 0xfb5858);
                         }
-
                         break;
                     case "jump":
                         drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         break;
                     case "fly":
-                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72 : startX + 16, startY, 0xFFFFFF);
+                        drawStringWithBorder(guiGraphics, this.font, Component.literal(String.valueOf(skill.getLevel())), this.infoMenu ? startX + 16 - 72: startX + 16, startY, 0xFFFFFF);
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), this.infoMenu ? startX + 85 - 72: startX + 85, startY, 0xFFFFFF);
                         //Activo o inactivo
                         if(skill.isActive()){
@@ -557,11 +593,73 @@ public class SkillMenu extends Screen {
 
         if(infoMenu){
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+                var race = cap.getIntValue("race");
+                int humanPassive = DMZHumanConfig.KICHARGE_REGEN_BOOST.get();
+                int zenkaiCant = DMZSaiyanConfig.ZENKAI_CANT.get() - cap.getIntValue("zenkaicount");
+                int zenkaiHeal = DMZSaiyanConfig.ZENKAI_HEALTH_REGEN.get();
+                int zenkaiBoost = DMZSaiyanConfig.ZENKAI_STAT_BOOST.get();
+                int remainingTicks = cap.getIntValue("zenkaitimer");
+                int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
+                int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+                int namekPassive = DMZNamekConfig.PASSIVE_REGEN.get();
+                double colddemonPassive = DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
+                int bioPassive1 = DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get();
+                int bioPassive2 = DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get();
+                double majinPassive = DMZMajinConfig.PASSIVE_HEALTH_REGEN.get();
 
                 int startY = (this.height - 168) / 2 + 18;
                 int startX = (this.width - 250) / 2 + 160;
 
                 Map<String, DMZSkill> skills = cap.getDMZSkills();
+
+                if (this.skillsId == "passive") {
+                    drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skill.passive.name"), startX + 93, startY, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.type"), startX + 37, startY+ 13, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.skill2"), startX + 78, startY+ 13, 0xffc134);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.active"), startX + 37, startY+24, 0xFFFFFF);
+                    drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.on"), startX + 78, startY+24, 0x60fb58);
+                    drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+
+                    switch (race) {
+                        case 0:
+                            List<FormattedCharSequence> humanDesc = font.split(Component.translatable("dmz.skill.passive.desc.human", humanPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < humanDesc.size(); i++) {
+                                guiGraphics.drawString(font, humanDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 1:
+                            List<FormattedCharSequence> saiyanDesc = font.split(Component.translatable("dmz.skill.passive.desc.saiyan", zenkaiHeal, zenkaiBoost, zenkaiCant, remainingMinutes, remainingSeconds).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < saiyanDesc.size(); i++) {
+                                guiGraphics.drawString(font, saiyanDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 2:
+                            List<FormattedCharSequence> namekianDesc = font.split(Component.translatable("dmz.skill.passive.desc.namek", namekPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < namekianDesc.size(); i++) {
+                                guiGraphics.drawString(font, namekianDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 3:
+                            List<FormattedCharSequence> bioDesc = font.split(Component.translatable("dmz.skill.passive.desc.bio", bioPassive1, bioPassive2).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < bioDesc.size(); i++) {
+                                guiGraphics.drawString(font, bioDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 4:
+                            List<FormattedCharSequence> colddemonDesc = font.split(Component.translatable("dmz.skill.passive.desc.colddemon", colddemonPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < colddemonDesc.size(); i++) {
+                                guiGraphics.drawString(font, colddemonDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                        case 5:
+                            List<FormattedCharSequence> majinDesc = font.split(Component.translatable("dmz.skill.passive.desc.majin", majinPassive).withStyle(ChatFormatting.AQUA), 120);
+                            for (int i = 0; i < majinDesc.size(); i++) {
+                                guiGraphics.drawString(font, majinDesc.get(i), startX + 37, (startY+36) + i * font.lineHeight, 0xFFFFFF);
+                            }
+                            break;
+                    }
+                    return;
+                }
 
                 // Renderizar cada habilidad
                 for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
@@ -570,7 +668,18 @@ public class SkillMenu extends Screen {
 
                     if(skillId.equals(this.skillsId)){
                         int currentLevel = skill.getLevel();
-                        int maxLevel = 10; // maximo nivel
+                        int maxLevel = 10;
+                        if (skillId.equals("potential_unlock")) {
+                            maxLevel = 13;
+                            if (currentLevel == 10) {
+                                drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.talkguru"), startX + 92, startY+104, 0xffc134);
+                            } else if (currentLevel >= maxLevel) {
+                                drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+                            }
+                        } else if (currentLevel >= maxLevel) {
+                            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
+                        }
+
                         //Nombre de la habilidad
                         drawStringWithBorder(guiGraphics, this.font, Component.translatable(skill.getName()), startX + 93, startY, 0xFFFFFF);
                         //Tipo y aca pongo lo de skill
@@ -593,10 +702,6 @@ public class SkillMenu extends Screen {
                         List<FormattedCharSequence> lines = font.split(Component.translatable(skill.getDesc()), 120);
                         for (int i = 0; i < lines.size(); i++) {
                             guiGraphics.drawString(font, lines.get(i), startX + 37, (startY+48) + i * font.lineHeight, 0xFFFFFF);
-                        }
-
-                        if (currentLevel >= maxLevel) {
-                            drawStringWithBorder(guiGraphics, this.font, Component.translatable("dmz.skills.maxlevel"), startX + 90, startY+116, 0xffc134);
                         }
 
                     }

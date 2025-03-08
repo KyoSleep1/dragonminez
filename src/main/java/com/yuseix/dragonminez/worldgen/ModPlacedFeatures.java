@@ -259,8 +259,6 @@ public class ModPlacedFeatures {
 
     }
 
-
-
     private static ResourceKey<PlacedFeature> registerKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(DragonMineZ.MOD_ID, name));
     }

@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://media.forgecdn.net/attachments/description/null/description_d48ff53a-9b39-4c33-90cf-afaf519f6224.png" alt="DMZ Banner" width="70%" />
+  <img src=".github/docs/dragonminez_big_logo.png" alt="DMZ Banner" width="70%" />
 </div>
 
 ## About
@@ -12,19 +12,19 @@ renovando la experiencia vainilla.
 
 ### Contribuciones
 
-Te gustaría ayudar? ¡Genial! Revisa la [guía de contribución](CONTRIBUTING.md)
+Te gustaría ayudar? ¡Genial! Revisa la [guía de contribución](.github/CONTRIBUTING.md)
 para empezar.
 (Está en inglés, pero puedes traducirla con
 [Google Translate](https://translate.google.com/) o usar algo similar).
 
 ### 🌍 Translations
 
-- [Instructions in English](./README.md)
+- [Instructions in English](README.md)
 
 <div align="center">
-  <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&amp;logo=Discord&amp;logoColor=white&amp;label=Discord&amp;color=orange" alt="Discord"></a>&nbsp;&nbsp;
-  <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&amp;logo=Patreon" alt="Patreon"></a>&nbsp;&nbsp;
-  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&amp;logo=GitHub" alt="GitHub Progress Board"></a>
+  <a href="https://discord.gg/b5MgRNb3D7" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/discord/1216429657273012415?style=for-the-badge&logo=Discord&logoColor=white&label=Discord&color=orange" alt="Discord"></a>  
+  <a href="https://patreon.com/DragonMineZ" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/Patreon-Subscribe-yellow?style=for-the-badge&logo=Patreon" alt="Patreon"></a>  
+  <a href="https://github.com/orgs/DragonMineZ/projects/4" target="_blank" rel="nofollow noopener"><img src="https://img.shields.io/badge/GitHub-Progress_Board-red?style=for-the-badge&logo=GitHub" alt="GitHub Progress Board"></a>
 </div>
 
 ## 🚀 Descarga
@@ -68,6 +68,7 @@ de [Freesound](https://freesound.org/):
 ### Patreons
 
 - CyaneaCapillata
+- Robberto10
 
 ## Licencia
 

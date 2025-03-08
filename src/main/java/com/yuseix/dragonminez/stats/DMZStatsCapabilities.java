@@ -2,10 +2,7 @@ package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.DMZPermanentEffectsSyncS2C;
-import com.yuseix.dragonminez.network.S2C.DMZSkillsS2C;
-import com.yuseix.dragonminez.network.S2C.DMZTempEffectsS2C;
-import com.yuseix.dragonminez.network.S2C.StatsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -29,16 +26,12 @@ public class DMZStatsCapabilities {
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
         syncSkills(event.getEntity());
+        syncFormsSkills(event.getEntity());
 
         event.getEntity().refreshDimensions();
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            var vidaMC = event.getEntity().getAttribute(Attributes.MAX_HEALTH).getBaseValue();
-            var con = cap.getConstitution();
-            var raza = cap.getRace();
-
-            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcularCON(raza, con, 20, cap.getDmzClass()));
+            event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(cap));
         });
 
 
@@ -50,6 +43,7 @@ public class DMZStatsCapabilities {
         syncPermanentEffects(event.getEntity());
         syncTempEffects(event.getEntity());
         syncSkills(event.getEntity());
+        syncFormsSkills(event.getEntity());
 
     }
 
@@ -61,21 +55,14 @@ public class DMZStatsCapabilities {
         syncSkills(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-
-            var vidaMC = 20;
-            var con = cap.getConstitution();
-            var raza = cap.getRace();
-            var energia = cap.getEnergy();
-            var maxVIDA = 0.0;
-
             //VIDAAAAAAA
-            maxVIDA = dmzdatos.calcularCON(raza, con, vidaMC,cap.getDmzClass());
+            var maxVIDA = dmzdatos.calcConstitution(cap);
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
             event.getEntity().heal((float) maxVIDA);
-            cap.setCurStam(dmzdatos.calcularSTM(raza, (int) maxVIDA));
+            cap.setIntValue("curstam", dmzdatos.calcStamina(cap));
 
             //ENERGIAAA
-            cap.setCurrentEnergy(dmzdatos.calcularENE(raza, energia, cap.getDmzClass()));
+            cap.setIntValue("curenergy", dmzdatos.calcEnergy(cap));
         });
 
     }
@@ -126,6 +113,10 @@ public class DMZStatsCapabilities {
                         new DMZSkillsS2C(trackedplayer, cap.getDMZSkills()),
                         serverplayer
                 );
+                ModMessages.sendToPlayer(
+                        new DMZFormsS2C(trackedplayer, cap.getAllDMZForms()),
+                        serverplayer
+                );
 
             });
 
@@ -155,5 +146,10 @@ public class DMZStatsCapabilities {
                     new DMZSkillsS2C(player, cap.getDMZSkills()));
         });
     }
-
+    public static void syncFormsSkills(Player player) {
+        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+            ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+                    new DMZFormsS2C(player, cap.getAllDMZForms()));
+        });
+    }
 }

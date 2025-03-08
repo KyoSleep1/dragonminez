@@ -18,6 +18,7 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.LakeFeature;
@@ -28,7 +29,9 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraft.world.level.material.Fluids;
@@ -160,8 +163,8 @@ public class ModConfiguredFeatures {
         register(context, NAMEK_DIAMOND_ORE_MIDDLE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 8,1.0f));
         register(context, NAMEK_DIAMOND_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_diamond_ores, 12,0.7f));
 
-        register(context, NAMEK_KIKONO_ORE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 4));
-        register(context, NAMEK_KIKONO_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 8));
+        register(context, NAMEK_KIKONO_ORE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 8));
+        register(context, NAMEK_KIKONO_ORE_LARGE_KEY, Feature.ORE, new OreConfiguration(namek_kikono_ore, 14));
 
         //GRASS
         register(context, NAMEK_PATCH_GRASS_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(32, 7, 3,

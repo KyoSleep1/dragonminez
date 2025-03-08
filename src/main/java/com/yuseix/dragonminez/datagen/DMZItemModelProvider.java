@@ -25,6 +25,7 @@ public class DMZItemModelProvider extends ItemModelProvider {
         simpleItem(MainItems.NAMEKDBALL_RADAR_ITEM);
         simpleItem(MainItems.MIGHT_TREE_FRUIT);
         simpleItem(MainItems.NUBE_ITEM);
+        simpleItem(MainItems.NUBE_NEGRA_ITEM);
         simpleItem(MainItems.NAVE_SAIYAN_ITEM);
         simpleItem(MainItems.SENZU_BEAN);
         simpleItem(MainItems.CAPSULA_ROJA);
@@ -99,6 +100,9 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOKU_GT_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOKU_GT_ARMOR_LEGGINGS);
         armorItem(MainItems.GOKU_GT_ARMOR_BOOTS);
+        armorItem(MainItems.YARDRAT_ARMOR_CHESTPLATE);
+        armorItem(MainItems.YARDRAT_ARMOR_LEGGINGS);
+        armorItem(MainItems.YARDRAT_ARMOR_BOOTS);
         armorItem(MainItems.GOTEN_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOTEN_ARMOR_LEGGINGS);
         armorItem(MainItems.GOTEN_ARMOR_BOOTS);
@@ -108,6 +112,13 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.GOHAN_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.GOHAN_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.GOHAN_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_HELMET);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_LEGGINGS);
+        armorItem(MainItems.GREAT_SAIYAMAN_ARMOR_BOOTS);
+        armorItem(MainItems.FUTURE_GOHAN_ARMOR_CHESTPLATE);
+        armorItem(MainItems.FUTURE_GOHAN_ARMOR_LEGGINGS);
+        armorItem(MainItems.FUTURE_GOHAN_ARMOR_BOOTS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SAIYAN_ARMOR_BOOTS);
@@ -123,6 +134,12 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.VEGETA_SUPER_ARMOR_CHESTPLATE);
         armorItem(MainItems.VEGETA_SUPER_ARMOR_LEGGINGS);
         armorItem(MainItems.VEGETA_SUPER_ARMOR_BOOTS);
+        armorItem(MainItems.VEGETTO_ARMOR_CHESTPLATE);
+        armorItem(MainItems.VEGETTO_ARMOR_LEGGINGS);
+        armorItem(MainItems.VEGETTO_ARMOR_BOOTS);
+        armorItem(MainItems.GOGETA_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GOGETA_ARMOR_LEGGINGS);
+        armorItem(MainItems.GOGETA_ARMOR_BOOTS);
         armorItem(MainItems.PICCOLO_ARMOR_HELMET);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE_CAPE);
         armorItem(MainItems.PICCOLO_ARMOR_CHESTPLATE);
@@ -161,12 +178,37 @@ public class DMZItemModelProvider extends ItemModelProvider {
         armorItem(MainItems.SHIN_ARMOR_CHESTPLATE);
         armorItem(MainItems.SHIN_ARMOR_LEGGINGS);
         armorItem(MainItems.SHIN_ARMOR_BOOTS);
+        armorItem(MainItems.BLACK_ARMOR_CHESTPLATE);
+        armorItem(MainItems.BLACK_ARMOR_LEGGINGS);
+        armorItem(MainItems.BLACK_ARMOR_BOOTS);
+        armorItem(MainItems.ZAMASU_ARMOR_CHESTPLATE);
+        armorItem(MainItems.ZAMASU_ARMOR_LEGGINGS);
+        armorItem(MainItems.ZAMASU_ARMOR_BOOTS);
+        armorItem(MainItems.FUSION_ZAMASU_ARMOR_CHESTPLATE);
+        armorItem(MainItems.FUSION_ZAMASU_ARMOR_LEGGINGS);
+        armorItem(MainItems.FUSION_ZAMASU_ARMOR_BOOTS);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_CHESTPLATE);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_LEGGINGS);
         armorItem(MainItems.PRIDE_TROOPS_ARMOR_BOOTS);
         armorItem(MainItems.HIT_ARMOR_CHESTPLATE);
         armorItem(MainItems.HIT_ARMOR_LEGGINGS);
         armorItem(MainItems.HIT_ARMOR_BOOTS);
+        armorItem(MainItems.GAS_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GAS_ARMOR_LEGGINGS);
+        armorItem(MainItems.GAS_ARMOR_BOOTS);
+        armorItem(MainItems.MAJIN_BUU_ARMOR_CHESTPLATE);
+        armorItem(MainItems.MAJIN_BUU_ARMOR_LEGGINGS);
+        armorItem(MainItems.MAJIN_BUU_ARMOR_BOOTS);
+        armorItem(MainItems.GAMMA1_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GAMMA1_ARMOR_LEGGINGS);
+        armorItem(MainItems.GAMMA1_ARMOR_BOOTS);
+        armorItem(MainItems.GAMMA2_ARMOR_CHESTPLATE);
+        armorItem(MainItems.GAMMA2_ARMOR_LEGGINGS);
+        armorItem(MainItems.GAMMA2_ARMOR_BOOTS);
+        armorItem(MainItems.INVENCIBLE_ARMOR_HELMET);
+        armorItem(MainItems.INVENCIBLE_ARMOR_CHESTPLATE);
+        armorItem(MainItems.INVENCIBLE_ARMOR_LEGGINGS);
+        armorItem(MainItems.INVENCIBLE_ARMOR_BOOTS);
 
         //Crafting Armaduras
         simpleItem(MainItems.KIKONO_STRING);
@@ -179,14 +221,19 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_GOKU2);
         patternItem(MainItems.PATTERN_GOKU_SUPER);
         patternItem(MainItems.PATTERN_GOKU_GT);
+        patternItem(MainItems.PATTERN_YARDRAT);
         patternItem(MainItems.PATTERN_GOTEN);
         patternItem(MainItems.PATTERN_GOTEN_SUPER);
         patternItem(MainItems.PATTERN_GOHAN_SUPER);
+        patternItem(MainItems.PATTERN_GREAT_SAIYAMAN);
+        patternItem(MainItems.PATTERN_FUTURE_GOHAN);
         patternItem(MainItems.PATTERN_VEGETA1);
         patternItem(MainItems.PATTERN_VEGETA2);
         patternItem(MainItems.PATTERN_VEGETA_Z);
         patternItem(MainItems.PATTERN_VEGETA_BUU);
         patternItem(MainItems.PATTERN_VEGETA_SUPER);
+        patternItem(MainItems.PATTERN_VEGETTO);
+        patternItem(MainItems.PATTERN_GOGETA);
         patternItem(MainItems.PATTERN_PICCOLO);
         patternItem(MainItems.PATTERN_GOHAN1);
         patternItem(MainItems.PATTERN_BARDOCK1);
@@ -199,8 +246,15 @@ public class DMZItemModelProvider extends ItemModelProvider {
         patternItem(MainItems.PATTERN_BROLY_Z);
         patternItem(MainItems.PATTERN_BROLY_SUPER);
         patternItem(MainItems.PATTERN_SHIN);
+        patternItem(MainItems.PATTERN_BLACK);
+        patternItem(MainItems.PATTERN_ZAMASU);
+        patternItem(MainItems.PATTERN_FUSION_ZAMASU);
         patternItem(MainItems.PATTERN_PRIDE_TROOPS);
         patternItem(MainItems.PATTERN_HIT);
+        patternItem(MainItems.PATTERN_GAS);
+        patternItem(MainItems.PATTERN_MAJIN_BUU);
+        patternItem(MainItems.PATTERN_GAMMA1);
+        patternItem(MainItems.PATTERN_GAMMA2);
 
         //Minerales
         simpleItem(MainItems.GETE_SCRAP);
@@ -210,8 +264,10 @@ public class DMZItemModelProvider extends ItemModelProvider {
         //Bloques (MainBlocks)
         blockItem(MainBlocks.NAMEK_BLOCK);
         blockItem(MainBlocks.NAMEK_DIRT);
-        blockItem(MainBlocks.NAMEK_STONE);
+        simpleBlockItem(MainBlocks.NAMEK_STONE);
         blockItem(MainBlocks.NAMEK_COBBLESTONE);
+        simpleBlockItem(MainBlocks.ROCKY_STONE);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE);
         blockItem(MainBlocks.NAMEK_AJISSA_PLANKS);
         blockItem(MainBlocks.NAMEK_AJISSA_LEAVES);
         blockItem(MainBlocks.NAMEK_SACRED_PLANKS);
@@ -237,6 +293,40 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockItem(MainBlocks.NAMEK_DEEPSLATE_COPPER);
         blockItem(MainBlocks.GETE_FURNACE);
         blockItem(MainBlocks.TIME_CHAMBER_PORTAL);
+        blockItem(MainBlocks.OTHERWORLD_CLOUD);
+
+        //Variantes de bloques
+        blockAsItem(MainBlocks.NAMEK_AJISSA_DOOR);
+        blockAsItem(MainBlocks.NAMEK_SACRED_DOOR);
+        fenceItem(MainBlocks.NAMEK_AJISSA_FENCE, MainBlocks.NAMEK_AJISSA_PLANKS);
+        fenceItem(MainBlocks.NAMEK_SACRED_FENCE, MainBlocks.NAMEK_SACRED_PLANKS);
+        buttonItem(MainBlocks.NAMEK_AJISSA_BUTTON, MainBlocks.NAMEK_AJISSA_PLANKS);
+        buttonItem(MainBlocks.NAMEK_SACRED_BUTTON, MainBlocks.NAMEK_SACRED_PLANKS);
+        simpleBlockItem(MainBlocks.NAMEK_STONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_COBBLESTONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_DEEPSLATE_STAIRS);
+        simpleBlockItem(MainBlocks.ROCKY_STONE_STAIRS);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_STAIRS);
+        simpleBlockItem(MainBlocks.NAMEK_STONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_COBBLESTONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_DEEPSLATE_SLAB);
+        simpleBlockItem(MainBlocks.ROCKY_STONE_SLAB);
+        simpleBlockItem(MainBlocks.ROCKY_COBBLESTONE_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_SLAB);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_PRESSURE_PLATE);
+        simpleBlockItem(MainBlocks.NAMEK_AJISSA_FENCE_GATE);
+        simpleBlockItem(MainBlocks.NAMEK_SACRED_FENCE_GATE);
+        trapdoorItem(MainBlocks.NAMEK_AJISSA_TRAPDOOR);
+        trapdoorItem(MainBlocks.NAMEK_SACRED_TRAPDOOR);
+        wallItem(MainBlocks.NAMEK_STONE_WALL, MainBlocks.NAMEK_STONE);
+        wallItem(MainBlocks.NAMEK_COBBLESTONE_WALL, MainBlocks.NAMEK_COBBLESTONE);
+        wallItem(MainBlocks.NAMEK_DEEPSLATE_WALL, MainBlocks.NAMEK_DEEPSLATE);
+        wallItem(MainBlocks.ROCKY_STONE_WALL, MainBlocks.ROCKY_STONE);
+        wallItem(MainBlocks.ROCKY_COBBLESTONE_WALL, MainBlocks.ROCKY_COBBLESTONE);
 
         //Vegetacion
         blockAsItem(MainBlocks.CHRYSANTHEMUM_FLOWER);
@@ -245,12 +335,15 @@ public class DMZItemModelProvider extends ItemModelProvider {
         blockAsItem(MainBlocks.CATHARANTHUS_ROSEUS_FLOWER);
         blockAsItem(MainBlocks.TRILLIUM_FLOWER);
         blockItem(MainBlocks.NAMEK_FERN);
+        saplingItem(MainBlocks.NAMEK_SACRED_SAPLING);
         blockAsItem(MainBlocks.SACRED_CHRYSANTHEMUM_FLOWER);
         blockAsItem(MainBlocks.SACRED_AMARYLLIS_FLOWER);
         blockAsItem(MainBlocks.SACRED_MARIGOLD_FLOWER);
         blockAsItem(MainBlocks.SACRED_CATHARANTHUS_ROSEUS_FLOWER);
         blockAsItem(MainBlocks.SACRED_TRILLIUM_FLOWER);
         blockItem(MainBlocks.SACRED_FERN);
+        saplingItem(MainBlocks.NAMEK_AJISSA_SAPLING);
+
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
@@ -281,5 +374,28 @@ public class DMZItemModelProvider extends ItemModelProvider {
     public void simpleBlockItem(RegistryObject<Block> block) {
         this.withExistingParent(DragonMineZ.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
                 modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
+    }
+    public void trapdoorItem(RegistryObject<Block> block) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
+                modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath() + "_bottom"));
+    }
+
+    public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
+                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+
+    public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
+                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+    public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
+        this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
+                .texture("wall",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+    }
+    private ItemModelBuilder saplingItem(RegistryObject<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(DragonMineZ.MOD_ID,"block/" + item.getId().getPath()));
     }
 }
