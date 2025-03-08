@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.hair.*;
+import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
@@ -239,7 +240,8 @@ public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
             colorG = ((colorHair >> 8) & 0xff) / 255.0f;
             colorB = (colorHair & 0xff) / 255.0f;
 
-            if (!(abstractClientPlayer.getItemBySlot(EquipmentSlot.HEAD).isEmpty())) return;
+            if (!(abstractClientPlayer.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) &&
+                    !abstractClientPlayer.getItemBySlot(EquipmentSlot.HEAD).is(MainItems.INVENCIBLE_ARMOR_HELMET.get())) return;
 
             poseStack.pushPose();
 
