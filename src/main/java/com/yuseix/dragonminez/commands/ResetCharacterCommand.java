@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZDatos;
@@ -18,22 +19,24 @@ import java.util.Collections;
 public class ResetCharacterCommand {
 
     public ResetCharacterCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-
         dispatcher.register(Commands.literal("dmzrestart")
                 .requires(commandSourceStack -> commandSourceStack.hasPermission(2))
                 .executes(commandContext -> reiniciarJugador(
-                        Collections.singleton(commandContext.getSource().getPlayerOrException())))
+                        Collections.singleton(commandContext.getSource().getPlayerOrException()), 0))
                 .then(Commands.argument("player", EntityArgument.players())
                         .executes(commandContext -> reiniciarJugador(
-                                EntityArgument.getPlayers(commandContext, "player")))
+                                EntityArgument.getPlayers(commandContext, "player"), 0))
+                        .then(Commands.argument("keepPercentage", IntegerArgumentType.integer(0, 100))
+                                .executes(commandContext -> reiniciarJugador(
+                                        EntityArgument.getPlayers(commandContext, "player"),
+                                        IntegerArgumentType.getInteger(commandContext, "keepPercentage")))
+                        )
                 )
         );
-
     }
 
-    private static int reiniciarJugador(Collection<ServerPlayer> pPlayers) {
+    private static int reiniciarJugador(Collection<ServerPlayer> pPlayers, int porcentaje) {
         for (ServerPlayer player : pPlayers) {
-
             DMZDatos dmzdatos = new DMZDatos();
 
             player.sendSystemMessage(
@@ -45,17 +48,34 @@ public class ResetCharacterCommand {
             );
 
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+                // Reiniciar vida y atributos básicos
                 player.setHealth(20);
                 player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
                 player.setHealth(20);
 
+                // Aplicar el porcentaje a las estadísticas
+                if (porcentaje == 0) {
+                    System.out.println("Reiniciando completamente las stats");
+                    // Reiniciar completamente las stats
+                    playerstats.setStat("STR", 5);
+                    playerstats.setStat("DEF", 5);
+                    playerstats.setStat("CON", 5);
+                    playerstats.setStat("PWR", 5);
+                    playerstats.setStat("ENE", 5);
+                } else {
+                    System.out.println("Reiniciando las stats al " + porcentaje + "%");
+                    double factor = (100-porcentaje) / 100.0;
+                    playerstats.setStat("STR", (int) (playerstats.getStat("STR") * factor));
+                    System.out.println("STR FACTOR: " + (int) (playerstats.getStat("STR") * factor));
+                    System.out.println("STR: " + playerstats.getStat("STR"));
+                    playerstats.setStat("DEF", (int) (playerstats.getStat("DEF") * factor));
+                    playerstats.setStat("CON", (int) (playerstats.getStat("CON") * factor));
+                    playerstats.setStat("PWR", (int) (playerstats.getStat("PWR") * factor));
+                    playerstats.setStat("ENE", (int) (playerstats.getStat("ENE") * factor));
+                }
+
+                // Reiniciar otros datos (independientemente del porcentaje)
                 playerstats.setBoolean("dmzuser", false);
-                //Luego cambiar cuando decidamos las stats
-                playerstats.setStat("STR", 5);
-                playerstats.setStat("DEF", 5);
-                playerstats.setStat("CON", 5);
-                playerstats.setStat("PWR", 5);
-                playerstats.setStat("ENE", 5);
                 playerstats.setIntValue("tps", 0);
                 playerstats.removeAllSkills();
                 playerstats.setStringValue("form", "base");
@@ -75,7 +95,6 @@ public class ResetCharacterCommand {
                 playerstats.setIntValue("curenergy", 0);
 
                 // NOTA: Lo de la vida se hace dos veces, pq a veces se buguea la primera vez xd
-
                 player.setHealth(20);
                 player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
                 player.setHealth(20);
@@ -83,6 +102,4 @@ public class ResetCharacterCommand {
         }
         return pPlayers.size();
     }
-
-
 }

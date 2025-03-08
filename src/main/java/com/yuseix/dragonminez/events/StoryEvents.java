@@ -72,13 +72,10 @@ public class StoryEvents {
 					Optional<ResourceKey<Biome>> biomeKey = player.level().getBiome(player.blockPosition()).unwrapKey();
 					if (biomeKey.isPresent()) {
 						String currentBiome = biomeKey.get().location().toString();
-						System.out.println("Bioma encontrado? " + capability.isBiomeFound());
 
 						if (currentBiome.equals(currentQuest.getRequirement().getRequiredBiome()) && !capability.isBiomeFound()) {
-							System.out.println("onPlayerTick: Bioma encontrado");
 							capability.setBiomeFound(true);
 						} else if (capability.isBiomeFound() && !currentBiome.equals(currentQuest.getRequirement().getRequiredBiome())) {
-							System.out.println("onPlayerTick: Bioma perdido");
 								capability.setBiomeFound(false);
 						}
 						checkQuestCompletion(player);
@@ -113,11 +110,9 @@ public class StoryEvents {
 	}
 
 	public static void checkQuestCompletion(Player player) {
-		System.out.println("Checking quest completion");
 		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(capability -> {
 			DMZQuest currentQuest = DMZStoryRegistry.getQuest(capability.getCurrentQuestId());
 			if (currentQuest != null) {
-				System.out.println("Current quest: " + currentQuest.getId());
 				QuestRequirement requirement = currentQuest.getRequirement();
 
 				boolean killsComplete = true;

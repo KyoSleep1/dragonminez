@@ -249,7 +249,7 @@ public class EntityEvents {
 			level.getCapability(StructuresProvider.CAPABILITY).ifPresent(structures -> {
 				if (structures.getHasKaioPlanet()) {
 					BlockPos posKaio = structures.getKaioPlanetPosition();
-					if (playerPos.distSqr(posKaio) < 100000) grantAdvancement(serverPlayer, "kaiosama");
+					if (playerPos.distSqr(posKaio) < 30000) grantAdvancement(serverPlayer, "kaiosama");
 				}
 			});
 		} else if (player.level().dimension().equals(ModDimensions.NAMEK_DIM_LEVEL_KEY)) {

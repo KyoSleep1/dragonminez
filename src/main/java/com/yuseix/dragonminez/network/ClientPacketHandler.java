@@ -55,7 +55,6 @@ public class ClientPacketHandler {
 		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
 			cap.getCompletedQuests().clear(); // Limpia la lista anterior
 			cap.getCompletedQuests().addAll(completedQuests); // Añade las misiones sincronizadas
-			System.out.println("Handling completed quests packet for player " + player.getName().getString());
 		});
 	}
 	@OnlyIn(Dist.CLIENT)
@@ -133,21 +132,15 @@ public class ClientPacketHandler {
 
 	@OnlyIn(Dist.CLIENT)
 	public static void handleStorySyncPacket(int playerId, CompoundTag nbt, Supplier<NetworkEvent.Context> ctxSupplier) {
-		DebugUtils.dmzLog("Handling storymode sync packet for player " + playerId);
 		var clientLevel = Minecraft.getInstance().level;
 		if (clientLevel == null) return;
 
 		var entity = Minecraft.getInstance().level.getEntity(playerId);
 		if (entity instanceof Player player) {
-			DebugUtils.dmzLog("NBT Received: " + nbt);
 			player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
 				cap.loadNBTData(nbt);
-				DebugUtils.dmzLog("NBT Loaded: " + nbt);
 				player.refreshDimensions();
-				DebugUtils.dmzLog("storymode loaded for player " + player.getName().getString());
 			});
-		} else {
-			DebugUtils.dmzLog("Failed to find player with ID: " + playerId);
 		}
 	}
 

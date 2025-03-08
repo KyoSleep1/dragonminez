@@ -1,15 +1,13 @@
 package com.yuseix.dragonminez.init.entity.custom.masters;
 
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class MastersEntity extends Mob {
@@ -75,6 +73,14 @@ public class MastersEntity extends Mob {
     @Override
     public void setNoGravity(boolean pNoGravity) {
         super.setNoGravity(true);
+    }
+
+    @Override
+    public void move(MoverType pType, Vec3 pPos) {
+    }
+
+    @Override
+    public void travel(Vec3 pTravelVector) {
     }
 
 }

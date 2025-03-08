@@ -50,7 +50,7 @@ public class ClientEvents {
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z - Release v" + "1.2 || Storyline and Skills!";
+	private static final String title = "DragonMine Z v" + "1.2 - StoryMode and Skills!";
 	private static boolean isDescending = false;
 
 	private static final int teleportTime = 5; // Segundos
@@ -60,6 +60,9 @@ public class ClientEvents {
 
 	private static final Set<String> jugadoresConAura = new HashSet<>(Set.of(
 			"Dev",
+			"ezShokkoh",
+			"ImYuseix",
+			"Toji71_",
 			"Baby_Poop12311",
 			"SpaceCarp",
 			"prolazorbema",
