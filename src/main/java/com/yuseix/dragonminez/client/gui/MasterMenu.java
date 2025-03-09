@@ -135,7 +135,6 @@ public class MasterMenu extends Screen {
 				case "goku":
 					if (cap.getDMZSkills().get("fly") == null || cap.getDMZSkills().get("fly").getLevel() == 0) {
 						this.flyBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(flyCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Fly Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= flyCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("fly", new DMZSkill("dmz.skill.fly.name", "dmz.skill.fly.desc", 1, false)));
 							} else
@@ -144,7 +143,6 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("ki_control") == null || cap.getDMZSkills().get("ki_control").getLevel() == 0) {
 						this.kiControlBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(kiControlCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Ki Control Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= kiControlCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("ki_control", new DMZSkill("dmz.skill.ki_control.name", "dmz.skill.ki_control.desc", 1, true)));
 							} else
@@ -154,7 +152,6 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("ki_manipulation") == null || cap.getDMZSkills().get("ki_manipulation").getLevel() == 0) {
 						this.kiManipulationBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 44, Component.literal(formatNumber(kiManipulationCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Ki Manipulation Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= kiManipulationCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("ki_manipulation", new DMZSkill("dmz.skill.ki_manipulation.name", "dmz.skill.ki_manipulation.desc", 1, false)));
 							} else
@@ -165,7 +162,6 @@ public class MasterMenu extends Screen {
 				case "roshi":
 					if (cap.getDMZSkills().get("jump") == null || cap.getDMZSkills().get("jump").getLevel() == 0) {
 						this.jumpBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(jumpCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Jump Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= jumpCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("jump", new DMZSkill("dmz.skill.jump.name", "dmz.skill.jump.desc", 1, false)));
 							} else
@@ -174,7 +170,6 @@ public class MasterMenu extends Screen {
 					}
 					if (cap.getDMZSkills().get("meditation") == null || cap.getDMZSkills().get("meditation").getLevel() == 0) {
 						this.meditationBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto + 17, Component.literal(formatNumber(meditationCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Meditation Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= meditationCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("meditation", new DMZSkill("dmz.skill.meditation.name", "dmz.skill.meditation.desc", 1, true)));
 							} else
@@ -185,7 +180,6 @@ public class MasterMenu extends Screen {
 				case "kaio":
 					if (cap.getDMZSkills().get("potential_unlock") == null || cap.getDMZSkills().get("potential_unlock").getLevel() == 0) {
 						this.potUnlockBoton = (TextButton) this.addRenderableWidget(new TextButton(anchoTexto, altoTexto - 10, Component.literal(formatNumber(potUnlockCost) + " TPs"), wa -> {
-							DebugUtils.dmzLog("Potential Unlock Position: " + anchoTexto + " " + altoTexto);
 							if (tpActual >= potUnlockCost) {
 								ModMessages.sendToServer(new MasterSkillsC2S("potential_unlock", new DMZSkill("dmz.skill.potential_unlock.name", "dmz.skill.potential_unlock.desc", 1, true)));
 							} else

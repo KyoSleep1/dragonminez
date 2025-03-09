@@ -90,7 +90,7 @@ public class StatsEvents {
 					FormsData skill = new FormsData("dmz.dmzforms.super_form.name", 0);
 					playerstats.addFormSkill("super_form", skill);
 				}
-				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(dmzdatos.calcConstitution(playerstats));
+				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
 				// Tickhandler
 				tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);
 
@@ -236,7 +236,7 @@ public class StatsEvents {
 					int kiManipLevel = cap.getSkillLevel("ki_manipulation");
 					int maxKi = cap.getIntValue("maxenergy");
 					int currKi = cap.getIntValue("curenergy");
-					int staminaCost = maxDamage / 10;
+					int staminaCost = maxDamage / 5;
 
 					// Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
 					if (isDmzUser) {
@@ -269,8 +269,8 @@ public class StatsEvents {
 								// Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
 								if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
 									if (cap.getStringValue("kiweapon").equals("scythe")) {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 4)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.10);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 2) * (0.5 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.04);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
@@ -280,8 +280,8 @@ public class StatsEvents {
 											sonidosGolpes(atacante);
 										}
 									} else if (cap.getStringValue("kiweapon").equals("trident")) {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 2)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.16);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon) * (0.5 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.08);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
@@ -291,8 +291,8 @@ public class StatsEvents {
 											sonidosGolpes(atacante);
 										}
 									} else {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 8)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.05);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 4) * (0.5 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.02);
 										if (currKi > kiCost) {
 											event.setAmount(danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())

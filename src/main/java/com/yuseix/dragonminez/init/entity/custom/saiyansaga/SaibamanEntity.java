@@ -68,7 +68,7 @@ public class SaibamanEntity extends SagaEntity {
 
 		// Buscar jugadores en un radio de 15 bloques
 		String entityName = this.getName().getString();
-		DebugUtils.dmzLog(entityName);
+		DebugUtils.dmzSout(entityName);
 		for (Player player : serverLevel.players()) {
 			if (player.distanceTo(this) <= 15) {
 				switch (entityName.toLowerCase(Locale.ROOT)) {

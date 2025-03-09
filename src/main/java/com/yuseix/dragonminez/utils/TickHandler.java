@@ -27,7 +27,7 @@ public class TickHandler {
 		staminaRegenCounter++;
 		if (staminaRegenCounter >= 20) {
 			int maxStamina = dmzDatos.calcStamina(playerStats);
-			int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
+			int regenStamina = Math.max((int) Math.round(maxStamina / 24.0), 1);
 			if (playerStats.getIntValue("curstam") < maxStamina) {
 				if (meditation != null) {
 					// Si tiene meditación, aumenta o reduce según el nivel de meditación (+5% por nivel)
