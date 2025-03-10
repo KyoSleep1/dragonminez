@@ -32,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -122,7 +123,6 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
                 player.sendSystemMessage(Component.translatable("entity.dragonminez.saga_vegetaozaru.die_line"));
-                playSoundOnce(MainSounds.VEGETA_OOZARU_DEATH.get());
             }
         }
 
@@ -143,20 +143,18 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
                 player.sendSystemMessage(Component.translatable(selectedPhrase));
-                playSoundOnce(MainSounds.VEGETA_OOZARU_GROWL.get());
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private static void playSoundOnce(SoundEvent soundEvent) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
-                        soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-            }
-        });
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return MainSounds.VEGETA_OOZARU_GROWL.get();
+    }
+
+    @Override
+    protected @NotNull SoundEvent getDeathSound() {
+        return MainSounds.VEGETA_OOZARU_DEATH.get();
     }
 
     @Override

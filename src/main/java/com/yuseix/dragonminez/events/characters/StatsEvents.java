@@ -27,6 +27,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +35,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -42,6 +44,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.w3c.dom.Attr;
 
 import java.util.*;
 
@@ -90,7 +94,9 @@ public class StatsEvents {
 					FormsData skill = new FormsData("dmz.dmzforms.super_form.name", 0);
 					playerstats.addFormSkill("super_form", skill);
 				}
-				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
+				if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != dmzdatos.calcConstitution(playerstats)) {
+					serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
+				}
 				// Tickhandler
 				tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);
 
@@ -155,8 +161,27 @@ public class StatsEvents {
 				if (playerstats.getIntValue("babacooldown") > 0) playerstats.setIntValue("babacooldown", babaCooldown(playerstats.getIntValue("babacooldown")));
 				if (playerstats.getIntValue("babaalivetimer") > 0) playerstats.setIntValue("babaalivetimer", babaDuration(playerstats.getIntValue("babaalivetimer")));
 
+				AttributeInstance reachAttribute = serverPlayer.getAttribute(ForgeMod.ENTITY_REACH.get());
+				AttributeInstance blockReachAttribute = serverPlayer.getAttribute(ForgeMod.BLOCK_REACH.get());
+
+				if (playerstats.getStringValue("form").equals("oozaru") || playerstats.getStringValue("form").equals("giant")) {
+					if (reachAttribute != null && blockReachAttribute != null) {
+						if (reachAttribute.getBaseValue() != 7.0 && blockReachAttribute.getBaseValue() != 8.0) {
+							reachAttribute.setBaseValue(7.0);
+							blockReachAttribute.setBaseValue(8.0);
+						}
+					}
+				} else {
+					if (reachAttribute != null && blockReachAttribute != null) {
+						if (reachAttribute.getBaseValue() != 3.0 && blockReachAttribute.getBaseValue() != 4.5) {
+							reachAttribute.setBaseValue(3.0);
+							blockReachAttribute.setBaseValue(4.5);
+						}
+					}
+				}
+
 			} else {
-				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+				if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != 20) serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
 			}
 
 			//Tiempo para reclamar una senzu
@@ -226,7 +251,6 @@ public class StatsEvents {
 
 					// Calcular el daño basado en la fuerza del atacante
 					float baseMCDamage = event.getAmount();
-					System.out.println("Daño base: " + baseMCDamage);
 					int maxDamage = dmzdatos.calcStrength(cap);
 
 					int staminacost = maxDamage / 12;
