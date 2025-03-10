@@ -200,27 +200,23 @@ public class StoryEvents {
 	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
-
 	}
 
 	@SubscribeEvent
 	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent
 	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent
 	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(DMZStatsAttributes.class);
+		event.register(DMZStoryCapability.class);
 	}
 
 	@SubscribeEvent
@@ -230,13 +226,12 @@ public class StoryEvents {
 
 		original.reviveCaps();
 
-		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(
-				cap -> player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(originalcap ->
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(
+				cap -> DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, original).ifPresent(originalcap ->
 						cap.loadNBTData(originalcap.saveNBTData())));
 
 
 		original.invalidateCaps();
-
 	}
 
 	@SubscribeEvent
