@@ -13,6 +13,7 @@ import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
+import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -245,16 +246,11 @@ public class ForgeBusEvents {
 	@SubscribeEvent
 	public void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player player) {
-			//if (DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, event.getObject()).isPresent() ||
-			//		PlayerStorylineProvider.getCap(StorylineEvents.INSTANCE, event.getObject()).isPresent()) return;
-
 			final DMZStatsProvider provider = new DMZStatsProvider(player);
-			//final PlayerStorylineProvider storylineprovider = new PlayerStorylineProvider(player);
 			final DMZQuestProvider provider_quests = new DMZQuestProvider();
+
 			event.addCapability(DMZStatsProvider.ID, provider);
 			event.addCapability(DMZQuestProvider.ID, provider_quests);
-
-			//event.addCapability(PlayerStorylineProvider.ID, storylineprovider);
 		}
 	}
 

@@ -54,7 +54,7 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
-        return (int) Math.round((stats.getIntValue("maxhealth") * 0.75) * multRaza);
+        return (int) Math.round((stats.getIntValue("maxhealth") * 0.55) * multRaza);
     }
 
     @Override
