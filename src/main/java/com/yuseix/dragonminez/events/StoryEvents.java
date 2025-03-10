@@ -7,10 +7,7 @@ import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.storymode.DMZQuest;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryRegistry;
-import com.yuseix.dragonminez.stats.storymode.QuestRequirement;
+import com.yuseix.dragonminez.stats.storymode.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -226,8 +223,8 @@ public class StoryEvents {
 
 		original.reviveCaps();
 
-		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(
-				cap -> DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, original).ifPresent(originalcap ->
+		DMZQuestProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(
+				cap -> DMZQuestProvider.getCap(DMZStoryCapability.INSTANCE, original).ifPresent(originalcap ->
 						cap.loadNBTData(originalcap.saveNBTData())));
 
 
