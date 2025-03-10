@@ -184,7 +184,6 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.get_to_biome")) {
-			System.out.println("Checking biome objective: " + biomeFound);
 			if (biomeFound) {
 				return true;
 			}

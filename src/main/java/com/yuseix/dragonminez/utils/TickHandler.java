@@ -27,7 +27,7 @@ public class TickHandler {
 		staminaRegenCounter++;
 		if (staminaRegenCounter >= 20) {
 			int maxStamina = dmzDatos.calcStamina(playerStats);
-			int regenStamina = Math.max((int) Math.round(maxStamina / 12.0), 1);
+			int regenStamina = Math.max((int) Math.round(maxStamina / 24.0), 1);
 			if (playerStats.getIntValue("curstam") < maxStamina) {
 				if (meditation != null) {
 					// Si tiene meditación, aumenta o reduce según el nivel de meditación (+5% por nivel)
@@ -174,8 +174,11 @@ public class TickHandler {
 							// No hacer nada
 						} else {
 							int kiRegen = dmzdatos.calcKiCharge(playerstats);
+							if (kiRegen < 1) kiRegen = 3;
+							System.out.println("kiRegen: " + kiRegen);
 							if (meditation != null) {
 								kiRegen += (int) Math.ceil(kiRegen * 0.10 * meditationLevel);
+								System.out.println("Meditation Ki Regen: " + kiRegen);
 							}
 							if (raza == 0) {
 								float passiveHuman = (float) DMZHumanConfig.KICHARGE_REGEN_BOOST.get() / 100;

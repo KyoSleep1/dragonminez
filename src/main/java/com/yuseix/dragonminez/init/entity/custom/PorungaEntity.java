@@ -1,11 +1,10 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
+import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.events.RadarEvents;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.PorungaMenu;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
 import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
@@ -33,6 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.slf4j.Logger;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Random;
 
 public class PorungaEntity extends Mob implements GeoEntity {
+	private static final Logger LOGGER = LogUtils.getLogger();
 	private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 	private long invokingTime;
 
@@ -122,8 +123,8 @@ public class PorungaEntity extends Mob implements GeoEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		//DebugUtils.dmzLog("[P] Deseos del Jugador: " + getDeseos());
-		//DebugUtils.dmzLog("[P] Nombre del jugador: " + getOwnerName());
+		//DebugUtils.dmzSout("[P] Deseos del Jugador: " + getDeseos());
+		//DebugUtils.dmzSout("[P] Nombre del jugador: " + getOwnerName());
 
 
 		if (this.getDeseos() == 0) {
@@ -234,7 +235,7 @@ public class PorungaEntity extends Mob implements GeoEntity {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		DebugUtils.dmzLog("[Porunga] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		LOGGER.info("[Porunga] Namekian Dragon Ball [{}] spawned at {}", dBallNum, posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}

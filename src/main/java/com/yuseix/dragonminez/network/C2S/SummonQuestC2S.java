@@ -68,7 +68,7 @@ public class SummonQuestC2S {
 
 						entityName = "Saibamen";
 					}
-					case "saiyQuest4" -> {
+					case "saiyQuest4", "saiyQuest5" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
 						NappaEntity nappa = new NappaEntity(MainEntity.NAPPA_SAGA.get(), world);
 						nappa.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
@@ -76,15 +76,7 @@ public class SummonQuestC2S {
 
 						entityName = "Nappa";
 					}
-					case "saiyQuest5" -> {
-						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						NappaEntity nappa = new NappaEntity(MainEntity.NAPPA_SAGA.get(), world);
-						nappa.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						world.addFreshEntity(nappa);
-
-						entityName = "Nappa";
-					}
-					case "saiyQuest6" -> {
+					case "saiyQuest6", "saiyQuest8" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
 						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
 						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
@@ -94,15 +86,7 @@ public class SummonQuestC2S {
 					}
 					case "saiyQuest7" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
-						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						world.addFreshEntity(vegeta);
-
-						entityName = "Vegeta";
-					}
-					case "saiyQuest8" -> {
-						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
+						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_OZARU.get(), world);
 						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
 						world.addFreshEntity(vegeta);
 

@@ -31,7 +31,7 @@ public class DMZGenericAttributes {
 
         if (maxHealth instanceof RangedAttribute) {
             AccessorRangedAttribute accessor = (AccessorRangedAttribute) maxHealth;
-            accessor.setMaxValue(100000000.0);
+            accessor.setMaxValue(10000000.0);
         }
     }
 }

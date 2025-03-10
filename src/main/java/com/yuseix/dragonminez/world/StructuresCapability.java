@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.world;
 
+import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.init.MainBlocks;
 import net.minecraft.core.BlockPos;
@@ -18,11 +19,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Random;
 
 public class StructuresCapability {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     private boolean hasTorreKamisama = false;
     private boolean hasHabTiempo = false;
     private boolean hasGokuHouse = false;
@@ -372,8 +376,8 @@ public class StructuresCapability {
             setTorreKamisamaPosition(torreKami);
             setTorreKarinPosition(torreKarin);
             setPortalHabTiempoPosition(portalHab);
-            System.out.println("[DMZ-Generation] Korin Tower generated in " + torreKarin);
-            System.out.println("[DMZ-Generation] Kami's Lookout generated in " + torreKami);
+			LOGGER.info("[DMZ-Generation] Kami's Tower generated in {}", torreKami);
+            LOGGER.info("[DMZ-Generation] Kami's Lookout generated in {}", torreKarin);
         }
     }
 
@@ -398,13 +402,14 @@ public class StructuresCapability {
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockPos posicionFinal = new BlockPos(posicionValida.getX(), 280, posicionValida.getZ());
+                BlockState blockState = level.getBlockState(posicionFinal).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionFinal.offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida, structureBlock, 3);
-                BlockEntity blockEntity1 = level.getBlockEntity(posicionValida);
+                level.setBlock(posicionFinal, structureBlock, 3);
+                BlockEntity blockEntity1 = level.getBlockEntity(posicionFinal);
                 if (blockEntity1 instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity1;
 
@@ -422,22 +427,22 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.below().below().below().getX() + " " + posicionValida.below().below().below().getY() + " " + posicionValida.below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
-                    level.setBlock(posicionValida, Blocks.AIR.defaultBlockState(), 3);
+                    level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionFinal, Blocks.AIR.defaultBlockState(), 3);
                 }
                 // Colocar bloques anteriores
-                level.setBlock(posicionValida, blockState, 3);
-                level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
-                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
+                level.setBlock(posicionFinal, blockState, 3);
+                level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionFinal.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
             }
+            BlockPos posicionFinal = new BlockPos(posicionValida.getX(), 200, posicionValida.getZ());
 
-            BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 32, posicionValida.getY() + 5, posicionValida.getZ() - 13);
+            BlockPos spawnPosition = new BlockPos(posicionFinal.getX() + 32, posicionFinal.getY() + 5, posicionFinal.getZ() - 13);
             // Marcar como generada y guardar la posición
             setDB4Position(posicionValida.offset(-18, 7, 30));
             setHasGokuHouse(true);
             setGokuHousePosition(spawnPosition);
-            System.out.println("[DMZ-Generation] Goku House generated in " + spawnPosition);
-            //System.out.println("Comando: /teleport Dev " + spawnPosition.getX() + " " + spawnPosition.getY() + " " + spawnPosition.getZ());
+            LOGGER.info("[DMZ-Generation] Goku House generated in {}", spawnPosition);
         }
     }
 
@@ -462,13 +467,14 @@ public class StructuresCapability {
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida.offset(0, 0, 0)).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockPos posicionFinal = new BlockPos(posicionValida.getX(), 280, posicionValida.getZ());
+                BlockState blockState = level.getBlockState(posicionFinal.offset(0, 0, 0)).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionFinal.offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida.offset(0, 0, 0), structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida.offset(0, 0, 0));
+                level.setBlock(posicionFinal.offset(0, 0, 0), structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionFinal.offset(0, 0, 0));
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
@@ -485,17 +491,17 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.offset(0, -4, 0).getX() + " " + posicionValida.offset(0, -4, 0).getY() + " " + posicionValida.offset(0, -4, 0).getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida.offset(0, 0, 0), blockState, 3);
-                level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
-                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
+                level.setBlock(posicionFinal.offset(0, 0, 0), blockState, 3);
+                level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionFinal.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
 
-                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 19, posicionValida.getY() + 10, posicionValida.getZ());
+                BlockPos spawnPosition = new BlockPos(posicionFinal.getX() + 19, posicionFinal.getY() + 10, posicionFinal.getZ());
                 setHasRoshiHouse(true);
                 setRoshiHousePosition(spawnPosition);
-                System.out.println("[DMZ-Generation] Roshi House generated in " + spawnPosition);
+                LOGGER.info("[DMZ-Generation] Roshi House generated in {}", spawnPosition);
             }
         }
     }
@@ -521,13 +527,14 @@ public class StructuresCapability {
             }
 
             if (!posicionValida.equals(new BlockPos(0, 0, 0))) {
-                BlockState blockState = level.getBlockState(posicionValida).getBlock().defaultBlockState();
-                BlockState redstoneBlockState = level.getBlockState(posicionValida.offset(1, 0, 0)).getBlock().defaultBlockState();
+                BlockPos posicionFinal = new BlockPos(posicionValida.getX(), 260, posicionValida.getZ());
+                BlockState blockState = level.getBlockState(posicionFinal).getBlock().defaultBlockState();
+                BlockState redstoneBlockState = level.getBlockState(posicionFinal.offset(1, 0, 0)).getBlock().defaultBlockState();
 
                 BlockState structureBlock = Blocks.STRUCTURE_BLOCK.defaultBlockState(); BlockState redstoneBlock = Blocks.REDSTONE_BLOCK.defaultBlockState();
 
-                level.setBlock(posicionValida, structureBlock, 3);
-                BlockEntity blockEntity = level.getBlockEntity(posicionValida);
+                level.setBlock(posicionFinal, structureBlock, 3);
+                BlockEntity blockEntity = level.getBlockEntity(posicionFinal);
                 if (blockEntity instanceof StructureBlockEntity) {
                     StructureBlockEntity structureBlockEntity = (StructureBlockEntity) blockEntity;
 
@@ -544,18 +551,19 @@ public class StructuresCapability {
                     structureBlockEntity.setChanged();
                     //System.out.println("Comando: /setblock " + posicionValida.below().below().below().below().below().below().getX() + " " + posicionValida.below().below().below().below().below().below().getY() + " " + posicionValida.below().below().below().below().below().below().getZ() + " minecraft:structure_block" + nbtData);
 
-                    level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlock, 3);
+                    level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlock, 3);
                 }
 
-                level.setBlock(posicionValida, blockState, 3);
-                level.setBlock(posicionValida.offset(1, 0, 0), redstoneBlockState, 3);
-                level.setBlock(posicionValida.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
+                level.setBlock(posicionFinal, blockState, 3);
+                level.setBlock(posicionFinal.offset(1, 0, 0), redstoneBlockState, 3);
+                level.setBlock(posicionFinal.offset(47, 4, 2), Blocks.AIR.defaultBlockState(), 3);
 
-                BlockPos spawnPosition = new BlockPos(posicionValida.getX() + 2, posicionValida.getY() + 5, posicionValida.getZ() + 41);
-                BlockPos namekDB4 = new BlockPos(posicionValida.getX() + 8, posicionValida.getY() + 13, posicionValida.getZ() - 2);
+                BlockPos spawnPosition = new BlockPos(posicionFinal.getX() + 2, posicionFinal.getY() + 5, posicionFinal.getZ() + 41);
+                BlockPos namekDB4 = new BlockPos(posicionFinal.getX() + 8, posicionFinal.getY() + 13, posicionFinal.getZ() - 2);
                 setHasElderGuru(true);
                 setNamekDB4Position(namekDB4);
                 setElderGuruPosition(spawnPosition);
+                LOGGER.info("[DMZ-Generation] Elder Guru's House generated in {}", spawnPosition);
             }
         }
     }
@@ -573,7 +581,7 @@ public class StructuresCapability {
             // Marcar como generada y guardar la posición
             setHasHabTiempo(true);
             setHabTiempoPos(position);
-            System.out.println("[DMZ-Generation] Hyperbolic Time Chamber generated in " + position);
+            LOGGER.info("[DMZ-Generation] Hyperbolic Time Chamber generated in {}", position);
         }
     }
 
@@ -617,7 +625,7 @@ public class StructuresCapability {
             // Marcar como generada y guardar la posición
             setHasEnmaPalace(true);
             setEnmaPalacePosition(spawnPosition);
-            System.out.println("[DMZ-Generation] Enma's Palace generated in " + spawnPosition);
+            LOGGER.info("[DMZ-Generation] Enma's Palace generated in {}", spawnPosition);
 
             BlockPos snakewayPos = new BlockPos(-67, 40, 146);
 
@@ -660,7 +668,7 @@ public class StructuresCapability {
             BlockPos kaioSpawnPos = new BlockPos(kaioStructure.getX() + 74, kaioStructure.getY() + 127, kaioStructure.getZ() + 29);
             setHasKaioPlanet(true);
             setKaioPlanetPosition(kaioSpawnPos);
-            System.out.println("[DMZ-Generation] Kaio's Planet generated in " + kaioSpawnPos);
+            LOGGER.info("[DMZ-Generation] Kaio's Planet generated in {}", kaioSpawnPos);
         }
     }
 }

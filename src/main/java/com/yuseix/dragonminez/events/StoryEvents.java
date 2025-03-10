@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
@@ -146,12 +147,36 @@ public class StoryEvents {
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}
 				case "saiyQuest2" -> {
-					tps = 550;
+					tps = 750;
 					cap.addIntValue("tps", tps);
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}
 				case "saiyQuest3" -> {
-					tps = 750;
+					tps = 2250;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest4", "saiyQuest5" -> {
+					tps = 5000;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest6", "saiyQuest8" -> {
+					tps = 7500;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+					if (questId.equals("saiyQuest8")) {
+						player.getInventory().add(new ItemStack(MainItems.NAVE_SAIYAN_ITEM.get()));
+						player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.item", MainItems.NAVE_SAIYAN_ITEM.get(), questId));
+					}
+				}
+				case "saiyQuest7" -> {
+					tps = 12500;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest9" -> {
+					tps = 1500;
 					cap.addIntValue("tps", tps);
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}

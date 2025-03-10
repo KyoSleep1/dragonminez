@@ -191,7 +191,7 @@ public class ForgeBusEvents {
 							if (cap.getHasGokuHouse() && !spawnedDB4) {
 								BlockPos db4pos = cap.getDB4Position();
 								dragonBallPositions.add(db4pos);
-								DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [4] spawned at " + db4pos + " (Goku's House)");
+								LOGGER.info("[FirstSpawn] Dragon Ball [4] spawned at {} (Goku's House)", db4pos);
 								spawnedDB4 = true;
 							} else {
 								spawnDragonBall(serverOverworld, MainBlocks.DBALL4_BLOCK.get().defaultBlockState(), 4);
@@ -225,7 +225,7 @@ public class ForgeBusEvents {
 							if (cap.getHasElderGuru() && !spawnedNamekDB4) {
 								BlockPos namekDB4pos = cap.getNamekDB4Position();
 								namekDragonBallPositions.add(namekDB4pos);
-								DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [4] spawned at " + namekDB4pos + " (Elder Guru's House)");
+								LOGGER.info("[FirstSpawn] Namekian Dragon Ball [4] spawned at {} (Elder Guru's House)", namekDB4pos);
 								spawnedNamekDB4 = true;
 							} else {
 								spawnNamekDragonBall(serverNamek, MainBlocks.DBALL4_NAMEK_BLOCK.get().defaultBlockState(), 4);
@@ -494,7 +494,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, dragonBall, 2);
-		DebugUtils.dmzLog("[FirstSpawn] Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		LOGGER.info("[FirstSpawn] Dragon Ball [{}] spawned at {}", dBallNum, posicionValida);
 
 		dragonBallPositions.add(posicionValida);
 	}
@@ -530,7 +530,7 @@ public class ForgeBusEvents {
 
 		// Place a Dragon Ball block at the generated position
 		serverWorld.setBlock(posicionValida, namekDragonBall, 2);
-		DebugUtils.dmzLog("[FirstSpawn] Namekian Dragon Ball [" + dBallNum + "] spawned at " + posicionValida);
+		LOGGER.info("[FirstSpawn] Namekian Dragon Ball [{}] spawned at {}", dBallNum, posicionValida);
 
 		namekDragonBallPositions.add(posicionValida);
 	}

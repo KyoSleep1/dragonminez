@@ -68,7 +68,6 @@ public class SkillMenu extends Screen {
     public void tick() {
         super.tick();
         botonesMenus();
-        botonesSkills();
     }
 
     @Override
@@ -76,6 +75,7 @@ public class SkillMenu extends Screen {
         renderBackground(pGuiGraphics);
         menuPaneles(pGuiGraphics);
         menuSkills(pGuiGraphics);
+        botonesSkills(pGuiGraphics);
 
 
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -172,9 +172,7 @@ public class SkillMenu extends Screen {
         }
     }
 
-
-
-    private void botonesSkills() {
+    private void botonesSkills(GuiGraphics guiGraphics) {
 
         Player player = this.minecraft.player;
 
@@ -242,18 +240,20 @@ public class SkillMenu extends Screen {
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
                                         if (currentLevel < 10) {
-                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                                 ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                                 ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                                 this.removeWidget(upgradeButton);
                                             }));
                                         } else if (currentLevel >= 11) {
-                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                            this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                                 ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                                 ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                                 this.removeWidget(upgradeButton);
                                             }));
                                         }
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 195, alturaTexto-40, 0xff0000);
                                     }
                                 }
                             }
@@ -295,11 +295,13 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
                                         }));
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
                                     }
                                 }
                             }
@@ -332,11 +334,13 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
                                         }));
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
                                     }
                                 }
                             }
@@ -368,11 +372,13 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
                                         }));
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
                                     }
                                 }
                             }
@@ -404,11 +410,13 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
                                         }));
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
                                     }
                                 }
                             }
@@ -463,11 +471,13 @@ public class SkillMenu extends Screen {
                                     int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE); // Obtener el costo para el siguiente nivel
 
                                     if (tps >= cost) { // Comprueba si el costo se cumple
-                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, alturaTexto-40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+                                        this.upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
                                             ModMessages.sendToServer(new SkillActivateC2S("setlevel", skillId, nextLevel));
                                             ModMessages.sendToServer(new ZPointsC2S(1, cost));
                                             this.removeWidget(upgradeButton);
                                         }));
+                                    } else {
+                                        drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
                                     }
                                 }
                             }
@@ -480,7 +490,7 @@ public class SkillMenu extends Screen {
                 }
 
                 if (this.infoMenu && skillId.equals(this.skillsId)) {
-                    this.deleteButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("delete", startX + 285, alturaTexto - 30, Component.empty(), wa -> {
+                    this.deleteButton = (CustomButtons) this.addRenderableWidget(new CustomButtons("delete", startX + 286, startY + 95, Component.empty(), wa -> {
                         // Cambiar la pantalla solo en el cliente
                         ModMessages.sendToServer(new SkillActivateC2S("remove", skillId, 0));
                         this.removeWidget(deleteButton);
