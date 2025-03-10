@@ -636,20 +636,30 @@ public class StructuresCapability {
             }
             level.setBlock(new BlockPos(0, 42, 149), Blocks.AIR.defaultBlockState(), 3);
 
-            Random random = new Random();
-            int maxLong = random.nextInt(3) + 4;
-            snakewayPos = snakewayPos.offset(-62, 4, 160);
-
-            for (int i = 0; i < maxLong; i++) {
-                StructureTemplate snakewayMid = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_mid"));
-
-                if (snakewayMid != null) {
-                    snakewayMid.placeInWorld(level, snakewayPos, snakewayPos, settings, level.getRandom(), 2);
-                }
-                snakewayPos = snakewayPos.offset(-63, 1, 133);
+            BlockPos snakewayMid1 = snakewayPos.offset(-62, 4, 160);
+            System.out.println("Pos 1: " + snakewayMid1);
+            StructureTemplate snakewayMid = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_mid"));
+            if (snakewayMid != null) {
+                snakewayMid.placeInWorld(level, snakewayMid1, snakewayMid1, settings, level.getRandom(), 2);
+            }
+            BlockPos snakewayMid2 = snakewayMid1.offset(-63, 1, 133);
+            System.out.println("Pos 2: " + snakewayMid2);
+            if (snakewayMid != null) {
+                snakewayMid.placeInWorld(level, snakewayMid2, snakewayMid2, settings, level.getRandom(), 2);
+            }
+            BlockPos snakewayMid3 = snakewayMid2.offset(-63, 1, 133);
+            System.out.println("Pos 3: " + snakewayMid3);
+            if (snakewayMid != null) {
+                snakewayMid.placeInWorld(level, snakewayMid3, snakewayMid3, settings, level.getRandom(), 2);
+            }
+            BlockPos snakewayMid4 = snakewayMid3.offset(-63, 1, 133);
+            System.out.println("Pos 4: " + snakewayMid4);
+            if (snakewayMid != null) {
+                snakewayMid.placeInWorld(level, snakewayMid4, snakewayMid4, settings, level.getRandom(), 2);
             }
 
-            BlockPos endSnakewayPos = snakewayPos.offset(49, -1, 4);
+            BlockPos endSnakewayPos = new BlockPos(-330, 47, 842);
+            System.out.println("Pos Cola: " + endSnakewayPos);
 
             StructureTemplate snakewayEnd = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_end"));
 
@@ -657,7 +667,8 @@ public class StructuresCapability {
                 snakewayEnd.placeInWorld(level, endSnakewayPos, endSnakewayPos, settings, level.getRandom(), 2);
             }
 
-            BlockPos kaioStructure = snakewayPos.offset(-20, 10, 90);
+            BlockPos kaioStructure = endSnakewayPos.offset(-60, 10, 90);
+            System.out.println("Pos Kaio: " + kaioStructure);
 
             StructureTemplate kaioPlanet = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/kaioplanet"));
 
