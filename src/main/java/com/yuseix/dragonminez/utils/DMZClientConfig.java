@@ -6,6 +6,10 @@ public class DMZClientConfig {
     private static double multiplierZPoints = 1.2;
     private static double majin_multi = 1.5;
     private static double tree_might_multi = 1.3;
+    private static int buyableTP = 0;
+    private static int transfTPCost = 50000;
+    private static int babaCooldown = 15, babaDuration = 10;
+    private static int jumpLevels = 250, flyLevels = 750, meditationLevels = 150, potUnlockLevels = 1300, kiManipLevels = 5000, kiControlLevels = 100;
 
     private static int ini_str_human_warrior = 5, ini_str_human_spiritualist = 5;
     private static int ini_def_human_warrior = 5, ini_def_human_spiritualist = 5;
@@ -42,8 +46,6 @@ public class DMZClientConfig {
     private static int ini_con_majin_warrior = 5, ini_con_majin_spiritualist = 5;
     private static int ini_pwr_majin_warrior = 5, ini_pwr_majin_spiritualist = 5;
     private static int ini_ene_majin_warrior = 5, ini_ene_majin_spiritualist = 5;
-
-    private static int transfTPCost = 50000;
 
     public static int getInit_StrStat(String race, String clase) {
         int initStat = 0;
@@ -347,4 +349,75 @@ public class DMZClientConfig {
         transfTPCost = value;
     }
 
+    public static int getBuyableTP() {
+        return buyableTP;
+    }
+
+    public static void setBuyableTP(int value) {
+        buyableTP = value;
+    }
+
+	public static int getBabaCooldown() {
+		return babaCooldown;
+	}
+
+	public static void setBabaCooldown(int babaCooldown) {
+		DMZClientConfig.babaCooldown = babaCooldown;
+	}
+
+	public static int getBabaDuration() {
+		return babaDuration;
+	}
+
+	public static void setBabaDuration(int babaDuration) {
+		DMZClientConfig.babaDuration = babaDuration;
+	}
+
+	public static int getJumpLevels() {
+		return jumpLevels;
+	}
+
+	public static void setJumpLevels(int jumpLevels) {
+		DMZClientConfig.jumpLevels = jumpLevels;
+	}
+
+	public static int getFlyLevels() {
+		return flyLevels;
+	}
+
+	public static void setFlyLevels(int flyLevels) {
+		DMZClientConfig.flyLevels = flyLevels;
+	}
+
+	public static int getMeditationLevels() {
+		return meditationLevels;
+	}
+
+	public static void setMeditationLevels(int meditationLevels) {
+		DMZClientConfig.meditationLevels = meditationLevels;
+	}
+
+	public static int getPotUnlockLevels() {
+		return potUnlockLevels;
+	}
+
+	public static void setPotUnlockLevels(int potUnlockLevels) {
+		DMZClientConfig.potUnlockLevels = potUnlockLevels;
+	}
+
+	public static int getKiManipLevels() {
+		return kiManipLevels;
+	}
+
+	public static void setKiManipLevels(int kiManipLevels) {
+		DMZClientConfig.kiManipLevels = kiManipLevels;
+	}
+
+	public static int getKiControlLevels() {
+		return kiControlLevels;
+	}
+
+	public static void setKiControlLevels(int kiControlLevels) {
+		DMZClientConfig.kiControlLevels = kiControlLevels;
+	}
 }

@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.config.races.transformations.*;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;

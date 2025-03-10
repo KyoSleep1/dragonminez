@@ -101,7 +101,7 @@ public class EntityEvents {
 		if (esEnemigo(event.getEntity())) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
-				var vidaTps = (int) (event.getEntity().getMaxHealth() * 0.5); // 50% hp enemigo
+				var vidaTps = (int) (event.getEntity().getMaxHealth() * DMZGeneralConfig.PERKILL_ZPOINTS_GAIN.get());
 				var calculoTps = (int) Math.round((10 + vidaTps) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_GAIN.get()); // (10 + 50% hp) * config
 
 				// multiplicar si está en la hab del tiempo pes

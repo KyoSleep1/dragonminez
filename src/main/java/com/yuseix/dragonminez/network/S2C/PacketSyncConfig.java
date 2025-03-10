@@ -44,6 +44,33 @@ public class PacketSyncConfig {
                 case "transfTPCost":
                     DMZClientConfig.setTransfTPCost((int) stat);
                     break;
+                case "buyableTP":
+                    DMZClientConfig.setBuyableTP((int) stat);
+                    break;
+                case "babaCooldown":
+                    DMZClientConfig.setBabaCooldown((int) stat);
+                    break;
+                case "babaDuration":
+                    DMZClientConfig.setBabaDuration((int) stat);
+                    break;
+                case "jumpLevels":
+                    DMZClientConfig.setJumpLevels((int) stat);
+                    break;
+                case "flyLevels":
+                    DMZClientConfig.setFlyLevels((int) stat);
+                    break;
+                case "meditationLevels":
+                    DMZClientConfig.setMeditationLevels((int) stat);
+                    break;
+                case "potUnlockLevels":
+                    DMZClientConfig.setPotUnlockLevels((int) stat);
+                    break;
+                case "kiManipLevels":
+                    DMZClientConfig.setKiManipLevels((int) stat);
+                    break;
+                case "kiControlLevels":
+                    DMZClientConfig.setKiControlLevels((int) stat);
+                    break;
 
                 case "ini_str_human_warrior":
                     DMZClientConfig.setInit_StrStat("human", "warrior",(int) stat);

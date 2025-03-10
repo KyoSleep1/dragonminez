@@ -45,6 +45,15 @@ public class MenuC2S {
 					ModMessages.sendToPlayer(new PacketSyncConfig("majin_multiplier", DMZGeneralConfig.MULTIPLIER_MAJIN.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("tree_might_multiplier", DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("transfTPCost", DMZGeneralConfig.TPCOST_TRANSFORMATIONS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("buyableTP", DMZGeneralConfig.TRANSFORMATIONS_WITH_TP.get() ? 1 : 0), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("babaCooldown", DMZGeneralConfig.BABA_COOLDOWN.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("babaDuration", DMZGeneralConfig.BABA_DURATION.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("jumpLevels", DMZGeneralConfig.JUMP_TP_COST_LEVELS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("flyLevels", DMZGeneralConfig.FLY_TP_COST_LEVELS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("meditationLevels", DMZGeneralConfig.MEDITATION_TP_COST_LEVELS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("potUnlock", DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("kiManipLevels", DMZGeneralConfig.KI_MANIPULATION_TP_COST_LEVELS.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("kiControlLevels", DMZGeneralConfig.KI_CONTROL_TP_COST_LEVELS.get()), player);
 
 					//WARRIOR
 					ModMessages.sendToPlayer(new PacketSyncConfig("ini_str_human_warrior", DMZHumanConfig.INITIAL_STR_WARRIOR.get()), player);

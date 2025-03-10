@@ -6,7 +6,6 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.SuperFormsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -89,7 +88,9 @@ public class TransfMenu extends Screen {
 
 			Map<String, FormsData> forms = cap.getAllDMZForms();
 			int raza = cap.getIntValue("race");
-			boolean buyableTP = DMZGeneralConfig.TRANSFORMATIONS_WITH_TP.get();
+			boolean buyableTP = false;
+			if (DMZClientConfig.getBuyableTP() == 1) buyableTP = true;
+
 
 			int startX = (this.width - 250) / 2 + 15;
 			int startY = (this.height - 168) / 2 + 45;

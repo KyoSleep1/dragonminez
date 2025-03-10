@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -48,7 +48,7 @@ public class CapsulaNaranjaItem extends Item {
                 boolean isDmzUser = stats.getBoolean("dmzuser");
                 if (isDmzUser) {
                     int kipwr = stats.getStat("PWR");
-                    int maxKipwr = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                    int maxKipwr = DMZClientConfig.getMaxStats();
 
                     if (kipwr < maxKipwr) {
                         int increment = Math.min(5, maxKipwr - kipwr);

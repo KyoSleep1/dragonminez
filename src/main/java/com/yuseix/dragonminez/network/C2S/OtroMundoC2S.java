@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.network.C2S;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.world.StructuresProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -44,8 +45,8 @@ public class OtroMundoC2S {
 						break;
 					case "baba":
 						DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-							int babaCooldown = (DMZGeneralConfig.BABA_COOLDOWN.get() * 20 * 60);
-							int babaDuration = (DMZGeneralConfig.BABA_DURATION.get() * 20 * 60);
+							int babaCooldown = (DMZClientConfig.getBabaCooldown() * 20 * 60);
+							int babaDuration = (DMZClientConfig.getBabaDuration() * 20 * 60);
 							cap.setIntValue("babacooldown", babaCooldown);
 							cap.setIntValue("babaalivetimer", babaDuration);
 						});

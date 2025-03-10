@@ -3,13 +3,12 @@ package com.yuseix.dragonminez.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.MasterSkillsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
-import com.yuseix.dragonminez.utils.DebugUtils;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -120,12 +119,12 @@ public class MasterMenu extends Screen {
 		anchoTexto = (this.width / 2) + 25;
 		Player player = this.minecraft.player;
 
-		int flyCost = DMZGeneralConfig.FLY_TP_COST_MASTER.get();
-		int kiControlCost = DMZGeneralConfig.KI_CONTROL_TP_COST_MASTER.get();
-		int kiManipulationCost = DMZGeneralConfig.KI_MANIPULATION_TP_COST_MASTER.get();
-		int jumpCost = DMZGeneralConfig.JUMP_TP_COST_MASTER.get();
-		int meditationCost = DMZGeneralConfig.MEDITATION_TP_COST_MASTER.get();
-		int potUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_MASTER.get();
+		int flyCost = DMZClientConfig.getFlyLevels();
+		int kiControlCost = DMZClientConfig.getKiControlLevels();
+		int kiManipulationCost = DMZClientConfig.getKiManipLevels();
+		int jumpCost = DMZClientConfig.getJumpLevels();
+		int meditationCost = DMZClientConfig.getMeditationLevels();
+		int potUnlockCost = DMZClientConfig.getPotUnlockLevels();
 		//int kaioKenCost = DMZGeneralConfig.KAIOKEN_TP_COST_MASTER.get();
 
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {

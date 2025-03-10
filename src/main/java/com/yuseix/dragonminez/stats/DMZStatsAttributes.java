@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.stats;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.forms.FormsData;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -57,27 +57,27 @@ public class DMZStatsAttributes {
         switch (stat.toUpperCase(Locale.ROOT)) {
           case "STR" -> {
               this.strength = value;
-              if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
               else this.strength = value;
           }
           case "DEF" -> {
                 this.defense = value;
-                if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                if (this.defense >= DMZClientConfig.getMaxStats()) this.defense = DMZClientConfig.getMaxStats();
                 else this.defense = value;
           }
           case "CON" -> {
               this.constitution = value;
-              if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
               else this.constitution = value;
           }
           case "PWR" -> {
               this.KiPower = value;
-              if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
               else this.KiPower = value;
           }
           case "ENE" -> {
               this.energy = value;
-              if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
               else this.energy = value;
           }
         }
@@ -87,24 +87,24 @@ public class DMZStatsAttributes {
     public void addStat(String stat, int points) {
         switch (stat.toUpperCase(Locale.ROOT)) {
           case "STR" -> {
-              if (strength <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) strength += points;
-              if (this.strength >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.strength = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (strength <= DMZClientConfig.getMaxStats()) strength += points;
+              if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
           }
           case "DEF" -> {
-              if (defense <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) defense += points;
-              if (this.defense >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.defense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (defense <= DMZClientConfig.getMaxStats()) defense += points;
+              if (this.defense >= DMZClientConfig.getMaxStats()) this.defense = DMZClientConfig.getMaxStats();
           }
           case "CON" -> {
-              if (constitution <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) constitution += points;
-              if (this.constitution >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.constitution = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (constitution <= DMZClientConfig.getMaxStats()) constitution += points;
+              if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
           }
           case "PWR" -> {
-              if (KiPower <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) KiPower += points;
-              if (this.KiPower >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.KiPower = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (KiPower <= DMZClientConfig.getMaxStats()) KiPower += points;
+              if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
           }
           case "ENE" -> {
-              if (energy <= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) energy += points;
-              if (this.energy >= DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get()) this.energy = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+              if (energy <= DMZClientConfig.getMaxStats()) energy += points;
+              if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
           }
         }
         DMZStatsCapabilities.syncStats(player);

@@ -7,7 +7,6 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
@@ -16,6 +15,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -200,13 +200,13 @@ public class SkillMenu extends Screen {
             for (Map.Entry<String, DMZSkill> entry : skills.entrySet()) {
                 String skillId = entry.getKey();
                 DMZSkill skill = entry.getValue();
-                double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
-                int jumpCost = DMZGeneralConfig.JUMP_TP_COST_LEVELS.get();
-                int flyCost = DMZGeneralConfig.FLY_TP_COST_LEVELS.get();
-                int pUnlockCost = DMZGeneralConfig.POTUNLOCK_TP_COST_LEVELS.get();
-                int meditationCost = DMZGeneralConfig.MEDITATION_TP_COST_LEVELS.get();
-                int kiControlCost = DMZGeneralConfig.KI_CONTROL_TP_COST_LEVELS.get();
-                int kiManipulationCost = DMZGeneralConfig.KI_MANIPULATION_TP_COST_LEVELS.get();
+                double mult = DMZClientConfig.getMultiplierZPoints();
+                int jumpCost = DMZClientConfig.getJumpLevels();
+                int flyCost = DMZClientConfig.getFlyLevels();
+                int kiControlCost = DMZClientConfig.getKiControlLevels();
+                int meditationCost = DMZClientConfig.getMeditationLevels();
+                int kiManipulationCost = DMZClientConfig.getKiManipLevels();
+                int pUnlockCost = DMZClientConfig.getPotUnlockLevels();
 
                 switch (skillId) { //Aca pondremos que habilidades tendran el boton de activo y eso
                     case "passive":

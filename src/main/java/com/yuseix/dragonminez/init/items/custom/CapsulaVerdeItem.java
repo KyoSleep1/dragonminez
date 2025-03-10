@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -48,7 +48,7 @@ public class CapsulaVerdeItem extends Item {
                 boolean isDmzUser = stats.getBoolean("dmzuser");
                 if (isDmzUser) {
                     int con = stats.getStat("CON");
-                    int maxCon = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                    int maxCon = DMZClientConfig.getMaxStats();
 
                     if (con < maxCon) {
                         int increment = Math.min(5, maxCon - con);
