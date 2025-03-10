@@ -6,12 +6,12 @@ import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -85,8 +85,6 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                 this.minecraft.setScreen(new StorylineMenu(false));
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 35, alturaTexto, "kitech", Component.empty(), wa -> {
-                // Agregar el menú de KiTech
-                // this.minecraft.setScreen(new KiTechMenu());
             }));
             this.newMenuBoton = this.addRenderableWidget(new DMZGuiButtons(anchoTexto + 65, alturaTexto, "settings", Component.empty(), wa -> {
                 this.minecraft.setScreen(new ConfigMenu());
@@ -126,10 +124,10 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             anchoTexto = 17; alturaTexto = (this.height / 2) + 1;
 
-            int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+            int maxStats = DMZClientConfig.getMaxStats();
             int baseCost = (int) Math.round(((((str + def + con + kipower + energy) / 2)
-                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()))
-                    * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * 1.5);
+                    * DMZClientConfig.getMultiplierZPoints()))
+                    * DMZClientConfig.getMultiplierZPoints() * 1.5);
             int upgradeStatSTR, upgradeStatDEF, upgradeStatCON, upgradeStatPWR, upgradeStatENE;
             int finalCostSTR, finalCostDEF, finalCostCON, finalCostPWR, finalCostENE;
 
@@ -160,7 +158,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             finalCostENE = calcularCostoRecursivo(maxStat, upgradeStatENE, baseCost, maxStats);
 
             // Crear botones solo si hay suficiente ZPoints
-            int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
+            int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZClientConfig.getMaxStats());
             if (tps >= costoRecursivo) {
                 if (str < maxStats) {
                     this.strBoton = (CustomButtons) this.addRenderableWidget(new CustomButtons("stat", anchoTexto, alturaTexto, Component.empty(), wa -> {
@@ -200,7 +198,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
         int costoTotal = 0;
         for (int i = 0; i < nivelesAumentar; i++) {
             if (statActual + i >= maxStats) break; // No exceder el límite máximo de estadísticas
-            costoTotal += baseCost + (int) Math.round(DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get() * (statActual + i));
+            costoTotal += baseCost + (int) Math.round(DMZClientConfig.getMultiplierZPoints() * (statActual + i));
         }
         return costoTotal;
     }
@@ -311,8 +309,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var majinOn = playerstats.hasDMZPermaEffect("majin");
             var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
-            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get())) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()) * 1.5);
-            int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get());
+            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZClientConfig.getMultiplierZPoints())) * DMZClientConfig.getMultiplierZPoints()) * 1.5);
+            int costoRecursivo = calcularCostoRecursivo(maxStat, multiplicadorTP, baseCost, DMZClientConfig.getMaxStats());
 
             var strcompleta = dmzdatos.calcMultipliedStrength(playerstats);
             var defcompleta = dmzdatos.calcMultipliedDefense(playerstats);
@@ -483,8 +481,8 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
             var MultiTotal = Math.round((dmzdatos.calcTotalMultiplier(playerstats)) * 100) / 100.0;
 
-            var multiMajin = DMZGeneralConfig.MULTIPLIER_MAJIN.get();
-            var multiFruta = DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get();
+            var multiMajin = DMZClientConfig.getMajin_multi();
+            var multiFruta = DMZClientConfig.getTree_might_multi();
             var multiTransf = dmzdatos.calcularMultiTransf(playerstats);
             var anchoMulti = (this.width - 127); var altoMulti = (this.height / 2) + 16;
 
