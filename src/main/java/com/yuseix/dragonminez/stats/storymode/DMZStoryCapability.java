@@ -2,17 +2,28 @@ package com.yuseix.dragonminez.stats.storymode;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.events.StoryEvents;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZCompletedQuestsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.StorySyncS2C;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -132,9 +143,8 @@ public class DMZStoryCapability {
 		} else {
 			completedQuests.remove(questId);
 		}
-		StoryEvents.syncQuestData(player);
-		StoryEvents.syncCompletedQuests(player);
-
+		syncQuestData(player);
+		syncCompletedQuests(player);
 	}
 
 	public void resetProgress() {
@@ -260,5 +270,81 @@ public class DMZStoryCapability {
 		for (Tag questTag : completedQuestsTag) {
 			completedQuests.add(questTag.getAsString());
 		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+		event.getEntity().refreshDimensions();
+	}
+
+	@SubscribeEvent
+	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+		event.getEntity().refreshDimensions();
+	}
+
+	@SubscribeEvent
+	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+	}
+
+	@SubscribeEvent
+	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+		event.register(DMZStoryCapability.class);
+	}
+
+	@SubscribeEvent
+	public void onPlayerCloned(PlayerEvent.Clone event) {
+		var player = event.getEntity();
+		var original = event.getOriginal();
+
+		original.reviveCaps();
+
+		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(
+				cap -> player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(originalcap ->
+						cap.loadNBTData(originalcap.saveNBTData())));
+
+
+		original.invalidateCaps();
+
+		syncQuestData(player);
+		syncCompletedQuests(player);
+
+	}
+
+	@SubscribeEvent
+	public static void onTrack(PlayerEvent.StartTracking event) {
+		var trackingplayer = event.getEntity();
+		if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
+
+		var tracked = event.getTarget();
+		if (tracked instanceof ServerPlayer trackedplayer) {
+			tracked.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
+
+				ModMessages.sendToPlayer(new StorySyncS2C(trackedplayer), serverplayer);
+
+				ModMessages.sendToPlayer(
+						new DMZCompletedQuestsSyncS2C(trackedplayer, cap.getCompletedQuests()),
+						serverplayer
+				);
+
+			});
+
+		}
+	}
+
+	public static void syncQuestData(Player player) {
+		ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StorySyncS2C(player));
+	}
+
+	public static void syncCompletedQuests(Player player) {
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+					new DMZCompletedQuestsSyncS2C(player, cap.getCompletedQuests()));
+		});
 	}
 }

@@ -132,7 +132,8 @@ public class StoryEvents {
 
 					onQuestComplete(player, currentQuest.getId());
 				}
-				syncQuestData(player);
+				DMZStoryCapability.syncQuestData(player);
+				DMZStoryCapability.syncCompletedQuests(player);
 			}
 		});
 	}
@@ -191,83 +192,8 @@ public class StoryEvents {
 			if (currentQuest.getId().equals(questId) && nextQuest != null) {
 				cap.setCurrentQuestId(nextQuest.getId());
 			}
-			syncCompletedQuests(player);
-			syncQuestData(player);
-		});
-	}
-
-	@SubscribeEvent
-	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
-		syncCompletedQuests(event.getEntity());
-		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
-
-	}
-
-	@SubscribeEvent
-	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-		syncCompletedQuests(event.getEntity());
-		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
-	}
-
-	@SubscribeEvent
-	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-		syncCompletedQuests(event.getEntity());
-		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
-	}
-
-	@SubscribeEvent
-	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(DMZStatsAttributes.class);
-	}
-
-	@SubscribeEvent
-	public void onPlayerCloned(PlayerEvent.Clone event) {
-		var player = event.getEntity();
-		var original = event.getOriginal();
-
-		original.reviveCaps();
-
-		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(
-				cap -> player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(originalcap ->
-						cap.loadNBTData(originalcap.saveNBTData())));
-
-
-		original.invalidateCaps();
-
-	}
-
-	@SubscribeEvent
-	public static void onTrack(PlayerEvent.StartTracking event) {
-		var trackingplayer = event.getEntity();
-		if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
-
-		var tracked = event.getTarget();
-		if (tracked instanceof ServerPlayer trackedplayer) {
-			tracked.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
-
-				ModMessages.sendToPlayer(new StorySyncS2C(trackedplayer), serverplayer);
-
-				ModMessages.sendToPlayer(
-						new DMZCompletedQuestsSyncS2C(trackedplayer, cap.getCompletedQuests()),
-						serverplayer
-				);
-
-			});
-
-		}
-	}
-
-	public static void syncQuestData(Player player) {
-		ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StorySyncS2C(player));
-	}
-
-	public static void syncCompletedQuests(Player player) {
-		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
-			ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
-					new DMZCompletedQuestsSyncS2C(player, cap.getCompletedQuests()));
+			DMZStoryCapability.syncQuestData(player);
+			DMZStoryCapability.syncCompletedQuests(player);
 		});
 	}
 }
