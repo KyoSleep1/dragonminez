@@ -393,6 +393,11 @@ public class ModDimensions extends NoiseRouterData{
     }
 
     public static SurfaceRules.RuleSource otherWorldSurfaceRules() {
+        SurfaceRules.RuleSource bedrockRule = SurfaceRules.ifTrue(
+                SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(5)),
+                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
+        );
+
         SurfaceRules.RuleSource cloudFloorOne = SurfaceRules.ifTrue(
                 SurfaceRules.verticalGradient("cloudfloorone", VerticalAnchor.absolute(14), VerticalAnchor.absolute(20)),
                 SurfaceRules.state(MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState())
@@ -404,6 +409,7 @@ public class ModDimensions extends NoiseRouterData{
         );
 
         return SurfaceRules.sequence(
+                bedrockRule,
                 cloudFloorOne,
                 cloudFloorTwo
         );

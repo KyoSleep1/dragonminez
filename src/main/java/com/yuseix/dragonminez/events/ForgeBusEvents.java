@@ -13,7 +13,6 @@ import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
-import com.yuseix.dragonminez.utils.DebugUtils;
 import com.yuseix.dragonminez.world.DragonBallGenProvider;
 import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.world.StructuresCapability;
@@ -29,12 +28,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.FlatLevelSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -62,7 +57,7 @@ import java.util.Random;
 public class ForgeBusEvents {
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
-	private static boolean spawnedDB4 = false, spawnedNamekDB4 = false;
+	private static boolean spawnedDB4 = false, spawnedNamekDB4 = false, firstSpawnDB, firstSpawnNDB;
 
 	private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -182,7 +177,7 @@ public class ForgeBusEvents {
 				dragonBallsCapability.loadFromSavedData(serverNamek);
 
 				serverOverworld.getServer().tell(new TickTask(serverOverworld.getServer().getTickCount() + 40, () -> {
-					if (!dragonBallsCapability.hasDragonBalls()) {
+					if (!dragonBallsCapability.hasDragonBalls() && !firstSpawnDB) {
 						spawnDragonBall(serverOverworld, MainBlocks.DBALL1_BLOCK.get().defaultBlockState(), 1);
 						spawnDragonBall(serverOverworld, MainBlocks.DBALL2_BLOCK.get().defaultBlockState(), 2);
 						spawnDragonBall(serverOverworld, MainBlocks.DBALL3_BLOCK.get().defaultBlockState(), 3);
@@ -204,6 +199,7 @@ public class ForgeBusEvents {
 						dragonBallsCapability.setDragonBallPositions(dragonBallPositions);
 						dragonBallsCapability.setHasDragonBalls(true);
 						dragonBallsCapability.saveToSavedData(serverOverworld);
+						firstSpawnDB = true;
 					}
 				}));
 			});
@@ -217,7 +213,7 @@ public class ForgeBusEvents {
 
 				// Verifica si ya se han generado las Dragon Balls
 				serverNamek.getServer().tell(new TickTask(serverNamek.getServer().getTickCount() + 40, () -> {
-					if (!namekDragonBallsCapability.hasNamekDragonBalls()) {
+					if (!namekDragonBallsCapability.hasNamekDragonBalls() && !firstSpawnNDB) {
 						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL1_NAMEK_BLOCK.get().defaultBlockState(), 1);
 						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL2_NAMEK_BLOCK.get().defaultBlockState(), 2);
 						spawnNamekDragonBall(serverNamek, MainBlocks.DBALL3_NAMEK_BLOCK.get().defaultBlockState(), 3);
@@ -239,6 +235,7 @@ public class ForgeBusEvents {
 						namekDragonBallsCapability.setNamekDragonBallPositions(namekDragonBallPositions);
 						namekDragonBallsCapability.setHasNamekDragonBalls(true);
 						namekDragonBallsCapability.saveToSavedData(serverNamek);
+						firstSpawnNDB = true;
 					}
 				}));
 			});
