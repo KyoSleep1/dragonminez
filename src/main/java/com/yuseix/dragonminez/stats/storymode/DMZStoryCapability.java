@@ -147,6 +147,9 @@ public class DMZStoryCapability {
 
 	public void clearProgress() {
 		getEntityKillCounts().clear();
+		completedKillObjectives.clear();
+		itemCollectionCounts.clear();
+		biomeFound = false;
 		structureFound = false;
 		hasRequiredItem = false;
 	}
@@ -154,6 +157,11 @@ public class DMZStoryCapability {
 	public void resetAllProgress() {
 		getCompletedQuests().clear();
 		getEntityKillCounts().clear();
+		completedKillObjectives.clear();
+		itemCollectionCounts.clear();
+		biomeFound = false;
+		structureFound = false;
+		hasRequiredItem = false;
 		setCurrentSaga("saiyan");
 		setCurrentQuestId("saiyQuest1");
 	}
