@@ -468,7 +468,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
             if (mouseX >= anchoMulti -30 && mouseX <= anchoMulti + 50 && mouseY >= altoMulti && mouseY <= altoMulti + font.lineHeight) {
                 List<FormattedCharSequence> descriptionLines = new ArrayList<>();
-                descriptionLines.add(Component.translatable("stats.dmz.multiplier", multiTransf).withStyle(ChatFormatting.BLUE).getVisualOrderText());
+                descriptionLines.add(Component.translatable("stats.dmz.multiplier", MultiTotal).withStyle(ChatFormatting.BLUE).getVisualOrderText());
                 descriptionLines.add(Component.translatable("stats.dmz.multiplier.desc", multiTransf).getVisualOrderText());
                 descriptionLines.add(Component.translatable("stats.dmz.multi.transf", multiTransf).withStyle(ChatFormatting.DARK_AQUA).getVisualOrderText());
                 if (majinOn) {

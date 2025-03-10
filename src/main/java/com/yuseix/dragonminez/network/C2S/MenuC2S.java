@@ -44,6 +44,8 @@ public class MenuC2S {
 					ModMessages.sendToPlayer(new PacketSyncConfig("zpoints_cost", DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("majin_multiplier", DMZGeneralConfig.MULTIPLIER_MAJIN.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("tree_might_multiplier", DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("transfTPCost", DMZGeneralConfig.TPCOST_TRANSFORMATIONS.get()), player);
+
 					//WARRIOR
 					ModMessages.sendToPlayer(new PacketSyncConfig("ini_str_human_warrior", DMZHumanConfig.INITIAL_STR_WARRIOR.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("ini_str_saiyan_warrior", DMZSaiyanConfig.INITIAL_STR_WARRIOR.get()), player);

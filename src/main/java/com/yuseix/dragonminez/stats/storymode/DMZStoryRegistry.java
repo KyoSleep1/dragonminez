@@ -83,7 +83,7 @@ public class DMZStoryRegistry {
 
         registerQuest(new DMZQuest(
                 "saiyQuest9",
-                new QuestRequirement(null, ModBiomes.AJISSA_PLAINS.toString(), null, null),
+                new QuestRequirement(null, "dragonminez:ajissa_plains", null, null),
                 "namekQuest1",
                 "saiyan"
         ));

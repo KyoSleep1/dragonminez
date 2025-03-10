@@ -43,6 +43,8 @@ public class DMZClientConfig {
     private static int ini_pwr_majin_warrior = 5, ini_pwr_majin_spiritualist = 5;
     private static int ini_ene_majin_warrior = 5, ini_ene_majin_spiritualist = 5;
 
+    private static int transfTPCost = 50000;
+
     public static int getInit_StrStat(String race, String clase) {
         int initStat = 0;
         switch (clase){
@@ -335,6 +337,14 @@ public class DMZClientConfig {
 
     public static void setMultiplierZPoints(double value) {
         multiplierZPoints = value;
+    }
+
+    public static int getTransfTPCost() {
+        return transfTPCost;
+    }
+
+    public static void setTransfTPCost(int value) {
+        transfTPCost = value;
     }
 
 }

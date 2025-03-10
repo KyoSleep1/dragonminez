@@ -41,6 +41,9 @@ public class PacketSyncConfig {
                 case "tree_might_multiplier":
                     DMZClientConfig.setTree_might_multi(stat);
                     break;
+                case "transfTPCost":
+                    DMZClientConfig.setTransfTPCost((int) stat);
+                    break;
 
                 case "ini_str_human_warrior":
                     DMZClientConfig.setInit_StrStat("human", "warrior",(int) stat);

@@ -13,6 +13,7 @@ import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -97,8 +98,8 @@ public class TransfMenu extends Screen {
 			for (Map.Entry<String, FormsData> entry : forms.entrySet()) {
 				String formId = entry.getKey();
 				FormsData form = entry.getValue();
-				double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
-				int formsCost = DMZGeneralConfig.TPCOST_TRANSFORMATIONS.get();
+				double mult = DMZClientConfig.getMultiplierZPoints();
+				int formsCost = DMZClientConfig.getTransfTPCost();
 
 				switch (formId) {
 					case "super_form":

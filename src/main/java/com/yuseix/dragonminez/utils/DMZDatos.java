@@ -27,8 +27,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcDefense(DMZStatsAttributes stats, Player player) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         double efectosTotal = majinDato * frutaDato;
 
         int DefensaArmor = player.getArmorValue(); int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
@@ -61,8 +61,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcKiPower(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin");boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosTotal = majinDato * frutaDato;
 
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
@@ -98,8 +98,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public double calcTotalMultiplier(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosTotal = majinDato * frutaDato;
 
         double multiSTR = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
@@ -113,8 +113,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public double calcStatMultiplier(DMZStatsAttributes stats, String stat) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosTotal = majinDato * frutaDato;
 
         double multiTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), stat);
@@ -133,8 +133,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedStrength(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosDato = majinDato * frutaDato;
 
         double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
@@ -146,8 +146,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedDefense(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosDato = majinDato * frutaDato;
 
         double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
@@ -159,8 +159,8 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedKiPower(DMZStatsAttributes stats) {
         boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double majinDato = majinOn ? DMZClientConfig.getMajin_multi() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZClientConfig.getTree_might_multi() : 1;
         var efectosDato = majinDato * frutaDato;
 
         double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
