@@ -1,12 +1,9 @@
 package com.yuseix.dragonminez.stats.storymode;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.StoryEvents;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.DMZCompletedQuestsSyncS2C;
 import com.yuseix.dragonminez.network.S2C.StorySyncS2C;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -145,16 +142,18 @@ public class DMZStoryCapability {
 		}
 		syncQuestData(player);
 		syncCompletedQuests(player);
+		clearProgress();
 	}
 
-	public void resetProgress() {
-		entityKillCounts.clear();
+	public void clearProgress() {
+		getEntityKillCounts().clear();
 		structureFound = false;
 		hasRequiredItem = false;
 	}
 
 	public void resetAllProgress() {
 		getCompletedQuests().clear();
+		getEntityKillCounts().clear();
 		setCurrentSaga("saiyan");
 		setCurrentQuestId("saiyQuest1");
 	}
@@ -183,11 +182,14 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.kill_enemy")) {
+			System.out.println("Checking kill objective");
 			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
 				String mobName = entry.getKey();
 				int requiredCount = entry.getValue();
 				int playerCount = entityKillCounts.getOrDefault(mobName, 0);
+				System.out.println("Checking for " + mobName + " with " + requiredCount + " kills, player has " + playerCount);
 				if (objective.getString().contains(mobName) && playerCount >= requiredCount) {
+					System.out.println("Objective complete");
 					return true;
 				}
 			}

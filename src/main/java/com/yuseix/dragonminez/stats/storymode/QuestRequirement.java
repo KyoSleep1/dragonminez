@@ -78,8 +78,8 @@ public class QuestRequirement {
                     case "entity.dragonminez.jinkouman" -> langKills = "Jinkouman";
                     case "entity.dragonminez.kaiwareman" -> langKills = "Kaiwareman";
                     case "entity.dragonminez.saga_nappa" -> langKills = "Nappa";
-                    case "entity.dragonminez.saga_vegetasaiyan" -> langKills = "Vegeta";
                     case "entity.dragonminez.saga_vegetaozaru" -> langKills = "Oozaru Vegeta";
+                    case "entity.dragonminez.saga_vegetasaiyan" -> langKills = "Vegeta";
 
                 }
                 objectives.add(Component.translatable("dmz.storyline.objective.kill_enemy", langKills, killCount));

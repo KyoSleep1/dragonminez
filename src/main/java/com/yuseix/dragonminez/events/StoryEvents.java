@@ -164,7 +164,7 @@ public class StoryEvents {
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 					if (questId.equals("saiyQuest8")) {
 						player.getInventory().add(new ItemStack(MainItems.NAVE_SAIYAN_ITEM.get()));
-						player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.item", MainItems.NAVE_SAIYAN_ITEM.get(), questId));
+						player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.item", (Component.translatable("item.dragonminez.saiyan_ship")), "x1", questId));
 					}
 				}
 				case "saiyQuest7" -> {
@@ -178,8 +178,6 @@ public class StoryEvents {
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}
 			}
-
-			System.out.println("You have completed the quest: " + questId + ". Your reward is: " + cap.getIntValue("tps") + " TPS");
 		});
 		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
 			// Asignar la siguiente misión (si hay alguna)
@@ -188,6 +186,7 @@ public class StoryEvents {
 			if (currentQuest.getId().equals(questId) && nextQuest != null) {
 				cap.setCurrentQuestId(nextQuest.getId());
 			}
+			cap.clearProgress();
 			syncCompletedQuests(player);
 			syncQuestData(player);
 		});

@@ -151,6 +151,7 @@ public class StoryModeCommand {
 				}
 			} else {
 				capability.getCompletedQuests().remove(questId);
+				capability.setCurrentQuestId(questId);
 			}
 		});
 
