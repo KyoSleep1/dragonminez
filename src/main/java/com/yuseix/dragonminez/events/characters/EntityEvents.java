@@ -58,7 +58,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
-	private static int soundTimer = 200;
 
 	@SubscribeEvent
 	public static void mobDeath(LivingDeathEvent event) {
@@ -261,19 +260,6 @@ public class EntityEvents {
 			});
 		}
 
-
-		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (cap.getStringValue("form").equals("oozaru")) {
-				soundTimer--;
-				if (soundTimer == 0) {
-					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
-				} else if (soundTimer < 0) {
-					Random random = new Random();
-					soundTimer = random.nextInt(200) + 400;
-				}
-			}
-		});
-
 		FluidState fluidState = player.level().getFluidState(player.blockPosition());
 
 		if (fluidState.isEmpty()) {
@@ -332,17 +318,6 @@ public class EntityEvents {
 		if (player.isOnFire()) {
 			player.clearFire();
 		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			LocalPlayer player = Minecraft.getInstance().player;
-			if (player != null) {
-				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
-						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-			}
-		});
 	}
 }
 

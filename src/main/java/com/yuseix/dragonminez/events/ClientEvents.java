@@ -28,16 +28,20 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashSet;
@@ -47,6 +51,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
+	private static int soundTimer = 200;
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
@@ -391,6 +396,16 @@ public class ClientEvents {
 			if (cap.getBoolean("kaioplanet")) {
 				isKaioAvailable.set(true);
 			}
+
+			if (cap.getStringValue("form").equals("oozaru")) {
+				soundTimer--;
+				if (soundTimer == 0) {
+					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
+				} else if (soundTimer < 0) {
+					Random random = new Random();
+					soundTimer = random.nextInt(200) + 400;
+				}
+			}
 		});
 
 		if (player.isPassenger() && player.getVehicle() instanceof NaveSaiyanEntity) {
@@ -466,5 +481,15 @@ public class ClientEvents {
 		isTeleporting = teleporting;
 		planetaObjetivo = planeta;
 		teleportCountdown = teleportTime;
+	}
+
+	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			LocalPlayer player = Minecraft.getInstance().player;
+			if (player != null) {
+				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+			}
+		});
 	}
 }

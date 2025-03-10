@@ -225,6 +225,8 @@ public class StatsEvents {
 					float danoDefault = event.getAmount(); // Capturamos el daño original
 
 					// Calcular el daño basado en la fuerza del atacante
+					float baseMCDamage = event.getAmount();
+					System.out.println("Daño base: " + baseMCDamage);
 					int maxDamage = dmzdatos.calcStrength(cap);
 
 					int staminacost = maxDamage / 12;
@@ -256,12 +258,12 @@ public class StatsEvents {
 								if (cap.getIntValue("race") == 3) {
 									if (atacante.getHealth() < (cap.getIntValue("maxhealth") * 0.25)) {
 										float passiveBioAndroid = (float) DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get() / 100;
-										float lifesteal = adjustedDamage * passiveBioAndroid;
+										float lifesteal = (baseMCDamage + adjustedDamage) * passiveBioAndroid;
 										if (lifesteal < 1) lifesteal = 1;
 										atacante.heal(lifesteal);
 									} else if (atacante.getHealth() < (cap.getIntValue("maxhealth") * 0.50)) {
 										float passiveBioAndroid = (float) DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get() / 100;
-										float lifesteal = adjustedDamage * passiveBioAndroid;
+										float lifesteal = (baseMCDamage + adjustedDamage) * passiveBioAndroid;
 										if (lifesteal < 1) lifesteal = 1;
 										atacante.heal(lifesteal);
 									}
@@ -272,47 +274,47 @@ public class StatsEvents {
 										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 2) * (0.5 * kiManipLevel)));
 										int kiCost = (int) (maxKi * 0.04);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
+											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
 												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else if (cap.getStringValue("kiweapon").equals("trident")) {
 										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon) * (0.5 * kiManipLevel)));
 										int kiCost = (int) (maxKi * 0.08);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
+											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
 												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else {
 										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 4) * (0.5 * kiManipLevel)));
 										int kiCost = (int) (maxKi * 0.02);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
+											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
 												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									}
 								} else {
-									event.setAmount(adjustedDamage);
+									event.setAmount(baseMCDamage + adjustedDamage);
 									sonidosGolpes(atacante);
 								}
 								// Descontar stamina del atacante
-								if (!atacante.isCreative() || !atacante.isSpectator()) {
+								if (!atacante.isCreative()) {
 									cap.removeIntValue("curstam", staminaToConsume);
 								}
 							} else {
 								// Daño por defecto si al atacante le falta stamina
-								event.setAmount(danoDefault);
+								event.setAmount(danoDefault + baseMCDamage);
 							}
 							// Si la entidad que recibe el daño es un jugador
 							if (event.getEntity() instanceof Player objetivo) {

@@ -9,6 +9,7 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_ATTRIBUTE_VALUE;
     public static final ForgeConfigSpec.ConfigValue<Boolean> TRANSFORMATIONS_WITH_TP;
     public static final ForgeConfigSpec.ConfigValue<Integer> TPCOST_TRANSFORMATIONS;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SAVE_INVENTORY;
 
     //CONFIGS GENERALES
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
@@ -67,6 +68,9 @@ public class DMZGeneralConfig {
 
         TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
                 .defineInRange("Transformations Cost: ", 50000, 1, 1000000000);
+
+        SAVE_INVENTORY = BUILDER.comment("Save Player Inventory on Death (Default: true)")
+                .define("Save Inventory: ", true);
 
         BUILDER.pop();
 
