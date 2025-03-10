@@ -101,6 +101,7 @@ public class ClientEvents {
 				double interpZ = Mth.lerp(event.getPartialTick(), player.zOld, player.getZ());
 
 				var poseStack = event.getPoseStack();
+				poseStack.pushPose();
 
 				boolean isLocalPlayer = player == minecraft.player;
 
@@ -111,7 +112,6 @@ public class ClientEvents {
 						var transf = cap.getStringValue("form");
 
 
-						poseStack.pushPose();
 						switch (raza){
 							case 1:
 								switch (transf){
@@ -201,11 +201,11 @@ public class ClientEvents {
 								break;
 						}
 						dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880);
-						poseStack.popPose();
 
 					});
 
 				}
+				poseStack.popPose();
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
