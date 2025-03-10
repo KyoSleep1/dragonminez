@@ -194,9 +194,7 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.get_to_biome")) {
-			if (biomeFound) {
-				return true;
-			}
+			return biomeFound;
 		}
 
 		if (key.equals("dmz.storyline.objective.collect_item")) {
@@ -211,9 +209,7 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.get_to_location")) {
-			if (structureFound) {
-				return true;
-			}
+			return structureFound;
 		}
 
 		return false;

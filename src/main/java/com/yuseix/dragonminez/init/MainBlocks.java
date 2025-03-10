@@ -41,7 +41,7 @@ public final class MainBlocks {
     public static final RegistryObject<Block> TIME_CHAMBER_BLOCK = registerBlock("time_chamber_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).noParticlesOnBreak().strength(-1.0f,3600000.0F).sound(SoundType.BONE_BLOCK)));
     public static final RegistryObject<Block> OTHERWORLD_CLOUD = registerBlock("otherworld_cloud",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.YELLOW_WOOL).strength(-1.0f,3600000.0F).sound(SoundType.AZALEA)
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.POWDER_SNOW).strength(-1.0f,3600000.0F).sound(SoundType.AZALEA)
                     .noCollission().noLootTable().noParticlesOnBreak()));
     public static final RegistryObject<Block> NAMEK_BLOCK = registerBlock("namek_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BLOCK).sound(SoundType.BONE_BLOCK)));
