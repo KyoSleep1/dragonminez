@@ -551,7 +551,7 @@ public class StatsEvents {
 									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.2F);
+									event.setNewEyeHeight(6.7F);
 								}
 								break;
 							case "ssj1":
