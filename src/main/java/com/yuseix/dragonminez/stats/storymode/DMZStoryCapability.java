@@ -101,9 +101,7 @@ public class DMZStoryCapability {
 	}
 
 	public boolean isQuestComplete(DMZQuest quest, Player player) {
-		if (this.completedQuests.contains(quest.getId())) {
-			return true;
-		}
+		if (this.completedQuests.contains(quest.getId())) return true;
 
 		QuestRequirement requirement = quest.getRequirement();
 
@@ -170,7 +168,10 @@ public class DMZStoryCapability {
 
 	public DMZQuest getNextQuest() {
 		DMZQuest currentQuest = getAvailableQuest();
-		return currentQuest != null ? DMZStoryRegistry.getQuest(currentQuest.getNextQuestId()) : null;
+		if (currentQuest.getNextQuestId() == null) {
+			return null;
+		}
+		return DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
 	}
 
 	public boolean isSagaCompleted(String saga) {
@@ -180,6 +181,7 @@ public class DMZStoryCapability {
 	public boolean isObjectiveComplete(Component objective, String questId) {
 		DMZQuest quest = DMZStoryRegistry.getQuest(questId);
 		if (quest == null) return false;
+		if (this.completedQuests.contains(quest.getId())) return true;
 
 		String key = "";
 		QuestRequirement requirement = quest.getRequirement();

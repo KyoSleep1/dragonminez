@@ -125,9 +125,9 @@ public class StoryEvents {
 
 				// Verificar si todos los objetivos están completos
 				if (killsComplete && requirement.isFulfilled(player, capability.getEntityKillCounts(), capability.isBiomeFound(), capability.hasCollectedItems())) {
-					capability.getCompletedQuests().add(currentQuest.getId());
-
 					onQuestComplete(player, currentQuest.getId());
+
+					capability.getCompletedQuests().add(currentQuest.getId());
 				}
 				syncQuestData(player);
 			}
@@ -185,6 +185,7 @@ public class StoryEvents {
 			DMZQuest nextQuest = DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
 			if (currentQuest.getId().equals(questId) && nextQuest != null) {
 				cap.setCurrentQuestId(nextQuest.getId());
+				cap.setCurrentSaga(nextQuest.getSagaId());
 			}
 			cap.clearProgress();
 			syncCompletedQuests(player);

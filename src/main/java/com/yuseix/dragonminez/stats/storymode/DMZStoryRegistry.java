@@ -1,5 +1,6 @@
 package com.yuseix.dragonminez.stats.storymode;
 
+import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.utils.DMZTags;
@@ -84,16 +85,17 @@ public class DMZStoryRegistry {
         registerQuest(new DMZQuest(
                 "saiyQuest9",
                 new QuestRequirement(null, "dragonminez:ajissa_plains", null, null),
-                null,
+                "namekQuest1", // Se asigna la siguiente quest aunque la saga no esté hecha ya q si no, se repite en bucle la quest 9 por alguna razón kekw
                 "saiyan"
         ));
 
-//    registerQuest(new DMZQuest(
-//            "namekQuest1",
-//            new QuestRequirement(Map.of(MainEntity.NAMEKNPC_WARRIOR1.get().toString(), 3, MainEntity.NAMEKNPC_WARRIOR2.get().toString(), 5), null, null, null),
-//            "namekQuest2",
-//            "namek"
-//    ));
+        registerQuest(new DMZQuest(
+                 "namekQuest1", // Los objetivos son intencionales, para q la misión no pueda ser completada por error.
+                new QuestRequirement(Map.of(MainEntity.FRIEZA_SOLDIER01.get().toString(), 3, MainEntity.FRIEZA_SOLDIER02.get().toString(), 3,
+                        MainEntity.FRIEZA_SOLDIER03.get().toString(), 3), "minecraft:the_end", Map.of(MainItems.INVENCIBLE_ARMOR_CHESTPLATE.get().toString(), 3), null),
+                "namekQuest2",
+                "namek"
+        ));
     }
 
     public static void registerAll(){
