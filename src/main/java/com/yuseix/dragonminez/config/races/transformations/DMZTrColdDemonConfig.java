@@ -41,7 +41,7 @@ public class DMZTrColdDemonConfig {
         BUILDER.push(" Minimal Form");
 
         MULTIPLIER_BASE = BUILDER.comment("Multiplier for Minimal Form! (Min: 0.1 / Max: 200.0 / Default: 0.8)")
-                .defineInRange("Multiplier: ", 0.08, 0.1, 200.0);
+                .defineInRange("Multiplier: ", 0.8, 0.1, 200.0);
 
         BASE_FORM_KI_COST = BUILDER.comment("Ki Cost for Minimal Form! (Min: 0 / Max: 20000 / Default: 0)")
                 .defineInRange("Ki Cost: ", 0, 0, 20000);

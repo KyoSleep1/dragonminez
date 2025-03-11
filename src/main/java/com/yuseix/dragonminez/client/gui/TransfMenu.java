@@ -106,10 +106,17 @@ public class TransfMenu extends Screen {
 					case "super_form":
 						if (this.infoMenu) {
 							switch (raza) {
-								case 0, 2, 3, 4, 5: // Human, Namekian, Cold Demon, Majin, todas son iguales pq "maxLevel" es 5 en todas.
+								case 0, 2, 3, 4, 5:
 									if (groupId.equals("superform")) {
 										int currentLevel = form.getLevel();
-										int maxLevel = 5;
+										int maxLevel = 6;
+										switch (raza) {
+											case 0 -> maxLevel = 4;
+											case 2 -> maxLevel = 4;
+											case 3 -> maxLevel = 4;
+											case 4 -> maxLevel = 6;
+											case 5 -> maxLevel = 6;
+										}
 
 										Map<Integer, Integer> levelCosts = Map.of(
 												1, (int) (formsCost * mult),

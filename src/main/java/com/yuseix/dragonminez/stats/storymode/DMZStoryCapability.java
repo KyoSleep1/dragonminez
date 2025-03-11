@@ -146,12 +146,12 @@ public class DMZStoryCapability {
 	}
 
 	public void clearProgress() {
-		getEntityKillCounts().clear();
-		completedKillObjectives.clear();
-		itemCollectionCounts.clear();
-		biomeFound = false;
-		structureFound = false;
-		hasRequiredItem = false;
+		if (getNextQuest() != null) {
+			getEntityKillCounts().clear();
+			completedKillObjectives.clear();
+			itemCollectionCounts.clear();
+			hasRequiredItem = false;
+		}
 	}
 
 	public void resetAllProgress() {
@@ -159,8 +159,6 @@ public class DMZStoryCapability {
 		getEntityKillCounts().clear();
 		completedKillObjectives.clear();
 		itemCollectionCounts.clear();
-		biomeFound = false;
-		structureFound = false;
 		hasRequiredItem = false;
 		setCurrentSaga("saiyan");
 		setCurrentQuestId("saiyQuest1");
@@ -253,9 +251,9 @@ public class DMZStoryCapability {
 		nbt.putBoolean("HasRequiredItem", hasRequiredItem);
 
 		ListTag completedQuestsTag = new ListTag();
-		for (String questId : completedQuests) {
-			completedQuestsTag.add(StringTag.valueOf(questId));
-		}
+		completedQuests.stream()
+				.sorted()
+				.forEach(questId -> completedQuestsTag.add(StringTag.valueOf(questId)));
 		nbt.put("CompletedQuests", completedQuestsTag);
 
 		return nbt;
@@ -282,10 +280,12 @@ public class DMZStoryCapability {
 
 		completedQuests.clear();
 		ListTag completedQuestsTag = tag.getList("CompletedQuests", Tag.TAG_STRING);
-		for (Tag questTag : completedQuestsTag) {
-			completedQuests.add(questTag.getAsString());
-		}
+		completedQuestsTag.stream()
+				.map(Tag::getAsString)
+				.sorted()
+				.forEach(completedQuests::add);
 	}
+
 
 	@SubscribeEvent
 	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {

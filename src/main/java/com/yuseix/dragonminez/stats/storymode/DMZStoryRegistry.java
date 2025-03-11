@@ -84,9 +84,16 @@ public class DMZStoryRegistry {
         registerQuest(new DMZQuest(
                 "saiyQuest9",
                 new QuestRequirement(null, "dragonminez:ajissa_plains", null, null),
-                "namekQuest1",
+                null,
                 "saiyan"
         ));
+
+//    registerQuest(new DMZQuest(
+//            "namekQuest1",
+//            new QuestRequirement(Map.of(MainEntity.NAMEKNPC_WARRIOR1.get().toString(), 3, MainEntity.NAMEKNPC_WARRIOR2.get().toString(), 5), null, null, null),
+//            "namekQuest2",
+//            "namek"
+//    ));
     }
 
     public static void registerAll(){

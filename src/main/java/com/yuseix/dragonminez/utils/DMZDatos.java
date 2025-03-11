@@ -37,7 +37,7 @@ public class DMZDatos implements IDMZDatos{
         double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 5) + ((DefensaArmor + DurezaArmor) * 3)
-        return (int) Math.ceil((((((double) stats.getStat("DEF") / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
+        return (int) Math.ceil((((((double) stats.getStat("DEF") / 3) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 4)  + armorTotal;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "CON");
 
         // Fórmula = Math.round(20 + (1.2 * (StatCON * ConfigRaza)))
-        return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 2.0));
+        return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 8.0));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
-        return (int) Math.round((stats.getIntValue("maxhealth") * 0.55) * multRaza);
+        return (int) Math.round((stats.getIntValue("maxhealth") * 0.20) * multRaza);
     }
 
     @Override

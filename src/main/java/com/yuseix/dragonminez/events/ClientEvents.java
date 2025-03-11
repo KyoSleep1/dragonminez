@@ -279,17 +279,11 @@ public class ClientEvents {
 					if (capability.getBoolean("transform")) {
 						if (player.onGround()) {
 							for (int i = 0; i < 1; i++) {
-								double angle = i * ((2 * Math.PI) / 3);
-								double x = player.getX() + 1.5 * Math.cos(angle);
-								double z = player.getZ() + 1.5 * Math.sin(angle);
-
-								double y = player.getY() + 0.1;
-
 								double xSpeed = (Math.random() - 0.5) * 0.02;
 								double ySpeed = Math.random() * 0.01;
 								double zSpeed = (Math.random() - 0.5) * 0.02;
 
-								level.addParticle(MainParticles.ROCK_PARTICLE.get(), x, y, z, xSpeed, ySpeed, zSpeed);
+								level.addParticle(MainParticles.ROCK_PARTICLE.get(), player.getX(), player.getY() + 0.6, player.getZ(), xSpeed, ySpeed, zSpeed);
 							}
 						}
 					}

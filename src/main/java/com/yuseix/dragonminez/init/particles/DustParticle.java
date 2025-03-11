@@ -13,7 +13,7 @@ public class DustParticle extends TextureSheetParticle {
 		this.lifetime = 40 + this.random.nextInt(20);
 		this.gravity = 0.0F;
 		this.friction = 0.98F;
-		this.quadSize = 0.2F;
+		this.quadSize = 0.4F;
 		this.setSpriteFromAge(sprites);
 
 		this.yd = 0;

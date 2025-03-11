@@ -618,7 +618,7 @@ public class StatsEvents {
 									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.2F);
+									event.setNewEyeHeight(6.7F);
 								}
 								break;
 							case "super_namek":
@@ -873,7 +873,7 @@ public class StatsEvents {
 		if (race == 0 && groupForm.equals("")) {
 			if (superFormLvl >= 1 && dmzForm.equals("base")) return "buffed";
 			if (superFormLvl >= 2 && dmzForm.equals("buffed")) return "full_power";
-			if (superFormLvl >= 3 && dmzForm.equals("full_power")) return "potential_unleashed";
+			if (superFormLvl >= 4 && dmzForm.equals("full_power")) return "potential_unleashed";
 		}
 		// Lógica de transformación para Saiyans
 		if (race == 1) {
