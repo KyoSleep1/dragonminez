@@ -7,14 +7,16 @@ import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
 import com.yuseix.dragonminez.events.characters.StatsEvents;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 public class TickHandler {
 	private int energyRegenCounter = 0;
 	private int staminaRegenCounter = 0;
 	private int energyConsumeCounter = 0;
-	private int chargeTimer = 0; // Aca calculamos el tiempo de espera
-	private int dmzformTimer = 0; // Aca calculamos el tiempo de espera
+	private int chargeTimer = 0;
+	private int babaTimer = 0;
+	private int dmzformTimer = 0;
 	private int flyTimer = 0;
 	private int passiveMajinCounter = 0, passiveSaiyanCounter = 0;
 
@@ -22,6 +24,21 @@ public class TickHandler {
 		DMZSkill meditation = playerStats.getDMZSkills().get("meditation");
 		DMZSkill flySkill = playerStats.getDMZSkills().get("fly");
 		var raza = playerStats.getIntValue("race");
+
+		if (playerStats.getIntValue("babaalivetimer") != 0) {
+			int remainingTicks = playerStats.getIntValue("babaalivetimer");
+			int remainingMinutes = (remainingTicks / 1200); // 1200 ticks = 1 minuto
+			int remainingSeconds = (remainingTicks / 20) % 60; // Convertimos a segundos y obtenemos los restantes
+
+			// Formatear el texto para mostrar el tiempo restante
+			String formattedTime = String.format("%dmin %ds", remainingMinutes, remainingSeconds);
+
+			babaTimer++;
+			if (babaTimer >= 20) {
+				player.displayClientMessage(Component.translatable("dmz.lines.babaalive", formattedTime), true);
+				babaTimer = 0;
+			}
+		}
 
 		// Regeneración de stamina cada 1 segundo
 		staminaRegenCounter++;

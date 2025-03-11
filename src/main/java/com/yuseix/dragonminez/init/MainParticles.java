@@ -2,9 +2,8 @@ package com.yuseix.dragonminez.init;
 
 import com.mojang.serialization.Codec;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
-import com.yuseix.dragonminez.init.particles.particleoptions.KiSmallParticleOptions;
-import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
+import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
+import com.yuseix.dragonminez.init.particles.particleoptions.*;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -17,11 +16,21 @@ public final class MainParticles {
 	public static final DeferredRegister<ParticleType<?>> PARTICLES_REGISTER =
 			DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, DragonMineZ.MOD_ID);
 
-	public static final RegistryObject<SimpleParticleType> AJISSA_LEAVES_PARTICLE = PARTICLES_REGISTER.register("ajissa_leaves_particle",
-			() -> new SimpleParticleType(true));
-	public static final RegistryObject<SimpleParticleType> SACRED_LEAVES_PARTICLE = PARTICLES_REGISTER.register("sacred_leaves_particle",
-			() -> new SimpleParticleType(true));
-	public static final RegistryObject<SimpleParticleType> HIT_ATTACK_PARTICLE = PARTICLES_REGISTER.register("hit_attack_particle",
+	public static final RegistryObject<ParticleType<AjissaLeavesParticleOptions>> AJISSA_LEAVES_PARTICLE = PARTICLES_REGISTER.register("ajissa_leaves_particle",
+			() -> new ParticleType<>(false, AjissaLeavesParticleOptions.DESERIALIZER) {
+				@Override
+				public Codec<AjissaLeavesParticleOptions> codec() {
+					return AjissaLeavesParticleOptions.CODEC;
+				}
+			});
+	public static final RegistryObject<ParticleType<SacredLeavesParticleOptions>> SACRED_LEAVES_PARTICLE = PARTICLES_REGISTER.register("sacred_leaves_particle",
+			() -> new ParticleType<>(false, SacredLeavesParticleOptions.DESERIALIZER) {
+				@Override
+				public Codec<SacredLeavesParticleOptions> codec() {
+					return SacredLeavesParticleOptions.CODEC;
+				}
+			});
+	public static final RegistryObject<SimpleParticleType> HIT_ATTACK_PARTICLE = PARTICLES_REGISTER.register("hit_particle",
 			() -> new SimpleParticleType(true));
 	public static final RegistryObject<SimpleParticleType> NIMBUS_TRACE_PARTICLE = PARTICLES_REGISTER.register("nimbus_trace_particle",
 			() -> new SimpleParticleType(true));
@@ -48,6 +57,10 @@ public final class MainParticles {
 					return KiStarParticleOptions.CODEC;
 				}
 			});
+	public static final RegistryObject<SimpleParticleType> DUST_PARTICLE = PARTICLES_REGISTER.register("dust_particle",
+			() -> new SimpleParticleType(true));
+	public static final RegistryObject<SimpleParticleType> ROCK_PARTICLE = PARTICLES_REGISTER.register("rock_particle",
+			() -> new SimpleParticleType(true));
 	public static void register(IEventBus busEvent) {
 		PARTICLES_REGISTER.register(busEvent);
 	}

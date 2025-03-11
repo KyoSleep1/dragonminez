@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.commands.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -40,6 +41,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -449,6 +451,16 @@ public class ForgeBusEvents {
 			}
 		});
 
+	}
+
+	@SubscribeEvent
+	public static void onPlayerHit(LivingHurtEvent event) {
+		if (event.getSource().getEntity() instanceof Player && (event.getEntity().level() instanceof ServerLevel serverLevel)) {
+			serverLevel.sendParticles(MainParticles.HIT_ATTACK_PARTICLE.get(),
+					event.getEntity().getX(), event.getEntity().getY() + 1, event.getEntity().getZ(),
+					1, 0.2, 0.2, 0.2, 0.01
+			);
+		}
 	}
 
 	private static void reviveOthers(ServerPlayer player, List<String> playerNames, String dragon) {

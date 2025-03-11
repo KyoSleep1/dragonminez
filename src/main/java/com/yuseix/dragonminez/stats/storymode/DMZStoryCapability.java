@@ -190,14 +190,23 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.kill_enemy")) {
-			System.out.println("Checking kill objective");
 			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
-				String mobName = entry.getKey();
+				String langKills = "";
+				switch (entry.getKey()) {
+					case "entity.dragonminez.saga_raditz" -> langKills = "Raditz";
+					case "entity.dragonminez.saibaman" -> langKills = "Saibaman";
+					case "entity.dragonminez.tennenman" -> langKills = "Tennenman";
+					case "entity.dragonminez.kyukonman" -> langKills = "Kyukonman";
+					case "entity.dragonminez.copyman" -> langKills = "Copyman";
+					case "entity.dragonminez.jinkouman" -> langKills = "Jinkouman";
+					case "entity.dragonminez.kaiwareman" -> langKills = "Kaiwareman";
+					case "entity.dragonminez.saga_nappa" -> langKills = "Nappa";
+					case "entity.dragonminez.saga_vegetaozaru" -> langKills = "Oozaru Vegeta";
+					case "entity.dragonminez.saga_vegetasaiyan" -> langKills = "Vegeta";
+				}
 				int requiredCount = entry.getValue();
-				int playerCount = entityKillCounts.getOrDefault(mobName, 0);
-				System.out.println("Checking for " + mobName + " with " + requiredCount + " kills, player has " + playerCount);
-				if (objective.getString().contains(mobName) && playerCount >= requiredCount) {
-					System.out.println("Objective complete");
+				int playerCount = entityKillCounts.getOrDefault(entry.getKey(), 0);
+				if (objective.getString().contains(langKills) && playerCount >= requiredCount) {
 					return true;
 				}
 			}

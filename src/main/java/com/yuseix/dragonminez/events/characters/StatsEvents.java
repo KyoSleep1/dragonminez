@@ -31,6 +31,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -126,7 +127,7 @@ public class StatsEvents {
 						// Consumo de Ki del Fly
 						tickHandler.manejarFlyConsume(playerstats, maxenergia, serverPlayer);
 
-						if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+						if (player.onGround() && !player.getFeetBlockState().is(Blocks.WATER)) { // Desactivar vuelo si toca el suelo
 							flySkill.setActive(false);
 							if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
 							player.getAbilities().flying = false;

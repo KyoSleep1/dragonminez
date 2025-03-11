@@ -769,6 +769,7 @@
   "lines.baba.option.revive": "Revive",
   "lines.baba.revive": "Are you sure you want to revive temporarily? You'll have to summon Shenron to revive yourself, if you can't do it, you'll come back here.",
   "lines.baba.norevive": "You have to wait %s to temporarily revive again.",
+  "dmz.lines.babaalive": "You have \u00A7e%s \u00A7rleft.",
 
   "command.dmzlocate.wrong_dimension": "You can't teleport to a Structure that is in another dimension.",
   "command.dmzlocate.unknown_location": "Unknown Location.",

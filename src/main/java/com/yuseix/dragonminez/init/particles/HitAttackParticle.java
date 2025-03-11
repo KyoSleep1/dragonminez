@@ -10,13 +10,16 @@ public class HitAttackParticle extends TextureSheetParticle {
 		super(world, x, y, z, motionX, motionY, motionZ);
 		this.setSpriteFromAge(sprites);
 		this.friction = 0.9F;
-		this.quadSize = 0.1F;
-		this.lifetime = 20; // Lasts 20 ticks (1 second)
+		this.quadSize = 0.95F;
+		this.lifetime = 20 + this.random.nextInt(10);
+		this.xd = 0;
+		this.zd = 0;
+		this.roll = (float) (Math.random() * Math.PI * 2);
 	}
 
 	@Override
 	public @NotNull ParticleRenderType getRenderType() {
-		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 
 	@Override
@@ -24,6 +27,7 @@ public class HitAttackParticle extends TextureSheetParticle {
 		super.tick();
 		// Fade out over time
 		this.alpha = 1.0F - (float) this.age / (float) this.lifetime;
+		this.roll -= 0.01F; // Ajusta este valor para que rote más lento
 	}
 
 	public static class Provider implements ParticleProvider<SimpleParticleType> {
