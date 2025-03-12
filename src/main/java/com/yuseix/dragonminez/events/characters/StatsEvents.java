@@ -26,11 +26,19 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -255,7 +263,7 @@ public class StatsEvents {
 					int maxDamage = dmzdatos.calcStrength(cap);
 
 					int staminacost = maxDamage / 12;
-					int danoKiWeapon = dmzdatos.calcKiPower(cap);
+					int danoKiWeapon = dmzdatos.calcKiPower(cap) / 2;
 					var ki_control = cap.hasSkill("ki_control");
 					var ki_manipulation = cap.hasSkill("ki_manipulation");
 					var meditation = cap.hasSkill("meditation");
@@ -296,8 +304,8 @@ public class StatsEvents {
 								// Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
 								if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
 									if (cap.getStringValue("kiweapon").equals("scythe")) {
-										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 2) * (0.5 * kiManipLevel)));
-										int kiCost = (int) (maxKi * 0.04);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 2) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.09);
 										if (currKi > kiCost) {
 											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
@@ -307,8 +315,8 @@ public class StatsEvents {
 											sonidosGolpes(atacante);
 										}
 									} else if (cap.getStringValue("kiweapon").equals("trident")) {
-										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon) * (0.5 * kiManipLevel)));
-										int kiCost = (int) (maxKi * 0.08);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.18);
 										if (currKi > kiCost) {
 											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
@@ -318,8 +326,8 @@ public class StatsEvents {
 											sonidosGolpes(atacante);
 										}
 									} else {
-										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 4) * (0.5 * kiManipLevel)));
-										int kiCost = (int) (maxKi * 0.02);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 4) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.045);
 										if (currKi > kiCost) {
 											event.setAmount(baseMCDamage + danoFinal);
 											if (!atacante.isCreative() || !atacante.isSpectator())
@@ -372,7 +380,6 @@ public class StatsEvents {
 			}
 		}
 	}
-
 
 	@SubscribeEvent
 	public static void livingFallEvent(LivingFallEvent event) {

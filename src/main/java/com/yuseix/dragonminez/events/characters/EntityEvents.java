@@ -172,34 +172,6 @@ public class EntityEvents {
                     else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
 			});
 		}
-
-		// Reducir durabilidad armadura de 1 en 1 xd
-		LivingEntity entity = event.getEntity();
-
-		// No verifico que sea un jugador para que funcione en zombies, npcs, etc que utilice armaduras y no se les haga instabreak
-
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() == EquipmentSlot.Type.ARMOR) continue;
-
-			ItemStack armorStack = entity.getItemBySlot(slot);
-
-			if (armorStack.getItem() instanceof ArmorItem) {
-				int unbreakingLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, entity);
-
-				if (unbreakingLevel > 0) {
-					// Usar un número aleatorio para verificar si el daño se aplica
-					Random rand = new Random();
-					// La probabilidad es 1/(unbreakingLevel + 1) de que no se aplique el daño
-					if (rand.nextInt(unbreakingLevel + 1) != 0) {
-						// Si el número aleatorio no es 0, aplicar el daño
-						armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
-					}
-				} else {
-					// Si no tiene el encantamiento, aplicar el daño directamente
-					armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
-				}
-			}
-		}
 	}
 
 	private static boolean esEnemigo(Entity entity) {

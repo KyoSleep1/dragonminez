@@ -41,7 +41,7 @@ public class VegetaEntity extends SagaEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1750.0D)
-                .add(Attributes.ATTACK_DAMAGE, 185.0D)
+                .add(Attributes.ATTACK_DAMAGE, 280.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
     }
 
@@ -189,7 +189,7 @@ public class VegetaEntity extends SagaEntity {
 
         kiBlast.setVelocidad(1.5f);
 
-        kiBlast.setDamage(400.0F);
+        kiBlast.setDamage(700.0F);
         kiBlast.setTamano(2.2f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

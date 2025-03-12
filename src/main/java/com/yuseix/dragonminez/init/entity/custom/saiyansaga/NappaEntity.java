@@ -55,7 +55,7 @@ public class NappaEntity extends SagaEntity implements GeoEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 1250.0D)
-                .add(Attributes.ATTACK_DAMAGE, 135.0D)
+                .add(Attributes.ATTACK_DAMAGE, 215.0D)
                 .add(ForgeMod.ENTITY_REACH.get(), 4.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
     }
@@ -212,7 +212,7 @@ public class NappaEntity extends SagaEntity implements GeoEntity {
 
         kiBlast.setVelocidad(1.5f);
 
-        kiBlast.setDamage(270.0F);
+        kiBlast.setDamage(420.0F);
         kiBlast.setTamano(2.2f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

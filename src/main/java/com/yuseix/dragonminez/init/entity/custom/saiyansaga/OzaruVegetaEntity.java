@@ -62,10 +62,10 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 3500.0D)
-                .add(Attributes.ATTACK_DAMAGE, 285.0D)
+                .add(Attributes.ATTACK_DAMAGE, 450.0D)
                 .add(ForgeMod.ENTITY_REACH.get(), 12.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 3.5D)
-                .add(Attributes.ATTACK_SPEED, 0.5D)
+                .add(Attributes.ATTACK_SPEED, 0.35D)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F).build();
     }
 
@@ -203,7 +203,7 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
 
         kiBlast.setVelocidad(1.2f);
 
-        kiBlast.setDamage(250.0F);
+        kiBlast.setDamage(950.0F);
         kiBlast.setTamano(3.5f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

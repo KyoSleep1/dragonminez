@@ -14,6 +14,7 @@ import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -261,35 +262,42 @@ public class ClientEvents {
 									0, 0.1, 0);
 						}
 
-						if (player.onGround()) {
-							for (int i = 0; i < 5; i++) {
-								double angle = i * ((2 * Math.PI) / 3);
-								double x = player.getX() + 1.5 * Math.cos(angle);
-								double z = player.getZ() + 1.5 * Math.sin(angle);
 
-								double y = player.getY() + 0.2;
-
-								double xSpeed = (Math.random() - 0.5) * 0.02;
-								double zSpeed = (Math.random() - 0.5) * 0.02;
-
-								level.addParticle(MainParticles.DUST_PARTICLE.get(), x, y, z, xSpeed, 0, zSpeed);
-							}
-						}
 					}
-					if (capability.getBoolean("transform")) {
-						if (player.onGround()) {
-							for (int i = 0; i < 1; i++) {
-								double xSpeed = (Math.random() - 0.5) * 0.02;
-								double ySpeed = Math.random() * 0.01;
-								double zSpeed = (Math.random() - 0.5) * 0.02;
 
-								level.addParticle(MainParticles.ROCK_PARTICLE.get(), player.getX(), player.getY() + 0.6, player.getZ(), xSpeed, ySpeed, zSpeed);
-							}
-						}
-					}
 				});
 			}
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				if (cap.getBoolean("aura") || cap.getBoolean("turbo")) {
+					if (player.onGround()) {
+						for (int i = 0; i < 5; i++) {
+							double angle = i * ((2 * Math.PI) / 3);
+							double x = player.getX() + 1.5 * Math.cos(angle);
+							double z = player.getZ() + 1.5 * Math.sin(angle);
+
+							double y = player.getY() + 0.2;
+
+							double xSpeed = (Math.random() - 0.5) * 0.02;
+							double zSpeed = (Math.random() - 0.5) * 0.02;
+
+							level.addParticle(MainParticles.DUST_PARTICLE.get(), x, y, z, xSpeed, 0, zSpeed);
+						}
+					}
+				}
+				if (cap.getBoolean("transform")) {
+					if (player.onGround()) {
+						for (int i = 0; i < 1; i++) {
+							double xSpeed = (Math.random() - 0.5) * 0.02;
+							double ySpeed = Math.random() * 0.01;
+							double zSpeed = (Math.random() - 0.5) * 0.02;
+
+							level.addParticle(MainParticles.ROCK_PARTICLE.get(), player.getX(), player.getY() + 0.6, player.getZ(), xSpeed, ySpeed, zSpeed);
+						}
+					}
+				}
+			});
 		}
+
 
 		BlockPos playerPos = mc.player.blockPosition();
 		ResourceKey<Biome> currentBiomeKey = level.registryAccess()

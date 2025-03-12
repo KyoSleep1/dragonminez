@@ -38,7 +38,7 @@ public class RaditzEntity extends SagaEntity {
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 650.0D)
-                .add(Attributes.ATTACK_DAMAGE, 85.0D)
+                .add(Attributes.ATTACK_DAMAGE, 145.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
     }
 

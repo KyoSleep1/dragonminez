@@ -33,7 +33,7 @@ public class SaibamanEntity extends SagaEntity {
 	public static AttributeSupplier setAttributes() {
 		return Mob.createMobAttributes()
 				.add(Attributes.MAX_HEALTH, 750.0D)
-				.add(Attributes.ATTACK_DAMAGE, 85.0D)
+				.add(Attributes.ATTACK_DAMAGE, 105.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.28F).build();
 	}
 
