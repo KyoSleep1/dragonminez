@@ -83,7 +83,6 @@ public class DMZDatos implements IDMZDatos{
         double multiSTR = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
         double multiDEF = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
         double multiPWR = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
-        System.out.println("MultiStr: " + multiSTR + " MultiDef: " + multiDEF + " MultiKiPower: " + multiPWR + " Efectos: " + getEffectsMult(stats) + "= " + ((multiSTR + multiDEF + multiPWR) / 3) * getEffectsMult(stats));
 
         // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
         return ((multiSTR + multiDEF + multiPWR) / 3) * getEffectsMult(stats);
@@ -92,7 +91,6 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public double calcStatMultiplier(DMZStatsAttributes stats, String stat) {
         double multiTransf = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), stat);
-        System.out.println("MultiTransf: " + multiTransf + " Efectos: " + getEffectsMult(stats) + " Total: " + multiTransf * getEffectsMult(stats));
 
         return multiTransf * getEffectsMult(stats);
     }
@@ -101,7 +99,6 @@ public class DMZDatos implements IDMZDatos{
         double multiStr = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
         double multiDef = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
         double multiKiPower = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
-        System.out.println("MultiStr: " + multiStr + " MultiDef: " + multiDef + " MultiKiPower: " + multiKiPower + " Total: " + (multiStr + multiDef + multiKiPower) / 3);
 
         return (multiStr + multiDef + multiKiPower) / 3;
     }
@@ -109,7 +106,6 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedStrength(DMZStatsAttributes stats) {
         double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-        System.out.println("MultiForma: " + multForma + " Efectos: " + getEffectsMult(stats) + " Total: " + stats.getStat("STR") * multForma * getEffectsMult(stats));
 
         // Fórmula = (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
         return (int) (stats.getStat("STR") * multForma * getEffectsMult(stats));
@@ -118,7 +114,6 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedDefense(DMZStatsAttributes stats) {
         double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-        System.out.println("MultiForma: " + multForma + " Efectos: " + getEffectsMult(stats) + " Total: " + stats.getStat("DEF") * multForma * getEffectsMult(stats));
 
         // Fórmula = (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
         return (int) (stats.getStat("DEF") * multForma * getEffectsMult(stats));
@@ -127,7 +122,6 @@ public class DMZDatos implements IDMZDatos{
     @Override
     public int calcMultipliedKiPower(DMZStatsAttributes stats) {
         double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
-        System.out.println("MultiForma: " + multForma + " Efectos: " + getEffectsMult(stats) + " Total: " + stats.getStat("PWR") * multForma * getEffectsMult(stats));
 
         // Fórmula = (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
         return (int) (stats.getStat("PWR") * multForma * getEffectsMult(stats));
