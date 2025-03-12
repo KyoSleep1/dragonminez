@@ -492,12 +492,12 @@ public class DMZClientConfig {
 
     public static void setBaseStats(int race, double stat) {
         switch (race) {
-            case 0 -> DMZClientConfig.baseMult0 = (int) stat;
-            case 1 -> DMZClientConfig.baseMult1 = (int) stat;
-            case 2 -> DMZClientConfig.baseMult2 = (int) stat;
-            case 3 -> DMZClientConfig.baseMult3 = (int) stat;
-            case 4 -> DMZClientConfig.baseMult4 = (int) stat;
-            case 5 -> DMZClientConfig.baseMult5 = (int) stat;
+            case 0 -> DMZClientConfig.baseMult0 = stat;
+            case 1 -> DMZClientConfig.baseMult1 = stat;
+            case 2 -> DMZClientConfig.baseMult2 = stat;
+            case 3 -> DMZClientConfig.baseMult3 = stat;
+            case 4 -> DMZClientConfig.baseMult4 = stat;
+            case 5 -> DMZClientConfig.baseMult5 = stat;
         }
     }
 
