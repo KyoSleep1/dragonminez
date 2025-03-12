@@ -1,15 +1,13 @@
 package com.yuseix.dragonminez.events;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.storymode.DMZQuest;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryRegistry;
-import com.yuseix.dragonminez.stats.storymode.QuestRequirement;
+import com.yuseix.dragonminez.stats.storymode.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -127,9 +125,9 @@ public class StoryEvents {
 
 				// Verificar si todos los objetivos están completos
 				if (killsComplete && requirement.isFulfilled(player, capability.getEntityKillCounts(), capability.isBiomeFound(), capability.hasCollectedItems())) {
-					capability.getCompletedQuests().add(currentQuest.getId());
-
 					onQuestComplete(player, currentQuest.getId());
+
+					capability.getCompletedQuests().add(currentQuest.getId());
 				}
 				syncQuestData(player);
 			}
@@ -146,18 +144,40 @@ public class StoryEvents {
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}
 				case "saiyQuest2" -> {
-					tps = 550;
-					cap.addIntValue("tps", tps);
-					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
-				}
-				case "saiyQuest3" -> {
 					tps = 750;
 					cap.addIntValue("tps", tps);
 					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
 				}
+				case "saiyQuest3" -> {
+					tps = 2250;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest4", "saiyQuest5" -> {
+					tps = 5000;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest6", "saiyQuest8" -> {
+					tps = 7500;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+					if (questId.equals("saiyQuest8")) {
+						player.getInventory().add(new ItemStack(MainItems.NAVE_SAIYAN_ITEM.get()));
+						player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.item", (Component.translatable("item.dragonminez.saiyan_ship")), "x1", questId));
+					}
+				}
+				case "saiyQuest7" -> {
+					tps = 12500;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
+				case "saiyQuest9" -> {
+					tps = 1500;
+					cap.addIntValue("tps", tps);
+					player.sendSystemMessage(Component.translatable("dmz.storyline.rewards.tps", tps, questId));
+				}
 			}
-
-			System.out.println("You have completed the quest: " + questId + ". Your reward is: " + cap.getIntValue("tps") + " TPS");
 		});
 		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
 			// Asignar la siguiente misión (si hay alguna)
@@ -165,7 +185,9 @@ public class StoryEvents {
 			DMZQuest nextQuest = DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
 			if (currentQuest.getId().equals(questId) && nextQuest != null) {
 				cap.setCurrentQuestId(nextQuest.getId());
+				cap.setCurrentSaga(nextQuest.getSagaId());
 			}
+			cap.clearProgress();
 			syncCompletedQuests(player);
 			syncQuestData(player);
 		});
@@ -175,27 +197,23 @@ public class StoryEvents {
 	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
-
 	}
 
 	@SubscribeEvent
 	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent
 	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		syncCompletedQuests(event.getEntity());
 		syncQuestData(event.getEntity());
-		event.getEntity().refreshDimensions();
 	}
 
 	@SubscribeEvent
 	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-		event.register(DMZStatsAttributes.class);
+		event.register(DMZStoryCapability.class);
 	}
 
 	@SubscribeEvent
@@ -205,13 +223,12 @@ public class StoryEvents {
 
 		original.reviveCaps();
 
-		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(
-				cap -> player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(originalcap ->
+		DMZQuestProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(
+				cap -> DMZQuestProvider.getCap(DMZStoryCapability.INSTANCE, original).ifPresent(originalcap ->
 						cap.loadNBTData(originalcap.saveNBTData())));
 
 
 		original.invalidateCaps();
-
 	}
 
 	@SubscribeEvent

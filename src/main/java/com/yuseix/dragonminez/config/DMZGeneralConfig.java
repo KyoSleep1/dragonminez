@@ -9,10 +9,12 @@ public class DMZGeneralConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_ATTRIBUTE_VALUE;
     public static final ForgeConfigSpec.ConfigValue<Boolean> TRANSFORMATIONS_WITH_TP;
     public static final ForgeConfigSpec.ConfigValue<Integer> TPCOST_TRANSFORMATIONS;
+    public static final ForgeConfigSpec.ConfigValue<Boolean> SAVE_INVENTORY;
 
     //CONFIGS GENERALES
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_FALLDMG;
     public static final ForgeConfigSpec.ConfigValue<Integer> PERHIT_ZPOINTS_GAIN;
+    public static final ForgeConfigSpec.ConfigValue<Double> PERKILL_ZPOINTS_GAIN;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_COST;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_GAIN;
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_ZPOINTS_HTC;
@@ -67,12 +69,18 @@ public class DMZGeneralConfig {
         TPCOST_TRANSFORMATIONS = BUILDER.comment("ZPoints Cost for Buying Transformations (Min: 1 / Max: 1000000000 / Default: 50000)")
                 .defineInRange("Transformations Cost: ", 50000, 1, 1000000000);
 
+        SAVE_INVENTORY = BUILDER.comment("Save Player Inventory on Death (Default: true)")
+                .define("Save Inventory: ", true);
+
         BUILDER.pop();
 
         BUILDER.push("ZPoints Configs");
 
         PERHIT_ZPOINTS_GAIN = BUILDER.comment("ZPoints Obtained per Hit (Min: 1 / Max: 100 / Default: 2)")
                 .defineInRange("ZPoints per Hit: ", 2, 1, 100);
+
+        PERKILL_ZPOINTS_GAIN = BUILDER.comment("ZPoints Obtained per Kill based on Enemy max Health (Min: 0.1 / Max: 1.0 / Default: 0.6)")
+                .defineInRange("ZPoints per Kill percentage: ", 0.6, 0.1, 1);
 
         MULTIPLIER_ZPOINTS_COST = BUILDER.comment("Multiplier for ZPoints Cost (Min: 1.0 / Max: 20.0 / Default: 1.2)")
                 .defineInRange("ZPoints Cost: ", 1.2, 1.0, 20.0);

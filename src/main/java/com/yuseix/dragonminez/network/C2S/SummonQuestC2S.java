@@ -1,10 +1,7 @@
 package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.RaditzEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
-import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
+import com.yuseix.dragonminez.init.entity.custom.saiyansaga.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -68,7 +65,7 @@ public class SummonQuestC2S {
 
 						entityName = "Saibamen";
 					}
-					case "saiyQuest4" -> {
+					case "saiyQuest4", "saiyQuest5" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
 						NappaEntity nappa = new NappaEntity(MainEntity.NAPPA_SAGA.get(), world);
 						nappa.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
@@ -76,15 +73,7 @@ public class SummonQuestC2S {
 
 						entityName = "Nappa";
 					}
-					case "saiyQuest5" -> {
-						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						NappaEntity nappa = new NappaEntity(MainEntity.NAPPA_SAGA.get(), world);
-						nappa.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						world.addFreshEntity(nappa);
-
-						entityName = "Nappa";
-					}
-					case "saiyQuest6" -> {
+					case "saiyQuest6", "saiyQuest8" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
 						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
 						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
@@ -94,19 +83,11 @@ public class SummonQuestC2S {
 					}
 					case "saiyQuest7" -> {
 						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
-						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						world.addFreshEntity(vegeta);
+						OzaruVegetaEntity vegetaOozaru = new OzaruVegetaEntity(MainEntity.VEGETA_OZARU.get(), world);
+						vegetaOozaru.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
+						world.addFreshEntity(vegetaOozaru);
 
-						entityName = "Vegeta";
-					}
-					case "saiyQuest8" -> {
-						BlockPos spawnPos = player.blockPosition().offset(4, 3,4);
-						VegetaEntity vegeta = new VegetaEntity(MainEntity.VEGETA_SAIYAN.get(), world);
-						vegeta.moveTo(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);
-						world.addFreshEntity(vegeta);
-
-						entityName = "Vegeta";
+						entityName = "Oozaru Vegeta";
 					}
 				}
 				player.sendSystemMessage(Component.translatable("dmz.storyline.summoned", msg.questId, entityName));

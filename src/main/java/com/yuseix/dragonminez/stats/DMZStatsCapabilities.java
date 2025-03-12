@@ -55,13 +55,10 @@ public class DMZStatsCapabilities {
         syncSkills(event.getEntity());
 
         DMZStatsProvider.getCap(INSTANCE, event.getEntity()).ifPresent(cap -> {
-            //VIDAAAAAAA
             var maxVIDA = dmzdatos.calcConstitution(cap);
             event.getEntity().getAttribute(Attributes.MAX_HEALTH).setBaseValue(maxVIDA);
             event.getEntity().heal((float) maxVIDA);
             cap.setIntValue("curstam", dmzdatos.calcStamina(cap));
-
-            //ENERGIAAA
             cap.setIntValue("curenergy", dmzdatos.calcEnergy(cap));
         });
 

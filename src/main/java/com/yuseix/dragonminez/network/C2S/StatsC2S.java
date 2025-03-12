@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,11 +43,7 @@ public class StatsC2S {
             if (player != null) {
 
                 DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
-
-                    var vidaMC = 20;
-                    var raza = playerstats.getIntValue("race");
-                    var con = playerstats.getStat("CON");
-                    int maxStats = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get();
+                    int maxStats = DMZClientConfig.getMaxStats();
                     int incrementoStats = packet.cantidad;
 
                     switch (packet.id) {

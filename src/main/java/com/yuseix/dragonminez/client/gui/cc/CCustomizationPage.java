@@ -4,13 +4,13 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.*;
-import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import com.yuseix.dragonminez.utils.TranslateManager;
 import net.minecraft.ChatFormatting;
@@ -309,51 +309,51 @@ public class CCustomizationPage extends Screen {
                 case "warrior":
                     switch (raza){
                         case 0: //Humano
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("human", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("human", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("human","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("human", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("human", "warrior")));
 
                             break;
                         case 1: //Saiyan
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("saiyan","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("saiyan", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("saiyan","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("saiyan", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("saiyan", "warrior")));
 
                             break;
                         case 2: //Namek
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("namek","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("namek", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("namek","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("namek", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("namek", "warrior")));
 
                             break;
                         case 3: //BioAndroide
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("bio","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("bio", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("bio","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("bio", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("bio", "warrior")));
 
                             break;
                         case 4: //Cold Demon
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_WARRIOR.get()));
+                                ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("cold","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("cold","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("cold","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("cold", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("cold", "warrior")));
 
                             break;
                         case 5: //Majin
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_WARRIOR.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_WARRIOR.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("majin","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("majin","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("majin","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("majin", "warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("majin", "warrior")));
 
                             break;
                         default:
@@ -363,46 +363,46 @@ public class CCustomizationPage extends Screen {
                 case "spiritualist":
                     switch (raza){
                         case 0: //Humano
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZHumanConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZHumanConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZHumanConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZHumanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZHumanConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("human", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("human", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("human","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("human", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("human", "spiritualist")));
                             break;
                         case 1: //Saiyan
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZSaiyanConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZSaiyanConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZSaiyanConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZSaiyanConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZSaiyanConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("saiyan", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("saiyan", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("saiyan","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("saiyan", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("saiyan", "spiritualist")));
                             break;
                         case 2: //Namek
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZNamekConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZNamekConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZNamekConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZNamekConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZNamekConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("namek", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("namek", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("namek","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("namek", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("namek", "spiritualist")));
                             break;
                         case 3: //BioAndroide
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZBioAndroidConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZBioAndroidConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZBioAndroidConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZBioAndroidConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZBioAndroidConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("bio", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("bio", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("bio","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("bio", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("bio", "spiritualist")));
                             break;
                         case 4: //Cold Demon
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZColdDemonConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZColdDemonConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZColdDemonConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZColdDemonConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZColdDemonConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("cold", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("cold", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("cold","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("cold", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("cold", "spiritualist")));
                             break;
                         case 5: //Majin
-                            ModMessages.sendToServer(new CharacterC2S("str", DMZMajinConfig.INITIAL_STR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("def", DMZMajinConfig.INITIAL_DEF_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("con", DMZMajinConfig.INITIAL_CON_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZMajinConfig.INITIAL_KIPWR_SPIRITUALIST.get()));
-                            ModMessages.sendToServer(new CharacterC2S("ene", DMZMajinConfig.INITIAL_ENE_SPIRITUALIST.get()));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("majin", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("majin", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("majin","spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("majin", "spiritualist")));
+                            ModMessages.sendToServer(new CharacterC2S("ene", DMZClientConfig.getInit_ENEStat("majin", "spiritualist")));
                             break;
                         default:
                             break;

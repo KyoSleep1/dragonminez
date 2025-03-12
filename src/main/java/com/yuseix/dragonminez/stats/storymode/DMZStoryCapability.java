@@ -1,18 +1,26 @@
 package com.yuseix.dragonminez.stats.storymode;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.events.StoryEvents;
+import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.network.S2C.DMZCompletedQuestsSyncS2C;
+import com.yuseix.dragonminez.network.S2C.StorySyncS2C;
+import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -93,9 +101,7 @@ public class DMZStoryCapability {
 	}
 
 	public boolean isQuestComplete(DMZQuest quest, Player player) {
-		if (this.completedQuests.contains(quest.getId())) {
-			return true;
-		}
+		if (this.completedQuests.contains(quest.getId())) return true;
 
 		QuestRequirement requirement = quest.getRequirement();
 
@@ -132,19 +138,26 @@ public class DMZStoryCapability {
 		} else {
 			completedQuests.remove(questId);
 		}
-		StoryEvents.syncQuestData(player);
-		StoryEvents.syncCompletedQuests(player);
-
+		syncQuestData(player);
+		syncCompletedQuests(player);
+		clearProgress();
 	}
 
-	public void resetProgress() {
-		entityKillCounts.clear();
-		structureFound = false;
-		hasRequiredItem = false;
+	public void clearProgress() {
+		if (getNextQuest() != null) {
+			getEntityKillCounts().clear();
+			completedKillObjectives.clear();
+			itemCollectionCounts.clear();
+			hasRequiredItem = false;
+		}
 	}
 
 	public void resetAllProgress() {
 		getCompletedQuests().clear();
+		getEntityKillCounts().clear();
+		completedKillObjectives.clear();
+		itemCollectionCounts.clear();
+		hasRequiredItem = false;
 		setCurrentSaga("saiyan");
 		setCurrentQuestId("saiyQuest1");
 	}
@@ -155,7 +168,10 @@ public class DMZStoryCapability {
 
 	public DMZQuest getNextQuest() {
 		DMZQuest currentQuest = getAvailableQuest();
-		return currentQuest != null ? DMZStoryRegistry.getQuest(currentQuest.getNextQuestId()) : null;
+		if (currentQuest.getNextQuestId() == null) {
+			return null;
+		}
+		return DMZStoryRegistry.getQuest(currentQuest.getNextQuestId());
 	}
 
 	public boolean isSagaCompleted(String saga) {
@@ -165,6 +181,7 @@ public class DMZStoryCapability {
 	public boolean isObjectiveComplete(Component objective, String questId) {
 		DMZQuest quest = DMZStoryRegistry.getQuest(questId);
 		if (quest == null) return false;
+		if (this.completedQuests.contains(quest.getId())) return true;
 
 		String key = "";
 		QuestRequirement requirement = quest.getRequirement();
@@ -174,20 +191,29 @@ public class DMZStoryCapability {
 
 		if (key.equals("dmz.storyline.objective.kill_enemy")) {
 			for (Map.Entry<String, Integer> entry : requirement.getRequiredKills().entrySet()) {
-				String mobName = entry.getKey();
+				String langKills = "";
+				switch (entry.getKey()) {
+					case "entity.dragonminez.saga_raditz" -> langKills = "Raditz";
+					case "entity.dragonminez.saibaman" -> langKills = "Saibaman";
+					case "entity.dragonminez.tennenman" -> langKills = "Tennenman";
+					case "entity.dragonminez.kyukonman" -> langKills = "Kyukonman";
+					case "entity.dragonminez.copyman" -> langKills = "Copyman";
+					case "entity.dragonminez.jinkouman" -> langKills = "Jinkouman";
+					case "entity.dragonminez.kaiwareman" -> langKills = "Kaiwareman";
+					case "entity.dragonminez.saga_nappa" -> langKills = "Nappa";
+					case "entity.dragonminez.saga_vegetaozaru" -> langKills = "Oozaru Vegeta";
+					case "entity.dragonminez.saga_vegetasaiyan" -> langKills = "Vegeta";
+				}
 				int requiredCount = entry.getValue();
-				int playerCount = entityKillCounts.getOrDefault(mobName, 0);
-				if (objective.getString().contains(mobName) && playerCount >= requiredCount) {
+				int playerCount = entityKillCounts.getOrDefault(entry.getKey(), 0);
+				if (objective.getString().contains(langKills) && playerCount >= requiredCount) {
 					return true;
 				}
 			}
 		}
 
 		if (key.equals("dmz.storyline.objective.get_to_biome")) {
-			System.out.println("Checking biome objective: " + biomeFound);
-			if (biomeFound) {
-				return true;
-			}
+			return biomeFound;
 		}
 
 		if (key.equals("dmz.storyline.objective.collect_item")) {
@@ -202,9 +228,7 @@ public class DMZStoryCapability {
 		}
 
 		if (key.equals("dmz.storyline.objective.get_to_location")) {
-			if (structureFound) {
-				return true;
-			}
+			return structureFound;
 		}
 
 		return false;
@@ -229,9 +253,9 @@ public class DMZStoryCapability {
 		nbt.putBoolean("HasRequiredItem", hasRequiredItem);
 
 		ListTag completedQuestsTag = new ListTag();
-		for (String questId : completedQuests) {
-			completedQuestsTag.add(StringTag.valueOf(questId));
-		}
+		completedQuests.stream()
+				.sorted()
+				.forEach(questId -> completedQuestsTag.add(StringTag.valueOf(questId)));
 		nbt.put("CompletedQuests", completedQuestsTag);
 
 		return nbt;
@@ -258,8 +282,86 @@ public class DMZStoryCapability {
 
 		completedQuests.clear();
 		ListTag completedQuestsTag = tag.getList("CompletedQuests", Tag.TAG_STRING);
-		for (Tag questTag : completedQuestsTag) {
-			completedQuests.add(questTag.getAsString());
+		completedQuestsTag.stream()
+				.map(Tag::getAsString)
+				.sorted()
+				.forEach(completedQuests::add);
+	}
+
+
+	@SubscribeEvent
+	public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+		event.getEntity().refreshDimensions();
+	}
+
+	@SubscribeEvent
+	public void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+		event.getEntity().refreshDimensions();
+	}
+
+	@SubscribeEvent
+	public void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+		syncQuestData(event.getEntity());
+		syncCompletedQuests(event.getEntity());
+	}
+
+	@SubscribeEvent
+	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+		event.register(DMZStoryCapability.class);
+	}
+
+	@SubscribeEvent
+	public void onPlayerCloned(PlayerEvent.Clone event) {
+		var player = event.getEntity();
+		var original = event.getOriginal();
+
+		original.reviveCaps();
+
+		player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(
+				cap -> player.getCapability(DMZStoryCapability.INSTANCE).ifPresent(originalcap ->
+						cap.loadNBTData(originalcap.saveNBTData())));
+
+
+		original.invalidateCaps();
+
+		syncQuestData(player);
+		syncCompletedQuests(player);
+
+	}
+
+	@SubscribeEvent
+	public static void onTrack(PlayerEvent.StartTracking event) {
+		var trackingplayer = event.getEntity();
+		if (!(trackingplayer instanceof ServerPlayer serverplayer)) return;
+
+		var tracked = event.getTarget();
+		if (tracked instanceof ServerPlayer trackedplayer) {
+			tracked.getCapability(DMZStoryCapability.INSTANCE).ifPresent(cap -> {
+
+				ModMessages.sendToPlayer(new StorySyncS2C(trackedplayer), serverplayer);
+
+				ModMessages.sendToPlayer(
+						new DMZCompletedQuestsSyncS2C(trackedplayer, cap.getCompletedQuests()),
+						serverplayer
+				);
+
+			});
+
 		}
+	}
+
+	public static void syncQuestData(Player player) {
+		ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new StorySyncS2C(player));
+	}
+
+	public static void syncCompletedQuests(Player player) {
+		DMZStatsProvider.getCap(DMZStoryCapability.INSTANCE, player).ifPresent(cap -> {
+			ModMessages.INSTANCE.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player),
+					new DMZCompletedQuestsSyncS2C(player, cap.getCompletedQuests()));
+		});
 	}
 }

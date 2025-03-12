@@ -151,6 +151,7 @@ public class StoryModeCommand {
 				}
 			} else {
 				capability.getCompletedQuests().remove(questId);
+				capability.setCurrentQuestId(questId);
 			}
 		});
 
@@ -160,7 +161,8 @@ public class StoryModeCommand {
 			source.sendSuccess(() -> completed ? Component.translatable("command.dmzstoryline.quest_completed", questId, targetNick) : Component.translatable("command.dmzstoryline.quest_incompleted", questId, targetNick), true);
 		}
 
-		StoryEvents.syncQuestData(targetPlayer);
+		DMZStoryCapability.syncQuestData(targetPlayer);
+		DMZStoryCapability.syncCompletedQuests(targetPlayer);
 		return 1;
 	}
 
@@ -203,7 +205,8 @@ public class StoryModeCommand {
 			}
 		}
 
-		StoryEvents.syncQuestData(targetPlayer);
+		DMZStoryCapability.syncQuestData(targetPlayer);
+		DMZStoryCapability.syncCompletedQuests(targetPlayer);
 		return 1;
 	}
 

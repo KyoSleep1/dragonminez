@@ -1,0 +1,110 @@
+{
+  "type": "forge:add_spawns",
+  "biomes": "dragonminez:rocky",
+  "spawners": [{
+    "type": "dragonminez:dino",
+    "weight": 22,
+    "minCount": 2,
+    "maxCount": 4
+  },{
+    "type": "dragonminez:dino",
+    "weight": 22,
+    "minCount": 2,
+    "maxCount": 4
+  },{
+    "type": "dragonminez:dino",
+    "weight": 22,
+    "minCount": 2,
+    "maxCount": 4
+  },{
+    "type": "dragonminez:saibaman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kaiwareman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kyukonman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:copyman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:tennenman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:jinkouman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:saibaman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kaiwareman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kyukonman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:copyman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:tennenman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:jinkouman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:saibaman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kaiwareman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:kyukonman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:copyman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:tennenman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  },{
+    "type": "dragonminez:jinkouman",
+    "weight": 20,
+    "minCount": 2,
+    "maxCount": 3
+  }]
+}

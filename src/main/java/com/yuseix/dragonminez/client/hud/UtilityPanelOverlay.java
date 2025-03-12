@@ -63,19 +63,17 @@ public class UtilityPanelOverlay extends Screen {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				int centroX = (this.width/ 2) - 3;
 				int centroY = (this.height/ 2) - 48;
+				int levelSF = cap.getFormSkillLevel("super_form");
 
-				if (getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form")) != null) {
-					rb1 = new DMZRightButton("right", centroX + 45, centroY + 37, Component.empty(), wa -> {
-						ModMessages.sendToServer(new UtilityPanelC2S("group", getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form"))));
-					});
-					this.addRenderableWidget(rb1);
-				}
-
-				if (getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform")) != null) {
-					lb1 = new DMZRightButton("left", centroX - 53, centroY + 37, Component.empty(), wa -> {
-						ModMessages.sendToServer(new UtilityPanelC2S("group", getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform"))));
-					});
-					this.addRenderableWidget(lb1);
+				switch (cap.getIntValue("race")) { // Human, Saiyan, Namek, Bio, Cold, Majin
+					case 0 -> {}
+					case 1 -> {
+						if (levelSF >= 2) dibujarBotonesForms(cap);
+					}
+					case 2 -> {}
+					case 3 -> {}
+					case 4 -> {}
+					case 5 -> {}
 				}
 
 				switch (cap.getIntValue("race")) {
@@ -108,6 +106,25 @@ public class UtilityPanelOverlay extends Screen {
 					case 5 -> {}
 				}
 			});
+		}
+	}
+
+	private void dibujarBotonesForms(DMZStatsAttributes cap) {
+		int centroX = (this.width/ 2) - 3;
+		int centroY = (this.height/ 2) - 48;
+
+		if (getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form")) != null) {
+			rb1 = new DMZRightButton("right", centroX + 45, centroY + 37, Component.empty(), wa -> {
+				ModMessages.sendToServer(new UtilityPanelC2S("group", getNextGroup(cap.getIntValue("race"), cap.getStringValue("groupform"), cap.getFormSkillLevel("super_form"))));
+			});
+			this.addRenderableWidget(rb1);
+		}
+
+		if (getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform")) != null) {
+			lb1 = new DMZRightButton("left", centroX - 53, centroY + 37, Component.empty(), wa -> {
+				ModMessages.sendToServer(new UtilityPanelC2S("group", getPrevGroup(cap.getIntValue("race"), cap.getStringValue("groupform"))));
+			});
+			this.addRenderableWidget(lb1);
 		}
 	}
 

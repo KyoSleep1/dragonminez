@@ -256,38 +256,7 @@ public class ModDimensions extends NoiseRouterData{
         DensityFunction constantNegative = DensityFunctions.constant(-1.0);
         DensityFunction constantPositive = DensityFunctions.constant(1.0);
 
-        // Ruido base para el terreno (optimizado con `cacheOnce` para evitar reevaluaciones)
-        DensityFunction baseTerrainNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.75, 0.2)); // Ligera reducción de frecuencia y amplitud
-
-        // Ruido de detalles para nubes (reducción de carga)
-        DensityFunction cloudDetailNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.8, 0.15)); // Menos frecuencia y amplitud para rendimiento
-
-        // Definición de capas de nubes
-        DensityFunction cloudLayer1 = DensityFunctions.yClampedGradient(4, 12, 30, -8);
-        DensityFunction cloudLayer2 = DensityFunctions.yClampedGradient(13, 20, 25, -12);
-        DensityFunction cloudLayer3 = DensityFunctions.yClampedGradient(21, 30, 15, -20);
-
-        // Ruidos de variación en las nubes
-        DensityFunction cloudLargeNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE_SECONDARY), 1.3, 0.2)); // Ligera reducción de amplitud
-        DensityFunction cloudMidNoise = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.9, 0.25)); // Reducción de frecuencia para menos carga
-
-        // Combinación de ruidos de nubes
-        DensityFunction cloudNoise = DensityFunctions.add(cloudLargeNoise, cloudMidNoise);
-        DensityFunction detailedClouds = DensityFunctions.add(cloudNoise, cloudDetailNoise);
-
-        // Capas más complejas con mayor frecuencia de nubes
-        DensityFunction fullCloudLayer = DensityFunctions.add(
-                DensityFunctions.add(cloudLayer3, detailedClouds),
-                DensityFunctions.add(cloudLayer2, detailedClouds)
-        );
-        fullCloudLayer = DensityFunctions.add(fullCloudLayer, DensityFunctions.add(cloudLayer1, detailedClouds));
-
-        // Variabilidad adicional en las nubes (optimizada)
-        DensityFunction additionalCloudDetail = DensityFunctions.cacheOnce(DensityFunctions.noise(noise.getOrThrow(Noises.SURFACE), 0.3, 0.3));
-        fullCloudLayer = DensityFunctions.add(fullCloudLayer, additionalCloudDetail);
-
-        // Se combina con el terreno base para evitar un suelo completamente plano
-        DensityFunction finalTerrain = DensityFunctions.add(fullCloudLayer, baseTerrainNoise);
+        DensityFunction depthFunction = DensityFunctions.yClampedGradient(3, 5, 1.0, -1.0);
 
         return new NoiseRouter(
                 constantNegative, // barrierNoise
@@ -298,10 +267,10 @@ public class ModDimensions extends NoiseRouterData{
                 constantNegative, // vegetation
                 constantNegative, // continents
                 constantNegative, // erosion
-                finalTerrain,       // depth
+                depthFunction,       // depth
                 constantNegative, // ridges
-                finalTerrain,       // initialDensityWithoutJaggedness
-                finalTerrain,       // finalDensity
+                depthFunction,       // initialDensityWithoutJaggedness
+                depthFunction,       // finalDensity
                 constantNegative, // veinToggle
                 constantNegative, // veinRidged
                 constantNegative  // veinGap
@@ -393,19 +362,18 @@ public class ModDimensions extends NoiseRouterData{
     }
 
     public static SurfaceRules.RuleSource otherWorldSurfaceRules() {
-        SurfaceRules.RuleSource cloudFloorOne = SurfaceRules.ifTrue(
-                SurfaceRules.verticalGradient("cloudfloorone", VerticalAnchor.absolute(14), VerticalAnchor.absolute(20)),
-                SurfaceRules.state(MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState())
+        SurfaceRules.RuleSource bedrockRule = SurfaceRules.ifTrue(
+                SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(2)),
+                SurfaceRules.state(Blocks.BEDROCK.defaultBlockState())
         );
 
-        SurfaceRules.RuleSource cloudFloorTwo = SurfaceRules.ifTrue(
-                SurfaceRules.not(SurfaceRules.verticalGradient("cloudfloortwo", VerticalAnchor.absolute(5), VerticalAnchor.absolute(10))),
+        SurfaceRules.RuleSource cloudRule = SurfaceRules.ifTrue(
+                SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.aboveBottom(2), VerticalAnchor.aboveBottom(5)),
                 SurfaceRules.state(MainBlocks.OTHERWORLD_CLOUD.get().defaultBlockState())
         );
 
         return SurfaceRules.sequence(
-                cloudFloorOne,
-                cloudFloorTwo
+                bedrockRule
         );
     }
 }

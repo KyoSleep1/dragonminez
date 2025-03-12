@@ -24,8 +24,8 @@ public class FriezaSoldier03Entity extends SoldierEntity{
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 250.0D)
+                .add(Attributes.MAX_HEALTH, 350.0D)
+                .add(Attributes.ATTACK_DAMAGE, 75.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
     }
 

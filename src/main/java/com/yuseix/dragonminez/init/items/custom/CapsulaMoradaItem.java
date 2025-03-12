@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.init.items.custom;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -47,7 +47,7 @@ public class CapsulaMoradaItem extends Item {
 				boolean isDmzUser = stats.getBoolean("dmzuser");
 				if (isDmzUser) {
 					int defense = stats.getStat("DEF"); // Defensa actual
-					int maxDefense = DMZGeneralConfig.MAX_ATTRIBUTE_VALUE.get(); // Máximo permitido
+					int maxDefense = DMZClientConfig.getMaxStats(); // Máximo permitido
 
 					if (defense < maxDefense) {
 						int increment = Math.min(5, maxDefense - defense); // Ajusta el incremento

@@ -26,14 +26,25 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -42,6 +53,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.w3c.dom.Attr;
 
 import java.util.*;
 
@@ -90,7 +103,9 @@ public class StatsEvents {
 					FormsData skill = new FormsData("dmz.dmzforms.super_form.name", 0);
 					playerstats.addFormSkill("super_form", skill);
 				}
-				Objects.requireNonNull(serverPlayer.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(dmzdatos.calcConstitution(playerstats));
+				if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != dmzdatos.calcConstitution(playerstats)) {
+					serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
+				}
 				// Tickhandler
 				tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);
 
@@ -120,7 +135,7 @@ public class StatsEvents {
 						// Consumo de Ki del Fly
 						tickHandler.manejarFlyConsume(playerstats, maxenergia, serverPlayer);
 
-						if (player.onGround() || !player.getFeetBlockState().isAir()) { // Desactivar vuelo si toca el suelo
+						if (player.onGround() && !player.getFeetBlockState().is(Blocks.WATER)) { // Desactivar vuelo si toca el suelo
 							flySkill.setActive(false);
 							if (!player.isCreative() && !player.isSpectator()) player.getAbilities().mayfly = false;
 							player.getAbilities().flying = false;
@@ -155,8 +170,27 @@ public class StatsEvents {
 				if (playerstats.getIntValue("babacooldown") > 0) playerstats.setIntValue("babacooldown", babaCooldown(playerstats.getIntValue("babacooldown")));
 				if (playerstats.getIntValue("babaalivetimer") > 0) playerstats.setIntValue("babaalivetimer", babaDuration(playerstats.getIntValue("babaalivetimer")));
 
+				AttributeInstance reachAttribute = serverPlayer.getAttribute(ForgeMod.ENTITY_REACH.get());
+				AttributeInstance blockReachAttribute = serverPlayer.getAttribute(ForgeMod.BLOCK_REACH.get());
+
+				if (playerstats.getStringValue("form").equals("oozaru") || playerstats.getStringValue("form").equals("giant")) {
+					if (reachAttribute != null && blockReachAttribute != null) {
+						if (reachAttribute.getBaseValue() != 7.0 && blockReachAttribute.getBaseValue() != 8.0) {
+							reachAttribute.setBaseValue(7.0);
+							blockReachAttribute.setBaseValue(8.0);
+						}
+					}
+				} else {
+					if (reachAttribute != null && blockReachAttribute != null) {
+						if (reachAttribute.getBaseValue() != 3.0 && blockReachAttribute.getBaseValue() != 4.5) {
+							reachAttribute.setBaseValue(3.0);
+							blockReachAttribute.setBaseValue(4.5);
+						}
+					}
+				}
+
 			} else {
-				serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+				if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != 20) serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
 			}
 
 			//Tiempo para reclamar una senzu
@@ -209,7 +243,7 @@ public class StatsEvents {
 	}
 
 	@SubscribeEvent
-	public static void Recibirdano(LivingHurtEvent event) {
+	public static void recibirDaño(LivingHurtEvent event) {
 
 		DMZDatos dmzdatos = new DMZDatos();
 
@@ -225,10 +259,11 @@ public class StatsEvents {
 					float danoDefault = event.getAmount(); // Capturamos el daño original
 
 					// Calcular el daño basado en la fuerza del atacante
+					float baseMCDamage = event.getAmount();
 					int maxDamage = dmzdatos.calcStrength(cap);
 
 					int staminacost = maxDamage / 12;
-					int danoKiWeapon = dmzdatos.calcKiPower(cap);
+					int danoKiWeapon = dmzdatos.calcKiPower(cap) / 2;
 					var ki_control = cap.hasSkill("ki_control");
 					var ki_manipulation = cap.hasSkill("ki_manipulation");
 					var meditation = cap.hasSkill("meditation");
@@ -236,7 +271,7 @@ public class StatsEvents {
 					int kiManipLevel = cap.getSkillLevel("ki_manipulation");
 					int maxKi = cap.getIntValue("maxenergy");
 					int currKi = cap.getIntValue("curenergy");
-					int staminaCost = maxDamage / 10;
+					int staminaCost = maxDamage / 5;
 
 					// Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
 					if (isDmzUser) {
@@ -256,12 +291,12 @@ public class StatsEvents {
 								if (cap.getIntValue("race") == 3) {
 									if (atacante.getHealth() < (cap.getIntValue("maxhealth") * 0.25)) {
 										float passiveBioAndroid = (float) DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get() / 100;
-										float lifesteal = adjustedDamage * passiveBioAndroid;
+										float lifesteal = (baseMCDamage + adjustedDamage) * passiveBioAndroid;
 										if (lifesteal < 1) lifesteal = 1;
 										atacante.heal(lifesteal);
 									} else if (atacante.getHealth() < (cap.getIntValue("maxhealth") * 0.50)) {
 										float passiveBioAndroid = (float) DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get() / 100;
-										float lifesteal = adjustedDamage * passiveBioAndroid;
+										float lifesteal = (baseMCDamage + adjustedDamage) * passiveBioAndroid;
 										if (lifesteal < 1) lifesteal = 1;
 										atacante.heal(lifesteal);
 									}
@@ -269,49 +304,51 @@ public class StatsEvents {
 								// Verificar si el atacante tiene algún arma de Ki activa, si las tiene, revisa su cantidad de Ki para hacer daño extra.
 								if (ki_control && ki_manipulation && meditation && is_kimanipulation) {
 									if (cap.getStringValue("kiweapon").equals("scythe")) {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 4)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.10);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 2) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.09);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											event.setAmount(baseMCDamage + danoFinal);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else if (cap.getStringValue("kiweapon").equals("trident")) {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 2)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.16);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.18);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											event.setAmount(baseMCDamage + danoFinal);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									} else {
-										float danoFinal = (float) (((adjustedDamage + ((float) danoKiWeapon / 8)) / 10) * (0.1 * kiManipLevel));
-										int kiCost = (int) (maxKi * 0.05);
+										float danoFinal = (float) (adjustedDamage + (((float) danoKiWeapon / 4) * (0.3 * kiManipLevel)));
+										int kiCost = (int) (maxKi * 0.045);
 										if (currKi > kiCost) {
-											event.setAmount(danoFinal);
-											if (!atacante.isCreative() || !atacante.isSpectator()) cap.removeIntValue("curenergy", kiCost);
+											event.setAmount(baseMCDamage + danoFinal);
+											if (!atacante.isCreative() || !atacante.isSpectator())
+												cap.removeIntValue("curenergy", kiCost);
 										} else {
-											event.setAmount(adjustedDamage);
+											event.setAmount(baseMCDamage + adjustedDamage);
 											sonidosGolpes(atacante);
 										}
 									}
 								} else {
-									event.setAmount(adjustedDamage);
+									event.setAmount(baseMCDamage + adjustedDamage);
 									sonidosGolpes(atacante);
 								}
 								// Descontar stamina del atacante
-								if (!atacante.isCreative() || !atacante.isSpectator()) {
+								if (!atacante.isCreative()) {
 									cap.removeIntValue("curstam", staminaToConsume);
 								}
 							} else {
 								// Daño por defecto si al atacante le falta stamina
-								event.setAmount(danoDefault);
+								event.setAmount(danoDefault + baseMCDamage);
 							}
-
 							// Si la entidad que recibe el daño es un jugador
 							if (event.getEntity() instanceof Player objetivo) {
 								DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
@@ -325,25 +362,24 @@ public class StatsEvents {
 								// Si golpeas a otra entidad (no jugador), aplica el daño máximo basado en la fuerza
 								event.setAmount(event.getAmount()); // Aplica tu máximo daño
 							}
-						} else {
-							// Aquí manejamos el caso donde el atacante no es un jugador
-							if (event.getEntity() instanceof Player objetivo) {
-								DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
-
-									int defObjetivo = dmzdatos.calcDefense(cap, objetivo);
-
-									// Restar la defensa del objetivo al daño
-									float danoFinal = event.getAmount() - defObjetivo;
-									event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
-								});
-							}
 						}
 					}
 				});
 			}
+		} else {
+			// Aquí manejamos el caso donde el atacante no es un jugador
+			if (event.getEntity() instanceof Player objetivo) {
+				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, objetivo).ifPresent(statsObjetivo -> {
+
+					int defObjetivo = dmzdatos.calcDefense(statsObjetivo, objetivo);
+
+					// Restar la defensa del objetivo al daño
+					float danoFinal = event.getAmount() - defObjetivo;
+					event.setAmount(Math.max(danoFinal, 1)); // Asegurarse de que al menos se haga 1 de daño
+				});
+			}
 		}
 	}
-
 
 	@SubscribeEvent
 	public static void livingFallEvent(LivingFallEvent event) {
@@ -522,7 +558,7 @@ public class StatsEvents {
 									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.2F);
+									event.setNewEyeHeight(6.7F);
 								}
 								break;
 							case "ssj1":
@@ -589,7 +625,7 @@ public class StatsEvents {
 									event.setNewEyeHeight(1.7F);
 								} else {
 									event.setNewSize(new EntityDimensions(2.3F, 7.2F, true));
-									event.setNewEyeHeight(6.2F);
+									event.setNewEyeHeight(6.7F);
 								}
 								break;
 							case "super_namek":
@@ -776,12 +812,10 @@ public class StatsEvents {
 		});
 	}
 
-	private static final double originalSpeed = 0.10000000149011612;
-
 	private static void setTurboSpeed(Player player, boolean enable) {
 		AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
 		if (speedAttribute == null) return;
-
+		double originalSpeed = speedAttribute.getBaseValue();
 		if (enable) {
 			speedAttribute.setBaseValue(originalSpeed + 0.06);
 		} else {
@@ -844,7 +878,7 @@ public class StatsEvents {
 		if (race == 0 && groupForm.equals("")) {
 			if (superFormLvl >= 1 && dmzForm.equals("base")) return "buffed";
 			if (superFormLvl >= 2 && dmzForm.equals("buffed")) return "full_power";
-			if (superFormLvl >= 3 && dmzForm.equals("full_power")) return "potential_unleashed";
+			if (superFormLvl >= 4 && dmzForm.equals("full_power")) return "potential_unleashed";
 		}
 		// Lógica de transformación para Saiyans
 		if (race == 1) {

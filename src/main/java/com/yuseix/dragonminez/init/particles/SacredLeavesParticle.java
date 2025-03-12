@@ -1,14 +1,19 @@
 package com.yuseix.dragonminez.init.particles;
 
+import com.yuseix.dragonminez.init.particles.particleoptions.AjissaLeavesParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.SacredLeavesParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
 public class SacredLeavesParticle extends TextureSheetParticle {
+	private final SpriteSet sprites; // Variable para almacenar el SpriteSet
+
 	protected SacredLeavesParticle(ClientLevel level, double x, double y, double z, SpriteSet texture, double xSpeed, double ySpeed, double zSpeed) {
 		super(level, x, y, z, xSpeed, ySpeed, zSpeed);
 
-		this.setSpriteFromAge(texture);
+		this.sprites = texture; // Asigna el SpriteSet a la variable
+		this.setSpriteFromAge(this.sprites); // Usa el SpriteSet para asignar la textura inicial
 
 		this.gravity = 0.1F; // Caída
 		this.friction = 0.98F; // Qué tan lejos va
@@ -23,6 +28,7 @@ public class SacredLeavesParticle extends TextureSheetParticle {
 	@Override
 	public void tick() {
 		super.tick();
+		this.setSpriteFromAge(this.sprites);
 		fadeOut();
 	}
 
@@ -35,7 +41,7 @@ public class SacredLeavesParticle extends TextureSheetParticle {
 		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 
-	public static class Provider implements ParticleProvider<SimpleParticleType> {
+	public static class Provider implements ParticleProvider<SacredLeavesParticleOptions> {
 		private final SpriteSet sprites;
 
 		public Provider(SpriteSet spriteSet) {
@@ -43,7 +49,7 @@ public class SacredLeavesParticle extends TextureSheetParticle {
 		}
 
 		@Override
-		public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+		public Particle createParticle(SacredLeavesParticleOptions type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 			return new SacredLeavesParticle(level, x, y, z, this.sprites, xSpeed, ySpeed, zSpeed);
 		}
 	}

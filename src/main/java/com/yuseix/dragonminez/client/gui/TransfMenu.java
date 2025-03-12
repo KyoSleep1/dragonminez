@@ -5,14 +5,13 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
-import com.yuseix.dragonminez.client.gui.cc.StorylineMenu;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.network.C2S.SuperFormsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.forms.FormsData;
+import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.utils.DMZDatos;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -62,7 +61,6 @@ public class TransfMenu extends Screen {
 	public void tick() {
 		super.tick();
 		botonesMenus();
-		botonesGroups();
 	}
 
 	@Override
@@ -70,11 +68,12 @@ public class TransfMenu extends Screen {
 		renderBackground(pGuiGraphics);
 		menuPanel(pGuiGraphics);
 		menuTransf(pGuiGraphics);
+		botonesGroups(pGuiGraphics);
 
 		super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTicks);
 	}
 
-	public void botonesGroups() {
+	public void botonesGroups(GuiGraphics guiGraphics) {
 		Player player = this.minecraft.player;
 
 		groupButtons.forEach(this::removeWidget);
@@ -88,25 +87,35 @@ public class TransfMenu extends Screen {
 
 			Map<String, FormsData> forms = cap.getAllDMZForms();
 			int raza = cap.getIntValue("race");
-			boolean buyableTP = DMZGeneralConfig.TRANSFORMATIONS_WITH_TP.get();
+			boolean buyableTP = false;
+			if (DMZClientConfig.getBuyableTP() == 1) buyableTP = true;
+
 
 			int startX = (this.width - 250) / 2 + 15;
+			int startY = (this.height - 168) / 2 + 45;
 			int offsetY = 13;
 
 			for (Map.Entry<String, FormsData> entry : forms.entrySet()) {
 				String formId = entry.getKey();
 				FormsData form = entry.getValue();
-				double mult = DMZGeneralConfig.MULTIPLIER_ZPOINTS_COST.get();
-				int formsCost = DMZGeneralConfig.TPCOST_TRANSFORMATIONS.get();
+				double mult = DMZClientConfig.getMultiplierZPoints();
+				int formsCost = DMZClientConfig.getTransfTPCost();
 
 				switch (formId) {
 					case "super_form":
 						if (this.infoMenu) {
 							switch (raza) {
-								case 0, 2, 3, 4, 5: // Human, Namekian, Cold Demon, Majin, todas son iguales pq "maxLevel" es 5 en todas.
+								case 0, 2, 3, 4, 5:
 									if (groupId.equals("superform")) {
 										int currentLevel = form.getLevel();
-										int maxLevel = 5;
+										int maxLevel = 6;
+										switch (raza) {
+											case 0 -> maxLevel = 4;
+											case 2 -> maxLevel = 4;
+											case 3 -> maxLevel = 4;
+											case 4 -> maxLevel = 6;
+											case 5 -> maxLevel = 6;
+										}
 
 										Map<Integer, Integer> levelCosts = Map.of(
 												1, (int) (formsCost * mult),
@@ -122,11 +131,13 @@ public class TransfMenu extends Screen {
 												int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE);
 
 												if (tps >= cost) {
-													upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, altoTexto -40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+													upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
 														ModMessages.sendToServer(new SuperFormsC2S("super_form", nextLevel));
 														ModMessages.sendToServer(new ZPointsC2S(1, cost));
 														this.removeWidget(upgradeButton);
 													}));
+												} else {
+													drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
 												}
 											}
 
@@ -134,13 +145,14 @@ public class TransfMenu extends Screen {
 											int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE);
 
 											if (tps >= cost) {
-												upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, altoTexto -40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+												upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
 													ModMessages.sendToServer(new SuperFormsC2S("super_form", nextLevel));
 													ModMessages.sendToServer(new ZPointsC2S(1, cost));
 													this.removeWidget(upgradeButton);
 												}));
+											} else {
+												drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
 											}
-
 										}
 									}
 									break;
@@ -166,11 +178,13 @@ public class TransfMenu extends Screen {
 												int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE);
 
 												if (tps >= cost) {
-													upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, altoTexto -40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+													upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
 														ModMessages.sendToServer(new SuperFormsC2S("super_form", nextLevel));
 														ModMessages.sendToServer(new ZPointsC2S(1, cost));
 														this.removeWidget(upgradeButton);
 													}));
+												} else {
+													drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
 												}
 											}
 
@@ -178,11 +192,13 @@ public class TransfMenu extends Screen {
 											int cost = levelCosts.getOrDefault(nextLevel, Integer.MAX_VALUE);
 
 											if (tps >= cost) {
-												upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, altoTexto -40, Component.translatable("dmz.skills.upgrade", cost), wa -> {
+												upgradeButton = (TextButton) this.addRenderableWidget(new TextButton(startX + 195, startY + 85, Component.translatable("dmz.skills.upgrade", cost), wa -> {
 													ModMessages.sendToServer(new SuperFormsC2S("super_form", nextLevel));
 													ModMessages.sendToServer(new ZPointsC2S(1, cost));
 													this.removeWidget(upgradeButton);
 												}));
+											} else {
+												drawStringWithBorder2(guiGraphics, this.font, Component.translatable("dmz.skills.upgrade", cost), startX + 210, startY + 85, 0xffc134);
 											}
 
 										}
@@ -193,12 +209,11 @@ public class TransfMenu extends Screen {
 						break;
 				}
 
-				startX = (this.width - 250) / 2 + 28;
-				int startY = (this.height - 168) / 2 + 30;
+				startY = (this.height - 168) / 2 + 31;
 
 				switch (raza) {
 					case 0, 2, 3, 4, 5:
-						CustomButtons buttonSF = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 2, Component.empty(), btn -> {
+						CustomButtons buttonSF = new CustomButtons("info", this.infoMenu ? startX + 205 - 72 : startX + 205, startY - 2, Component.empty(), btn -> {
 							this.infoMenu = !this.infoMenu;
 							this.groupId = "superform";
 						});
@@ -211,7 +226,7 @@ public class TransfMenu extends Screen {
 
 						}
 						if (form.getLevel() >= 0) {
-						CustomButtons buttonOozaru = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY - 2, Component.empty(), btn -> {
+						CustomButtons buttonOozaru = new CustomButtons("info", this.infoMenu ? startX + 205 - 72 : startX + 205, startY - 2, Component.empty(), btn -> {
 							this.infoMenu = !this.infoMenu;
 							this.groupId = "oozarus";
 						});
@@ -220,7 +235,7 @@ public class TransfMenu extends Screen {
 						groupButtons.add(buttonOozaru);
 					}
 						if (form.getLevel() >= 2) {
-							CustomButtons buttonSSG = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY + offsetY - 2, Component.empty(), btn -> {
+							CustomButtons buttonSSG = new CustomButtons("info", this.infoMenu ? startX + 205 - 72 : startX + 205, startY + offsetY - 2, Component.empty(), btn -> {
 								this.infoMenu = !this.infoMenu;
 								this.groupId = "ssgrades";
 							});
@@ -230,7 +245,7 @@ public class TransfMenu extends Screen {
 							groupButtons.add(buttonSSG);
 						}
 						if (form.getLevel() >= 5) {
-							CustomButtons buttonSSJ = new CustomButtons("info", this.infoMenu ? startX + 200 - 72 : startX + 200, startY + offsetY * 2 - 2, Component.empty(), btn -> {
+							CustomButtons buttonSSJ = new CustomButtons("info", this.infoMenu ? startX + 205 - 72 : startX + 205, startY + offsetY * 2 - 2, Component.empty(), btn -> {
 								this.infoMenu = !this.infoMenu;
 								this.groupId = "ssj";
 							});

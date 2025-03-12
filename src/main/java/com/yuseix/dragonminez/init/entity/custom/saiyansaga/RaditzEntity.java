@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -36,8 +37,8 @@ public class RaditzEntity extends SagaEntity {
 
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 80.0D)
+                .add(Attributes.MAX_HEALTH, 650.0D)
+                .add(Attributes.ATTACK_DAMAGE, 145.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F).build();
     }
 
@@ -146,7 +147,9 @@ public class RaditzEntity extends SagaEntity {
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));}
+        this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        this.targetSelector.addGoal(11, new HurtByTargetGoal(this));
+    }
 
     private void launchKiAttack() {
         LivingEntity target = this.getTarget();
@@ -172,7 +175,7 @@ public class RaditzEntity extends SagaEntity {
 
         kiBlast.setVelocidad(1.5f);
 
-        kiBlast.setDamage(80.0F);
+        kiBlast.setDamage(170.0F);
         kiBlast.setTamano(1.2f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

@@ -12,42 +12,31 @@ public class DMZDatos implements IDMZDatos{
 
     @Override
     public int calcStrength(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosTotal = majinDato * frutaDato;
-
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STR");
         double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
         // Fórmula = ((((1 + (StatSTR / 10)) * ConfigRaza) * (Transf * Efectos)) * (Porcentaje / 10))
-        return (int) Math.ceil((((1 + ((double) stats.getStat("STR") / 10)) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10));
+        return (int) Math.ceil((((1 + ((double) stats.getStat("STR") / 10)) * multRaza) * (multTransf * getEffectsMult(stats))) * ((double)stats.getIntValue("release")/10));
     }
 
     @Override
     public int calcDefense(DMZStatsAttributes stats, Player player) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        double efectosTotal = majinDato * frutaDato;
-
         int DefensaArmor = player.getArmorValue(); int DurezaArmor = Mth.floor(player.getAttributeValue(Attributes.ARMOR_TOUGHNESS));
         int armorTotal = (DefensaArmor + DurezaArmor) * 3;
 
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "DEF");
-        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
         // Fórmula = (((((StatDEF * ConfigRaza) * (Transf * Efectos)) * Porcentaje)) / 5) + ((DefensaArmor + DurezaArmor) * 3)
-        return (int) Math.ceil((((((double) stats.getStat("DEF") / 4) * multRaza) * (multTransf * efectosTotal)) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
+        return (int) Math.ceil((((((double) stats.getStat("DEF") / 3) * multRaza) * (multTransf * getEffectsMult(stats))) * ((double)stats.getIntValue("release")/10)) / 5)  + armorTotal;
     }
 
     @Override
     public int calcConstitution(DMZStatsAttributes stats) {
-
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "CON");
 
         // Fórmula = Math.round(20 + (1.2 * (StatCON * ConfigRaza)))
-        return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 2.0));
+        return (int) Math.round(20 + (1.2 * (stats.getStat("CON") * multRaza) * 8.0));
     }
 
     @Override
@@ -55,21 +44,16 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "STM");
 
         // Fórmula = Math.round((MaxCON * 0.85) * multRaza)
-        return (int) Math.round((stats.getIntValue("maxhealth") * 0.75) * multRaza);
+        return (int) Math.round((stats.getIntValue("maxhealth") * 0.20) * multRaza);
     }
 
     @Override
     public int calcKiPower(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin");boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosTotal = majinDato * frutaDato;
-
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "PWR");
-        double multTransf = getRaceStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Fórmula = Math.ceil((((StatPWR / 5) * ConfigRaza * (Transf * Efectos))/3) * (Porcentaje / 10))
-        return (int) Math.ceil(((((double) stats.getStat("PWR") / 5) * multRaza * (multTransf * efectosTotal))/3) * ((double)stats.getIntValue("release")/10));
+        return (int) Math.ceil(((((double) stats.getStat("PWR") / 2.5) * multRaza * (multTransf * getEffectsMult(stats)))/3) * ((double)stats.getIntValue("release")/10));
     }
 
     @Override
@@ -91,82 +75,56 @@ public class DMZDatos implements IDMZDatos{
         double multRaza = getRaceStats(stats.getIntValue("race"), stats.getStringValue("class"), "REGEN");
 
         // Fórmula = Math.ceil(EnergiaTotal * ConfigRaza)
-
         return (int) Math.ceil(stats.getStat("ENE") * multRaza);
     }
 
     @Override
     public double calcTotalMultiplier(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosTotal = majinDato * frutaDato;
-
-        double multiSTR = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-        double multiDEF = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-        double multiPWR = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multiSTR = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDEF = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiPWR = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         // Promedio, pq si se tiene x1 STR, x1 DEF y x1 PWR, debería ser x1 en Total y no x3
-        return ((multiSTR + multiDEF + multiPWR) / 3) * efectosTotal;
+        return ((multiSTR + multiDEF + multiPWR) / 3) * getEffectsMult(stats);
     }
 
     @Override
     public double calcStatMultiplier(DMZStatsAttributes stats, String stat) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosTotal = majinDato * frutaDato;
+        double multiTransf = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), stat);
 
-        double multiTransf = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), stat);
-
-        return multiTransf * efectosTotal;
+        return multiTransf * getEffectsMult(stats);
     }
 
     public double calcularMultiTransf(DMZStatsAttributes stats) {
-        double multiStr = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-        double multiDef = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-        double multiKiPower = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
+        double multiStr = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
+        double multiDef = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
+        double multiKiPower = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
         return (multiStr + multiDef + multiKiPower) / 3;
     }
 
     @Override
     public int calcMultipliedStrength(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosDato = majinDato * frutaDato;
+        double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
 
-        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "STR");
-
-        // Fórmula = (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getStat("STR") * multForma * efectosDato);
+        // Fórmula = (statStr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
+        return (int) (stats.getStat("STR") * multForma * getEffectsMult(stats));
     }
 
     @Override
     public int calcMultipliedDefense(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosDato = majinDato * frutaDato;
+        double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
 
-        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "DEF");
-
-        // Fórmula = (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getStat("DEF") * multForma * efectosDato);
+        // Fórmula = (statDef * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
+        return (int) (stats.getStat("DEF") * multForma * getEffectsMult(stats));
     }
 
     @Override
     public int calcMultipliedKiPower(DMZStatsAttributes stats) {
-        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
-        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
-        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
-        var efectosDato = majinDato * frutaDato;
+        double multForma = DMZClientConfig.getDMZStat(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
 
-        double multForma = getTransformationStats(stats.getIntValue("race"), stats.getStringValue("form"), "PWR");
-
-        // Fórmula = (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * efectosDato))
-        return (int) (stats.getStat("PWR") * multForma * efectosDato);
+        // Fórmula = (statPwr * (DMZTrHumanConfig.MULTIPLIER_BASE.get() * getEffectsMult(stats)))
+        return (int) (stats.getStat("PWR") * multForma * getEffectsMult(stats));
     }
 
     @Override
@@ -176,6 +134,15 @@ public class DMZDatos implements IDMZDatos{
 			case "Spiritualist" -> (int) Math.ceil((stats.getIntValue("maxenergy") * 0.12));
 			default -> 0;
 		};
+    }
+    
+    public double getEffectsMult(DMZStatsAttributes stats) {
+        boolean majinOn = stats.hasDMZPermaEffect("majin"); boolean mightfruit = stats.hasDMZTemporalEffect("mightfruit");
+        double majinDato = majinOn ? DMZGeneralConfig.MULTIPLIER_MAJIN.get() : 1; // 1 si no está activo para que no afecte
+        double frutaDato = mightfruit ? DMZGeneralConfig.MULTIPLIER_TREE_MIGHT.get() : 1;
+        double totalEffects = majinDato * frutaDato; // Agregar más efectos acá luego
+        
+        return totalEffects;
     }
 
     public double getRaceStats(int raza, String clase, String stat) {

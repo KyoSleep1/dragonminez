@@ -55,7 +55,6 @@ public class ResetCharacterCommand {
 
                 // Aplicar el porcentaje a las estadísticas
                 if (porcentaje == 0) {
-                    System.out.println("Reiniciando completamente las stats");
                     // Reiniciar completamente las stats
                     playerstats.setStat("STR", 5);
                     playerstats.setStat("DEF", 5);
@@ -63,7 +62,6 @@ public class ResetCharacterCommand {
                     playerstats.setStat("PWR", 5);
                     playerstats.setStat("ENE", 5);
                 } else {
-                    System.out.println("Reiniciando las stats al " + porcentaje + "%");
                     double factor = (100-porcentaje) / 100.0;
                     playerstats.setStat("STR", (int) (playerstats.getStat("STR") * factor));
                     System.out.println("STR FACTOR: " + (int) (playerstats.getStat("STR") * factor));

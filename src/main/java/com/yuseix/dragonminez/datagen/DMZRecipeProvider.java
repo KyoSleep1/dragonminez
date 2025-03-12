@@ -173,18 +173,6 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
                 .group("dragonminez").save(pWriter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, MainItems.NAVE_SAIYAN_ITEM.get(), 1)
-                .pattern("IRI")
-                .pattern("GCI")
-                .pattern("IOI")
-                .define('I', Items.IRON_BLOCK)
-                .define('R', Items.COMPARATOR)
-                .define('G', Items.RED_STAINED_GLASS_PANE)
-                .define('C', MainItems.T2_RADAR_CPU.get())
-                .define('O', Items.OBSERVER)
-                .unlockedBy(getHasName(Items.IRON_SWORD), has(Items.IRON_SWORD))
-                .group("dragonminez").save(pWriter);
-
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.RADAR_PIECE.get(), 1)
                 .pattern("SIS")
                 .pattern("IRI")

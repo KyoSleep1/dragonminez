@@ -224,10 +224,10 @@ public final class MainItems {
 
     //LÍQUIDOS
     public static final RegistryObject<Item> HEALING_BUCKET = ITEM_REGISTER.register("healing_liquid_bucket",
-            () -> new BucketItem(MainFluids.SOURCE_HEALING, properties.craftRemainder(Items.BUCKET).stacksTo(1)));
+            () -> new BucketItem(MainFluids.SOURCE_HEALING, properties.stacksTo(1)));
 
     public static final RegistryObject<Item> NAMEK_WATER_BUCKET = ITEM_REGISTER.register("namek_water_bucket",
-            () -> new BucketItem(MainFluids.SOURCE_NAMEK, properties.craftRemainder(Items.BUCKET).stacksTo(1)));
+            () -> new BucketItem(MainFluids.SOURCE_NAMEK, properties.stacksTo(1)));
 
     //MINERALES
     public static final RegistryObject<Item> GETE_SCRAP = regItem("gete_scrap");

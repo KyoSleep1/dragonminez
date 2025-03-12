@@ -17,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Map;
 
 public class PlayerHudOverlay implements RenderEntityInv {
@@ -31,6 +33,7 @@ public class PlayerHudOverlay implements RenderEntityInv {
 
     private static int displayedRelease = 0; // Valor que se mostrará en pantalla, inicializado en 0
     private static int releaseUpdateSpeed = 2 * (20); // Velocidad de actualización en ticks
+    static NumberFormat numberFormatter = NumberFormat.getInstance(Locale.US);
 
     public static final IGuiOverlay HUD_PLAYER = (forgeGui, guiGraphics, v, i, i1) -> {
         DMZDatos dmzdatos = new DMZDatos();
@@ -171,8 +174,11 @@ public class PlayerHudOverlay implements RenderEntityInv {
                 renderPermanentEffects(guiGraphics);
                 renderTempEffects(guiGraphics);
                 guiGraphics.pose().popPose();
+                String formattedHealth = numberFormatter.format(Math.round(Minecraft.getInstance().player.getHealth()));
+                String maxHP = numberFormatter.format(Math.round(maxVIDA));
+                String finalHP = (formattedHealth + " / " + maxHP);
 
-                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.literal(String.valueOf( (int) Math.round(Minecraft.getInstance().player.getHealth())) + "/" + (int) Math.round(maxVIDA)).withStyle(ChatFormatting.BOLD), 150, 14, 0xd8786b);
+                drawStringWithBorder(guiGraphics, Minecraft.getInstance().font, Component.literal(finalHP).withStyle(ChatFormatting.BOLD), 120, 14, 0xd8786b);
 
 
                 Component porcentaje = Component.empty();

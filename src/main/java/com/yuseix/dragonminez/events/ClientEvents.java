@@ -7,12 +7,14 @@ import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.init.MainParticles;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
-import com.yuseix.dragonminez.init.particles.particleoptions.KiLargeParticleOptions;
 import com.yuseix.dragonminez.init.particles.particleoptions.KiStarParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.AjissaLeavesParticleOptions;
+import com.yuseix.dragonminez.init.particles.particleoptions.SacredLeavesParticleOptions;
 import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
+import com.yuseix.dragonminez.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.skills.DMZSkill;
@@ -24,10 +26,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,6 +41,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashSet;
@@ -47,10 +51,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
+	private static int soundTimer = 200;
 	private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
 	private static final Random RANDOM = new Random();
-	private static final String title = "DragonMine Z v" + "1.2 - StoryMode and Skills!";
+	private static final String title = "DragonMine Z v" + "1.2.1 - StoryMode and Skills!";
 	private static boolean isDescending = false;
 
 	private static final int teleportTime = 5; // Segundos
@@ -101,6 +106,7 @@ public class ClientEvents {
 				double interpZ = Mth.lerp(event.getPartialTick(), player.zOld, player.getZ());
 
 				var poseStack = event.getPoseStack();
+				poseStack.pushPose();
 
 				boolean isLocalPlayer = player == minecraft.player;
 
@@ -111,7 +117,6 @@ public class ClientEvents {
 						var transf = cap.getStringValue("form");
 
 
-						poseStack.pushPose();
 						switch (raza){
 							case 1:
 								switch (transf){
@@ -201,11 +206,11 @@ public class ClientEvents {
 								break;
 						}
 						dmzRenderer.renderOnWorld((AbstractClientPlayer) player, 0, event.getPartialTick(), poseStack, minecraft.renderBuffers().bufferSource(), 15728880);
-						poseStack.popPose();
 
 					});
 
 				}
+				poseStack.popPose();
 
 
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
@@ -240,36 +245,60 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		Level level = mc.level;
 
-		if (level == null || mc.player == null || mc.isPaused() || mc.player.isSpectator()) {
-			return;
-		}
+		if (level == null || mc.player == null || mc.isPaused() || mc.player.isSpectator()) return;
+
 
 		for (Player player : level.players()) {
-			if (jugadoresConAura.contains(player.getGameProfile().getName())) { // Reemplaza con el nombre correcto
-				// Obtener la capability del jugador
+			if (jugadoresConAura.contains(player.getGameProfile().getName())) {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(capability -> {
-					if (capability.getBoolean("aura")) { // Si la aura está activa
-						int color = 16763441; // Color rojo (puedes cambiarlo)
+					if (capability.getBoolean("aura") || capability.getBoolean("turbo")) {
+						int color = 16763441;
 
-						// Generar partículas visibles para todos
-						for (int i = 0; i < 5; i++) { // Genera múltiples partículas
+						for (int i = 0; i < 5; i++) {
 							level.addParticle(new KiStarParticleOptions(color),
 									player.getX() + (Math.random() - 0.5) * 3.5,
 									player.getY() + Math.random() * 3,
 									player.getZ() + (Math.random() - 0.5) * 3.5,
 									0, 0.1, 0);
 						}
+
+
 					}
+
 				});
 			}
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
+				if (cap.getBoolean("aura") || cap.getBoolean("turbo")) {
+					if (player.onGround()) {
+						for (int i = 0; i < 5; i++) {
+							double angle = i * ((2 * Math.PI) / 3);
+							double x = player.getX() + 1.5 * Math.cos(angle);
+							double z = player.getZ() + 1.5 * Math.sin(angle);
+
+							double y = player.getY() + 0.2;
+
+							double xSpeed = (Math.random() - 0.5) * 0.02;
+							double zSpeed = (Math.random() - 0.5) * 0.02;
+
+							level.addParticle(MainParticles.DUST_PARTICLE.get(), x, y, z, xSpeed, 0, zSpeed);
+						}
+					}
+				}
+				if (cap.getBoolean("transform")) {
+					if (player.onGround()) {
+						for (int i = 0; i < 1; i++) {
+							double xSpeed = (Math.random() - 0.5) * 0.02;
+							double ySpeed = Math.random() * 0.01;
+							double zSpeed = (Math.random() - 0.5) * 0.02;
+
+							level.addParticle(MainParticles.ROCK_PARTICLE.get(), player.getX(), player.getY() + 0.6, player.getZ(), xSpeed, ySpeed, zSpeed);
+						}
+					}
+				}
+			});
 		}
 
-		// Frecuencia de generación (una vez cada 10 ticks)
-		if (level.getGameTime() % 10 != 0) {
-			return;
-		}
 
-		// Obtener posición y bioma
 		BlockPos playerPos = mc.player.blockPosition();
 		ResourceKey<Biome> currentBiomeKey = level.registryAccess()
 				.registryOrThrow(Registries.BIOME)
@@ -280,11 +309,17 @@ public class ClientEvents {
 
 		if (playerPos.getY() > 140 || playerPos.getY() < 62) return;
 
-		// Genera partículas dependiendo del bioma
+		double x = playerPos.getX() + RANDOM.nextDouble() * 16 - 8;
+		double y = playerPos.getY() + RANDOM.nextDouble() * 6;
+		double z = playerPos.getZ() + RANDOM.nextDouble() * 16 - 8;
+		double xSpeed = (RANDOM.nextDouble() - 0.5) * 0.02;
+		double ySpeed = RANDOM.nextDouble() * 0.01;
+		double zSpeed = (RANDOM.nextDouble() - 0.5) * 0.02;
+		
 		if (currentBiomeKey.equals(ModBiomes.AJISSA_PLAINS)) {
-			spawnParticles(level, MainParticles.AJISSA_LEAVES_PARTICLE.get(), playerPos);
+			level.addParticle(new AjissaLeavesParticleOptions(55265), x, y, z, xSpeed, ySpeed, zSpeed);
 		} else if (currentBiomeKey.equals(ModBiomes.SACRED_LAND)) {
-			spawnParticles(level, MainParticles.SACRED_LEAVES_PARTICLE.get(), playerPos);
+			level.addParticle(new SacredLeavesParticleOptions(10663616), x, y, z, xSpeed, ySpeed, zSpeed);
 		}
 	}
 
@@ -391,6 +426,16 @@ public class ClientEvents {
 			if (cap.getBoolean("kaioplanet")) {
 				isKaioAvailable.set(true);
 			}
+
+			if (cap.getStringValue("form").equals("oozaru")) {
+				soundTimer--;
+				if (soundTimer == 0) {
+					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
+				} else if (soundTimer < 0) {
+					Random random = new Random();
+					soundTimer = random.nextInt(200) + 400;
+				}
+			}
 		});
 
 		if (player.isPassenger() && player.getVehicle() instanceof NaveSaiyanEntity) {
@@ -446,25 +491,19 @@ public class ClientEvents {
 		}
 	}
 
-	private static void spawnParticles(Level level, SimpleParticleType particleType, BlockPos playerPos) {
-		// Generar partículas alrededor del jugador
-		int cantParticulas = 6;
-		for (int i = 0; i < cantParticulas; i++) { // Cantidad
-			double x = playerPos.getX() + RANDOM.nextDouble() * 16 - 8; // Rango: -8 a +8 bloques
-			double y = playerPos.getY() + RANDOM.nextDouble() * 6;      // Rango: hasta 6 bloques arriba
-			double z = playerPos.getZ() + RANDOM.nextDouble() * 16 - 8; // Rango: -8 a +8 bloques
-
-			double xSpeed = (RANDOM.nextDouble() - 0.5) * 0.02; // Velocidad lateral mínima
-			double ySpeed = RANDOM.nextDouble() * 0.01;         // Velocidad vertical lenta
-			double zSpeed = (RANDOM.nextDouble() - 0.5) * 0.02; // Velocidad lateral mínima
-
-			level.addParticle(particleType, x, y, z, xSpeed, ySpeed, zSpeed);
-		}
-	}
-
 	public static void setTeleporting(boolean teleporting, int planeta) {
 		isTeleporting = teleporting;
 		planetaObjetivo = planeta;
 		teleportCountdown = teleportTime;
+	}
+
+	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+			LocalPlayer player = Minecraft.getInstance().player;
+			if (player != null) {
+				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
+						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
+			}
+		});
 	}
 }

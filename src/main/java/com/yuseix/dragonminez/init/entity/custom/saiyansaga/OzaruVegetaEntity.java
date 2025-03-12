@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -31,7 +32,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -57,8 +61,11 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
 
     public static AttributeSupplier setAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 80.0D)
+                .add(Attributes.MAX_HEALTH, 3500.0D)
+                .add(Attributes.ATTACK_DAMAGE, 450.0D)
+                .add(ForgeMod.ENTITY_REACH.get(), 12.0D)
+                .add(Attributes.ATTACK_KNOCKBACK, 3.5D)
+                .add(Attributes.ATTACK_SPEED, 0.35D)
                 .add(Attributes.MOVEMENT_SPEED, 0.5F).build();
     }
 
@@ -122,7 +129,6 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
                 player.sendSystemMessage(Component.translatable("entity.dragonminez.saga_vegetaozaru.die_line"));
-                playSoundOnce(MainSounds.VEGETA_OOZARU_DEATH.get());
             }
         }
 
@@ -143,20 +149,18 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         for (Player player : serverLevel.players()) {
             if (player.distanceTo(this) <= 15) {
                 player.sendSystemMessage(Component.translatable(selectedPhrase));
-                playSoundOnce(MainSounds.VEGETA_OOZARU_GROWL.get());
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    private static void playSoundOnce(SoundEvent soundEvent) {
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            LocalPlayer player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
-                        soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-            }
-        });
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return MainSounds.VEGETA_OOZARU_GROWL.get();
+    }
+
+    @Override
+    protected @NotNull SoundEvent getDeathSound() {
+        return MainSounds.VEGETA_OOZARU_DEATH.get();
     }
 
     @Override
@@ -171,7 +175,9 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
         this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));
         this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-        this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));}
+        this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+        this.targetSelector.addGoal(11, new HurtByTargetGoal(this));
+    }
 
     private void launchKiAttack() {
         LivingEntity target = this.getTarget();
@@ -197,7 +203,7 @@ public class OzaruVegetaEntity extends SagaEntity implements GeoEntity {
 
         kiBlast.setVelocidad(1.2f);
 
-        kiBlast.setDamage(80.0F);
+        kiBlast.setDamage(950.0F);
         kiBlast.setTamano(3.5f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

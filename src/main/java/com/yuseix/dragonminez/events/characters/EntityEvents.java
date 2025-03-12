@@ -58,7 +58,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
 public class EntityEvents {
-	private static int soundTimer = 200;
 
 	@SubscribeEvent
 	public static void mobDeath(LivingDeathEvent event) {
@@ -101,7 +100,7 @@ public class EntityEvents {
 		if (esEnemigo(event.getEntity())) {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
-				var vidaTps = (int) (event.getEntity().getMaxHealth() * 0.5); // 50% hp enemigo
+				var vidaTps = (int) (event.getEntity().getMaxHealth() * DMZGeneralConfig.PERKILL_ZPOINTS_GAIN.get());
 				var calculoTps = (int) Math.round((10 + vidaTps) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_GAIN.get()); // (10 + 50% hp) * config
 
 				// multiplicar si está en la hab del tiempo pes
@@ -132,6 +131,17 @@ public class EntityEvents {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.removePermanentEffect("majin");
 			});
+
+			LivingEntity killer = null;
+			if (event.getSource().getEntity() instanceof LivingEntity) killer = (LivingEntity) event.getSource().getEntity();
+
+			String deathMessage = getCustomDeathMessage(killer);
+			if (deathMessage != null) {
+				String playerName = player.getDisplayName().getString();
+				String killerName = getEntityName(killer);
+				player.getCommandSenderWorld().players().forEach(p -> p.sendSystemMessage(Component.translatable(deathMessage, playerName, killerName)));
+				event.setCanceled(true);
+			}
 		}
 	}
 
@@ -161,34 +171,6 @@ public class EntityEvents {
                     player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
                     else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
 			});
-		}
-
-		// Reducir durabilidad armadura de 1 en 1 xd
-		LivingEntity entity = event.getEntity();
-
-		// No verifico que sea un jugador para que funcione en zombies, npcs, etc que utilice armaduras y no se les haga instabreak
-
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() == EquipmentSlot.Type.ARMOR) continue;
-
-			ItemStack armorStack = entity.getItemBySlot(slot);
-
-			if (armorStack.getItem() instanceof ArmorItem) {
-				int unbreakingLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, entity);
-
-				if (unbreakingLevel > 0) {
-					// Usar un número aleatorio para verificar si el daño se aplica
-					Random rand = new Random();
-					// La probabilidad es 1/(unbreakingLevel + 1) de que no se aplique el daño
-					if (rand.nextInt(unbreakingLevel + 1) != 0) {
-						// Si el número aleatorio no es 0, aplicar el daño
-						armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
-					}
-				} else {
-					// Si no tiene el encantamiento, aplicar el daño directamente
-					armorStack.hurtAndBreak(1, entity, (e) -> e.broadcastBreakEvent(slot));
-				}
-			}
 		}
 	}
 
@@ -261,19 +243,6 @@ public class EntityEvents {
 			});
 		}
 
-
-		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-			if (cap.getStringValue("form").equals("oozaru")) {
-				soundTimer--;
-				if (soundTimer == 0) {
-					reproducirSonidoIdle(MainSounds.OOZARU_GROWL_PLAYER.get());
-				} else if (soundTimer < 0) {
-					Random random = new Random();
-					soundTimer = random.nextInt(200) + 400;
-				}
-			}
-		});
-
 		FluidState fluidState = player.level().getFluidState(player.blockPosition());
 
 		if (fluidState.isEmpty()) {
@@ -305,6 +274,38 @@ public class EntityEvents {
 		}
 	}
 
+	private static String getCustomDeathMessage(LivingEntity killer) {
+		if (killer != null) {
+			return switch (killer.getType().toString()) {
+				case "entity.dragonminez.redribbon_soldier" -> "dmz.deathmessage.redribbon";
+				case "entity.dragonminez.namek_warrior01", "entity.dragonminez.namek_warrior02" -> "dmz.deathmessage.namekwarrior";
+				case "entity.dragonminez.soldier01", "entity.dragonminez.soldier02", "entity.dragonminez.soldier03" -> "dmz.deathmessage.soldier";
+				case "entity.dragonminez.saga_raditz" -> "dmz.deathmessage.raditz";
+				case "entity.dragonminez.saibaman", "entity.dragonminez.kaiwareman", "entity.dragonminez.kyukonman",
+					 "entity.dragonminez.copyman", "entity.dragonminez.tennenman", "entity.dragonminez.jinkouman"  -> "dmz.deathmessage.saibaman";
+				case "entity.dragonminez.saga_nappa" -> "dmz.deathmessage.nappa";
+				case "entity.dragonminez.saga_vegeta" -> "dmz.deathmessage.vegeta";
+				case "entity.dragonminez.saga_vegetaozaru" -> "dmz.deathmessage.vegetaozaru";
+				default -> null;
+			};
+		} else return null;
+
+	}
+
+	private static String getEntityName(LivingEntity killer) {
+		if (killer != null) {
+			return switch (killer.getType().toString()) {
+				case "entity.dragonminez.saibaman" -> "Saibaman";
+				case "entity.dragonminez.kaiwareman" -> "Kaiwareman";
+				case "entity.dragonminez.kyukonman" -> "Kyukonman";
+				case "entity.dragonminez.copyman" -> "Copyman";
+				case "entity.dragonminez.tennenman" -> "Tennenman";
+				case "entity.dragonminez.jinkouman" -> "Jinkouman";
+				default -> null;
+			};
+		} else return null;
+	}
+
 	private static void funcLiqCurativo(Player player) {
 		if (player instanceof ServerPlayer serverPlayer) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, serverPlayer).ifPresent(stats -> {
@@ -332,17 +333,6 @@ public class EntityEvents {
 		if (player.isOnFire()) {
 			player.clearFire();
 		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void reproducirSonidoIdle(SoundEvent soundEvent) {
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			LocalPlayer player = Minecraft.getInstance().player;
-			if (player != null) {
-				player.level().playLocalSound(player.getX(), player.getY(), player.getZ(),
-						soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F, false);
-			}
-		});
 	}
 }
 

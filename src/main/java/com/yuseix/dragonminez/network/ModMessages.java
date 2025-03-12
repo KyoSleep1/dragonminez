@@ -204,6 +204,11 @@ public class ModMessages {
 				.decoder(StorySyncS2C::new)
 				.consumerMainThread(StorySyncS2C::handle)
 				.add();
+		net.messageBuilder(PacketSyncConfig.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+				.encoder(PacketSyncConfig::toBytes)
+				.decoder(PacketSyncConfig::new)
+				.consumerMainThread(PacketSyncConfig::handle)
+				.add();
 	}
 
 	//Manda un paquete al Servidor (message no es un mensaje, es un paquete)

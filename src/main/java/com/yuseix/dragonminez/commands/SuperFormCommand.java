@@ -126,9 +126,6 @@ public class SuperFormCommand {
 					default -> 6;
 				};
 
-				System.out.println("Max level: " + maxLevel);
-				System.out.println("Race: " + playerstats.getIntValue("race"));
-
 				int finalLevel = Math.max(1, Math.min(level, maxLevel));
 
 				FormsData skill = new FormsData("dmz.dmzforms." + skillName + ".name",

@@ -32,8 +32,8 @@ public class SaibamanEntity extends SagaEntity {
 
 	public static AttributeSupplier setAttributes() {
 		return Mob.createMobAttributes()
-				.add(Attributes.MAX_HEALTH, 1000.0D)
-				.add(Attributes.ATTACK_DAMAGE, 80.0D)
+				.add(Attributes.MAX_HEALTH, 750.0D)
+				.add(Attributes.ATTACK_DAMAGE, 105.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.28F).build();
 	}
 
@@ -68,7 +68,6 @@ public class SaibamanEntity extends SagaEntity {
 
 		// Buscar jugadores en un radio de 15 bloques
 		String entityName = this.getName().getString();
-		DebugUtils.dmzLog(entityName);
 		for (Player player : serverLevel.players()) {
 			if (player.distanceTo(this) <= 15) {
 				switch (entityName.toLowerCase(Locale.ROOT)) {
