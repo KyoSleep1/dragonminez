@@ -385,13 +385,13 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
                     List<FormattedCharSequence> descLines = font.split(descText, 250);
                     descriptionLines.addAll(descLines);
 
-                    if (statKey.equals("STR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    if (statKey.equals("STR") && multiTotal > 1 || statKey.equals("STR") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(strdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(strcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("DEF") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    } else if (statKey.equals("DEF") && multiTotal > 1 || statKey.equals("DEF") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(defdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(defcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("PWR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    } else if (statKey.equals("PWR") && multiTotal > 1 || statKey.equals("PWR") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(kipowerdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(pwrcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     }
@@ -482,7 +482,7 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
             var KPWMax = dmzdatos.calcKiPower(playerstats);
             var enrMax = dmzdatos.calcEnergy(playerstats);
 
-            var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") ? 0xfebc0d : 0xFFD7AB;
+            var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") || playerstats.getIntValue("race") == 4 ? 0xfebc0d : 0xFFD7AB;
 
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto+15, alturaTexto, colorEnForma);
             drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto+15, alturaTexto + 12, colorEnForma);

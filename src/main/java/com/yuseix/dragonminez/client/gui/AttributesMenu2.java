@@ -278,7 +278,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //Efectos
             var majinOn = playerstats.hasDMZPermaEffect("majin"); var frutaOn = playerstats.hasDMZTemporalEffect("mightfruit");
 
-            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZClientConfig.getMultiplierZPoints() )) * DMZClientConfig.getMultiplierZPoints() ) * 1.5);
+            var baseCost =  (int) Math.round((((((strdefault + defdefault + condefault + kipowerdefault + energydefault) / 2) * DMZClientConfig.getMultiplierZPoints())) * DMZClientConfig.getMultiplierZPoints() ) * 1.5);
             int costoRecursivo = calcularCostoRecursivo(minStat, multiplicadorTP, baseCost, DMZClientConfig.getMaxStats());
 
             var strcompleta = dmzdatos.calcMultipliedStrength(playerstats);
@@ -290,7 +290,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var KIPOWERMulti = Math.round((dmzdatos.calcStatMultiplier(playerstats, "PWR")) * 100) / 100.0;
             var multiTotal = dmzdatos.calcTotalMultiplier(playerstats);
 
-            var isMultiOn = majinOn || frutaOn || !Objects.equals(transf, "base");
+            var isMultiOn = majinOn || frutaOn || !Objects.equals(transf, "base") || playerstats.getIntValue("race") == 4;
             var colorEnForma = isMultiOn ? 0xfebc0d : 0xFFD7AB;
 
 
@@ -360,13 +360,13 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     List<FormattedCharSequence> descLines = font.split(descText, 250);
                     descriptionLines.addAll(descLines);
 
-                    if (statKey.equals("STR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    if (statKey.equals("STR") && multiTotal > 1 || statKey.equals("STR") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(strdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(strcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("DEF") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    } else if (statKey.equals("DEF") && multiTotal > 1 || statKey.equals("DEF") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(defdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(defcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
-                    } else if (statKey.equals("PWR") && multiTotal > 1 || playerstats.getIntValue("race") == 4) {
+                    } else if (statKey.equals("PWR") && multiTotal > 1 || statKey.equals("PWR") && playerstats.getIntValue("race") == 4) {
                         descriptionLines.add(Component.translatable("stats.dmz.original", numberFormatter.format(kipowerdefault)).withStyle(ChatFormatting.RED).getVisualOrderText());
                         descriptionLines.add(Component.translatable("stats.dmz.modified", numberFormatter.format(pwrcompleta)).withStyle(ChatFormatting.GOLD).getVisualOrderText());
                     }
