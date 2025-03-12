@@ -343,6 +343,36 @@ public final class MainEntity {
 				MOTION_BLOCKING,
 				SoldierEntity::canSpawnHere,
 				REPLACE);
+		e.register(MainEntity.SAIBAMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
+		e.register(MainEntity.KAIWAREMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
+		e.register(MainEntity.KYUKONMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
+		e.register(MainEntity.COPYMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
+		e.register(MainEntity.TENNENMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
+		e.register(MainEntity.JINKOUMAN.get(),
+				ON_GROUND,
+				MOTION_BLOCKING,
+				SaibamanEntity::checkSaibaSpawnRules,
+				REPLACE);
 	}
 
 	public static void register(IEventBus bus) {

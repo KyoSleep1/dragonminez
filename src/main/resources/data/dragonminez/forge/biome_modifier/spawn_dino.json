@@ -9,7 +9,8 @@
     "minecraft:windswept_gravelly_hills",
     "minecraft:windswept_forest",
     "minecraft:savanna",
-    "minecraft:savanna_plateau"
+    "minecraft:savanna_plateau",
+    "dragonminez:rocky"
   ],
   "spawners": {
     "type": "dragonminez:dino",
