@@ -805,12 +805,10 @@ public class StatsEvents {
 		});
 	}
 
-	private static final double originalSpeed = 0.10000000149011612;
-
 	private static void setTurboSpeed(Player player, boolean enable) {
 		AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
 		if (speedAttribute == null) return;
-
+		double originalSpeed = speedAttribute.getBaseValue();
 		if (enable) {
 			speedAttribute.setBaseValue(originalSpeed + 0.06);
 		} else {

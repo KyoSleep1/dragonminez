@@ -131,6 +131,17 @@ public class EntityEvents {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 				cap.removePermanentEffect("majin");
 			});
+
+			LivingEntity killer = null;
+			if (event.getSource().getEntity() instanceof LivingEntity) killer = (LivingEntity) event.getSource().getEntity();
+
+			String deathMessage = getCustomDeathMessage(killer);
+			if (deathMessage != null) {
+				String playerName = player.getDisplayName().getString();
+				String killerName = getEntityName(killer);
+				player.getCommandSenderWorld().players().forEach(p -> p.sendSystemMessage(Component.translatable(deathMessage, playerName, killerName)));
+				event.setCanceled(true);
+			}
 		}
 	}
 
@@ -289,6 +300,38 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	private static String getCustomDeathMessage(LivingEntity killer) {
+		if (killer != null) {
+			return switch (killer.getType().toString()) {
+				case "entity.dragonminez.redribbon_soldier" -> "dmz.deathmessage.redribbon";
+				case "entity.dragonminez.namek_warrior01", "entity.dragonminez.namek_warrior02" -> "dmz.deathmessage.namekwarrior";
+				case "entity.dragonminez.soldier01", "entity.dragonminez.soldier02", "entity.dragonminez.soldier03" -> "dmz.deathmessage.soldier";
+				case "entity.dragonminez.saga_raditz" -> "dmz.deathmessage.raditz";
+				case "entity.dragonminez.saibaman", "entity.dragonminez.kaiwareman", "entity.dragonminez.kyukonman",
+					 "entity.dragonminez.copyman", "entity.dragonminez.tennenman", "entity.dragonminez.jinkouman"  -> "dmz.deathmessage.saibaman";
+				case "entity.dragonminez.saga_nappa" -> "dmz.deathmessage.nappa";
+				case "entity.dragonminez.saga_vegeta" -> "dmz.deathmessage.vegeta";
+				case "entity.dragonminez.saga_vegetaozaru" -> "dmz.deathmessage.vegetaozaru";
+				default -> null;
+			};
+		} else return null;
+
+	}
+
+	private static String getEntityName(LivingEntity killer) {
+		if (killer != null) {
+			return switch (killer.getType().toString()) {
+				case "entity.dragonminez.saibaman" -> "Saibaman";
+				case "entity.dragonminez.kaiwareman" -> "Kaiwareman";
+				case "entity.dragonminez.kyukonman" -> "Kyukonman";
+				case "entity.dragonminez.copyman" -> "Copyman";
+				case "entity.dragonminez.tennenman" -> "Tennenman";
+				case "entity.dragonminez.jinkouman" -> "Jinkouman";
+				default -> null;
+			};
+		} else return null;
 	}
 
 	private static void funcLiqCurativo(Player player) {

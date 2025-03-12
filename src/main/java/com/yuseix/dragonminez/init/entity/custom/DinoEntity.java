@@ -1,8 +1,6 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
-import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
@@ -14,7 +12,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
@@ -23,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.common.ForgeMod;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -42,22 +39,17 @@ public class DinoEntity extends Monster implements GeoEntity {
 
 	public static AttributeSupplier setAttributes() {
 		return Monster.createMobAttributes()
-				.add(Attributes.MAX_HEALTH, 50.0D)
-				.add(Attributes.ATTACK_DAMAGE, 10.5f)
+				.add(Attributes.MAX_HEALTH, 75.0D)
+				.add(Attributes.ATTACK_DAMAGE, 40.0f)
 				.add(Attributes.ATTACK_SPEED, 1.0f)
+				.add(ForgeMod.ENTITY_REACH.get(), 3.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.22F).build();
 	}
 
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
-		this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false) {
-			@Override
-			protected double getAttackReachSqr(LivingEntity pAttackTarget) {
-				// Ajusta el valor para el rango de ataque
-				return 4.0D;  // 4 bloques de rango
-			}
-		});
+		this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
 		this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 

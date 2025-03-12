@@ -43,8 +43,8 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
 
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 1000.0D)
-                .add(Attributes.ATTACK_DAMAGE, 50.0D)
+                .add(Attributes.MAX_HEALTH, 350.0D)
+                .add(Attributes.ATTACK_DAMAGE, 75.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
     }
 
@@ -196,7 +196,7 @@ public class FriezaSoldierEntity extends SoldierEntity implements GeoEntity, Ran
 
         kiBlast.setVelocidad(0.7f);
 
-        kiBlast.setDamage(80.0F);
+        kiBlast.setDamage(130.0F);
         kiBlast.setTamano(0.7f);
 
         // Configura la posición inicial del proyectil en el nivel de los ojos del lanzador

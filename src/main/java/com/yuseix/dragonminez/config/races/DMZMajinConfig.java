@@ -76,13 +76,13 @@ public class DMZMajinConfig {
         BUILDER.push(" WARRIOR CLASS INITIAL STATS");
 
         INITIAL_STR_WARRIOR = BUILDER.comment("Initial Strenght Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
-                .defineInRange("STR: ", 5, 1, 200);
+                .defineInRange("STR: ", 15, 1, 200);
 
         INITIAL_DEF_WARRIOR = BUILDER.comment("Initial Defense Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
-                .defineInRange("DEF: ", 5, 1, 200);
+                .defineInRange("DEF: ", 10, 1, 200);
 
         INITIAL_CON_WARRIOR = BUILDER.comment("Initial Constitution Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
-                .defineInRange("CON: ", 5, 1, 200);
+                .defineInRange("CON: ", 10, 1, 200);
 
         INITIAL_KIPWR_WARRIOR = BUILDER.comment("Initial Ki Power Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("PWR: ", 5, 1, 200);

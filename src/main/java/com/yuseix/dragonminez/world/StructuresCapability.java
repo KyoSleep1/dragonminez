@@ -389,8 +389,8 @@ public class StructuresCapability {
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
             while(posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
-                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
+                int x = spawnPos.getX() + random.nextInt(3000) - 1500;
+                int z = spawnPos.getZ() + random.nextInt(3000) - 1500;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 
@@ -454,8 +454,8 @@ public class StructuresCapability {
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
             while(posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
-                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
+                int x = spawnPos.getX() + random.nextInt(3000) - 1500;
+                int z = spawnPos.getZ() + random.nextInt(3000) - 1500;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 
@@ -514,8 +514,8 @@ public class StructuresCapability {
             BlockPos posicionValida = new BlockPos(0, 0, 0);
 
             while(posicionValida.equals(new BlockPos(0, 0, 0))) {
-                int x = spawnPos.getX() + random.nextInt(4000) - 2000;
-                int z = spawnPos.getZ() + random.nextInt(4000) - 2000;
+                int x = spawnPos.getX() + random.nextInt(3000) - 1500;
+                int z = spawnPos.getZ() + random.nextInt(3000) - 1500;
 
                 level.getChunk(x >> 4, z >> 4); // Carga el chunk
 

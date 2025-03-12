@@ -28,8 +28,8 @@ public class RedRibbonSoldierEntity extends SoldierEntity {
     }
     public static AttributeSupplier setAttributes() {
         return Monster.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 80.0D)
-                .add(Attributes.ATTACK_DAMAGE, 15.0D)
+                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.ATTACK_DAMAGE, 45.0D)
                 .add(Attributes.ATTACK_SPEED, 1.5D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F).build();
     }

@@ -239,7 +239,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 int razas = razasInt[i];
                 int color = colors[i];
                 if (raza == razas) {
-                    drawStringWithBorder(guiGraphics, font, Component.translatable("dmz.races.name." + razaActual), anchoTexto, alturaTexto, color);
+                    drawStringWithBorder(guiGraphics, font, Component.translatable("dmz.races.name." + razaActual), anchoTexto+2, alturaTexto, color);
                 }
             }
         });
@@ -259,12 +259,12 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             drawStringWithBorder2(graphics, font, Component.literal(numberFormatter.format(TPS)), anchoTexto, alturaTexto + 11, 0xFFE593);
 
             //FORMA
-            drawStringWithBorder2(graphics, font, Component.translatable(obtenerFormaLang(playerstats.getStringValue("form"), playerstats.getIntValue("race"), playerstats.getStringValue("gender"))), anchoTexto, alturaTexto + 22, 0xC7EAFC);
+            drawStringWithBorder2(graphics, font, Component.translatable(obtenerFormaLang(playerstats.getStringValue("form"), playerstats.getIntValue("race"), playerstats.getStringValue("gender"))), anchoTexto+4, alturaTexto + 22, 0xC7EAFC);
             //Clase
             if(clase.equals("warrior")){
-                drawStringWithBorder2(graphics, font,Component.literal("Warrior"), anchoTexto, alturaTexto + 33, 0xFC4E2B);
+                drawStringWithBorder2(graphics, font,Component.translatable("gui.dmz.stats.warrior"), anchoTexto, alturaTexto + 33, 0xFC4E2B);
             }else {
-                drawStringWithBorder2(graphics, font,Component.literal("Spiritualist"), anchoTexto, alturaTexto + 33, 0x2BFCFC);
+                drawStringWithBorder2(graphics, font,Component.translatable("gui.dmz.stats.spiritualist"), anchoTexto, alturaTexto + 33, 0x2BFCFC);
             }
 
             var strdefault = playerstats.getStat("STR"); var defdefault = playerstats.getStat("DEF"); var condefault = playerstats.getStat("CON");
@@ -314,8 +314,8 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             //Titulos
             anchoTexto = (this.width / 2) - 110; alturaTexto = (this.height / 2) - 64;
 
-            graphics.drawString(font, Component.literal("Form:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 22, 0xD7FEF5);
-            graphics.drawString(font, Component.literal("Class:").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 33, 0xD7FEF5);
+            graphics.drawString(font, Component.translatable("gui.dmz.stats.form").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 22, 0xD7FEF5);
+            graphics.drawString(font, Component.translatable("gui.dmz.stats.class").withStyle(ChatFormatting.BOLD),anchoTexto, alturaTexto + 33, 0xD7FEF5);
 
             String[] stats = { "Level", "TPs", "STR", "DEF", "CON", "PWR", "ENE", "TPC"};
             int[] colors = { 0xD7FEF5, 0xD7FEF5, 0xD71432, 0xD71432, 0xD71432, 0xD71432, 0xD71432, 0x2BFFE2};
@@ -340,9 +340,15 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                     anchoTexto = (this.width/2)-95;
                 }
 
-                Component statComponent = Component.literal(statKey + ":")
-                        .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
-                graphics.drawString(font, statComponent, anchoTexto, yOffset, colores);
+                if (statKey.equals("Level")) {
+                    Component statComponent = Component.translatable("gui.dmz.stats.level")
+                            .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
+                    graphics.drawString(font, statComponent, anchoTexto, yOffset, colores);
+                } else {
+                    Component statComponent = Component.literal(statKey + ":")
+                            .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
+                    graphics.drawString(font, statComponent, anchoTexto, yOffset, colores);
+                }
 
                 if (mouseX >= anchoTexto - 10 && mouseX <= anchoTexto + 25 && mouseY >= yOffset && mouseY <= yOffset + font.lineHeight) {
                     List<FormattedCharSequence> descriptionLines = new ArrayList<>();
@@ -398,7 +404,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             anchoTexto = (this.width/2+2); alturaTexto = (this.height / 2) -37;
 
             //Information title
-            drawStringWithBorder2(graphics, font, Component.literal("STATISTICS"), anchoTexto, alturaTexto, 0xF91E64);
+            drawStringWithBorder2(graphics, font, Component.translatable("gui.dmz.stats.statistics"), anchoTexto, alturaTexto, 0xF91E64);
 
             //Titulos
             anchoTexto = (this.width/2+2); alturaTexto = (this.height / 2) -25;
@@ -410,8 +416,16 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 String statKey = stats[i];
                 int colores = colors[i];
                 int yOffset = alturaTexto + (i * 12);
-                // Dibujar textos Damage, Health, etc
-                Component statComponent = Component.literal(statKey + ":")
+                String statLang = "";
+                switch (statKey) {
+                    case "Damage" -> statLang = "gui.dmz.stats.damage";
+                    case "Defense" -> statLang = "gui.dmz.stats.defense";
+                    case "Health" -> statLang = "gui.dmz.stats.health";
+                    case "Stamina" -> statLang = "gui.dmz.stats.stamina";
+                    case "Ki Damage" -> statLang = "gui.dmz.stats.ki_damage";
+                    case "Max Ki" -> statLang = "gui.dmz.stats.max_ki";
+                }
+                Component statComponent = Component.translatable(statLang)
                         .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(colores)).withBold(true));
                 if (statKey.equals("Stamina")) {
                     graphics.drawString(font, statComponent, anchoTexto + 4, yOffset, colores);
@@ -444,14 +458,14 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var KPWMax = dmzdatos.calcKiPower(playerstats);
             var enrMax = dmzdatos.calcEnergy(playerstats);
 
-            var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") ? 0xfebc0d : 0xFFD7AB;
+            var colorEnForma = majinOn || frutaOn || !Objects.equals(transf, "base") || playerstats.getIntValue("race") == 4 ? 0xfebc0d : 0xFFD7AB;
 
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto, alturaTexto, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto, alturaTexto + 12, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(conMax)), anchoTexto, alturaTexto + 24, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(stmMax)), anchoTexto, alturaTexto + 36, 0xFFD7AB);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto, alturaTexto + 48, colorEnForma);
-            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto, alturaTexto + 60, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(strMax)), anchoTexto+8, alturaTexto, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(defMax)), anchoTexto+8, alturaTexto + 12, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(conMax)), anchoTexto+8, alturaTexto + 24, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(stmMax)), anchoTexto+8, alturaTexto + 36, 0xFFD7AB);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(KPWMax)), anchoTexto+8, alturaTexto + 48, colorEnForma);
+            drawStringWithBorder(graphics, font, Component.literal(numberFormatter.format(enrMax)), anchoTexto+8, alturaTexto + 60, 0xFFD7AB);
 
             var MultiTotal = Math.round((dmzdatos.calcTotalMultiplier(playerstats)) * 100) / 100.0;
 
@@ -460,7 +474,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
             var multiTransf = dmzdatos.calcularMultiTransf(playerstats);
             var anchoMulti = (this.width /2+2) - 3; var altoMulti = (this.height / 2) + 55;
 
-            Component statComponent = Component.literal("Multiplier:")
+            Component statComponent = Component.translatable("gui.dmz.stats.multiplier")
                     .setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xC51D1D)).withBold(true));
 
             graphics.drawString(font, statComponent, anchoMulti, altoMulti, 0xC51D1D);
@@ -479,7 +493,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
                 // Agregar más if luego para ver si está el Kaioken, etc, etc, etc.
                 graphics.renderTooltip(font, descriptionLines, mouseX, mouseY);
             }
-            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto-3, alturaTexto + 80, colorEnForma);
+            drawStringWithBorder2(graphics, font, Component.literal("x"+MultiTotal), anchoTexto+6, alturaTexto + 80, colorEnForma);
         });
     }
 
