@@ -194,13 +194,16 @@ public class ModBiomes {
 
     public static Biome rockyBiome(BootstapContext<Biome> context) {
         MobSpawnSettings.Builder spawnBuilder = new MobSpawnSettings.Builder();
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 15, 1, 4));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.SAIBAMAN.get(), 12, 1, 6));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.COPYMAN.get(), 12, 1, 6));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.KAIWAREMAN.get(), 12, 1, 6));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.KYUKONMAN.get(), 12, 1, 6));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.TENNENMAN.get(), 12, 1, 6));
-        spawnBuilder.addSpawn(MobCategory.AMBIENT, new MobSpawnSettings.SpawnerData(MainEntity.JINKOUMAN.get(), 12, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 120, 1, 4));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 120, 1, 4));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 120, 1, 4));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.DINO1.get(), 120, 1, 4));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.SAIBAMAN.get(), 110, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.COPYMAN.get(), 110, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.KAIWAREMAN.get(), 110, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.KYUKONMAN.get(), 110, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.TENNENMAN.get(), 110, 1, 6));
+        spawnBuilder.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MainEntity.JINKOUMAN.get(), 110, 1, 6));
 
         BiomeDefaultFeatures.desertSpawns(spawnBuilder);
 

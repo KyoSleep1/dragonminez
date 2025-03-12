@@ -2,14 +2,19 @@ package com.yuseix.dragonminez.init.entity.custom.saiyansaga;
 
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
+import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
 import com.yuseix.dragonminez.init.entity.goals.MoveToSurfaceGoal;
 import com.yuseix.dragonminez.utils.DebugUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -19,6 +24,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import java.util.Locale;
 
@@ -169,6 +176,18 @@ public class SaibamanEntity extends SagaEntity {
 		this.targetSelector.addGoal(8, new NearestAttackableTargetGoal<>(this, NamekianEntity.class, true));
 		this.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(this, Villager.class, true));
 		this.targetSelector.addGoal(10, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
+	}
+
+	@Override
+	public boolean checkSpawnRules(LevelAccessor pLevel, MobSpawnType pReason) {
+		return true;
+	}
+
+	public static boolean checkSaibaSpawnRules(EntityType<? extends SaibamanEntity> entity, ServerLevelAccessor world, MobSpawnType spawn, BlockPos pos, RandomSource random) {
+		if (world.getDifficulty() != Difficulty.PEACEFUL) {
+			return world.getBlockState(pos.below()).isValidSpawn(world, pos.below(), entity);
+		}
+		return false;
 	}
 
 
