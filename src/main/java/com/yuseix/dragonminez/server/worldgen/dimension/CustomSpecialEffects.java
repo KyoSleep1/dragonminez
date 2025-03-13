@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.server.worldgen.dimension;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -14,9 +15,9 @@ public class CustomSpecialEffects extends DimensionSpecialEffects {
 	/* NOTA: No hace falta hacer un runData cada vez que se modifique algo, nomás cerrar y abrir runClient.
 	 * Si agregamos nuevas dimensiones, es tan simple como copiar y pegar lo que hice con las ya existentes.
 	 */
-	public static final ResourceLocation NAMEK_EFFECTS = new ResourceLocation("dragonminez", "namek_effects");
-	public static final ResourceLocation OTHERWORLD_EFFECTS = new ResourceLocation("dragonminez", "otherworld_effects");
-	public static final ResourceLocation HTC_EFFECT = new ResourceLocation("dragonminez", "htc_effects");
+	public static final ResourceLocation NAMEK_EFFECTS = new ResourceLocation(Reference.MOD_ID, "namek_effects");
+	public static final ResourceLocation OTHERWORLD_EFFECTS = new ResourceLocation(Reference.MOD_ID, "otherworld_effects");
+	public static final ResourceLocation HTC_EFFECT = new ResourceLocation(Reference.MOD_ID, "htc_effects");
 
 	public CustomSpecialEffects(float cloudLevel, boolean hasGround, SkyType skyType, boolean forceBrightLightMap, boolean constantAmbientLight) {
 		super(cloudLevel, hasGround, skyType, forceBrightLightMap, constantAmbientLight);
