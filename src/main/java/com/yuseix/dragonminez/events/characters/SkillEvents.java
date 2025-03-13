@@ -1,9 +1,9 @@
 package com.yuseix.dragonminez.events.characters;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

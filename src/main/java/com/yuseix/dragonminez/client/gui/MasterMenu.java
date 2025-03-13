@@ -1,14 +1,13 @@
 package com.yuseix.dragonminez.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.MasterSkillsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZClientConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

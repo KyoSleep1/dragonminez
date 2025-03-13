@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.init.entity.custom;
 
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.Keys;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

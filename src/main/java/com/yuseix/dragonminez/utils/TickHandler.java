@@ -5,8 +5,8 @@ import com.yuseix.dragonminez.config.races.DMZMajinConfig;
 import com.yuseix.dragonminez.config.races.DMZNamekConfig;
 import com.yuseix.dragonminez.config.races.DMZSaiyanConfig;
 import com.yuseix.dragonminez.events.characters.StatsEvents;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.common.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 

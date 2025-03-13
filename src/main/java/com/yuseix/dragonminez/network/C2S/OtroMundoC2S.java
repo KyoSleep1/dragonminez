@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.DMZClientConfig;
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import net.minecraft.core.BlockPos;

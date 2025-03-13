@@ -1,8 +1,7 @@
 package com.yuseix.dragonminez.network.S2C;
 
 import com.yuseix.dragonminez.network.ClientPacketHandler;
-import com.yuseix.dragonminez.stats.forms.FormsData;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.common.stats.forms.FormsData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;

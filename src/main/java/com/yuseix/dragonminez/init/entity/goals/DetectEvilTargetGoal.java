@@ -1,8 +1,7 @@
 package com.yuseix.dragonminez.init.entity.goals;
 
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;

@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
 import com.yuseix.dragonminez.common.Reference;
@@ -15,13 +14,12 @@ import com.yuseix.dragonminez.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.network.C2S.PermaEffC2S;
 import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.skills.DMZSkill;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
 import com.yuseix.dragonminez.utils.DMZRenders;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
+import com.yuseix.dragonminez.server.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;

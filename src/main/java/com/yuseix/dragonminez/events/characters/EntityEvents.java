@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.events.characters;
 
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
@@ -9,11 +8,11 @@ import com.yuseix.dragonminez.events.StoryEvents;
 import com.yuseix.dragonminez.init.MainFluids;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.storymode.DMZQuest;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.storymode.DMZQuest;
+import com.yuseix.dragonminez.common.stats.storymode.DMZStoryCapability;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;

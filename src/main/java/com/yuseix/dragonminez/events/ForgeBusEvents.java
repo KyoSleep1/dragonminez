@@ -1,7 +1,6 @@
 package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.server.command.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
@@ -12,15 +11,15 @@ import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.storymode.DMZQuestProvider;
 import com.yuseix.dragonminez.utils.PlayerInventoryManager;
 import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
 import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
 import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;

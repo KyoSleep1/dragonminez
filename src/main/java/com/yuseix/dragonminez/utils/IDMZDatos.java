@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.stats.DMZStatsAttributes;
+import com.yuseix.dragonminez.common.stats.DMZStatsAttributes;
 import net.minecraft.world.entity.player.Player;
 
 public interface IDMZDatos {

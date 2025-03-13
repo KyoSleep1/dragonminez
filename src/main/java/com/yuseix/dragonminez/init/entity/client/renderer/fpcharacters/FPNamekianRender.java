@@ -1,13 +1,12 @@
 package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;

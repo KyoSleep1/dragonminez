@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.network.S2C;
 
 import com.yuseix.dragonminez.network.ClientPacketHandler;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
+import com.yuseix.dragonminez.common.stats.storymode.DMZStoryCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;

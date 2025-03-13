@@ -2,12 +2,11 @@ package com.yuseix.dragonminez.client.character.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainItems;
-import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
-import com.yuseix.dragonminez.stats.DMZStatsProvider;
+import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
+import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
