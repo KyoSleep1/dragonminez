@@ -46,34 +46,34 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
-                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("Reference.MOD_ID")
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group(Reference.MOD_ID)
                 .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
-                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("Reference.MOD_ID")
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group(Reference.MOD_ID)
                 .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
-                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("Reference.MOD_ID")
+                .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group(Reference.MOD_ID)
                 .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked_campfire"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get(), 1)
                 .pattern("##")
                 .define('#', MainBlocks.NAMEK_AJISSA_PLANKS.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_AJISSA_PLANKS.get()), has(MainBlocks.NAMEK_AJISSA_PLANKS.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_SACRED_PRESSURE_PLATE.get(), 1)
                 .pattern("##")
                 .define('#', MainBlocks.NAMEK_SACRED_PLANKS.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_SACRED_PLANKS.get()), has(MainBlocks.NAMEK_SACRED_PLANKS.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_SLAB.get(), 6)
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -81,20 +81,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_STONE_WALL.get(), 6)
                 .pattern("###")
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_STONE.get()), has(MainBlocks.NAMEK_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_SLAB.get(), 4)
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -102,20 +102,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_COBBLESTONE_WALL.get(), 6)
                 .pattern("###")
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_COBBLESTONE.get()), has(MainBlocks.NAMEK_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_SLAB.get(), 6)
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -123,20 +123,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_DEEPSLATE_WALL.get(), 6)
                 .pattern("###")
                 .pattern("###")
                 .define('#', MainBlocks.NAMEK_DEEPSLATE.get())
                 .unlockedBy(getHasName(MainBlocks.NAMEK_DEEPSLATE.get()), has(MainBlocks.NAMEK_DEEPSLATE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_SLAB.get(), 6)
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -144,20 +144,20 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_STONE_WALL.get(), 6)
                 .pattern("###")
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_STONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_STONE.get()), has(MainBlocks.ROCKY_STONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_SLAB.get(), 6)
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_STAIRS.get(), 4)
                 .pattern("#  ")
@@ -165,14 +165,14 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.ROCKY_COBBLESTONE_WALL.get(), 6)
                 .pattern("###")
                 .pattern("###")
                 .define('#', MainBlocks.ROCKY_COBBLESTONE.get())
                 .unlockedBy(getHasName(MainBlocks.ROCKY_COBBLESTONE.get()), has(MainBlocks.ROCKY_COBBLESTONE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.RADAR_PIECE.get(), 1)
                 .pattern("SIS")
@@ -182,7 +182,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('I', Items.IRON_INGOT)
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(Items.REDSTONE), has(Items.REDSTONE))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.T1_RADAR_CHIP.get(), 1)
                 .pattern("RBR")
@@ -193,7 +193,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('P', MainItems.RADAR_PIECE.get())
                 .define('B', Items.REPEATER)
                 .unlockedBy(getHasName(MainItems.RADAR_PIECE.get()), has(MainItems.RADAR_PIECE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.T1_RADAR_CPU.get(), 1)
                 .pattern("RBR")
@@ -205,7 +205,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('B', Items.REPEATER)
                 .define('P', MainItems.RADAR_PIECE.get())
                 .unlockedBy(getHasName(MainItems.T1_RADAR_CHIP.get()), has(MainItems.T1_RADAR_CHIP.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.DBALL_RADAR_ITEM.get(), 1)
                 .pattern("OPO")
@@ -216,7 +216,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', MainItems.T1_RADAR_CHIP.get())
                 .define('P', MainItems.RADAR_PIECE.get())
                 .unlockedBy(getHasName(MainItems.T1_RADAR_CPU.get()), has(MainItems.T1_RADAR_CPU.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.T2_RADAR_CHIP.get(), 1)
                 .pattern("ROR")
@@ -228,7 +228,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('P', MainItems.RADAR_PIECE.get())
                 .define('T', MainItems.T1_RADAR_CPU.get())
                 .unlockedBy(getHasName(MainItems.RADAR_PIECE.get()), has(MainItems.RADAR_PIECE.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, MainItems.NAMEKDBALL_RADAR_ITEM.get(), 1)
                 .pattern("OCO")
@@ -239,12 +239,12 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', MainItems.T2_RADAR_CHIP.get())
                 .define('P', MainItems.RADAR_PIECE.get())
                 .unlockedBy(getHasName(MainItems.T2_RADAR_CHIP.get()), has(MainItems.T2_RADAR_CHIP.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, MainItems.KIKONO_SHARD.get(), 9)
                 .requires(MainBlocks.KIKONO_BLOCK.get())
                 .unlockedBy(getHasName(MainBlocks.KIKONO_BLOCK.get()), has(MainBlocks.KIKONO_BLOCK.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.KIKONO_BLOCK.get(), 1)
                 .pattern("KKK")
@@ -252,25 +252,25 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .pattern("KKK")
                 .define('K', MainItems.KIKONO_SHARD.get())
                 .unlockedBy(getHasName(MainItems.KIKONO_SHARD.get()), has(MainItems.KIKONO_SHARD.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, MainItems.ARMOR_CRAFTING_KIT.get(), 1)
                 .requires(Items.RED_WOOL).requires(Items.SHEARS)
                 .unlockedBy(getHasName(Items.SHEARS), has(Items.SHEARS))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, MainItems.KIKONO_STRING.get(), 2)
                 .requires(MainItems.KIKONO_SHARD.get())
                 .requires(MainItems.ARMOR_CRAFTING_KIT.get())
                 .unlockedBy(getHasName(MainItems.KIKONO_SHARD.get()), has(MainItems.KIKONO_SHARD.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, MainItems.KIKONO_CLOTH.get(), 1)
                 .requires(MainItems.KIKONO_STRING.get(), 4)
                 .requires(MainItems.ARMOR_CRAFTING_KIT.get())
                 .unlockedBy(getHasName(MainItems.KIKONO_STRING.get()), has(MainItems.KIKONO_STRING.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.BLANK_PATTERN_Z.get(), 1)
                 .pattern("RRR")
@@ -280,7 +280,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('W', Items.WHITE_WOOL)
                 .define('R', Items.RED_WOOL)
                 .unlockedBy(getHasName(Items.PAPER), has(Items.PAPER))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.BLANK_PATTERN_SUPER.get(), 1)
                 .pattern("CPC")
@@ -291,7 +291,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('P', MainItems.BLANK_PATTERN_Z.get())
                 .define('C', Items.CYAN_WOOL)
                 .unlockedBy(getHasName(Items.PAPER), has(Items.PAPER))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU_KID.get(), 1)
                 .pattern("R#R")
@@ -300,7 +300,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU1.get(), 1)
                 .pattern("B#B")
@@ -310,7 +310,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('O', Items.ORANGE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU2.get(), 1)
                 .pattern("B#B")
@@ -321,7 +321,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('N', Items.BLACK_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU_SUPER.get(), 1)
                 .pattern("C#C")
@@ -332,7 +332,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('W', Items.WHITE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOKU_GT.get(), 1)
                 .pattern("L#L")
@@ -343,7 +343,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('W', Items.WHITE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_YARDRAT.get(), 1)
                 .pattern("W#P")
@@ -355,7 +355,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOTEN.get(), 1)
                 .pattern("B#B")
@@ -366,7 +366,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('N', Items.BLACK_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOTEN_SUPER.get(), 1)
                 .pattern("G#G")
@@ -376,7 +376,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('B', Items.BLUE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOHAN_SUPER.get(), 1)
                 .pattern("P#P")
@@ -386,7 +386,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GREAT_SAIYAMAN.get(), 1)
                 .pattern("R#R")
@@ -398,7 +398,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_FUTURE_GOHAN.get(), 1)
                 .pattern("B#B")
@@ -409,7 +409,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.CLOCK)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA1.get(), 1)
                 .pattern("Y#Y")
@@ -420,7 +420,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('W', Items.WHITE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA2.get(), 1)
                 .pattern("B#B")
@@ -431,7 +431,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_Z.get(), 1)
                 .pattern("Y#Y")
@@ -442,7 +442,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_BUU.get(), 1)
                 .pattern("C#C")
@@ -452,7 +452,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', Items.CYAN_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETA_SUPER.get(), 1)
                 .pattern("Y#Y")
@@ -463,7 +463,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_VEGETTO.get(), 1)
                 .pattern("B#B")
@@ -475,7 +475,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', Items.CYAN_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOGETA.get(), 1)
                 .pattern("Y#Y")
@@ -486,7 +486,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', Items.CYAN_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PICCOLO.get(), 1)
                 .pattern("P#P")
@@ -496,7 +496,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GOHAN1.get(), 1)
                 .pattern("P#P")
@@ -506,7 +506,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('B', Items.BLUE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(Items.BLUE_DYE), has(Items.BLUE_DYE))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BARDOCK1.get(), 1)
                 .pattern("G#G")
@@ -517,7 +517,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BARDOCK2.get(), 1)
                 .pattern("Y#Y")
@@ -528,7 +528,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('C', Items.CYAN_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TURLES.get(), 1)
                 .pattern("B#B")
@@ -538,7 +538,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('N', Items.BLACK_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TIEN.get(), 1)
                 .pattern(" #G")
@@ -548,7 +548,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TRUNKS_Z.get(), 1)
                 .pattern("B#B")
@@ -560,7 +560,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('S', Items.IRON_SWORD)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TRUNKS_SUPER.get(), 1)
                 .pattern("S#C")
@@ -572,7 +572,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('S', Items.IRON_SWORD)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_TRUNKS_KID.get(), 1)
                 .pattern("G#G")
@@ -582,7 +582,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('O', Items.ORANGE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BROLY_Z.get(), 1)
                 .pattern("Y#Y")
@@ -593,7 +593,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BROLY_SUPER.get(), 1)
                 .pattern("G#G")
@@ -605,7 +605,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('P', Items.PURPLE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_SHIN.get(), 1)
                 .pattern("C#C")
@@ -617,7 +617,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('O', Items.ORANGE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_BLACK.get(), 1)
                 .pattern("B#B")
@@ -628,7 +628,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_ZAMASU.get(), 1)
                 .pattern("B#B")
@@ -639,7 +639,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('L', Items.LIGHT_BLUE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_FUSION_ZAMASU.get(), 1)
                 .pattern("G#G")
@@ -650,7 +650,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_PRIDE_TROOPS.get(), 1)
                 .pattern("B#B")
@@ -660,7 +660,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('R', Items.RED_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_HIT.get(), 1)
                 .pattern("P#P")
@@ -671,7 +671,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAS.get(), 1)
                 .pattern("Y#Y")
@@ -682,7 +682,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('W', Items.WHITE_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_MAJIN_BUU.get(), 1)
                 .pattern("B#B")
@@ -693,7 +693,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('Y', Items.YELLOW_DYE)
                 .define('#', MainItems.BLANK_PATTERN_Z.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_Z.get()), has(MainItems.BLANK_PATTERN_Z.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAMMA1.get(), 1)
                 .pattern("R#R")
@@ -705,7 +705,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('G', Items.GRAY_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MainItems.PATTERN_GAMMA2.get(), 1)
                 .pattern("C#C")
@@ -717,7 +717,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('G', Items.GRAY_DYE)
                 .define('#', MainItems.BLANK_PATTERN_SUPER.get())
                 .unlockedBy(getHasName(MainItems.BLANK_PATTERN_SUPER.get()), has(MainItems.BLANK_PATTERN_SUPER.get()))
-                .group("Reference.MOD_ID").save(pWriter);
+                .group(Reference.MOD_ID).save(pWriter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, MainBlocks.KIKONO_ARMOR_STATION.get(), 1)
                 .pattern("ACA")
@@ -730,7 +730,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider im
                 .define('S', Items.SMITHING_TABLE)
                 .define('I', Items.IRON_BLOCK)
                 .unlockedBy(getHasName(Items.DIAMOND_CHESTPLATE), has(Items.DIAMOND_CHESTPLATE))
-                .group("Reference.MOD_ID")
+                .group(Reference.MOD_ID)
                 .save(pWriter);
 
     }
