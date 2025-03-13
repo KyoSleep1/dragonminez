@@ -1,5 +1,9 @@
 package com.yuseix.dragonminez.common.util;
 
+import com.yuseix.dragonminez.common.Reference;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
 import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.ModLoadingStage;
@@ -69,10 +73,32 @@ public final class LogUtil {
      *
      * @param message The warning message to display.
      */
-    private static void logModWarning(String message) {
+    public static void logModWarning(String message) {
         final IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
         ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT, message);
         ModLoader.get().addWarning(modLoadingWarning);
+    }
+
+    /**
+     * Creates a custom crash report and terminates the game.
+     * <p>
+     * This method generates a detailed crash report with mod-specific information
+     * and forces the game to close.
+     * </p>
+     *
+     * @param errorMessage The message to include in the crash report.
+     */
+    public static void crash(String errorMessage) {
+
+        // Create a custom crash report
+        final CrashReport crashReport = new CrashReport("Critical Mod Error", new Throwable(errorMessage));
+        final CrashReportCategory category = crashReport.addCategory("Mod Information");
+        category.setDetail("Mod ID", Reference.MOD_ID);
+        category.setDetail("Cause", errorMessage + ". Please report this issue via ticket with " +
+                "the complete crash report file!");
+
+        // Terminate the game
+        throw new ReportedException(crashReport);
     }
 
     // Private constructor to prevent instantiation
