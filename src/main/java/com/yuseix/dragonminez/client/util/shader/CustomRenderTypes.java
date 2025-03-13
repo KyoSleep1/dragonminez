@@ -1,9 +1,8 @@
-package com.yuseix.dragonminez.utils.shaders;
+package com.yuseix.dragonminez.client.util.shader;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +16,7 @@ public class CustomRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> AURA_WA = Util.memoize((pLocation) ->
             create("aura_wa", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
-                    .setShaderState(new RenderStateShard.ShaderStateShard(() -> DMZShaders.getAuraShader()))
+                    .setShaderState(new ShaderStateShard(() -> DMZShaders.getAuraShader()))
                     .setTextureState(new TextureStateShard(pLocation, true, false)) // Usas una textura personalizada aquí
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setCullState(NO_CULL)
