@@ -1,5 +1,6 @@
-package com.yuseix.dragonminez.world;
+package com.yuseix.dragonminez.common.world.cap.nbt;
 
+import com.yuseix.dragonminez.common.world.cap.DragonBallsCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.saveddata.SavedData;
 

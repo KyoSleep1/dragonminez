@@ -1,5 +1,6 @@
-package com.yuseix.dragonminez.world;
+package com.yuseix.dragonminez.common.world.cap.provider;
 
+import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;

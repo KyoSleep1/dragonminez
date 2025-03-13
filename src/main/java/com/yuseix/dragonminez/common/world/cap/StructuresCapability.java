@@ -1,17 +1,13 @@
-package com.yuseix.dragonminez.world;
+package com.yuseix.dragonminez.common.world.cap;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
@@ -21,7 +17,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import org.slf4j.Logger;
 
-import java.util.List;
 import java.util.Random;
 
 public class StructuresCapability {
@@ -571,7 +566,7 @@ public class StructuresCapability {
     public void generateHabTiempoStructure(ServerLevel level) {
         if (!hasHabTiempo) {
             BlockPos position = new BlockPos(-9, 31, -70);
-            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "habtiempo"));
+            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "habtiempo"));
 
             if (template != null) {
                 StructurePlaceSettings settings = new StructurePlaceSettings();
@@ -590,7 +585,7 @@ public class StructuresCapability {
             StructurePlaceSettings settings = new StructurePlaceSettings();
             BlockPos position = new BlockPos(0, 40, 0);
 
-            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma1"));
+            StructureTemplate template = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/enma/palacioenma1"));
 
             if (template != null) {
                 template.placeInWorld(level, position, position, settings, level.getRandom(), 2);
@@ -598,7 +593,7 @@ public class StructuresCapability {
 
             BlockPos secPos = position.offset(-129, 0, 0);
 
-            StructureTemplate secTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma2"));
+            StructureTemplate secTemp = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/enma/palacioenma2"));
 
             if (secTemp != null) {
                 secTemp.placeInWorld(level, secPos, secPos, settings, level.getRandom(), 2);
@@ -606,7 +601,7 @@ public class StructuresCapability {
 
             BlockPos terPos = position.offset(-129, 0, -161);
 
-            StructureTemplate terTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma3"));
+            StructureTemplate terTemp = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/enma/palacioenma3"));
 
             if (terTemp != null) {
                 terTemp.placeInWorld(level, terPos, terPos, settings, level.getRandom(), 2);
@@ -614,7 +609,7 @@ public class StructuresCapability {
 
             BlockPos quarPos = position.offset(0, 0, -161);
 
-            StructureTemplate quarTemp = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/enma/palacioenma4"));
+            StructureTemplate quarTemp = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/enma/palacioenma4"));
 
             if (quarTemp != null) {
                 quarTemp.placeInWorld(level, quarPos, quarPos, settings, level.getRandom(), 2);
@@ -629,7 +624,7 @@ public class StructuresCapability {
 
             BlockPos snakewayPos = new BlockPos(-67, 40, 146);
 
-            StructureTemplate snakewayInit = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_init"));
+            StructureTemplate snakewayInit = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/snakeway/snakeway_init"));
 
             if (snakewayInit != null) {
                 snakewayInit.placeInWorld(level, snakewayPos, snakewayPos, settings, level.getRandom(), 2);
@@ -637,7 +632,7 @@ public class StructuresCapability {
             level.setBlock(new BlockPos(0, 42, 149), Blocks.AIR.defaultBlockState(), 3);
 
             BlockPos snakewayMid1 = snakewayPos.offset(-62, 4, 160);
-            StructureTemplate snakewayMid = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_mid"));
+            StructureTemplate snakewayMid = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/snakeway/snakeway_mid"));
             if (snakewayMid != null) {
                 snakewayMid.placeInWorld(level, snakewayMid1, snakewayMid1, settings, level.getRandom(), 2);
             }
@@ -656,7 +651,7 @@ public class StructuresCapability {
 
             BlockPos endSnakewayPos = new BlockPos(-330, 47, 842);
 
-            StructureTemplate snakewayEnd = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/snakeway/snakeway_end"));
+            StructureTemplate snakewayEnd = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/snakeway/snakeway_end"));
 
             if (snakewayEnd != null) {
                 snakewayEnd.placeInWorld(level, endSnakewayPos, endSnakewayPos, settings, level.getRandom(), 2);
@@ -664,7 +659,7 @@ public class StructuresCapability {
 
             BlockPos kaioStructure = endSnakewayPos.offset(-60, 10, 90);
 
-            StructureTemplate kaioPlanet = level.getStructureManager().getOrCreate(new ResourceLocation(DragonMineZ.MOD_ID, "otherworld/kaioplanet"));
+            StructureTemplate kaioPlanet = level.getStructureManager().getOrCreate(new ResourceLocation(Reference.MOD_ID, "otherworld/kaioplanet"));
 
             if (kaioPlanet != null) {
                 kaioPlanet.placeInWorld(level, kaioStructure, kaioStructure, settings, level.getRandom(), 2);

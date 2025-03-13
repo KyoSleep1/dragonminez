@@ -1,5 +1,6 @@
-package com.yuseix.dragonminez.world;
+package com.yuseix.dragonminez.common.world.cap.provider;
 
+import com.yuseix.dragonminez.common.world.cap.DragonBallsCapability;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -11,16 +12,16 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NamekDragonBallGenProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+public class DragonBallGenProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<NamekDragonBallsCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
-    private final LazyOptional<NamekDragonBallsCapability> optional = LazyOptional.of(this::getNamekDballsBackend);
+    public static Capability<DragonBallsCapability> CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+    private final LazyOptional<DragonBallsCapability> optional = LazyOptional.of(this::getDballsBackend);
 
-    private NamekDragonBallsCapability NDballs = null;
+    private DragonBallsCapability Dballs = null;
 
-    private NamekDragonBallsCapability getNamekDballsBackend() {
-        if (this.NDballs == null) this.NDballs = new NamekDragonBallsCapability();
-        return this.NDballs;
+    private DragonBallsCapability getDballsBackend() {
+        if (this.Dballs == null) this.Dballs = new DragonBallsCapability();
+        return this.Dballs;
     }
 
     @Override
@@ -31,12 +32,12 @@ public class NamekDragonBallGenProvider implements ICapabilityProvider, INBTSeri
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
-        getNamekDballsBackend().saveNBTData(nbt);
+        getDballsBackend().saveNBTData(nbt);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        getNamekDballsBackend().loadNBTData(nbt);
+        getDballsBackend().loadNBTData(nbt);
     }
 }
