@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.worldgen.ModBiomeModifiers;
 import com.yuseix.dragonminez.worldgen.ModConfiguredFeatures;
 import com.yuseix.dragonminez.worldgen.ModPlacedFeatures;
@@ -26,6 +26,6 @@ public class ModWorldGenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem)
             .add(Registries.NOISE_SETTINGS, ModDimensions::bootstrapNoise);
     public ModWorldGenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, BUILDER, Set.of(DragonMineZ.MOD_ID));
+        super(output, registries, BUILDER, Set.of(Reference.MOD_ID));
     }
 }

@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.data.PackOutput;
@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class DMZItemModelProvider extends ItemModelProvider {
     public DMZItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, DragonMineZ.MOD_ID, existingFileHelper);
+        super(output, Reference.MOD_ID, existingFileHelper);
     }
 
     @Override
@@ -349,30 +349,30 @@ public class DMZItemModelProvider extends ItemModelProvider {
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "item/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID, "item/" + item.getId().getPath()));
     }
     private ItemModelBuilder armorItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "item/armors/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID, "item/armors/" + item.getId().getPath()));
     }
     private ItemModelBuilder patternItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "item/patterns/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID, "item/patterns/" + item.getId().getPath()));
     }
     private ItemModelBuilder blockItem(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "block/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID, "block/" + item.getId().getPath()));
     }
     private ItemModelBuilder blockAsItem(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID, "item/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID, "item/" + item.getId().getPath()));
     }
     public void simpleBlockItem(RegistryObject<Block> block) {
-        this.withExistingParent(DragonMineZ.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
+        this.withExistingParent(Reference.MOD_ID + ":" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
                 modLoc("block/" + ForgeRegistries.BLOCKS.getKey(block.get()).getPath()));
     }
     public void trapdoorItem(RegistryObject<Block> block) {
@@ -382,20 +382,20 @@ public class DMZItemModelProvider extends ItemModelProvider {
 
     public void fenceItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/fence_inventory"))
-                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("texture",  new ResourceLocation(Reference.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
 
     public void buttonItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/button_inventory"))
-                .texture("texture",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("texture",  new ResourceLocation(Reference.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
     public void wallItem(RegistryObject<Block> block, RegistryObject<Block> baseBlock) {
         this.withExistingParent(ForgeRegistries.BLOCKS.getKey(block.get()).getPath(), mcLoc("block/wall_inventory"))
-                .texture("wall",  new ResourceLocation(DragonMineZ.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
+                .texture("wall",  new ResourceLocation(Reference.MOD_ID, "block/" + ForgeRegistries.BLOCKS.getKey(baseBlock.get()).getPath()));
     }
     private ItemModelBuilder saplingItem(RegistryObject<Block> item) {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(DragonMineZ.MOD_ID,"block/" + item.getId().getPath()));
+                new ResourceLocation(Reference.MOD_ID,"block/" + item.getId().getPath()));
     }
 }

@@ -1,27 +1,26 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainFluids;
-import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 public class DMZBlockTagGenerator extends BlockTagsProvider {
-    public DMZBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, DragonMineZ.MOD_ID, existingFileHelper);
+    public DMZBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
+                                @Nullable ExistingFileHelper existingFileHelper) {
+        super(output, lookupProvider, Reference.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void addTags(HolderLookup.@NotNull Provider pProvider) {
         this.tag(BlockTags.FROG_PREFER_JUMP_TO)
                 .add(MainBlocks.LOTUS_FLOWER.get());
         this.tag(BlockTags.INSIDE_STEP_SOUND_BLOCKS)

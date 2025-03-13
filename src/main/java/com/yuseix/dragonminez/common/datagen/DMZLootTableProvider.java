@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;

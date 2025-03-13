@@ -1,6 +1,7 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import net.minecraft.data.Main;
 import net.minecraft.data.PackOutput;
@@ -14,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class DMZBlockStateProvider extends BlockStateProvider {
     public DMZBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, DragonMineZ.MOD_ID, existingFileHelper);
+        super(output, Reference.MOD_ID, existingFileHelper);
     }
 
     @Override
@@ -108,7 +109,7 @@ public class DMZBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
     }
     private void blockItem(RegistryObject<Block> blockRegistryObject) {
-        simpleBlockItem(blockRegistryObject.get(), new ModelFile.UncheckedModelFile(DragonMineZ.MOD_ID +
+        simpleBlockItem(blockRegistryObject.get(), new ModelFile.UncheckedModelFile(Reference.MOD_ID +
                 ":block/" + ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath()));
     }
     private void leavesBlock(RegistryObject<Block> blockRegistryObject) {

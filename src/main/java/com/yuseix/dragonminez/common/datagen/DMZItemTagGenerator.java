@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.core.HolderLookup;
@@ -10,7 +10,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
@@ -18,11 +18,11 @@ import java.util.concurrent.CompletableFuture;
 public class DMZItemTagGenerator extends ItemTagsProvider {
     public DMZItemTagGenerator(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider,
                                CompletableFuture<TagLookup<Block>> pBlockTags, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pOutput, pLookupProvider, pBlockTags, DragonMineZ.MOD_ID, existingFileHelper);
+        super(pOutput, pLookupProvider, pBlockTags, Reference.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void addTags(HolderLookup.@NotNull Provider pProvider) {
         this.tag(ItemTags.LOGS)
                 .add(MainBlocks.NAMEK_AJISSA_LOG.get().asItem())
                 .add(MainBlocks.NAMEK_AJISSA_WOOD.get().asItem())

@@ -1,6 +1,6 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
 import net.minecraft.data.PackOutput;
@@ -11,6 +11,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -21,7 +22,7 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
+    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> pWriter) {
         oreBlasting(pWriter, Gete, RecipeCategory.MISC, MainItems.GETE_SCRAP.get(), 3.5f, 100, "gete");
         oreSmelting(pWriter, Gete, RecipeCategory.MISC, MainItems.GETE_SCRAP.get(), 3.5f, 200, "gete");
         oreBlasting(pWriter, Kikono, RecipeCategory.MISC, MainItems.KIKONO_SHARD.get(), 2.5f, 100, "kikono");
@@ -46,15 +47,15 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 200)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
-                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked"));
+                .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked"));
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 100)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
-                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_smoking"));
+                .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked_smoking"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(MainItems.FROG_LEGS_RAW.get()),
                         RecipeCategory.FOOD, MainItems.FROG_LEGS_COOKED.get(), 0.35f, 600)
                 .unlockedBy(getHasName(MainItems.FROG_LEGS_RAW.get()), has(MainItems.FROG_LEGS_RAW.get())).group("dragonminez")
-                .save(pWriter, new ResourceLocation(DragonMineZ.MOD_ID, "frog_legs_cooked_campfire"));
+                .save(pWriter, new ResourceLocation(Reference.MOD_ID, "frog_legs_cooked_campfire"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, MainBlocks.NAMEK_AJISSA_PRESSURE_PLATE.get(), 1)
                 .pattern("##")
@@ -745,19 +746,33 @@ public class DMZRecipeProvider extends RecipeProvider implements IConditionBuild
     private static final List<ItemLike> Cobre = List.of(MainBlocks.NAMEK_COPPER_ORE.get(), MainBlocks.NAMEK_DEEPSLATE_COPPER.get());
     private static final List<ItemLike> Carbon = List.of(MainBlocks.NAMEK_COAL_ORE.get(), MainBlocks.NAMEK_DEEPSLATE_COAL.get());
 
-    protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
-        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTIme, pGroup, "_from_smelting");
+    protected static void oreSmelting(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer,
+                                      List<ItemLike> pIngredients, @NotNull RecipeCategory pCategory,
+                                      @NotNull ItemLike pResult, float pExperience, int pCookingTIme,
+                                      @NotNull String pGroup) {
+        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.SMELTING_RECIPE, pIngredients, pCategory, pResult,
+                pExperience, pCookingTIme, pGroup, "_from_smelting");
     }
 
-    protected static void oreBlasting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup) {
-        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.BLASTING_RECIPE, pIngredients, pCategory, pResult, pExperience, pCookingTime, pGroup, "_from_blasting");
+    protected static void oreBlasting(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer,
+                                      List<ItemLike> pIngredients, @NotNull RecipeCategory pCategory,
+                                      @NotNull ItemLike pResult, float pExperience, int pCookingTime,
+                                      @NotNull String pGroup) {
+        oreCooking(pFinishedRecipeConsumer, RecipeSerializer.BLASTING_RECIPE, pIngredients, pCategory, pResult,
+                pExperience, pCookingTime, pGroup, "_from_blasting");
     }
 
-    protected static void oreCooking(Consumer<FinishedRecipe> pFinishedRecipeConsumer, RecipeSerializer<? extends AbstractCookingRecipe> pCookingSerializer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
-        for(ItemLike itemlike : pIngredients) {
-            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer)
+    protected static void oreCooking(@NotNull Consumer<FinishedRecipe> pFinishedRecipeConsumer,
+                                     @NotNull RecipeSerializer<? extends AbstractCookingRecipe> pCookingSerializer,
+                                     List<ItemLike> pIngredients, @NotNull RecipeCategory pCategory,
+                                     @NotNull ItemLike pResult, float pExperience, int pCookingTime,
+                                     @NotNull String pGroup, String pRecipeName) {
+        for (ItemLike itemlike : pIngredients) {
+            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime,
+                            pCookingSerializer)
                     .group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike))
-                    .save(pFinishedRecipeConsumer,  DragonMineZ.MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
+                    .save(pFinishedRecipeConsumer, Reference.MOD_ID + ":" + getItemName(pResult)
+                            + pRecipeName + "_" + getItemName(itemlike));
         }
     }
 }
