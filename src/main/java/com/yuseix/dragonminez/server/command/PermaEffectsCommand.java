@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.commands;
+package com.yuseix.dragonminez.server.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;

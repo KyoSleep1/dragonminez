@@ -1,8 +1,8 @@
-package com.yuseix.dragonminez.commands;
+package com.yuseix.dragonminez.server.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;

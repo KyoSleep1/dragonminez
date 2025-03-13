@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.commands;
+package com.yuseix.dragonminez.server.command;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
@@ -7,7 +7,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import com.yuseix.dragonminez.events.StoryEvents;
 import com.yuseix.dragonminez.stats.storymode.DMZQuest;
 import com.yuseix.dragonminez.stats.storymode.DMZSaga;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
@@ -20,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class StoryModeCommand {
