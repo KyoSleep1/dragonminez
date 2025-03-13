@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.common.datagen;
+package com.yuseix.dragonminez.server.datagen.impl;
 
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;

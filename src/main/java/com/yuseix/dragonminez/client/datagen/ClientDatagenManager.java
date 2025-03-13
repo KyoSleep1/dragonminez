@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.client.datagen;
 
-import com.yuseix.dragonminez.common.datagen.ItemModelProvider;
+import com.yuseix.dragonminez.client.datagen.impl.ItemModelProvider;
 import com.yuseix.dragonminez.common.datagen.DatagenManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.common.datagen;
+package com.yuseix.dragonminez.server.datagen.impl;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;

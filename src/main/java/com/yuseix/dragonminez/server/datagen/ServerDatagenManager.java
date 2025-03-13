@@ -1,12 +1,12 @@
 package com.yuseix.dragonminez.server.datagen;
 
-import com.yuseix.dragonminez.common.datagen.AdvancementsProvider;
-import com.yuseix.dragonminez.common.datagen.BlockStateProvider;
-import com.yuseix.dragonminez.common.datagen.BlockTagGenerator;
-import com.yuseix.dragonminez.common.datagen.ItemTagGenerator;
-import com.yuseix.dragonminez.common.datagen.RecipeProvider;
-import com.yuseix.dragonminez.common.datagen.LootTableProvider;
-import com.yuseix.dragonminez.common.datagen.ModWorldGenProvider;
+import com.yuseix.dragonminez.server.datagen.impl.AdvancementsProvider;
+import com.yuseix.dragonminez.common.datagen.impl.BlockStateProvider;
+import com.yuseix.dragonminez.server.datagen.impl.BlockTagGenerator;
+import com.yuseix.dragonminez.server.datagen.impl.ItemTagGenerator;
+import com.yuseix.dragonminez.server.datagen.impl.RecipeProvider;
+import com.yuseix.dragonminez.server.datagen.impl.LootTableProvider;
+import com.yuseix.dragonminez.server.datagen.impl.ModWorldGenProvider;
 import com.yuseix.dragonminez.common.datagen.DatagenManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
