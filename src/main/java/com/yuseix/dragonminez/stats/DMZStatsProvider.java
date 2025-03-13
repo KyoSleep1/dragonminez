@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.stats;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DMZStatsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "stats");
+    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "stats");
     private final Player player;
     private final DMZStatsAttributes backend;
     private final LazyOptional<DMZStatsAttributes> optional;

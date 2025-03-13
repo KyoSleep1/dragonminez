@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.client.character.models.hair;
 
 
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.HumanoidModel;
@@ -21,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GohanTeenHairModel extends HumanoidModel<AbstractClientPlayer> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "gohanteen");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "hairs"), "gohanteen");
 	private final ModelPart Head;
 	private final ModelPart inicio;
 	private final ModelPart izqini;

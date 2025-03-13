@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -33,7 +34,7 @@ public class AttributesMenu2 extends Screen implements RenderEntityInv {
 
     private int alturaTexto; private int anchoTexto; private int multiplicadorTP = 1;
 
-    private static final ResourceLocation menucentro = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menucentro = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menulargo2.png");
 
 

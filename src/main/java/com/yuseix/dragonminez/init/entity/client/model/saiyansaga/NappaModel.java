@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.saiyansaga;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -14,17 +15,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class NappaModel extends GeoModel<NappaEntity> {
 	@Override
 	public ResourceLocation getModelResource(NappaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/nappa.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/nappa.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(NappaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/sagas/saiyan/nappa_1.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/sagas/saiyan/nappa_1.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(NappaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/nappa.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/nappa.animation.json");
 	}
 
 	@Override

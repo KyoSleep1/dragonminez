@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -18,17 +19,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class DendeModel extends GeoModel<DendeEntity> {
 	@Override
 	public ResourceLocation getModelResource(DendeEntity dendeEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/masters/dende.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/masters/dende.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(DendeEntity dendeEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/dende_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/dende_master.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(DendeEntity dendeEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/dende.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/dende.animation.json");
 	}
 
 	@Override

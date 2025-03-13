@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.client.hud;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -24,11 +25,11 @@ import java.util.Map;
 public class PlayerHudOverlay implements RenderEntityInv {
 
 
-    private static final ResourceLocation efectos = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation efectos = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/hud/efectosperma.png");
-    private static final ResourceLocation efectostemp = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation efectostemp = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/hud/efectostemp.png");
-    private static final ResourceLocation hud = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation hud = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/hud/hud.png");
 
     private static int displayedRelease = 0; // Valor que se mostrará en pantalla, inicializado en 0

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.masters.KaiosamaEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.RoshiEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -15,17 +16,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class KaiosamaModel extends GeoModel<KaiosamaEntity> {
 	@Override
 	public ResourceLocation getModelResource(KaiosamaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/masters/kaiosama.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/masters/kaiosama.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(KaiosamaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/kaiosama_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/kaiosama_master.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(KaiosamaEntity wa) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/kaiosama.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/kaiosama.animation.json");
 	}
 
 	@Override

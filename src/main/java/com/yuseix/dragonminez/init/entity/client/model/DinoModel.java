@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -18,17 +19,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class DinoModel extends GeoModel<DinoEntity> {
 	@Override
 	public ResourceLocation getModelResource(DinoEntity dinoEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/dino.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/dino.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(DinoEntity dinoEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/dinos/dino1.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(DinoEntity dinoEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/dino1.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/dino1.animation.json");
 	}
 
 	@Override

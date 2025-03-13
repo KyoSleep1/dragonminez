@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.compat;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.recipes.ArmorStationRecipes;
 import mezz.jei.api.IModPlugin;
@@ -19,7 +19,7 @@ public class JEIDragonMineZPlugin implements IModPlugin {
 
 	@Override
 	public ResourceLocation getPluginUid() {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "jei_plugin");
+		return new ResourceLocation(Reference.MOD_ID, "jei_plugin");
 	}
 
 	@Override

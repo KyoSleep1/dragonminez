@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.MoroSoldierModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.MoroSoldierEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,7 +20,7 @@ public class MoroSoldierRenderer extends GeoEntityRenderer<MoroSoldierEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(MoroSoldierEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/namekusei/soldado1_moro.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/namekusei/soldado1_moro.png");
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.FatArmorLayer;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -287,7 +288,7 @@ public class FPMajinGordRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
     @Override
     public ResourceLocation getTextureLocation(FPBase abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/prueba.png");
     }
 
 }

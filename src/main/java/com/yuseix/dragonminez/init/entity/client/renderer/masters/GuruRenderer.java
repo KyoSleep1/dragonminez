@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.EnmaModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.GuruModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.EnmaEntity;
@@ -27,7 +28,7 @@ public class GuruRenderer extends GeoEntityRenderer<GuruEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(GuruEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/guru.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/guru.png");
 	}
 
 }

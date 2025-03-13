@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.SkillActivateC2S;
@@ -34,9 +35,9 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class SkillMenu extends Screen {
 
-    private static final ResourceLocation menucentro = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menucentro = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menulargo2.png");
-    private static final ResourceLocation menuinfo = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menuinfo = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menulargomitad.png");
 
     private static boolean infoMenu;

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.renderer;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.NubeModel;
 import com.yuseix.dragonminez.init.entity.custom.NubeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +20,6 @@ public class NubeRenderer extends GeoEntityRenderer<NubeEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(NubeEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/cloud.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/cloud.png");
 	}
 }

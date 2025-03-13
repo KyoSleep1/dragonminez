@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.YellowFrogModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.YellowFrogEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,7 +17,7 @@ public class YellowFrogRenderer extends GeoEntityRenderer<YellowFrogEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(YellowFrogEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranaamarilla.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/ranas/ranaamarilla.png");
     }
 
     @Override

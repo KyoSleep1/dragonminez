@@ -1,62 +1,43 @@
 package com.yuseix.dragonminez.events.characters;
 
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
+import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.DMZColdDemonConfig;
-import com.yuseix.dragonminez.events.ClientEvents;
 import com.yuseix.dragonminez.events.StoryEvents;
 import com.yuseix.dragonminez.init.MainFluids;
-import com.yuseix.dragonminez.init.MainSounds;
-import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekianEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.SoldierEntity;
-import com.yuseix.dragonminez.network.C2S.SpacePodC2S;
-import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.storymode.DMZQuest;
 import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
-import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.world.*;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.WeakHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class EntityEvents {
 
 	@SubscribeEvent
@@ -263,7 +244,7 @@ public class EntityEvents {
 	}
 
 	private static void grantAdvancement(ServerPlayer player, String advancementPath) {
-		Advancement advancementToGive = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(DragonMineZ.MOD_ID, advancementPath));
+		Advancement advancementToGive = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Reference.MOD_ID, advancementPath));
 		if (advancementToGive != null) {
 			AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancementToGive);
 			if (!progress.isDone()) {

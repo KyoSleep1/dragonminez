@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.SaibamanModel;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.SaibamanEntity;
 import net.minecraft.client.model.PlayerModel;
@@ -20,7 +21,7 @@ public class KyukonmanRenderer extends LivingEntityRenderer<SaibamanEntity, Play
 
     @Override
     public ResourceLocation getTextureLocation(SaibamanEntity saibamanEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/sagas/saiyan/saibaman_2.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/sagas/saiyan/saibaman_2.png");
     }
 
     @Override

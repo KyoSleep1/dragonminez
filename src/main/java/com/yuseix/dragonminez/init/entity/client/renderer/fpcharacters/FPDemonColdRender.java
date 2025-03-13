@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -155,7 +156,7 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
     }
     private void renderMajinMarca(FPBase pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/demoncold/eyes/mmarca_eyestype1.png");
+        var delineado1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/demoncold/eyes/mmarca_eyestype1.png");
 
         var playermodel = this.getModel();
 
@@ -331,7 +332,7 @@ public class FPDemonColdRender extends LivingEntityRenderer<FPBase, PlayerModel<
 
     @Override
     public ResourceLocation getTextureLocation(FPBase abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/prueba.png");
     }
 
 

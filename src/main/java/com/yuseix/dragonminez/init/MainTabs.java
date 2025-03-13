@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.init;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -16,7 +16,7 @@ public final class MainTabs {
 
     //Creative Mode Tabs
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS_REGISTER =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, DragonMineZ.MOD_ID);
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> BLOQUES_TAB = CREATIVE_TABS_REGISTER.register("dragonminez_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(MainBlocks.DBALL4_BLOCK.get()))

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.namek;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldierEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -13,17 +14,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class FriezaSoldierModel extends GeoModel<FriezaSoldierEntity> {
     @Override
     public ResourceLocation getModelResource(FriezaSoldierEntity friezaSoldierEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/soldado1.geo.json");
+        return new ResourceLocation(Reference.MOD_ID, "geo/soldado1.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(FriezaSoldierEntity friezaSoldierEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/namekusei/soldado1.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/namekusei/soldado1.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(FriezaSoldierEntity friezaSoldierEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/soldado1.animation.json");
+        return new ResourceLocation(Reference.MOD_ID, "animations/soldado1.animation.json");
     }
 
     @Override

@@ -6,6 +6,7 @@ package com.yuseix.dragonminez.client.character.models.bioandroid;// Made with B
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class PerfectModel<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "bio_perfect");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "races"), "bio_perfect");
 	private final ModelPart Head;
 	private final ModelPart orejas;
 	private final ModelPart cabeza2;

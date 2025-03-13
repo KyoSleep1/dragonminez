@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainSounds;
 import net.minecraft.SharedConstants;
 import net.minecraft.Util;
@@ -79,7 +80,7 @@ public class TitleScreenMixin {
 //        }
 
         // Dibujar el fotograma actual
-        ResourceLocation background = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/title/saiyantitle" + currentFrame + ".png");
+        ResourceLocation background = new ResourceLocation(Reference.MOD_ID, "textures/gui/title/saiyantitle" + currentFrame + ".png");
 
         RenderSystem.enableBlend();
         // Renderizar un fondo negro antes, por si acaso

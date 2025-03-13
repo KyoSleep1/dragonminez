@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.DendeModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +20,6 @@ public class DendeRenderer extends GeoEntityRenderer<DendeEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(DendeEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/dende_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/dende_master.png");
 	}
 }

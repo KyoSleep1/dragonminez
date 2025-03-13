@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.KarinModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,7 +20,7 @@ public class KarinRenderer extends GeoEntityRenderer<KarinEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(KarinEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/karin_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/karin_master.png");
 	}
 
 }

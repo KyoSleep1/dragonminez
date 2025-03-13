@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.stats.storymode;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -12,10 +12,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-
 public class DMZQuestProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "storymode");
+    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "storymode");
 
     private final DMZStoryCapability backend;
     private final LazyOptional<DMZStoryCapability> optional;

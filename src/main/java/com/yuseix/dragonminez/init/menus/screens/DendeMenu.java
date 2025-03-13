@@ -9,6 +9,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.DendeEntity;
 import com.yuseix.dragonminez.network.C2S.DendeC2S;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class DendeMenu extends Screen {
 
-	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation textoCuadro = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/texto.png");
 
 	private GlowButton reset, heal;

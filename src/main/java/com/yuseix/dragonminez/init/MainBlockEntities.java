@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.blocks.entity.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,7 +17,7 @@ import java.util.Set;
 public final class MainBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES_REGISTER =
-            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, DragonMineZ.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MOD_ID);
 
     //DRAGON BALLS - TIERRA
     public static final RegistryObject<BlockEntityType<Dball1BlockEntity>> DBALL1_BLOCK_ENTITY =

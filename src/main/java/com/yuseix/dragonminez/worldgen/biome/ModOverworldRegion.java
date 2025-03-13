@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.worldgen.biome;
 
 import com.mojang.datafixers.util.Pair;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 
 public class ModOverworldRegion extends Region {
 	public ModOverworldRegion() {
-		super(new ResourceLocation(DragonMineZ.MOD_ID, "rocky_region"), RegionType.OVERWORLD, 1);
+		super(new ResourceLocation(Reference.MOD_ID, "rocky_region"), RegionType.OVERWORLD, 1);
 	}
 
 	@Override

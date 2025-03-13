@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.blocks.custom.*;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
 import com.yuseix.dragonminez.worldgen.tree.NamekAjissaGrower;
@@ -27,7 +28,7 @@ import java.util.function.ToIntFunction;
 @SuppressWarnings("unused")
 public final class MainBlocks {
 
-    public static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, DragonMineZ.MOD_ID);
+    public static final DeferredRegister<Block> BLOCK_REGISTER = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
     private static ToIntFunction<BlockState> litBlockEmission(int pLightValue) {
         return (IsThisOn) -> (Boolean) IsThisOn.getValue(BlockStateProperties.LIT) ? pLightValue : 0;

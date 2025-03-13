@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.GokuMasterModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.MastersEntity;
 import net.minecraft.client.model.PlayerModel;
@@ -18,7 +19,7 @@ public class GokuMasterRenderer extends LivingEntityRenderer<MastersEntity, Play
 
     @Override
     public ResourceLocation getTextureLocation(MastersEntity mastersEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/masters/goku_master.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/masters/goku_master.png");
     }
 
     @Override

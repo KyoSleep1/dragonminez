@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.KarinModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.RoshiModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
@@ -19,7 +20,7 @@ public class RoshiRenderer extends GeoEntityRenderer<RoshiEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(RoshiEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/roshi_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/roshi_master.png");
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.renderer;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.NubeNegraModel;
 import com.yuseix.dragonminez.init.entity.custom.NubeNegraEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,6 +20,6 @@ public class NubeNegraRenderer extends GeoEntityRenderer<NubeNegraEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(NubeNegraEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/black_cloud.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/black_cloud.png");
 	}
 }

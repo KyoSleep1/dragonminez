@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.projectil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -22,7 +23,7 @@ public class KiSmallWaveRenderer extends EntityRenderer<KiSmallWaveProjectil> {
 
     @Override
     public ResourceLocation getTextureLocation(KiSmallWaveProjectil kiBlastProyectil) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/ki.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/ki.png");
     }
 
     @Override

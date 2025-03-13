@@ -5,6 +5,7 @@ import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.RenderEntityInv;
 import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.StatsC2S;
 import com.yuseix.dragonminez.network.C2S.ZPointsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
@@ -36,16 +37,16 @@ public class AttributesMenu extends Screen implements RenderEntityInv {
 
     private int alturaTexto; private int anchoTexto; private int multiplicadorTP = 1;
 
-    private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menu1 = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menugrande.png");
 
-    private static final ResourceLocation cuadronegro = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation cuadronegro = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menutexto.png");
-    private static final ResourceLocation menugrande = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menugrande = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menugrande.png");
-    private static final ResourceLocation menumedio = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menumedio = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menumedio.png");
-    private static final ResourceLocation menuraza = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menuraza = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menupequeno.png");
 
     private CustomButtons multiBoton, strBoton, defBoton, conBoton, pwrBoton, eneBoton; private DMZGuiButtons newMenuBoton; private DMZDatos dmzdatos = new DMZDatos();

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.PorungaModel;
 import com.yuseix.dragonminez.init.entity.client.model.ShenlongModel;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
@@ -26,7 +27,7 @@ public class PorungaRenderer extends GeoEntityRenderer<PorungaEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(PorungaEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/porunga.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/porunga.png");
     }
 
     @Override

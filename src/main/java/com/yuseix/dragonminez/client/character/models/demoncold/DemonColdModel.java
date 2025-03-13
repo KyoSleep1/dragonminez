@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.client.character.models.demoncold;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class DemonColdModel<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "races"), "cd_minim");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "races"), "cd_minim");
 	private final ModelPart Head;
 	private final ModelPart orejas;
 	private final ModelPart cuernos;

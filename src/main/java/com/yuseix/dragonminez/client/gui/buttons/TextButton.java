@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.client.gui.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -18,7 +19,7 @@ import java.util.function.Function;
 @OnlyIn(Dist.CLIENT)
 public class TextButton extends Button {
 
-    private static final ResourceLocation botones = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation botones = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/buttons/characterbuttons.png");
 
     public TextButton(int pX, int pY, Component pMessage, OnPress pOnPress) {

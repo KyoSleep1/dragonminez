@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.menus.screens;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.menus.menutypes.KikonoArmorStationMenuType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class KikonoArmorStationScreen extends AbstractContainerScreen<KikonoArmorStationMenuType> {
 	private static final ResourceLocation TEXTURE =
-			new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/kikono_armor_station_gui.png");
+			new ResourceLocation(Reference.MOD_ID, "textures/gui/kikono_armor_station_gui.png");
 
 	public KikonoArmorStationScreen(KikonoArmorStationMenuType pMenu, Inventory pPlayerInventory, Component pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);

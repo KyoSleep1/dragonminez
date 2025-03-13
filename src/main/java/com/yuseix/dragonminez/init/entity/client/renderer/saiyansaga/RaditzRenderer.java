@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import net.minecraft.client.model.PlayerModel;
@@ -20,7 +21,7 @@ public class RaditzRenderer extends LivingEntityRenderer<SagaEntity, PlayerModel
 
     @Override
     public ResourceLocation getTextureLocation(SagaEntity pEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/sagas/saiyan/raditz.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/sagas/saiyan/raditz.png");
     }
 
     @Override

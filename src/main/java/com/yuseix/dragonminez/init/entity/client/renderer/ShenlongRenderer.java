@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.ShenlongModel;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,7 +30,7 @@ public class ShenlongRenderer extends GeoEntityRenderer<ShenlongEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(ShenlongEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/shenlong.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/shenlong.png");
 	}
 
 	@Override

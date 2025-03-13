@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
 import com.yuseix.dragonminez.network.C2S.DragonRadarC2S;
@@ -24,9 +25,9 @@ import org.joml.Quaternionf;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class RadarEvents {
-	private static final ResourceLocation fondo = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation fondo = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/radar.png");
 
 	private static List<BlockPos> closestDballPositions = new ArrayList<>();

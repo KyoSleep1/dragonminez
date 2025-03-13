@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
@@ -40,10 +41,10 @@ public class ArmorCapeLayer extends RenderLayer<AbstractClientPlayer, PlayerMode
 
 		if (pechera instanceof DbzArmorItem armorItem && armorItem.hasCape()) {
 			texturaCape = TEXTURA_CAPAS.computeIfAbsent(armorItem.getItemId(), id ->
-					new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
+					new ResourceLocation(Reference.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
 		} else if (pechera instanceof SaiyanArmorItem saiyArItem && saiyArItem.hasCape()) {
 			texturaCape = TEXTURA_CAPAS.computeIfAbsent(saiyArItem.getItemId(), id ->
-					new ResourceLocation(DragonMineZ.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
+					new ResourceLocation(Reference.MOD_ID, "textures/armor/cape/" + id + "_cape.png"));
 		}
 		if (texturaCape == null) return;
 

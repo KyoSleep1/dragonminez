@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.*;
 import com.yuseix.dragonminez.client.character.models.bioandroid.BioAndroidModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
@@ -15,6 +14,7 @@ import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinFemaleModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
 import com.yuseix.dragonminez.client.hud.PlayerHudOverlay;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.*;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorPiccoloModel;
@@ -59,7 +59,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModClientEvents {
 
 	@SubscribeEvent

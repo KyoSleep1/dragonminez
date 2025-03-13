@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.SwitchButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class ConfigMenu extends Screen {
-	private static final ResourceLocation menutexture = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menutexture = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menulargo2.png");
 
 	private final List<AbstractWidget> switchesButtons = new ArrayList<>();

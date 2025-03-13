@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.armor;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorSaiyanModel;
 import net.minecraft.client.Minecraft;
@@ -33,7 +34,7 @@ public class SaiyanArmorItem extends ArmorItem {
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 
-        String texturePath = DragonMineZ.MOD_ID + ":textures/armor/saiyans/" + itemId;
+        String texturePath = Reference.MOD_ID + ":textures/armor/saiyans/" + itemId;
 
         if(isDamageOn()){
             int maxDamage = stack.getMaxDamage();

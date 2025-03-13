@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.PinkFrogModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.PinkFrogEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,7 +17,7 @@ public class PinkFrogRenderer extends GeoEntityRenderer<PinkFrogEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(PinkFrogEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranarosa.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/ranas/ranarosa.png");
     }
 
     @Override

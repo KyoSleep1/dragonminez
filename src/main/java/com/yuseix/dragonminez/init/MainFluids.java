@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init;
 
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.fluids.SimpleFluid;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
@@ -15,10 +16,10 @@ import net.minecraftforge.registries.RegistryObject;
 public final class MainFluids {
 
     public static final DeferredRegister<FluidType> FLUID_TYPE_REGISTER =
-            DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, DragonMineZ.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 
     public static final DeferredRegister<Fluid> FLUIDS_REGISTER =
-            DeferredRegister.create(ForgeRegistries.FLUIDS, DragonMineZ.MOD_ID);
+            DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
     public static final RegistryObject<FluidType> HEALING_FLUID_TYPE = FLUID_TYPE_REGISTER.register("healing_fluid_type",
             () -> new SimpleFluid(

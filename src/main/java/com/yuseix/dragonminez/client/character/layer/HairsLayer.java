@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.hair.*;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -20,21 +21,21 @@ import net.minecraft.world.entity.EquipmentSlot;
 
 public class HairsLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
     //TEXTURAS CABELLO
-    private static final ResourceLocation SUIT_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/hairtexture.png");
-    public static final ResourceLocation GOKUHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/goku/gokubasehair1.png");
-    public static final ResourceLocation GOKUHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/hairprueba.png");
-    public static final ResourceLocation VEGETAHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair1.png");
-    public static final ResourceLocation VEGETAHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair2.png");
-    public static final ResourceLocation GOHANDBSHAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/gohandbs/gohandbshair.png");
-    public static final ResourceLocation GOHANDBSHAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/gohandbs/gohandbshair2.png");
-    public static final ResourceLocation GOHAN_TEEN_HAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/gohandbs/gohanteen1.png");
-    public static final ResourceLocation GOHAN_TEEN_HAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/gohandbs/gohanteen2.png");
-    public static final ResourceLocation TRUNKS_HAIR_TEXT1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/trunks/trunks.png");
-    public static final ResourceLocation TRUNKS_HAIR_TEXT2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/hair/trunks/trunks2.png");
+    private static final ResourceLocation SUIT_TEX = new ResourceLocation(Reference.MOD_ID, "textures/entity/hairtexture.png");
+    public static final ResourceLocation GOKUHAIR_TEXT1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/goku/gokubasehair1.png");
+    public static final ResourceLocation GOKUHAIR_TEXT2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/hairprueba.png");
+    public static final ResourceLocation VEGETAHAIR_TEXT1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair1.png");
+    public static final ResourceLocation VEGETAHAIR_TEXT2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/vegeta/vegetahair2.png");
+    public static final ResourceLocation GOHANDBSHAIR_TEXT1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/gohandbs/gohandbshair.png");
+    public static final ResourceLocation GOHANDBSHAIR_TEXT2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/gohandbs/gohandbshair2.png");
+    public static final ResourceLocation GOHAN_TEEN_HAIR_TEXT1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/gohandbs/gohanteen1.png");
+    public static final ResourceLocation GOHAN_TEEN_HAIR_TEXT2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/gohandbs/gohanteen2.png");
+    public static final ResourceLocation TRUNKS_HAIR_TEXT1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/trunks/trunks.png");
+    public static final ResourceLocation TRUNKS_HAIR_TEXT2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/hair/trunks/trunks2.png");
 
-    private static final ResourceLocation EARS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/ears.png");
-    private static final ResourceLocation HALO_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/halo.png");
-    private static final ResourceLocation MAJIN_ACCES = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/majin/body/tevil_bodytype.png");
+    private static final ResourceLocation EARS = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/namek/body/ears.png");
+    private static final ResourceLocation HALO_TEX = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/halo.png");
+    private static final ResourceLocation MAJIN_ACCES = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/majin/body/tevil_bodytype.png");
 
     private float colorR, colorG, colorB;
 

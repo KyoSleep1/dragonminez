@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.armor;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.armor.client.model.ArmorBaseModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -31,7 +32,7 @@ public class DbzArmorItem extends ArmorItem {
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 
-        String texturePath = DragonMineZ.MOD_ID + ":textures/armor/" + itemId;
+        String texturePath = Reference.MOD_ID + ":textures/armor/" + itemId;
 
         if(isDamageOn()){
             int maxDamage = stack.getMaxDamage();

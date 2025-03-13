@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.PorungaEntity;
 import com.yuseix.dragonminez.init.entity.custom.ShenlongEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -14,17 +15,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class PorungaModel extends GeoModel<PorungaEntity> {
     @Override
     public ResourceLocation getModelResource(PorungaEntity shenlongEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/porunga.geo.json");
+        return new ResourceLocation(Reference.MOD_ID, "geo/porunga.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(PorungaEntity shenlongEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/porunga.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/porunga.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(PorungaEntity shenlongEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/porunga.animation.json");
+        return new ResourceLocation(Reference.MOD_ID, "animations/porunga.animation.json");
     }
 
     @Override

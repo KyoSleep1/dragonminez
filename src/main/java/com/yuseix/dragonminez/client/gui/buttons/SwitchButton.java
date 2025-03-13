@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.client.gui.buttons;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -13,7 +14,7 @@ public class SwitchButton extends Button {
 
     private boolean isActive;
 
-    private static final ResourceLocation botones = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation botones = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/buttons/characterbuttons.png");
 
     public SwitchButton(boolean active, int pX, int pY, Component pMessage, OnPress pOnPress) {

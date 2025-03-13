@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.NubeNegraEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
@@ -13,12 +14,12 @@ import software.bernie.geckolib.model.GeoModel;
 public class NubeNegraModel extends GeoModel<NubeNegraEntity> {
 	@Override
 	public ResourceLocation getModelResource(NubeNegraEntity nubeNegraEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/cloud.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/cloud.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(NubeNegraEntity nubeNegraEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/black_cloud.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/black_cloud.png");
 	}
 
 	@Override

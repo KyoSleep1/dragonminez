@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.hair.*;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
@@ -20,8 +21,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 
 public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> extends RenderLayer<T, M> {
-    private static final ResourceLocation SUIT_TEX = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/hairtexture.png");
-    private static final ResourceLocation EARS = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/body/ears.png");
+    private static final ResourceLocation SUIT_TEX = new ResourceLocation(Reference.MOD_ID, "textures/entity/hairtexture.png");
+    private static final ResourceLocation EARS = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/namek/body/ears.png");
 
     private float colorR, colorG, colorB;
 

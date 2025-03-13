@@ -1,5 +1,7 @@
 package com.yuseix.dragonminez;
 
+import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.common.util.LogUtil;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.config.races.*;
 import com.yuseix.dragonminez.config.races.transformations.*;
@@ -24,7 +26,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forgespi.language.IModInfo;
 import software.bernie.geckolib.GeckoLib;
 import terrablender.api.Regions;
 import terrablender.api.SurfaceRuleManager;
@@ -33,11 +34,8 @@ import terrablender.api.SurfaceRuleManager;
  * This file uses GeckoLib, licensed under the MIT License.
  * Copyright © 2024 GeckoThePecko.
  */
-
-@Mod(DragonMineZ.MOD_ID)
+@Mod(Reference.MOD_ID)
 public class DragonMineZ {
-
-	public static final String MOD_ID = "dragonminez";
 
 	public DragonMineZ() {
 
@@ -55,16 +53,13 @@ public class DragonMineZ {
 
 			if (!geckoLibVersion.equals("4.7")) {
 				// GeckoLib Version Mismatch Warning
-				IModInfo modInfo = ModLoadingContext.get().getActiveContainer().getModInfo();
 				String warningMessage = String.format("""
 						DragonMineZ:
 						We have detected that you are using an outdated version of GeckoLib, although the mod will work correctly,
 						it is recommended to update to the latest version of GeckoLib (4.7).
 						Proceed at your own risk. DragonMineZ will load with GeckoLib version %s.
 						""", geckoLibVersion);
-
-				ModLoadingWarning modLoadingWarning = new ModLoadingWarning(modInfo, ModLoadingStage.CONSTRUCT, warningMessage);
-				ModLoader.get().addWarning(modLoadingWarning);
+				LogUtil.warn(warningMessage);
 			}
 		});
 
@@ -145,7 +140,7 @@ public class DragonMineZ {
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.NAMEK_AJISSA_SAPLING.getId(), MainBlocks.POTTED_AJISSA_SAPLING);
 			((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(MainBlocks.NAMEK_SACRED_SAPLING.getId(), MainBlocks.POTTED_SACRED_SAPLING);
 
-			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
+			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, Reference.MOD_ID, ModSurfaceRules.makeRules());
 
 			ModMessages.register();
 			DMZStoryRegistry.registerAll();

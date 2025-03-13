@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.saiyansaga;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.OzaruVegetaEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -10,21 +11,20 @@ import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
 import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
-
 public class OzaruVegetaModel extends GeoModel<OzaruVegetaEntity> {
 	@Override
 	public ResourceLocation getModelResource(OzaruVegetaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/ozaruvegeta.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/ozaruvegeta.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(OzaruVegetaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/sagas/saiyan/vegeta_ozaru.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/sagas/saiyan/vegeta_ozaru.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(OzaruVegetaEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/ozaruvegeta.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/ozaruvegeta.animation.json");
 	}
 
 	@Override

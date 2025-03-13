@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.recipes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -95,7 +96,7 @@ public class ArmorStationRecipes implements Recipe<SimpleContainer> {
 
     public static class Serializer implements RecipeSerializer<ArmorStationRecipes> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final ResourceLocation ID = new ResourceLocation(DragonMineZ.MOD_ID, "armor_station");
+        public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "armor_station");
 
         @Override
         public ArmorStationRecipes fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {

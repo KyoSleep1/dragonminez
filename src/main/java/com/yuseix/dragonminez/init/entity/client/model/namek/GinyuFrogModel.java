@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.namek;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.namek.GinyuFrogEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekFrogEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -14,17 +15,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class GinyuFrogModel extends GeoModel<GinyuFrogEntity> {
     @Override
     public ResourceLocation getModelResource(GinyuFrogEntity dinoEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "geo/namekfrog.geo.json");
+        return new ResourceLocation(Reference.MOD_ID, "geo/namekfrog.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(GinyuFrogEntity dinoEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranadefault.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/ranas/ranadefault.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(GinyuFrogEntity dinoEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "animations/namekfrog.animation.json");
+        return new ResourceLocation(Reference.MOD_ID, "animations/namekfrog.animation.json");
     }
 
     @Override

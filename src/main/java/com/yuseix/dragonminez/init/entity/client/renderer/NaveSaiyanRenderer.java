@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.NaveSaiyanModel;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -27,7 +28,7 @@ public class NaveSaiyanRenderer extends GeoEntityRenderer<NaveSaiyanEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(NaveSaiyanEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/navesaiyan.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/navesaiyan.png");
     }
 
     @Override

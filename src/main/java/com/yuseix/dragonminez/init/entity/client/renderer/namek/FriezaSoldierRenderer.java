@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldierModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldierEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,7 +20,7 @@ public class FriezaSoldierRenderer extends GeoEntityRenderer<FriezaSoldierEntity
 
     @Override
     public ResourceLocation getTextureLocation(FriezaSoldierEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/namekusei/soldado1.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/namekusei/soldado1.png");
     }
 
     @Override

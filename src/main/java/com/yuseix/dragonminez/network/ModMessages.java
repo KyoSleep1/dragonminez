@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.network;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.*;
 import com.yuseix.dragonminez.network.S2C.*;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ public class ModMessages {
 
 	public static void register() {
 		SimpleChannel net = NetworkRegistry.ChannelBuilder
-				.named(new ResourceLocation(DragonMineZ.MOD_ID, "messagesold"))
+				.named(new ResourceLocation(Reference.MOD_ID, "messagesold"))
 				.networkProtocolVersion(() -> "1.0")
 				.clientAcceptedVersions(s -> true)
 				.serverAcceptedVersions(s -> true)

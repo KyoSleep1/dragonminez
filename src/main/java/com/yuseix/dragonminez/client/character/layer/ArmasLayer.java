@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.init.items.models.BaculoEmptyModel;
 import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
@@ -166,11 +167,11 @@ public class ArmasLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<Ab
 
     private ResourceLocation getTextura(ItemStack arma) {
         if (arma.getItem() == MainItems.BACULO_SAGRADO.get()) {
-            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png");
+            return new ResourceLocation(Reference.MOD_ID, "textures/item/armas/baculosaco.png");
         } else if (arma.getItem() == MainItems.Z_SWORD.get()) {
-            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/baculosaco.png"); // Espada Z no necesita textura, pero no puede dar Null asi que pongo relleno xd
+            return new ResourceLocation(Reference.MOD_ID, "textures/item/armas/baculosaco.png"); // Espada Z no necesita textura, pero no puede dar Null asi que pongo relleno xd
         } else if (arma.getItem() == MainItems.TRUNKS_SWORD.get()) {
-            return new ResourceLocation(DragonMineZ.MOD_ID, "textures/item/armas/trunkssword_layer.png");
+            return new ResourceLocation(Reference.MOD_ID, "textures/item/armas/trunkssword_layer.png");
         }
         // Agregar más armas con textura completa aquí
         return null;

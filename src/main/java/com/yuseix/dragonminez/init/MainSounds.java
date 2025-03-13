@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -11,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 public final class MainSounds {
 
 	public static final DeferredRegister<SoundEvent> SOUND_EVENTS_REGISTER =
-			DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, DragonMineZ.MOD_ID);
+			DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Reference.MOD_ID);
 
 	public static final RegistryObject<SoundEvent> GOLPE1 = registerSoundEvent("punch1");
 	public static final RegistryObject<SoundEvent> GOLPE2 = registerSoundEvent("punch2");
@@ -63,7 +64,7 @@ public final class MainSounds {
 	public static final RegistryObject<SoundEvent> VEGETA_OOZARU_DEATH = registerSoundEvent("vegeta_oozaru_death");
 
 	private static RegistryObject<SoundEvent> registerSoundEvent(String name) {
-		ResourceLocation id = new ResourceLocation(DragonMineZ.MOD_ID, name);
+		ResourceLocation id = new ResourceLocation(Reference.MOD_ID, name);
 
 		return SOUND_EVENTS_REGISTER.register(name, () -> SoundEvent.createVariableRangeEvent(id));
 	}

@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.events.characters;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
@@ -14,7 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class TimeChamberEvents {
 	private static final double penaltyLow = 2.0;
 	private static final double penaltyHigh = 1.5;

@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.FriezaSoldier02Entity;
@@ -23,7 +24,7 @@ public class FriezaSoldier02Renderer extends LivingEntityRenderer<FriezaSoldier0
 
     @Override
     public ResourceLocation getTextureLocation(FriezaSoldier02Entity namekWarriorEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/namekusei/soldado2.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/namekusei/soldado2.png");
     }
 
     @Override

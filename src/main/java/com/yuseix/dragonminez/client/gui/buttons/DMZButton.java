@@ -1,11 +1,9 @@
 package com.yuseix.dragonminez.client.gui.buttons;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class DMZButton extends Button {
 
-    private static final ResourceLocation botones = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation botones = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/buttons/guibuttons.png");
 
 

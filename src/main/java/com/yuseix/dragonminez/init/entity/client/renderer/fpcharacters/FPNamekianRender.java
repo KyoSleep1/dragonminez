@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.fpcharacters;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.characters.FPHairsLayer;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.FPBase;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -164,7 +165,7 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
         var playermodel = this.getModel();
 
-        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
+        var delineado1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, Minecraft.getInstance().player).ifPresent(cap -> {
 
@@ -333,7 +334,7 @@ public class FPNamekianRender extends LivingEntityRenderer<FPBase, PlayerModel<F
 
     @Override
     public ResourceLocation getTextureLocation(FPBase abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/prueba.png");
     }
 
 }

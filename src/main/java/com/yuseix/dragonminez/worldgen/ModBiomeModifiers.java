@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.worldgen;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.utils.DMZTags;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
@@ -130,6 +131,6 @@ public class ModBiomeModifiers {
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {
-        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(DragonMineZ.MOD_ID, name));
+        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, new ResourceLocation(Reference.MOD_ID, name));
     }
 }

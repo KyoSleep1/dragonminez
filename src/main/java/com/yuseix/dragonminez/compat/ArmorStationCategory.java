@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.compat;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.recipes.ArmorStationRecipes;
 import mezz.jei.api.constants.VanillaTypes;
@@ -17,8 +17,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class ArmorStationCategory implements IRecipeCategory<ArmorStationRecipes> {
-    public static final ResourceLocation UID = new ResourceLocation(DragonMineZ.MOD_ID, "armor_station");
-    public static final ResourceLocation TEXTURE = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/kikono_armor_station_gui.png");
+    public static final ResourceLocation UID = new ResourceLocation(Reference.MOD_ID, "armor_station");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/kikono_armor_station_gui.png");
     public static final RecipeType<ArmorStationRecipes> ARMOR_STATION_TYPE = new RecipeType<>(UID, ArmorStationRecipes.class);
     private final IDrawable background;
     private final IDrawable icon;

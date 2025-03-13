@@ -13,10 +13,11 @@ import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
 import com.yuseix.dragonminez.client.character.models.majin.MajinGordoModel;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -596,7 +597,7 @@ public class MajinFATRaceRender extends LivingEntityRenderer<AbstractClientPlaye
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/prueba.png");
     }
 
 

@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.client.hud.spaceship;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.events.ClientEvents;
 import com.yuseix.dragonminez.events.characters.EntityEvents;
 import com.yuseix.dragonminez.init.MainEntity;
@@ -24,9 +25,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class SaiyanSpacePodOverlay extends Screen {
-    private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menu = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menulargomitad.png");
-    private static final ResourceLocation icons = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation icons = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/spaceshipicons.png");
     private int altoTexto, anchoTexto;
     private DMZRightButton tierra, namek, kaio;

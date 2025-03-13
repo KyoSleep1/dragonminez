@@ -6,6 +6,7 @@ import com.yuseix.dragonminez.client.gui.buttons.CustomButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZGuiButtons;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.SummonQuestC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -29,9 +30,9 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class StorylineMenu extends Screen {
-	private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menu = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menulargo2.png");
-	private static final ResourceLocation menuinfo = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menuinfo = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menulargomitad.png");
 
 	private static boolean infoMenu;

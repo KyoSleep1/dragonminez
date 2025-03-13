@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.stats;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.*;
 import com.yuseix.dragonminez.utils.DMZDatos;
@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class DMZStatsCapabilities {
 
     private DMZDatos dmzdatos = new DMZDatos();

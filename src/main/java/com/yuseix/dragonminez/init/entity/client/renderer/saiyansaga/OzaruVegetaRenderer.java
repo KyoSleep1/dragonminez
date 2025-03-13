@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.NappaModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.OzaruVegetaModel;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.NappaEntity;
@@ -26,7 +27,7 @@ public class OzaruVegetaRenderer extends GeoEntityRenderer<OzaruVegetaEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(OzaruVegetaEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/sagas/saiyan/vegeta_ozaru.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/sagas/saiyan/vegeta_ozaru.png");
 	}
 
 }

@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.DinoModel;
 import com.yuseix.dragonminez.init.entity.custom.DinoEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,7 +22,7 @@ public class DinoRenderer extends GeoEntityRenderer<DinoEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(DinoEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/dinos/dino1.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/dinos/dino1.png");
 	}
 
 	@Override

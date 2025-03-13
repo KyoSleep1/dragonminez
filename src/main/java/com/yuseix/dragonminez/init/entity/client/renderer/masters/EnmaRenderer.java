@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.EnmaModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.EnmaEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,7 +25,7 @@ public class EnmaRenderer extends GeoEntityRenderer<EnmaEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(EnmaEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/enma.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/enma.png");
 	}
 
 }

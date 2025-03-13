@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekNPCModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekTraderEntity;
 import com.yuseix.dragonminez.init.entity.custom.namek.NamekWarriorEntity;
@@ -20,7 +21,7 @@ public class NamekTrader1Renderer extends LivingEntityRenderer<NamekTraderEntity
 
     @Override
     public ResourceLocation getTextureLocation(NamekTraderEntity namekWarriorEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/namekusei/namek_random.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/namekusei/namek_random.png");
     }
 
     @Override

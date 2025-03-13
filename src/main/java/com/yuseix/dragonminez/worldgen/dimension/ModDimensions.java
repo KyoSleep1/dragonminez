@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.worldgen.dimension;
 
 import com.yuseix.dragonminez.DragonMineZ;
 import com.mojang.datafixers.util.Pair;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
 import net.minecraft.core.HolderGetter;
@@ -34,35 +35,35 @@ public class ModDimensions extends NoiseRouterData{
 
     //Namek
     public static final ResourceKey<Level> NAMEK_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
-            new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
+            new ResourceLocation(Reference.MOD_ID, "namek"));
     public static final ResourceKey<LevelStem> NAMEK_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
-            new ResourceLocation(DragonMineZ.MOD_ID, "namek"));
+            new ResourceLocation(Reference.MOD_ID, "namek"));
     public static final ResourceKey<DimensionType> NAMEK_DIM_TYPE =
             ResourceKey.create(Registries.DIMENSION_TYPE,
-                    new ResourceLocation(DragonMineZ.MOD_ID, "namek_type"));
+                    new ResourceLocation(Reference.MOD_ID, "namek_type"));
 
     //Habitación del Tiempo
     public static final ResourceKey<Level> TIME_CHAMBER_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
-            new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
+            new ResourceLocation(Reference.MOD_ID, "time_chamber"));
     public static final ResourceKey<LevelStem> TIME_CHAMBER_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
-            new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber"));
+            new ResourceLocation(Reference.MOD_ID, "time_chamber"));
     public static final ResourceKey<DimensionType> TIME_CHAMBER_DIM_TYPE =
             ResourceKey.create(Registries.DIMENSION_TYPE,
-                    new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_type"));
+                    new ResourceLocation(Reference.MOD_ID, "time_chamber_type"));
 
     //Otro Mundo (Otherworld)
     public static final ResourceKey<Level> OTHERWORLD_DIM_LEVEL_KEY = ResourceKey.create(Registries.DIMENSION,
-            new ResourceLocation(DragonMineZ.MOD_ID, "otherworld"));
+            new ResourceLocation(Reference.MOD_ID, "otherworld"));
     public static final ResourceKey<LevelStem> OTHERWORLD_DIM_KEY = ResourceKey.create(Registries.LEVEL_STEM,
-            new ResourceLocation(DragonMineZ.MOD_ID, "otherworld"));
+            new ResourceLocation(Reference.MOD_ID, "otherworld"));
     public static final ResourceKey<DimensionType> OTHERWORLD_DIM_TYPE =
             ResourceKey.create(Registries.DIMENSION_TYPE,
-                    new ResourceLocation(DragonMineZ.MOD_ID, "otherworld_type"));
+                    new ResourceLocation(Reference.MOD_ID, "otherworld_type"));
 
     //NOISE SETTINGS CUSTOM
-    public static final ResourceKey<NoiseGeneratorSettings> NAMEK_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "nameknoisegen"));
-    public static final ResourceKey<NoiseGeneratorSettings> TIME_CHAMBER_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "time_chamber_noisegen"));
-    public static final ResourceKey<NoiseGeneratorSettings> OTHERWORLD_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(DragonMineZ.MOD_ID, "otherworld_noisegen"));
+    public static final ResourceKey<NoiseGeneratorSettings> NAMEK_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(Reference.MOD_ID, "nameknoisegen"));
+    public static final ResourceKey<NoiseGeneratorSettings> TIME_CHAMBER_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(Reference.MOD_ID, "time_chamber_noisegen"));
+    public static final ResourceKey<NoiseGeneratorSettings> OTHERWORLD_NOISE_SETTINGS = ResourceKey.create(Registries.NOISE_SETTINGS, new ResourceLocation(Reference.MOD_ID, "otherworld_noisegen"));
 
     public static void bootstrapType(BootstapContext<DimensionType> context) {
         context.register(NAMEK_DIM_TYPE, new DimensionType(

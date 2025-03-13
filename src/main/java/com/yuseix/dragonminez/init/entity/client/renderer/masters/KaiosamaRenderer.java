@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.KaiosamaModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.RoshiModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.KaiosamaEntity;
@@ -28,7 +29,7 @@ public class KaiosamaRenderer extends GeoEntityRenderer<KaiosamaEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(KaiosamaEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/kaiosama_master.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/kaiosama_master.png");
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.masters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.EnmaModel;
 import com.yuseix.dragonminez.init.entity.client.model.masters.UranaiModel;
 import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
@@ -21,7 +22,7 @@ public class UranaiRenderer extends GeoEntityRenderer<UranaiEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(UranaiEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/uranai.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/uranai.png");
 	}
 
 	@Override

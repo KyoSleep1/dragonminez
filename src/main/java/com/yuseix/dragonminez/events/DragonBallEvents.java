@@ -1,13 +1,13 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.network.S2C.UpdateNamekDragonRadarS2C;
 import com.yuseix.dragonminez.utils.DebugUtils;
-import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,7 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class DragonBallEvents {
 	@SubscribeEvent
 	public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {

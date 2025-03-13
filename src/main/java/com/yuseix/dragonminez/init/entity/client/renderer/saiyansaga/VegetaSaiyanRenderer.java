@@ -3,18 +3,13 @@ package com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
-import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.RaditzModel;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.VegetaModel;
-import com.yuseix.dragonminez.init.entity.custom.SagaEntity;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.VegetaEntity;
 import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,7 +17,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 public class VegetaSaiyanRenderer extends LivingEntityRenderer<VegetaEntity, PlayerModel<VegetaEntity>> {
@@ -226,7 +220,7 @@ public class VegetaSaiyanRenderer extends LivingEntityRenderer<VegetaEntity, Pla
 
         @Override
     public ResourceLocation getTextureLocation(VegetaEntity pEntity) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/sagas/saiyan/vegeta_saiyan.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/sagas/saiyan/vegeta_saiyan.png");
     }
 
     @Override

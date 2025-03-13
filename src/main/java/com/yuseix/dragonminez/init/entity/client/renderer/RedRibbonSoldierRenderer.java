@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.RedRibbonSoldierModel;
 import com.yuseix.dragonminez.init.entity.client.model.namek.FriezaSoldier02Model;
 import com.yuseix.dragonminez.init.entity.custom.RedRibbonSoldierEntity;
@@ -18,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 public class RedRibbonSoldierRenderer extends LivingEntityRenderer<RedRibbonSoldierEntity, PlayerModel<RedRibbonSoldierEntity>> {
 
     private static final ResourceLocation[] TEXTURES = new ResourceLocation[]{
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon.png"),
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon1.png"),
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon2.png"),
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon3.png"),
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon4.png"),
-            new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/patreon/patreon5.png")
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon.png"),
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon1.png"),
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon2.png"),
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon3.png"),
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon4.png"),
+            new ResourceLocation(Reference.MOD_ID, "textures/entity/patreon/patreon5.png")
     };
 
     public RedRibbonSoldierRenderer(EntityRendererProvider.Context pContext) {

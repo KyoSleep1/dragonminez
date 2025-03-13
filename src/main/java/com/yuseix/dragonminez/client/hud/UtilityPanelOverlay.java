@@ -18,10 +18,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import com.yuseix.dragonminez.common.Reference;
+
 
 @OnlyIn(Dist.CLIENT)
 public class UtilityPanelOverlay extends Screen {
-	private static final ResourceLocation menu = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menu = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menulargomitad.png");
 	private int altoTexto, anchoTexto;
 	private DMZRightButton rb1, lb1, rb2, lb2;

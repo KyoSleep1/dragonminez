@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.*;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
@@ -37,12 +38,12 @@ public class CCustomizationPage extends Screen {
     private int anchoTexto;
 
     //Textura de los panoramas
-    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/panorama");
-    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/buu_panorama");
-    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/bio_panorama");
-    private static final ResourceLocation PANORAMA_SAIYAN = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/s_panorama");
-    private static final ResourceLocation PANORAMA_NAMEK = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/n_panorama");
-    private static final ResourceLocation PANORAMA_COLD = new ResourceLocation(DragonMineZ.MOD_ID, "textures/gui/background/c_panorama");
+    private static final ResourceLocation PANORAMA_PATH = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/panorama");
+    private static final ResourceLocation PANORAMA_BUU = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/buu_panorama");
+    private static final ResourceLocation PANORAMA_BIO = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/bio_panorama");
+    private static final ResourceLocation PANORAMA_SAIYAN = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/s_panorama");
+    private static final ResourceLocation PANORAMA_NAMEK = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/n_panorama");
+    private static final ResourceLocation PANORAMA_COLD = new ResourceLocation(Reference.MOD_ID, "textures/gui/background/c_panorama");
 
     //Panoramas
     private final PanoramaRenderer customPanorama = new PanoramaRenderer(new CubeMap(PANORAMA_PATH));
@@ -53,10 +54,10 @@ public class CCustomizationPage extends Screen {
     private final PanoramaRenderer panoramaCold = new PanoramaRenderer(new CubeMap(PANORAMA_COLD));
 
 
-    private static final ResourceLocation menu1 = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation menu1 = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menugrande.png");
 
-    private static final ResourceLocation texto = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation texto = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/menutexto.png");
 
     private final List<ColorButton2> botonColorDefecto = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.client.gui.buttons;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,7 @@ public class ColorButton extends Button {
 
     private String tipo = "";
 
-    private static final ResourceLocation botones = new ResourceLocation(DragonMineZ.MOD_ID,
+    private static final ResourceLocation botones = new ResourceLocation(Reference.MOD_ID,
             "textures/gui/buttons/characterbuttons.png");
 
     public ColorButton(String partePJ, int pX, int pY, Component pMessage, OnPress pOnPress) {

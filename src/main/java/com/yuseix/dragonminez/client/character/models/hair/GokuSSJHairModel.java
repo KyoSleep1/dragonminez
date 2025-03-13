@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.client.character.models.hair;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.client.model.HumanoidModel;
@@ -15,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GokuSSJHairModel extends HumanoidModel<AbstractClientPlayer> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "hairs"), "goku");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "hairs"), "goku");
 	private final ModelPart gokussjhair;
 	private final ModelPart grupo1;
 	private final ModelPart pelo4;

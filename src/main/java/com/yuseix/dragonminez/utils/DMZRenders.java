@@ -5,6 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallPlaneModel;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiTrailModel;
@@ -12,7 +14,6 @@ import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiSmallWaveProjectil;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -24,7 +25,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
 public class DMZRenders {
-    private static final ResourceLocation textura_ki = new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/ki.png");
+    private static final ResourceLocation textura_ki = new ResourceLocation(Reference.MOD_ID,"textures/entity/ki.png");
     private static final AuraModel AURA_MODEL = new AuraModel(AuraModel.createBodyLayer().bakeRoot());
     public static final KiBallPlaneModel esferamodel = new KiBallPlaneModel(Minecraft.getInstance().getEntityModels().bakeLayer(KiBallPlaneModel.LAYER_LOCATION));
 

@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.client.gui.buttons.TextButton;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.network.C2S.MasterSkillsC2S;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
@@ -23,13 +24,13 @@ import java.util.Locale;
 
 @OnlyIn(Dist.CLIENT)
 public class MasterMenu extends Screen {
-	private static final ResourceLocation menuTexture = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menuTexture = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menulargo2.png");
-	private static final ResourceLocation menuGoku = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menuGoku = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menugoku.png");
-	private static final ResourceLocation menuKaio = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menuKaio = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menukaio.png");
-	private static final ResourceLocation menuRoshi = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation menuRoshi = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/menuroshi.png");
 	private int altoTexto, anchoTexto;
 	private TextButton flyBoton, kiControlBoton, kiManipulationBoton, jumpBoton, meditationBoton, potUnlockBoton, kaioKenBoton;

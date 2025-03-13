@@ -3,6 +3,7 @@ package com.yuseix.dragonminez.init.entity.client.model.namek;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -14,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class FriezaSoldier03Model<T extends LivingEntity> extends PlayerModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(DragonMineZ.MOD_ID, "friezasoldiers"), "kappa");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "friezasoldiers"), "kappa");
 	private final ModelPart head;
 	private final ModelPart cabello;
 	private final ModelPart cabello2;

@@ -2,7 +2,8 @@ package com.yuseix.dragonminez.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.DragonMineZ;
-import com.yuseix.dragonminez.commands.*;
+import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.server.command.*;
 import com.yuseix.dragonminez.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
@@ -14,15 +15,13 @@ import com.yuseix.dragonminez.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.stats.storymode.DMZQuestProvider;
-import com.yuseix.dragonminez.stats.storymode.DMZStoryCapability;
 import com.yuseix.dragonminez.utils.PlayerInventoryManager;
-import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
-import com.yuseix.dragonminez.world.StructuresCapability;
-import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
+import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +58,7 @@ import java.util.Random;
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
 //O también si es parte del paquete "net.minecraftforge.eventbus.api"
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeBusEvents {
 	private static final List<BlockPos> dragonBallPositions = new ArrayList<>();
 	private static final List<BlockPos> namekDragonBallPositions = new ArrayList<>();
@@ -275,13 +274,13 @@ public class ForgeBusEvents {
 	public void onAttachCapabilitiesWorld(AttachCapabilitiesEvent<Level> event) {
 		if (event.getObject() instanceof ServerLevel) {
 			if (!event.getObject().getCapability(DragonBallGenProvider.CAPABILITY).isPresent())
-				event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "dragon_balls"), new DragonBallGenProvider());
+				event.addCapability(new ResourceLocation(Reference.MOD_ID, "dragon_balls"), new DragonBallGenProvider());
 
 			if (!event.getObject().getCapability(NamekDragonBallGenProvider.CAPABILITY).isPresent())
-				event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "namek_dragon_balls"), new NamekDragonBallGenProvider());
+				event.addCapability(new ResourceLocation(Reference.MOD_ID, "namek_dragon_balls"), new NamekDragonBallGenProvider());
 
 			if (!event.getObject().getCapability(StructuresProvider.CAPABILITY).isPresent())
-				event.addCapability(new ResourceLocation(DragonMineZ.MOD_ID, "structures"), new StructuresProvider());
+				event.addCapability(new ResourceLocation(Reference.MOD_ID, "structures"), new StructuresProvider());
 		}
 	}
 

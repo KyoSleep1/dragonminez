@@ -14,10 +14,11 @@ import com.yuseix.dragonminez.client.character.models.bioandroid.PerfectModel;
 import com.yuseix.dragonminez.client.character.models.bioandroid.SemiPerfectModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -653,8 +654,8 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     private void renderMajinMarca(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
-        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
-        var delineado2 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/bioandroid/perfect/eyes/eyesmajin.png");
+        var delineado1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/bioandroid/imperfect/eyes/mmarca_eyes0.png");
+        var delineado2 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/bioandroid/perfect/eyes/eyesmajin.png");
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
 
@@ -686,7 +687,7 @@ public class BioAndroidRender extends LivingEntityRenderer<AbstractClientPlayer,
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/stevehumansaiyanmodel.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/stevehumansaiyanmodel.png");
     }
 
     private void setModelProperties(AbstractClientPlayer pClientPlayer) {

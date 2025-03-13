@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.namek;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.namek.GinyuFrogModel;
 import com.yuseix.dragonminez.init.entity.client.model.namek.NamekFrogModel;
 import com.yuseix.dragonminez.init.entity.custom.namek.GinyuFrogEntity;
@@ -17,7 +18,7 @@ public class GinyuFrogRenderer extends GeoEntityRenderer<GinyuFrogEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(GinyuFrogEntity animatable) {
-        return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/ranas/ranadefault.png");
+        return new ResourceLocation(Reference.MOD_ID, "textures/entity/ranas/ranadefault.png");
     }
 
     @Override

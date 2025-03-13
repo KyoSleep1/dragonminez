@@ -2,11 +2,11 @@ package com.yuseix.dragonminez.init.entity.client.renderer.projectil;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.projectil.KiBallPlaneModel;
 import com.yuseix.dragonminez.init.entity.custom.projectil.KiBallProjectil;
 import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,7 +20,8 @@ import org.joml.Quaternionf;
 public class KiBallRenderer extends EntityRenderer<KiBallProjectil> {
 
     private float colorR, colorG, colorB;
-    public static final KiBallPlaneModel esferamodel = new KiBallPlaneModel(KiBallPlaneModel.createBodyLayer().bakeRoot());
+    public static final KiBallPlaneModel esferamodel = new KiBallPlaneModel(KiBallPlaneModel.createBodyLayer()
+            .bakeRoot());
 
     public KiBallRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
@@ -44,7 +45,8 @@ public class KiBallRenderer extends EntityRenderer<KiBallProjectil> {
         pPoseStack.translate(0.0, 0.15, 0.0);
 
         // Renderizar el borde
-        VertexConsumer outlineConsumer = pBuffer.getBuffer(CustomRenderTypes.beaconBeam(TextureManager.KI_BALL_1, true));
+        VertexConsumer outlineConsumer = pBuffer.getBuffer(CustomRenderTypes.beaconBeam(TextureManager.KI_BALL_1,
+                true));
         var color = pEntity.getColor();
         float colorR = (color >> 16) / 255.0F;
         float colorG = ((color >> 8) & 0xff) / 255.0f;
@@ -53,7 +55,8 @@ public class KiBallRenderer extends EntityRenderer<KiBallProjectil> {
         esferamodel.renderToBuffer(pPoseStack, outlineConsumer, pPackedLight, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0F);
 
         // Renderizar el borde
-        VertexConsumer mainConsumer = pBuffer.getBuffer(CustomRenderTypes.beaconBeam(TextureManager.KI_BALL_2, true));
+        VertexConsumer mainConsumer = pBuffer.getBuffer(CustomRenderTypes.beaconBeam(TextureManager.KI_BALL_2,
+                true));
         pPoseStack.scale(0.9f, 0.9f, 0.9f);
         pPoseStack.translate(0.0, 0, 0.0);
 
@@ -71,7 +74,7 @@ public class KiBallRenderer extends EntityRenderer<KiBallProjectil> {
 
     @Override
     public ResourceLocation getTextureLocation(KiBallProjectil kiBlastProyectil) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/ki.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/ki.png");
     }
 
     @Override

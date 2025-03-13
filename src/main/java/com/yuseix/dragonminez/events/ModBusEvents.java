@@ -1,21 +1,21 @@
 package com.yuseix.dragonminez.events;
 
-import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.*;
 import com.yuseix.dragonminez.init.entity.custom.fpcharacters.*;
 import com.yuseix.dragonminez.init.entity.custom.masters.*;
 import com.yuseix.dragonminez.init.entity.custom.namek.*;
 import com.yuseix.dragonminez.init.entity.custom.saiyansaga.*;
-import com.yuseix.dragonminez.world.DragonBallGenProvider;
-import com.yuseix.dragonminez.world.NamekDragonBallGenProvider;
-import com.yuseix.dragonminez.world.StructuresCapability;
+import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
+import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = DragonMineZ.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
 
 	@SubscribeEvent

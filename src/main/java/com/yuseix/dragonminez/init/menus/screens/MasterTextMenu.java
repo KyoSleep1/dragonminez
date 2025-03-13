@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZButton;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.client.gui.MasterMenu;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import net.minecraft.ChatFormatting;
@@ -25,7 +26,7 @@ import java.util.Locale;
 
 public class MasterTextMenu extends Screen {
 
-	private static final ResourceLocation textoCuadro = new ResourceLocation(DragonMineZ.MOD_ID,
+	private static final ResourceLocation textoCuadro = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/texto.png");
 	private final String mastername;
 

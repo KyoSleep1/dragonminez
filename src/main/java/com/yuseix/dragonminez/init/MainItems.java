@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.armor.DbzArmorItem;
 import com.yuseix.dragonminez.init.armor.ModArmorMaterials;
 import com.yuseix.dragonminez.init.armor.SaiyanArmorItem;
@@ -15,7 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 @SuppressWarnings("ALL")
 public final class MainItems {
     public static final Item.Properties properties = new Item.Properties();
-    public static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, DragonMineZ.MOD_ID);
+    public static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
     //CAPSULAS
     public static final RegistryObject<Item> CAPSULA_ROJA = ITEM_REGISTER.register("red_capsule", CapsulaRojaItem::new);

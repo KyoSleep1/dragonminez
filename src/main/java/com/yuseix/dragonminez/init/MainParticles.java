@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init;
 
 import com.mojang.serialization.Codec;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.particles.AjissaLeavesParticle;
 import com.yuseix.dragonminez.init.particles.particleoptions.*;
 import net.minecraft.core.particles.ParticleType;
@@ -14,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 public final class MainParticles {
 
 	public static final DeferredRegister<ParticleType<?>> PARTICLES_REGISTER =
-			DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, DragonMineZ.MOD_ID);
+			DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, Reference.MOD_ID);
 
 	public static final RegistryObject<ParticleType<AjissaLeavesParticleOptions>> AJISSA_LEAVES_PARTICLE = PARTICLES_REGISTER.register("ajissa_leaves_particle",
 			() -> new ParticleType<>(false, AjissaLeavesParticleOptions.DESERIALIZER) {

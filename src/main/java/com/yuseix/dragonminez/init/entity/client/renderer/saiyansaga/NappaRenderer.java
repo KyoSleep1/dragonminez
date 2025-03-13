@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.init.entity.client.renderer.saiyansaga;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.client.model.masters.KarinModel;
 import com.yuseix.dragonminez.init.entity.client.model.saiyansaga.NappaModel;
 import com.yuseix.dragonminez.init.entity.custom.masters.KarinEntity;
@@ -26,7 +27,7 @@ public class NappaRenderer extends GeoEntityRenderer<NappaEntity> {
 
 	@Override
 	public ResourceLocation getTextureLocation(NappaEntity animatable) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/sagas/saiyan/nappa_1.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/sagas/saiyan/nappa_1.png");
 	}
 
 }

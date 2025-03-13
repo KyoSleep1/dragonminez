@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.init.entity.client.model.masters;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.entity.custom.masters.EnmaEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.RoshiEntity;
 import com.yuseix.dragonminez.init.entity.custom.masters.UranaiEntity;
@@ -16,17 +17,17 @@ import software.bernie.geckolib.model.data.EntityModelData;
 public class UranaiModel extends GeoModel<UranaiEntity> {
 	@Override
 	public ResourceLocation getModelResource(UranaiEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "geo/masters/uranai.geo.json");
+		return new ResourceLocation(Reference.MOD_ID, "geo/masters/uranai.geo.json");
 	}
 
 	@Override
 	public ResourceLocation getTextureResource(UranaiEntity karinEntity) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/masters/uranai.png");
+		return new ResourceLocation(Reference.MOD_ID, "textures/entity/masters/uranai.png");
 	}
 
 	@Override
 	public ResourceLocation getAnimationResource(UranaiEntity wa) {
-		return new ResourceLocation(DragonMineZ.MOD_ID, "animations/uranai.animation.json");
+		return new ResourceLocation(Reference.MOD_ID, "animations/uranai.animation.json");
 	}
 
 	@Override

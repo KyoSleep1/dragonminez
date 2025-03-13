@@ -1,6 +1,7 @@
 package com.yuseix.dragonminez.worldgen.biome;
 
 import com.yuseix.dragonminez.DragonMineZ;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.worldgen.ModPlacedFeatures;
 import net.minecraft.core.registries.Registries;
@@ -18,22 +19,22 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 public class ModBiomes {
 
     public static final ResourceKey<Biome> AJISSA_PLAINS = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "ajissa_plains"));
+            new ResourceLocation(Reference.MOD_ID, "ajissa_plains"));
 
     public static final ResourceKey<Biome> SACRED_LAND = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "sacred_land"));
+            new ResourceLocation(Reference.MOD_ID, "sacred_land"));
 
     public static final ResourceKey<Biome> NAMEKIAN_RIVERS = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "namekian_rivers"));
+            new ResourceLocation(Reference.MOD_ID, "namekian_rivers"));
 
     public static final ResourceKey<Biome> TIME_CHAMBER = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "hyperbolic_time_chamber"));
+            new ResourceLocation(Reference.MOD_ID, "hyperbolic_time_chamber"));
 
     public static final ResourceKey<Biome> OTHERWORLD = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "other_world"));
+            new ResourceLocation(Reference.MOD_ID, "other_world"));
 
     public static final ResourceKey<Biome> ROCKY = ResourceKey.create(Registries.BIOME,
-            new ResourceLocation(DragonMineZ.MOD_ID, "rocky"));
+            new ResourceLocation(Reference.MOD_ID, "rocky"));
 
     public static void boostrap(BootstapContext<Biome> context){
         context.register(AJISSA_PLAINS, ajisa_plainsBiome(context));

@@ -11,12 +11,12 @@ import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.AuraModel;
 import com.yuseix.dragonminez.client.character.models.NamekianModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiScytheModel;
-import com.yuseix.dragonminez.client.character.models.kiweapons.KiSwordModel;
 import com.yuseix.dragonminez.client.character.models.kiweapons.KiTridentModel;
+import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
+import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.utils.TextureManager;
-import com.yuseix.dragonminez.utils.shaders.CustomRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;
@@ -503,7 +503,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
     private void renderMarcaMajin(AbstractClientPlayer pEntity, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight,int i, boolean flag1){
 
         PlayerModel<AbstractClientPlayer> playermodel = (PlayerModel)this.getModel();
-        var delineado1 = new ResourceLocation(DragonMineZ.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
+        var delineado1 = new ResourceLocation(Reference.MOD_ID, "textures/entity/races/namek/eyes/mmarca_eyestype1.png");
 
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, pEntity).ifPresent(cap -> {
 
@@ -672,7 +672,7 @@ public class NamekianRender extends LivingEntityRenderer<AbstractClientPlayer, P
 
     @Override
     public ResourceLocation getTextureLocation(AbstractClientPlayer abstractClientPlayer) {
-        return new ResourceLocation(DragonMineZ.MOD_ID,"textures/entity/prueba.png");
+        return new ResourceLocation(Reference.MOD_ID,"textures/entity/prueba.png");
     }
 
 
