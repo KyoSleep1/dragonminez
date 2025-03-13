@@ -2,17 +2,14 @@ package com.yuseix.dragonminez.network.C2S;
 
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
-import com.yuseix.dragonminez.world.StructuresProvider;
+import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.rmi.registry.Registry;
 import java.util.function.Supplier;
 
 public class SpacePodC2S {
