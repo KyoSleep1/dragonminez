@@ -1,12 +1,11 @@
-package com.yuseix.dragonminez.config.races;
+package com.yuseix.dragonminez.common.config.races;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class DMZBioAndroidConfig {
+public class DMZColdDemonConfig {
 
     //PASIVA
-    public static final ForgeConfigSpec.ConfigValue<Integer> HALF_HEALTH_LIFESTEAL;
-    public static final ForgeConfigSpec.ConfigValue<Integer> QUARTER_HEALTH_LIFESTEAL;
+    public static final ForgeConfigSpec.ConfigValue<Double> TP_MULTIPLER_PASSIVE;
 
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
@@ -34,26 +33,23 @@ public class DMZBioAndroidConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> INITIAL_CON_SPIRITUALIST;
     public static final ForgeConfigSpec.ConfigValue<Integer> INITIAL_KIPWR_SPIRITUALIST;
     public static final ForgeConfigSpec.ConfigValue<Integer> INITIAL_ENE_SPIRITUALIST;
-
     //Regeneracion de ki por clase
     public static final ForgeConfigSpec.ConfigValue<Double> KI_REGEN_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> KI_REGEN_SPIRITUALIST;
+
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
     static {
 
-        BUILDER.comment(" DRAGONMINEZ - BIO ANDROID CLASS CONFIG ");
+        BUILDER.comment(" DRAGONMINEZ - COLD DEMON CLASS CONFIG ");
 
         //Pasiva
-        BUILDER.push(" BIO ANDROID PASSIVE SKILL:");
+        BUILDER.push(" COLD DEMON PASSIVE SKILL:");
 
-        HALF_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Half Health! (Min: 1 / Max: 50 / Default: 5)")
-                .defineInRange("Half Health Lifesteal: ", 5, 1, 50);
-
-        QUARTER_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Quarter Health! (Min: 1 / Max: 50 / Default: 10)")
-                .defineInRange("Quarter Health Lifesteal: ", 10, 1, 50);
+        TP_MULTIPLER_PASSIVE = BUILDER.comment("Passive Training Points Gain Multiplier! (Min: 1.0 / Max: 3.0 / Default: 1.2)")
+                .defineInRange("TP Gain Multiplier: ", 1.2, 1.0, 3.0);
 
         BUILDER.pop();
 
@@ -139,7 +135,7 @@ public class DMZBioAndroidConfig {
         INITIAL_KIPWR_SPIRITUALIST= BUILDER.comment("Initial Ki Power Spiritualist STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("PWR: ", 15, 1, 200);
 
-        INITIAL_ENE_SPIRITUALIST = BUILDER.comment("Initial Energy Spiritualist STAT! (Min: 1 / Max: 200 / Default: 5)")
+        INITIAL_ENE_SPIRITUALIST = BUILDER.comment("Initial Energy Spiritualist STAT! (Min: 1 / Max: 200 / Default: 20)")
                 .defineInRange("ENE: ", 20, 1, 200);
 
         BUILDER.pop();
@@ -147,10 +143,9 @@ public class DMZBioAndroidConfig {
         BUILDER.push(" SPIRITUALIST CLASS KI REGENERATION");
 
         KI_REGEN_SPIRITUALIST = BUILDER.comment("Ki Regeneration for Spiritualist Class IN PERCENTAGE! (Min: 0.0 / Max: 1.0 / Default: 0.01)")
-                .defineInRange("Percentage: ", 0.01, 0.00, 1.0);
+                .defineInRange("Percentage: ", 0.01, 0.00, 1.00);
 
         BUILDER.pop();
-
 
         SPEC = BUILDER.build();
     }

@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.config;
+package com.yuseix.dragonminez.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 

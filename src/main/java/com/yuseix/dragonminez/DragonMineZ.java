@@ -2,9 +2,9 @@ package com.yuseix.dragonminez;
 
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.util.LogUtil;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.*;
-import com.yuseix.dragonminez.config.races.transformations.*;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.races.*;
+import com.yuseix.dragonminez.common.config.races.transformations.*;
 import com.yuseix.dragonminez.events.ForgeBusEvents;
 import com.yuseix.dragonminez.events.ModBusEvents;
 import com.yuseix.dragonminez.events.StoryEvents;

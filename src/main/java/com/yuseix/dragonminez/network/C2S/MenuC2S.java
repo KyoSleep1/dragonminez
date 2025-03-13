@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.*;
-import com.yuseix.dragonminez.config.races.transformations.*;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.races.*;
+import com.yuseix.dragonminez.common.config.races.transformations.*;
 import com.yuseix.dragonminez.network.ModMessages;
 import com.yuseix.dragonminez.network.S2C.MenuS2C;
 import com.yuseix.dragonminez.network.S2C.PacketSyncConfig;

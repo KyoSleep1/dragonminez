@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.utils;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.*;
-import com.yuseix.dragonminez.config.races.transformations.*;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.races.*;
+import com.yuseix.dragonminez.common.config.races.transformations.*;
 import com.yuseix.dragonminez.common.stats.DMZStatsAttributes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;

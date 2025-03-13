@@ -1,14 +1,12 @@
-package com.yuseix.dragonminez.config.races;
+package com.yuseix.dragonminez.common.config.races;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class DMZSaiyanConfig {
+public class DMZBioAndroidConfig {
 
     //PASIVA
-    public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_CANT;
-    public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_HEALTH_REGEN;
-    public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_STAT_BOOST;
-    public static final ForgeConfigSpec.ConfigValue<Integer> ZENKAI_COOLDOWN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HALF_HEALTH_LIFESTEAL;
+    public static final ForgeConfigSpec.ConfigValue<Integer> QUARTER_HEALTH_LIFESTEAL;
 
     //WARRIOR
     public static final ForgeConfigSpec.ConfigValue<Double> MULTIPLIER_STR_WARRIOR;
@@ -41,28 +39,21 @@ public class DMZSaiyanConfig {
     public static final ForgeConfigSpec.ConfigValue<Double> KI_REGEN_WARRIOR;
     public static final ForgeConfigSpec.ConfigValue<Double> KI_REGEN_SPIRITUALIST;
 
-
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
     static {
 
-        BUILDER.comment(" DRAGONMINEZ - SAIYAN CLASS CONFIG ");
+        BUILDER.comment(" DRAGONMINEZ - BIO ANDROID CLASS CONFIG ");
 
         //Pasiva
-        BUILDER.push(" SAIYAN PASSIVE SKILL:");
+        BUILDER.push(" BIO ANDROID PASSIVE SKILL:");
 
-        ZENKAI_CANT = BUILDER.comment("Quantity of Zenkai Activations! (Min: 1 / Max: 10 / Default: 2)")
-                .defineInRange("Zenkai Activations: ", 2, 1, 10);
+        HALF_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Half Health! (Min: 1 / Max: 50 / Default: 5)")
+                .defineInRange("Half Health Lifesteal: ", 5, 1, 50);
 
-        ZENKAI_HEALTH_REGEN = BUILDER.comment("Health Regen for Zenkais in percentage! (Min: 1 / Max: 100 / Default: 25)")
-                .defineInRange("Zenkai Health Regen: ", 25, 1, 100);
-
-        ZENKAI_STAT_BOOST = BUILDER.comment("Stat Boost for Zenkais in percentage! (Min: 1 / Max: 30 / Default: 10)")
-                .defineInRange("Zenkai Stat Boost: ", 10, 1, 30);
-
-        ZENKAI_COOLDOWN = BUILDER.comment("Cooldown for Zenkai in minutes! (Min: 1 / Max: 600 / Default: 45)")
-                .defineInRange("Zenkai Cooldown: ", 45, 1, 600);
+        QUARTER_HEALTH_LIFESTEAL = BUILDER.comment("Life Steal (in percentage) per hit when below Quarter Health! (Min: 1 / Max: 50 / Default: 10)")
+                .defineInRange("Quarter Health Lifesteal: ", 10, 1, 50);
 
         BUILDER.pop();
 
@@ -100,7 +91,7 @@ public class DMZSaiyanConfig {
         INITIAL_KIPWR_WARRIOR = BUILDER.comment("Initial Ki Power Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("PWR: ", 5, 1, 200);
 
-        INITIAL_ENE_WARRIOR = BUILDER.comment("Initial Energy Warrior STAT! (Min: 1 / Max: 200 / Default: 20)")
+        INITIAL_ENE_WARRIOR = BUILDER.comment("Initial Energy Warrior STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("ENE: ", 5, 1, 200);
 
         BUILDER.pop();
@@ -145,10 +136,10 @@ public class DMZSaiyanConfig {
         INITIAL_CON_SPIRITUALIST = BUILDER.comment("Initial Constitution Spiritualist STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("CON: ", 5, 1, 200);
 
-        INITIAL_KIPWR_SPIRITUALIST= BUILDER.comment("Initial Ki Power Spiritualist STAT! (Min: 1 / Max: 200 / Default: 15)")
+        INITIAL_KIPWR_SPIRITUALIST= BUILDER.comment("Initial Ki Power Spiritualist STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("PWR: ", 15, 1, 200);
 
-        INITIAL_ENE_SPIRITUALIST = BUILDER.comment("Initial Energy Spiritualist STAT! (Min: 1 / Max: 200 / Default: 20)")
+        INITIAL_ENE_SPIRITUALIST = BUILDER.comment("Initial Energy Spiritualist STAT! (Min: 1 / Max: 200 / Default: 5)")
                 .defineInRange("ENE: ", 20, 1, 200);
 
         BUILDER.pop();
@@ -156,7 +147,7 @@ public class DMZSaiyanConfig {
         BUILDER.push(" SPIRITUALIST CLASS KI REGENERATION");
 
         KI_REGEN_SPIRITUALIST = BUILDER.comment("Ki Regeneration for Spiritualist Class IN PERCENTAGE! (Min: 0.0 / Max: 1.0 / Default: 0.01)")
-                .defineInRange("Percentage: ", 0.01, 0.00, 1.00);
+                .defineInRange("Percentage: ", 0.01, 0.00, 1.0);
 
         BUILDER.pop();
 

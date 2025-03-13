@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.network.C2S;
 
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainItems;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;

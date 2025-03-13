@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.init.entity.custom;
 
 import com.mojang.logging.LogUtils;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.menus.screens.ShenlongMenu;
 import com.yuseix.dragonminez.network.ModMessages;

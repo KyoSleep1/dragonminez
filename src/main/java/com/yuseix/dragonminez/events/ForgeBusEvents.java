@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.events;
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.server.command.*;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.MainParticles;

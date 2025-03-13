@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.events.characters;
 
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.config.DMZGeneralConfig;
-import com.yuseix.dragonminez.config.races.DMZBioAndroidConfig;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
+import com.yuseix.dragonminez.common.config.races.DMZBioAndroidConfig;
 import com.yuseix.dragonminez.init.MainSounds;
 import com.yuseix.dragonminez.network.C2S.CharacterC2S;
 import com.yuseix.dragonminez.network.C2S.DescendFormC2S;
