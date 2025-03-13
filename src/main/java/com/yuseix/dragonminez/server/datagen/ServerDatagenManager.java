@@ -1,13 +1,13 @@
 package com.yuseix.dragonminez.server.datagen;
 
-import com.yuseix.dragonminez.common.datagen.DMZAdvancementsProvider;
-import com.yuseix.dragonminez.common.datagen.DMZBlockStateProvider;
-import com.yuseix.dragonminez.common.datagen.DMZBlockTagGenerator;
-import com.yuseix.dragonminez.common.datagen.DMZItemTagGenerator;
-import com.yuseix.dragonminez.common.datagen.DMZRecipeProvider;
-import com.yuseix.dragonminez.common.datagen.DMZLootTableProvider;
+import com.yuseix.dragonminez.common.datagen.AdvancementsProvider;
+import com.yuseix.dragonminez.common.datagen.BlockStateProvider;
+import com.yuseix.dragonminez.common.datagen.BlockTagGenerator;
+import com.yuseix.dragonminez.common.datagen.ItemTagGenerator;
+import com.yuseix.dragonminez.common.datagen.RecipeProvider;
+import com.yuseix.dragonminez.common.datagen.LootTableProvider;
 import com.yuseix.dragonminez.common.datagen.ModWorldGenProvider;
-import com.yuseix.dragonminez.datagen.DatagenManager;
+import com.yuseix.dragonminez.common.datagen.DatagenManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -27,11 +27,11 @@ import java.util.concurrent.CompletableFuture;
  * <p>
  * The providers registered include:
  * <ul>
- *   <li>{@link DMZRecipeProvider}</li>
- *   <li>{@link DMZLootTableProvider}</li>
- *   <li>{@link DMZBlockStateProvider}</li>
- *   <li>{@link DMZBlockTagGenerator} and corresponding {@link DMZItemTagGenerator}</li>
- *   <li>{@link DMZAdvancementsProvider}</li>
+ *   <li>{@link RecipeProvider}</li>
+ *   <li>{@link LootTableProvider}</li>
+ *   <li>{@link BlockStateProvider}</li>
+ *   <li>{@link BlockTagGenerator} and corresponding {@link ItemTagGenerator}</li>
+ *   <li>{@link AdvancementsProvider}</li>
  *   <li>{@link ModWorldGenProvider}</li>
  * </ul>
  * </p>
@@ -56,16 +56,16 @@ public class ServerDatagenManager {
         final DataGenerator generator = event.getGenerator();
         if (generator == null) return;
 
-        DatagenManager.register(new DMZRecipeProvider(packOutput), event.includeServer());
-        DatagenManager.register(DMZLootTableProvider.create(packOutput), event.includeServer());
-        DatagenManager.register(new DMZBlockStateProvider(packOutput, existingFileHelper), event.includeServer());
+        DatagenManager.register(new RecipeProvider(packOutput), event.includeServer());
+        DatagenManager.register(LootTableProvider.create(packOutput), event.includeServer());
+        DatagenManager.register(new BlockStateProvider(packOutput, existingFileHelper), event.includeServer());
 
-        final DMZBlockTagGenerator blockTagGenerator = DatagenManager.register(
-                new DMZBlockTagGenerator(packOutput, lookupProvider, existingFileHelper), event.includeServer());
-        DatagenManager.register(new DMZItemTagGenerator(packOutput, lookupProvider,
+        final BlockTagGenerator blockTagGenerator = DatagenManager.register(
+                new BlockTagGenerator(packOutput, lookupProvider, existingFileHelper), event.includeServer());
+        DatagenManager.register(new ItemTagGenerator(packOutput, lookupProvider,
                 Objects.requireNonNull(blockTagGenerator).contentsGetter(), existingFileHelper), event.includeServer());
 
-        DatagenManager.register(new DMZAdvancementsProvider(packOutput, lookupProvider), event.includeServer());
+        DatagenManager.register(new AdvancementsProvider(packOutput, lookupProvider), event.includeServer());
         DatagenManager.register(new ModWorldGenProvider(packOutput, lookupProvider), event.includeServer());
     }
 }

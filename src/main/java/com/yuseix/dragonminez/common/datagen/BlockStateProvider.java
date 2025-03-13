@@ -1,20 +1,17 @@
 package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
-import net.minecraft.data.Main;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class DMZBlockStateProvider extends BlockStateProvider {
-    public DMZBlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+public class BlockStateProvider extends net.minecraftforge.client.model.generators.BlockStateProvider {
+    public BlockStateProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, Reference.MOD_ID, existingFileHelper);
     }
 

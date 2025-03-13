@@ -20,8 +20,8 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Set;
 
-public class DMZBlockLootTables extends BlockLootSubProvider {
-    public DMZBlockLootTables() {
+public class BlockLootTables extends BlockLootSubProvider {
+    public BlockLootTables() {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 

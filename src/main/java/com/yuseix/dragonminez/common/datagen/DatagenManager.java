@@ -1,4 +1,4 @@
-package com.yuseix.dragonminez.datagen;
+package com.yuseix.dragonminez.common.datagen;
 
 import com.yuseix.dragonminez.client.datagen.ClientDatagenManager;
 import com.yuseix.dragonminez.common.Reference;

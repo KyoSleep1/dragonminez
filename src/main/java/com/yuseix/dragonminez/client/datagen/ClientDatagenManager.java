@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.client.datagen;
 
-import com.yuseix.dragonminez.common.datagen.DMZItemModelProvider;
-import com.yuseix.dragonminez.datagen.DatagenManager;
+import com.yuseix.dragonminez.common.datagen.ItemModelProvider;
+import com.yuseix.dragonminez.common.datagen.DatagenManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
  * <p>
  * The currently registered client data provider is:
  * <ul>
- *   <li>{@link DMZItemModelProvider}</li>
+ *   <li>{@link ItemModelProvider}</li>
  * </ul>
  * Additional providers can be added in the future as required.
  * </p>
@@ -33,7 +33,7 @@ public class ClientDatagenManager {
      * It retrieves the required context from the event and delegates provider registration to the
      * {@link DatagenManager}. The following provider is registered:
      * <ul>
-     *   <li>{@link DMZItemModelProvider}</li>
+     *   <li>{@link ItemModelProvider}</li>
      * </ul>
      * </p>
      *
@@ -45,6 +45,6 @@ public class ClientDatagenManager {
     public static void register(GatherDataEvent event, PackOutput packOutput,
                                 CompletableFuture<HolderLookup.Provider> lookupProvider,
                                 ExistingFileHelper existingFileHelper) {
-        DatagenManager.register(new DMZItemModelProvider(packOutput, existingFileHelper), event.includeClient());
+        DatagenManager.register(new ItemModelProvider(packOutput, existingFileHelper), event.includeClient());
     }
 }

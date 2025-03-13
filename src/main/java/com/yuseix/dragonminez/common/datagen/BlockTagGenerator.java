@@ -13,9 +13,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-public class DMZBlockTagGenerator extends BlockTagsProvider {
-    public DMZBlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
-                                @Nullable ExistingFileHelper existingFileHelper) {
+public class BlockTagGenerator extends BlockTagsProvider {
+    public BlockTagGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
+                             @Nullable ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, Reference.MOD_ID, existingFileHelper);
     }
 

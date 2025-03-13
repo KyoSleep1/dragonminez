@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.common.datagen;
 
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.MainBlocks;
 import com.yuseix.dragonminez.init.MainItems;
@@ -20,18 +19,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
-public class DMZAdvancementsProvider extends AdvancementProvider {
+public class AdvancementsProvider extends AdvancementProvider {
     private static ServerLevel serverLevel;
 
-    public DMZAdvancementsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+    public AdvancementsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, List.of(new DMZAdvancements()));
     }
 
