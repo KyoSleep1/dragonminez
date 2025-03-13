@@ -43,7 +43,7 @@ import com.yuseix.dragonminez.init.items.models.TrunksSwordBackModel;
 import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.init.particles.*;
 import com.yuseix.dragonminez.utils.Keys;
-import com.yuseix.dragonminez.worldgen.dimension.CustomSpecialEffects;
+import com.yuseix.dragonminez.server.worldgen.dimension.CustomSpecialEffects;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

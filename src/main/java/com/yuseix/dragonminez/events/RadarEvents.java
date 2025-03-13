@@ -1,13 +1,12 @@
 package com.yuseix.dragonminez.events;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.items.custom.DragonBallRadarItem;
 import com.yuseix.dragonminez.init.items.custom.NamekDragonBallRadarItem;
 import com.yuseix.dragonminez.network.C2S.DragonRadarC2S;
 import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;

@@ -1,11 +1,11 @@
 package com.yuseix.dragonminez.server.datagen.impl;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.worldgen.ModBiomeModifiers;
-import com.yuseix.dragonminez.worldgen.ModConfiguredFeatures;
-import com.yuseix.dragonminez.worldgen.ModPlacedFeatures;
-import com.yuseix.dragonminez.worldgen.biome.ModBiomes;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.server.worldgen.ModBiomeModifiers;
+import com.yuseix.dragonminez.server.worldgen.ModConfiguredFeatures;
+import com.yuseix.dragonminez.server.worldgen.ModPlacedFeatures;
+import com.yuseix.dragonminez.server.worldgen.biome.ModBiomes;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;

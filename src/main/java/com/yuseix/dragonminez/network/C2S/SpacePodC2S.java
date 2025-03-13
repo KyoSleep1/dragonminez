@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.network.C2S;
 import com.yuseix.dragonminez.init.MainEntity;
 import com.yuseix.dragonminez.init.entity.custom.NaveSaiyanEntity;
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;

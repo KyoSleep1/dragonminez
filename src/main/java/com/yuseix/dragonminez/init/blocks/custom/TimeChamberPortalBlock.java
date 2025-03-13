@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.init.blocks.custom;
 
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
-import com.yuseix.dragonminez.worldgen.dimension.ModDimensions;
+import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;

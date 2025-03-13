@@ -1,11 +1,10 @@
 package com.yuseix.dragonminez.init;
 
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.init.blocks.custom.*;
 import com.yuseix.dragonminez.init.blocks.custom.dballs.*;
-import com.yuseix.dragonminez.worldgen.tree.NamekAjissaGrower;
-import com.yuseix.dragonminez.worldgen.tree.NamekSacredGrower;
+import com.yuseix.dragonminez.server.worldgen.tree.NamekAjissaGrower;
+import com.yuseix.dragonminez.server.worldgen.tree.NamekSacredGrower;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
