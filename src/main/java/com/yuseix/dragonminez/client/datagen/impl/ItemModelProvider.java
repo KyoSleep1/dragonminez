@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.client.datagen.impl;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.common.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

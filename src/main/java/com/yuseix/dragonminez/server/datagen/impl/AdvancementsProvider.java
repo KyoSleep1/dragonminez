@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.server.datagen.impl;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.common.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainItems;
 import com.yuseix.dragonminez.server.worldgen.biome.ModBiomes;
 import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.advancements.Advancement;

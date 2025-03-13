@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.server.worldgen;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.utils.DMZTags;
+import com.yuseix.dragonminez.server.util.DMZTags;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;

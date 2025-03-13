@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.server.worldgen.dimension;
 
 import com.mojang.datafixers.util.Pair;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainBlocks;
 import com.yuseix.dragonminez.server.worldgen.biome.ModBiomes;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;

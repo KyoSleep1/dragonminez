@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.common.stats.storymode;
 
-import com.yuseix.dragonminez.init.MainEntity;
-import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.common.init.MainEntity;
+import com.yuseix.dragonminez.common.init.MainItems;
 
 import java.util.Collection;
 import java.util.HashMap;

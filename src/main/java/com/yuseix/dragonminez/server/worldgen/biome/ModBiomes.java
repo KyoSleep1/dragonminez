@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.server.worldgen.biome;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainEntity;
+import com.yuseix.dragonminez.common.init.MainEntity;
 import com.yuseix.dragonminez.server.worldgen.ModPlacedFeatures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;

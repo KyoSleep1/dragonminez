@@ -2,8 +2,8 @@ package com.yuseix.dragonminez.common.stats;
 
 import com.yuseix.dragonminez.common.stats.forms.FormsData;
 import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
-import com.yuseix.dragonminez.utils.DMZClientConfig;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.client.config.DMZClientConfig;
+import com.yuseix.dragonminez.common.util.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 

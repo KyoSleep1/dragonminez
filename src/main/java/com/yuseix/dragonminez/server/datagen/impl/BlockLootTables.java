@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.server.datagen.impl;
 
-import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.common.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainItems;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;

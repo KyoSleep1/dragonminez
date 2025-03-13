@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.common.compat;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainBlocks;
 import com.yuseix.dragonminez.server.recipes.ArmorStationRecipes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

@@ -1,9 +1,8 @@
 package com.yuseix.dragonminez.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.yuseix.dragonminez.DragonMineZ;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainSounds;
+import com.yuseix.dragonminez.common.init.MainSounds;
 import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;

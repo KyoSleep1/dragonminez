@@ -16,7 +16,7 @@ import com.yuseix.dragonminez.client.util.shader.CustomRenderTypes;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.utils.TextureManager;
+import com.yuseix.dragonminez.client.util.TextureManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidArmorModel;

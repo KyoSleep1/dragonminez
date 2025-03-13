@@ -1,6 +1,6 @@
 package com.yuseix.dragonminez.server.worldgen.biome;
 
-import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainBlocks;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.minecraft.world.level.levelgen.VerticalAnchor;

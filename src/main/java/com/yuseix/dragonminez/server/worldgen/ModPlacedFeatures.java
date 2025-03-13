@@ -2,7 +2,7 @@ package com.yuseix.dragonminez.server.worldgen;
 
 import com.google.common.collect.ImmutableList;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;

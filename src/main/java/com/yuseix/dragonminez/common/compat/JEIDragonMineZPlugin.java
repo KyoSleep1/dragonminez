@@ -1,7 +1,7 @@
 package com.yuseix.dragonminez.common.compat;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.menus.screens.KikonoArmorStationScreen;
+import com.yuseix.dragonminez.common.init.menus.screens.KikonoArmorStationScreen;
 import com.yuseix.dragonminez.server.recipes.ArmorStationRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;

@@ -1,9 +1,9 @@
 package com.yuseix.dragonminez.server.worldgen;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainBlocks;
-import com.yuseix.dragonminez.init.MainFluids;
-import com.yuseix.dragonminez.utils.DMZTags;
+import com.yuseix.dragonminez.common.init.MainBlocks;
+import com.yuseix.dragonminez.common.init.MainFluids;
+import com.yuseix.dragonminez.server.util.DMZTags;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;

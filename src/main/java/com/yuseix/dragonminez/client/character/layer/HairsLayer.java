@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.init.MainItems;
+import com.yuseix.dragonminez.common.init.MainItems;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import net.minecraft.client.model.PlayerModel;

@@ -1,9 +1,9 @@
 package com.yuseix.dragonminez.common.stats.storymode;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.DMZCompletedQuestsSyncS2C;
-import com.yuseix.dragonminez.network.S2C.StorySyncS2C;
+import com.yuseix.dragonminez.common.network.ModMessages;
+import com.yuseix.dragonminez.common.network.S2C.DMZCompletedQuestsSyncS2C;
+import com.yuseix.dragonminez.common.network.S2C.StorySyncS2C;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

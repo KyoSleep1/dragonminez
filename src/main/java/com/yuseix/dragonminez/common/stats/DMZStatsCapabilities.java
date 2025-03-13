@@ -1,9 +1,9 @@
 package com.yuseix.dragonminez.common.stats;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.network.ModMessages;
-import com.yuseix.dragonminez.network.S2C.*;
-import com.yuseix.dragonminez.utils.DMZDatos;
+import com.yuseix.dragonminez.common.network.ModMessages;
+import com.yuseix.dragonminez.common.network.S2C.*;
+import com.yuseix.dragonminez.common.util.DMZDatos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;

@@ -3,7 +3,7 @@ package com.yuseix.dragonminez.client.hud.spaceship;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.events.ClientEvents;
+import com.yuseix.dragonminez.common.events.ClientEvents;
 import com.yuseix.dragonminez.common.stats.DMZStatsAttributes;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
