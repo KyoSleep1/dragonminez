@@ -909,6 +909,10 @@ public class StatsEvents {
         return null; // No hay transformación disponible
     }
 
+    public static double getPreviousFov() {
+        return previousFov;
+
+    }
 }
 
 
