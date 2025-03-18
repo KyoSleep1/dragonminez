@@ -41,7 +41,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -70,7 +69,6 @@ public class ClientEvents {
             "Dev",
             "ezShokkoh",
             "ImYuseix",
-            "KyoSleep",
             "Toji71_",
             "Baby_Poop12311",
             "SpaceCarp",
@@ -81,7 +79,6 @@ public class ClientEvents {
             "InmortalPix",
             "LecuTheAnimator"
     ));
-
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {
         if (event.phase == TickEvent.RenderTickEvent.Phase.END) {
@@ -91,54 +88,6 @@ public class ClientEvents {
                 minecraft.getWindow().setTitle(title);
             }
         }
-    }
-
-    @SubscribeEvent
-
-
-    public static void onLivingEntityUpdate(LivingEvent.LivingTickEvent event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-
-        DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
-            if (cap.getBoolean("turbo")) {
-                if (player.isSprinting()) {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.75);
-                } else {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5);
-                }
-
-                // Aumentar la velocidad al volar
-                if (player.getAbilities().flying) {
-                    if (player.isSprinting()) {
-                        player.getAbilities().setFlyingSpeed(0.25f);
-                        player.onUpdateAbilities();
-                    } else {
-                        player.getAbilities().setFlyingSpeed(0.15f);
-                        player.onUpdateAbilities();
-                    }
-                }
-            } else {
-                if (player.isSprinting()) {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.11);
-                } else {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1);
-                }
-
-                // Restaurar la velocidad normal al volar
-                if (player.getAbilities().flying) {
-                    if (player.isSprinting()) {
-                        player.getAbilities().setFlyingSpeed(0.1f);
-                        player.onUpdateAbilities();
-                    } else {
-                        player.getAbilities().setFlyingSpeed(0.05f);
-                        player.onUpdateAbilities();
-                    }
-                }
-
-                if (Minecraft.getInstance().options.fovEffectScale().get() != StatsEvents.getPreviousFov())
-                    Minecraft.getInstance().options.fovEffectScale().set(StatsEvents.getPreviousFov());
-            }
-        });
     }
 
     @SubscribeEvent
@@ -172,9 +121,9 @@ public class ClientEvents {
                         var transf = cap.getStringValue("form");
 
 
-                        switch (raza) {
+                        switch (raza){
                             case 1:
-                                switch (transf) {
+                                switch (transf){
                                     case "ssgrade2":
                                         poseStack.translate((interpX - camX) + 0.05, (interpY - camY) + 0.05, interpZ - camZ);
                                         break;
@@ -183,7 +132,7 @@ public class ClientEvents {
                                         break;
                                     case "oozaru", "goldenoozaru":
                                         poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
-                                        poseStack.scale(4.0f, 4.0f, 4.0f);
+                                        poseStack.scale(4.0f,4.0f,4.0f);
                                         break;
                                     default:
                                         poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
@@ -191,10 +140,10 @@ public class ClientEvents {
                                 }
                                 break;
                             case 2:
-                                switch (transf) {
-                                    case "giant", "orange_giant":
+                                switch (transf){
+                                    case "giant","orange_giant":
                                         poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.2, interpZ - camZ);
-                                        poseStack.scale(4.0f, 4.0f, 4.0f);
+                                        poseStack.scale(4.0f,4.0f,4.0f);
                                         break;
                                     default:
                                         poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
@@ -203,7 +152,7 @@ public class ClientEvents {
                                 }
                                 break;
                             case 3:
-                                switch (transf) {
+                                switch (transf){
                                     case "semi_perfect":
                                         poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
                                         poseStack.scale(1.1f, 1.1f, 1.1f);
@@ -215,7 +164,7 @@ public class ClientEvents {
                                 }
                                 break;
                             case 4:
-                                switch (transf) {
+                                switch (transf){
                                     case "second_form":
                                         poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
                                         poseStack.scale(1.5f, 1.5f, 1.5f);
@@ -231,7 +180,7 @@ public class ClientEvents {
                                 }
                                 break;
                             case 5:
-                                switch (transf) {
+                                switch (transf){
                                     case "evil":
                                         poseStack.translate((interpX - camX) + 0.05f, interpY - camY, interpZ - camZ);
                                         poseStack.scale(1.0f, 1.0f, 1.0f);
@@ -247,15 +196,15 @@ public class ClientEvents {
                                 }
                                 break;
                             default:
-                                switch (transf) {
+                                switch (transf){
                                     case "buffed":
                                         poseStack.translate((interpX - camX) - 0.08, (interpY - camY) + 0.15, interpZ - camZ);
-                                        poseStack.scale(1.0f, 1.0f, 1.0f);
+                                        poseStack.scale(1.0f,1.0f,1.0f);
                                         break;
 
                                     default:
                                         poseStack.translate(interpX - camX, interpY - camY, interpZ - camZ);
-                                        poseStack.scale(1.0f, 1.0f, 1.0f);
+                                        poseStack.scale(1.0f,1.0f,1.0f);
                                         break;
                                 }
                                 break;
@@ -421,7 +370,7 @@ public class ClientEvents {
                         }
                     }
 
-                    if (flySkill.isActive()) {
+                    if(flySkill.isActive()){
                         ModMessages.sendToServer(new PermaEffC2S("remove", "fly", 1));
                     } else {
                         ModMessages.sendToServer(new PermaEffC2S("add", "fly", 1));
@@ -454,7 +403,28 @@ public class ClientEvents {
                 // La vel de vuelo aumenta un 20% por nivel
                 float baseSpeed = 0.05F;
                 float flySpeed = baseSpeed * (1.0F + (0.20F * flyLevel));
-                player.getAbilities().setFlyingSpeed(flySpeed);
+
+                if (cap.getBoolean("turbo")) {
+                    if (player.getAbilities().flying) {
+                        if (player.isSprinting()) {
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.06f);
+                            player.onUpdateAbilities();
+                        } else {
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.03f);
+                            player.onUpdateAbilities();
+                        }
+                    }
+                } else {
+                    if (player.getAbilities().flying) {
+                        if (player.isSprinting()) {
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.03f);
+                            player.onUpdateAbilities();
+                        } else {
+                            player.getAbilities().setFlyingSpeed(flySpeed);
+                            player.onUpdateAbilities();
+                        }
+                    }
+                }
 
                 Vec3 motion = player.getDeltaMovement();
                 double yVelocity = motion.y;
@@ -476,6 +446,22 @@ public class ClientEvents {
 
                 player.setDeltaMovement(motion.x, yVelocity, motion.z);
                 player.onUpdateAbilities();
+            }
+
+            if (cap.getBoolean("turbo")) {
+                if (player.isSprinting()) {
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.75);
+                } else {
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5);
+                }
+            } else {
+                if (player.isSprinting()) {
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.11);
+                } else {
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.1);
+                }
+
+                if (Minecraft.getInstance().options.fovEffectScale().get() != StatsEvents.getPreviousFov()) Minecraft.getInstance().options.fovEffectScale().set(StatsEvents.getPreviousFov());
             }
 
             if (cap.getBoolean("kaioplanet")) {

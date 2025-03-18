@@ -30,7 +30,7 @@ public class PorungaMenu extends Screen {
 	private static final ResourceLocation textoCuadro = new ResourceLocation(Reference.MOD_ID,
 			"textures/gui/texto.png");
 
-	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, radar, revive, reviveother;
+	private GlowButton capSTR, capDEF, capCON, capENE, capKIPW, senzu, gete, revive, reviveother;
 	private DMZButton AcceptButton, DeclineButton;
 	private DMZRightButton rightButton, leftButton;
 
@@ -199,13 +199,13 @@ public class PorungaMenu extends Screen {
 	}
 
 	private void removerBotones() {
+		removeWidget(this.gete);
 		removeWidget(this.capSTR);
 		removeWidget(this.capDEF);
 		removeWidget(this.capCON);
 		removeWidget(this.capENE);
 		removeWidget(this.capKIPW);
 		removeWidget(this.senzu);
-		removeWidget(this.radar);
 		removeWidget(this.revive);
 		removeWidget(this.reviveother);
 		removeWidget(this.AcceptButton);
@@ -286,8 +286,8 @@ public class PorungaMenu extends Screen {
 						Component.empty(), wa -> {
 					PageButtons = 2;
 				}));
-				// Radar
-				this.radar = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
+				// Gete
+				this.gete = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
 						Component.translatable("lines.porunga.wish.gete"), wa -> {
 					PageOption = "gete";
 				}));
@@ -310,7 +310,7 @@ public class PorungaMenu extends Screen {
 				}));
 				// Revivir a otros
 				this.reviveother = (GlowButton) this.addRenderableWidget(new GlowButton((this.width / 2) - 105, (this.height - 23),
-						Component.translatable("lines.porunga.wish.revive_other"), wa -> {
+						Component.translatable("lines.porunga.revive_other"), wa -> {
 					PageOption = "revive_other";
 				}));
 			}
@@ -513,6 +513,7 @@ public class PorungaMenu extends Screen {
 						Component.translatable("lines.menu.decline"), wa -> {
 					rejectButtonPressed();
 				}));
+				break;
 
 			case "revive":
 				//Aceptar
