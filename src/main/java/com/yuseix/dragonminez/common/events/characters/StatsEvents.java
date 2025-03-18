@@ -361,7 +361,7 @@ public class StatsEvents {
                     DMZSkill jump = stats.getDMZSkills().get("jump");
                     DMZSkill fly = stats.getDMZSkills().get("fly");
 
-                    if (jump != null && jump.isActive() || fly != null && fly.isActive()) {
+                    if (jump != null && jump.isActive() || fly != null && fly.isActive() || stats.getBoolean("turbo")) {
                         event.setCanceled(true);
                     } else {
                         int maxEnergy = dmzdatos.calcEnergy(stats);

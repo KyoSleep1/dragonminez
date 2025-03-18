@@ -289,8 +289,7 @@ public class ClientEvents {
                         }
                     }
                 }
-                if (cap.getBoolean("transform")) {
-                    if (player.onGround()) {
+                if (cap.getBoolean("transform") || (!cap.getStringValue("form").equals("base") && (cap.getBoolean("aura") || cap.getBoolean("turbo")))) {                    if (player.onGround()) {
                         for (int i = 0; i < 1; i++) {
                             double xSpeed = (Math.random() - 0.5) * 0.02;
                             double ySpeed = Math.random() * 0.01;
