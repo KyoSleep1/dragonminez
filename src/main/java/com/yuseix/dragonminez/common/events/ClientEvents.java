@@ -50,6 +50,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
     private static int soundTimer = 200;
@@ -69,10 +70,9 @@ public class ClientEvents {
             "Dev",
             "ezShokkoh",
             "ImYuseix",
-            "KyoSleep",
-            "InmortalPix",
-            "LecuTheAnimator",
             "Toji71_",
+            "InmortalPx",
+            "LecuTheAnimator",
             "Baby_Poop12311",
             "SpaceCarp",
             "prolazorbema10",
@@ -266,26 +266,26 @@ public class ClientEvents {
                                     player.getZ() + (Math.random() - 0.5) * 3.5,
                                     0, 0.1, 0);
                         }
-
-
                     }
 
                 });
             }
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                 if (cap.getBoolean("aura") || cap.getBoolean("turbo")) {
+                    String particleValue = Minecraft.getInstance().options.particles().get().toString();
                     if (player.onGround()) {
-                        for (int i = 0; i < 5; i++) {
-                            double angle = i * ((2 * Math.PI) / 3);
-                            double x = player.getX() + 1.5 * Math.cos(angle);
-                            double z = player.getZ() + 1.5 * Math.sin(angle);
-
+                        int particleCount = 3;
+                        switch (particleValue) {
+                            case "DECREASED" -> particleCount = 2;
+                            case "MINIMAL" -> particleCount = 1;
+                        }
+                        for (int i = 0; i < particleCount; i++) {
                             double y = player.getY() + 0.2;
 
                             double xSpeed = (Math.random() - 0.5) * 0.02;
                             double zSpeed = (Math.random() - 0.5) * 0.02;
 
-                            level.addParticle(MainParticles.DUST_PARTICLE.get(), x, y, z, xSpeed, 0, zSpeed);
+                            level.addParticle(MainParticles.DUST_PARTICLE.get(), player.getX(), y, player.getZ(), xSpeed, 0, zSpeed);
                         }
                     }
                 }

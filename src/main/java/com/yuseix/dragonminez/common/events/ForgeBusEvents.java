@@ -51,6 +51,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+
 //Anteriormente llamado ForgeListener ya que los eventos forman parte del bus de MinecraftForge
 //ACTUALMENTE LOS ModEvents son eventos que se ejecutan en el bus de Forge **(DIFERENTE al IModBusEvent)**
 //Si una clase extiende "Event" se considera un evento del bus de Forge y TIENE que estar acá.
@@ -112,6 +113,19 @@ public class ForgeBusEvents {
 		}
 
 		// Desactivar al iniciar sesión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
+		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
+			if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
+			if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
+			if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
+			if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
+			if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
+			if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
+		});
+	}
+
+	@SubscribeEvent
+	public void onPlayerDisconnect(PlayerEvent.PlayerLoggedOutEvent event) {
+		Player player = event.getEntity();
 		DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 			if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
 			if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
@@ -539,5 +553,4 @@ public class ForgeBusEvents {
 
 		namekDragonBallPositions.add(posicionValida);
 	}
-
 }

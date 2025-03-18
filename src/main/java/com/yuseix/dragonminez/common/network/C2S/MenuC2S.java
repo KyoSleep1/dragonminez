@@ -308,6 +308,18 @@ public class MenuC2S {
 					ModMessages.sendToPlayer(new PacketSyncConfig("majin_mult_pwr_warrior", DMZMajinConfig.MULTIPLIER_KIPOWER_WARRIOR.get()), player);
 					ModMessages.sendToPlayer(new PacketSyncConfig("majin_mult_ene_warrior", DMZMajinConfig.MULTIPLIER_ENERGY_WARRIOR.get()), player);
 
+					// Pasivas
+					ModMessages.sendToPlayer(new PacketSyncConfig("human_passive", DMZHumanConfig.KICHARGE_REGEN_BOOST.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("zenkai_timer", DMZSaiyanConfig.ZENKAI_COOLDOWN.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("zenkai_heal", DMZSaiyanConfig.ZENKAI_HEALTH_REGEN.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("zenkai_boost", DMZSaiyanConfig.ZENKAI_STAT_BOOST.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("zenkai_cant", DMZSaiyanConfig.ZENKAI_CANT.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("namek_passive", DMZNamekConfig.PASSIVE_REGEN.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("bio_passive_half", DMZBioAndroidConfig.HALF_HEALTH_LIFESTEAL.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("bio_passive_quarter", DMZBioAndroidConfig.QUARTER_HEALTH_LIFESTEAL.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("cold_passive", DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get()), player);
+					ModMessages.sendToPlayer(new PacketSyncConfig("majin_passive", DMZMajinConfig.PASSIVE_HEALTH_REGEN.get()), player);
+
 					ModMessages.sendToPlayer(new MenuS2C(packet.tipo, isDmzUser, compactMenu), player);
 				});
 			}

@@ -57,6 +57,7 @@ public class StatsEvents {
     private static boolean turboOn = false, hasPressedTurbo = false;
     private static boolean transformOn = false;
     private static double previousFov = 1.0;
+    private static boolean hasHealed = false;
 
     //Sonidos
     private static SimpleSoundInstance kiChargeLoop, turboLoop, oozaruLoop;
@@ -94,6 +95,10 @@ public class StatsEvents {
                 }
                 if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != dmzdatos.calcConstitution(playerstats)) {
                     serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
+                    if (!hasHealed) {
+                        serverPlayer.setHealth(dmzdatos.calcConstitution(playerstats));
+                        hasHealed = true;
+                    }
                 }
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);

@@ -11,6 +11,13 @@ public class DMZClientConfig {
     private static int babaCooldown = 15, babaDuration = 10;
     private static int jumpLevels = 250, flyLevels = 750, meditationLevels = 150, potUnlockLevels = 1300, kiManipLevels = 5000, kiControlLevels = 100;
 
+    private static int humanPassive = 35;
+    private static int zenkaiTimer = 50, zenkaiHeal = 30, zenkaiBoost = 15, zenkaiCant = 3;
+    private static int namekPassive = 60;
+    private static int bioPassiveHalf = 8, bioPassiveQuarter = 4;
+    private static double coldPassive = 1.35;
+    private static double majinPassive = 2.5;
+
     private static double baseMult0 = 1, baseMult1 = 1, baseMult2 = 1, baseMult3 = 1, baseMult4 = 1, baseMult5 = 1;
     private static double buffed_human_str = 1, buffed_human_def = 1, buffed_human_pwr = 1, buffed_human_cost = 1;
     private static double full_power_human_str = 1, full_power_human_def = 1, full_power_human_pwr = 1, full_power_human_cost = 1;
@@ -128,7 +135,7 @@ public class DMZClientConfig {
                     case "majin" -> initStat = DMZClientConfig.ini_str_majin_warrior;
                     default ->initStat = DMZClientConfig.ini_str_human_warrior;
                 }
-            break;
+                break;
             default:
                 switch (race){
                     case "saiyan"-> initStat = DMZClientConfig.ini_str_saiyan_spiritualist;
@@ -426,69 +433,69 @@ public class DMZClientConfig {
         buyableTP = value;
     }
 
-	public static int getBabaCooldown() {
-		return babaCooldown;
-	}
+    public static int getBabaCooldown() {
+        return babaCooldown;
+    }
 
-	public static void setBabaCooldown(int babaCooldown) {
-		DMZClientConfig.babaCooldown = babaCooldown;
-	}
+    public static void setBabaCooldown(int babaCooldown) {
+        DMZClientConfig.babaCooldown = babaCooldown;
+    }
 
-	public static int getBabaDuration() {
-		return babaDuration;
-	}
+    public static int getBabaDuration() {
+        return babaDuration;
+    }
 
-	public static void setBabaDuration(int babaDuration) {
-		DMZClientConfig.babaDuration = babaDuration;
-	}
+    public static void setBabaDuration(int babaDuration) {
+        DMZClientConfig.babaDuration = babaDuration;
+    }
 
-	public static int getJumpLevels() {
-		return jumpLevels;
-	}
+    public static int getJumpLevels() {
+        return jumpLevels;
+    }
 
-	public static void setJumpLevels(int jumpLevels) {
-		DMZClientConfig.jumpLevels = jumpLevels;
-	}
+    public static void setJumpLevels(int jumpLevels) {
+        DMZClientConfig.jumpLevels = jumpLevels;
+    }
 
-	public static int getFlyLevels() {
-		return flyLevels;
-	}
+    public static int getFlyLevels() {
+        return flyLevels;
+    }
 
-	public static void setFlyLevels(int flyLevels) {
-		DMZClientConfig.flyLevels = flyLevels;
-	}
+    public static void setFlyLevels(int flyLevels) {
+        DMZClientConfig.flyLevels = flyLevels;
+    }
 
-	public static int getMeditationLevels() {
-		return meditationLevels;
-	}
+    public static int getMeditationLevels() {
+        return meditationLevels;
+    }
 
-	public static void setMeditationLevels(int meditationLevels) {
-		DMZClientConfig.meditationLevels = meditationLevels;
-	}
+    public static void setMeditationLevels(int meditationLevels) {
+        DMZClientConfig.meditationLevels = meditationLevels;
+    }
 
-	public static int getPotUnlockLevels() {
-		return potUnlockLevels;
-	}
+    public static int getPotUnlockLevels() {
+        return potUnlockLevels;
+    }
 
-	public static void setPotUnlockLevels(int potUnlockLevels) {
-		DMZClientConfig.potUnlockLevels = potUnlockLevels;
-	}
+    public static void setPotUnlockLevels(int potUnlockLevels) {
+        DMZClientConfig.potUnlockLevels = potUnlockLevels;
+    }
 
-	public static int getKiManipLevels() {
-		return kiManipLevels;
-	}
+    public static int getKiManipLevels() {
+        return kiManipLevels;
+    }
 
-	public static void setKiManipLevels(int kiManipLevels) {
-		DMZClientConfig.kiManipLevels = kiManipLevels;
-	}
+    public static void setKiManipLevels(int kiManipLevels) {
+        DMZClientConfig.kiManipLevels = kiManipLevels;
+    }
 
-	public static int getKiControlLevels() {
-		return kiControlLevels;
-	}
+    public static int getKiControlLevels() {
+        return kiControlLevels;
+    }
 
-	public static void setKiControlLevels(int kiControlLevels) {
-		DMZClientConfig.kiControlLevels = kiControlLevels;
-	}
+    public static void setKiControlLevels(int kiControlLevels) {
+        DMZClientConfig.kiControlLevels = kiControlLevels;
+    }
 
     public static void setBaseStats(int race, double stat) {
         switch (race) {
@@ -570,50 +577,50 @@ public class DMZClientConfig {
         switch (race) {
             case 0 -> {
                 switch (form) {
-                case "buffed" -> DMZClientConfig.buffed_human_def = stat;
-                case "full_power" -> DMZClientConfig.full_power_human_def = stat;
-                case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_def = stat;
+                    case "buffed" -> DMZClientConfig.buffed_human_def = stat;
+                    case "full_power" -> DMZClientConfig.full_power_human_def = stat;
+                    case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_def = stat;
                 }
             }
             case 1 -> {
                 switch (form) {
-                case "oozaru" -> DMZClientConfig.oozaru_saiyan_def = stat;
-                case "ssj1" -> DMZClientConfig.ssj_saiyan_def = stat;
-                case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_def = stat;
-                case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_def = stat;
-                case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_def = stat;
-                case "ssj2" -> DMZClientConfig.ssj2_saiyan_def = stat;
-                case "ssj3" -> DMZClientConfig.ssj3_saiyan_def = stat;
-                case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_def = stat;
+                    case "oozaru" -> DMZClientConfig.oozaru_saiyan_def = stat;
+                    case "ssj1" -> DMZClientConfig.ssj_saiyan_def = stat;
+                    case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_def = stat;
+                    case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_def = stat;
+                    case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_def = stat;
+                    case "ssj2" -> DMZClientConfig.ssj2_saiyan_def = stat;
+                    case "ssj3" -> DMZClientConfig.ssj3_saiyan_def = stat;
+                    case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_def = stat;
                 }
             }
             case 2 -> {
                 switch (form) {
-                case "giant" -> DMZClientConfig.giant_namek_def = stat;
-                case "full_power" -> DMZClientConfig.full_power_namek_def = stat;
-                case "super_namek" -> DMZClientConfig.super_namek_namek_def = stat;
+                    case "giant" -> DMZClientConfig.giant_namek_def = stat;
+                    case "full_power" -> DMZClientConfig.full_power_namek_def = stat;
+                    case "super_namek" -> DMZClientConfig.super_namek_namek_def = stat;
                 }
             }
             case 3 -> {
                 switch (form) {
-                case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_def = stat;
-                case "perfect" -> DMZClientConfig.perfect_bio_def = stat;
+                    case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_def = stat;
+                    case "perfect" -> DMZClientConfig.perfect_bio_def = stat;
                 }
             }
             case 4 -> {
                 switch (form) {
-                case "second_form" -> DMZClientConfig.second_form_cold_def = stat;
-                case "third_form" -> DMZClientConfig.third_form_cold_def = stat;
-                case "final_form" -> DMZClientConfig.final_form_cold_def = stat;
-                case "full_power" -> DMZClientConfig.full_power_cold_def = stat;
+                    case "second_form" -> DMZClientConfig.second_form_cold_def = stat;
+                    case "third_form" -> DMZClientConfig.third_form_cold_def = stat;
+                    case "final_form" -> DMZClientConfig.final_form_cold_def = stat;
+                    case "full_power" -> DMZClientConfig.full_power_cold_def = stat;
                 }
             }
             case 5 -> {
                 switch (form) {
-                case "evil" -> DMZClientConfig.evil_majin_def = stat;
-                case "kid" -> DMZClientConfig.kid_majin_def = stat;
-                case "super" -> DMZClientConfig.super_majin_def = stat;
-                case "ultra" -> DMZClientConfig.ultra_majin_def = stat;
+                    case "evil" -> DMZClientConfig.evil_majin_def = stat;
+                    case "kid" -> DMZClientConfig.kid_majin_def = stat;
+                    case "super" -> DMZClientConfig.super_majin_def = stat;
+                    case "ultra" -> DMZClientConfig.ultra_majin_def = stat;
                 }
             }
         }
@@ -623,50 +630,50 @@ public class DMZClientConfig {
         switch (race) {
             case 0 -> {
                 switch (form) {
-                case "buffed" -> DMZClientConfig.buffed_human_pwr = stat;
-                case "full_power" -> DMZClientConfig.full_power_human_pwr = stat;
-                case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_pwr = stat;
+                    case "buffed" -> DMZClientConfig.buffed_human_pwr = stat;
+                    case "full_power" -> DMZClientConfig.full_power_human_pwr = stat;
+                    case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_pwr = stat;
                 }
             }
             case 1 -> {
                 switch (form) {
-                case "oozaru" -> DMZClientConfig.oozaru_saiyan_pwr = stat;
-                case "ssj1" -> DMZClientConfig.ssj_saiyan_pwr = stat;
-                case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_pwr = stat;
-                case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_pwr = stat;
-                case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_pwr = stat;
-                case "ssj2" -> DMZClientConfig.ssj2_saiyan_pwr = stat;
-                case "ssj3" -> DMZClientConfig.ssj3_saiyan_pwr = stat;
-                case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_pwr = stat;
+                    case "oozaru" -> DMZClientConfig.oozaru_saiyan_pwr = stat;
+                    case "ssj1" -> DMZClientConfig.ssj_saiyan_pwr = stat;
+                    case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_pwr = stat;
+                    case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_pwr = stat;
+                    case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_pwr = stat;
+                    case "ssj2" -> DMZClientConfig.ssj2_saiyan_pwr = stat;
+                    case "ssj3" -> DMZClientConfig.ssj3_saiyan_pwr = stat;
+                    case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_pwr = stat;
                 }
             }
             case 2 -> {
                 switch (form) {
-                case "giant" -> DMZClientConfig.giant_namek_pwr = stat;
-                case "full_power" -> DMZClientConfig.full_power_namek_pwr = stat;
-                case "super_namek" -> DMZClientConfig.super_namek_namek_pwr = stat;
+                    case "giant" -> DMZClientConfig.giant_namek_pwr = stat;
+                    case "full_power" -> DMZClientConfig.full_power_namek_pwr = stat;
+                    case "super_namek" -> DMZClientConfig.super_namek_namek_pwr = stat;
                 }
             }
             case 3 -> {
                 switch (form) {
-                case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_pwr = stat;
-                case "perfect" -> DMZClientConfig.perfect_bio_pwr = stat;
+                    case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_pwr = stat;
+                    case "perfect" -> DMZClientConfig.perfect_bio_pwr = stat;
                 }
             }
             case 4 -> {
                 switch (form) {
-                case "second_form" -> DMZClientConfig.second_form_cold_pwr = stat;
-                case "third_form" -> DMZClientConfig.third_form_cold_pwr = stat;
-                case "final_form" -> DMZClientConfig.final_form_cold_pwr = stat;
-                case "full_power" -> DMZClientConfig.full_power_cold_pwr = stat;
+                    case "second_form" -> DMZClientConfig.second_form_cold_pwr = stat;
+                    case "third_form" -> DMZClientConfig.third_form_cold_pwr = stat;
+                    case "final_form" -> DMZClientConfig.final_form_cold_pwr = stat;
+                    case "full_power" -> DMZClientConfig.full_power_cold_pwr = stat;
                 }
             }
             case 5 -> {
                 switch (form) {
-                case "evil" -> DMZClientConfig.evil_majin_pwr = stat;
-                case "kid" -> DMZClientConfig.kid_majin_pwr = stat;
-                case "super" -> DMZClientConfig.super_majin_pwr = stat;
-                case "ultra" -> DMZClientConfig.ultra_majin_pwr = stat;
+                    case "evil" -> DMZClientConfig.evil_majin_pwr = stat;
+                    case "kid" -> DMZClientConfig.kid_majin_pwr = stat;
+                    case "super" -> DMZClientConfig.super_majin_pwr = stat;
+                    case "ultra" -> DMZClientConfig.ultra_majin_pwr = stat;
                 }
             }
         }
@@ -676,50 +683,50 @@ public class DMZClientConfig {
         switch (race) {
             case 0 -> {
                 switch (form) {
-                case "buffed" -> DMZClientConfig.buffed_human_cost = stat;
-                case "full_power" -> DMZClientConfig.full_power_human_cost = stat;
-                case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_cost = stat;
+                    case "buffed" -> DMZClientConfig.buffed_human_cost = stat;
+                    case "full_power" -> DMZClientConfig.full_power_human_cost = stat;
+                    case "potential_unleashed" -> DMZClientConfig.potential_unleashed_human_cost = stat;
                 }
             }
             case 1 -> {
                 switch (form) {
-                case "oozaru" -> DMZClientConfig.oozaru_saiyan_cost = stat;
-                case "ssj1" -> DMZClientConfig.ssj_saiyan_cost = stat;
-                case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_cost = stat;
-                case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_cost = stat;
-                case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_cost = stat;
-                case "ssj2" -> DMZClientConfig.ssj2_saiyan_cost = stat;
-                case "ssj3" -> DMZClientConfig.ssj3_saiyan_cost = stat;
-                case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_cost = stat;
+                    case "oozaru" -> DMZClientConfig.oozaru_saiyan_cost = stat;
+                    case "ssj1" -> DMZClientConfig.ssj_saiyan_cost = stat;
+                    case "ssgrade2" -> DMZClientConfig.ssgrade2_saiyan_cost = stat;
+                    case "ssgrade3" -> DMZClientConfig.ssgrade3_saiyan_cost = stat;
+                    case "ssjfp" -> DMZClientConfig.ssjfp_saiyan_cost = stat;
+                    case "ssj2" -> DMZClientConfig.ssj2_saiyan_cost = stat;
+                    case "ssj3" -> DMZClientConfig.ssj3_saiyan_cost = stat;
+                    case "golden_oozaru" -> DMZClientConfig.golden_oozaru_saiyan_cost = stat;
                 }
             }
             case 2 -> {
                 switch (form) {
-                case "giant" -> DMZClientConfig.giant_namek_cost = stat;
-                case "full_power" -> DMZClientConfig.full_power_namek_cost = stat;
-                case "super_namek" -> DMZClientConfig.super_namek_namek_cost = stat;
+                    case "giant" -> DMZClientConfig.giant_namek_cost = stat;
+                    case "full_power" -> DMZClientConfig.full_power_namek_cost = stat;
+                    case "super_namek" -> DMZClientConfig.super_namek_namek_cost = stat;
                 }
             }
             case 3 -> {
                 switch (form) {
-                case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_cost = stat;
-                case "perfect" -> DMZClientConfig.perfect_bio_cost = stat;
+                    case "semi_perfect" -> DMZClientConfig.semi_perfect_bio_cost = stat;
+                    case "perfect" -> DMZClientConfig.perfect_bio_cost = stat;
                 }
             }
             case 4 -> {
                 switch (form) {
-                case "second_form" -> DMZClientConfig.second_form_cold_cost = stat;
-                case "third_form" -> DMZClientConfig.third_form_cold_cost = stat;
-                case "final_form" -> DMZClientConfig.final_form_cold_cost = stat;
-                case "full_power" -> DMZClientConfig.full_power_cold_cost = stat;
+                    case "second_form" -> DMZClientConfig.second_form_cold_cost = stat;
+                    case "third_form" -> DMZClientConfig.third_form_cold_cost = stat;
+                    case "final_form" -> DMZClientConfig.final_form_cold_cost = stat;
+                    case "full_power" -> DMZClientConfig.full_power_cold_cost = stat;
                 }
             }
             case 5 -> {
                 switch (form) {
-                case "evil" -> DMZClientConfig.evil_majin_cost = stat;
-                case "kid" -> DMZClientConfig.kid_majin_cost = stat;
-                case "super" -> DMZClientConfig.super_majin_cost = stat;
-                case "ultra" -> DMZClientConfig.ultra_majin_cost = stat;
+                    case "evil" -> DMZClientConfig.evil_majin_cost = stat;
+                    case "kid" -> DMZClientConfig.kid_majin_cost = stat;
+                    case "super" -> DMZClientConfig.super_majin_cost = stat;
+                    case "ultra" -> DMZClientConfig.ultra_majin_cost = stat;
                 }
             }
         }
@@ -1190,5 +1197,71 @@ public class DMZClientConfig {
             };
             default -> 1;
         };
+    }
+
+    public static void setHumanPassive(int stat) {
+        DMZClientConfig.humanPassive = stat;
+    }
+
+    public static int getHumanPassive() {
+        return DMZClientConfig.humanPassive;
+    }
+
+    public static void setSaiyanPassive(String stat, int value) {
+        switch (stat) {
+            case "timer" -> DMZClientConfig.zenkaiTimer = value;
+            case "heal" -> DMZClientConfig.zenkaiHeal = value;
+            case "boost" -> DMZClientConfig.zenkaiBoost = value;
+            case "cant" -> DMZClientConfig.zenkaiCant = value;
+        }
+    }
+
+    public static int getSaiyanPassive(String stat) {
+        return switch (stat) {
+            case "timer" -> DMZClientConfig.zenkaiTimer;
+            case "heal" -> DMZClientConfig.zenkaiHeal;
+            case "boost" -> DMZClientConfig.zenkaiBoost;
+            case "cant" -> DMZClientConfig.zenkaiCant;
+            default -> 1;
+        };
+    }
+
+    public static void setNamekPassive(int stat) {
+        DMZClientConfig.namekPassive = stat;
+    }
+
+    public static int getNamekPassive() {
+        return DMZClientConfig.namekPassive;
+    }
+
+    public static void setBioPassive(String stat, int value) {
+        switch (stat) {
+            case "half" -> DMZClientConfig.bioPassiveHalf = value;
+            case "quarter" -> DMZClientConfig.bioPassiveQuarter = value;
+        }
+    }
+
+    public static int getBioPassive(String stat) {
+        return switch (stat) {
+            case "half" -> DMZClientConfig.bioPassiveHalf;
+            case "quarter" -> DMZClientConfig.bioPassiveQuarter;
+            default -> 1;
+        };
+    }
+
+    public static void setColdPassive(double value) {
+        DMZClientConfig.coldPassive = value;
+    }
+
+    public static double getColdPassive() {
+        return DMZClientConfig.coldPassive;
+    }
+
+    public static void setMajinPassive(double value) {
+        DMZClientConfig.majinPassive = value;
+    }
+
+    public static double getMajinPassive() {
+        return DMZClientConfig.majinPassive;
     }
 }
