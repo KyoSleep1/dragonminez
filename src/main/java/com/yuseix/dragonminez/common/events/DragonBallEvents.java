@@ -1,11 +1,12 @@
 package com.yuseix.dragonminez.common.events;
 
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.common.util.LogUtil;
+import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.common.init.MainBlocks;
 import com.yuseix.dragonminez.common.network.ModMessages;
 import com.yuseix.dragonminez.common.network.S2C.UpdateDragonRadarS2C;
 import com.yuseix.dragonminez.common.network.S2C.UpdateNamekDragonRadarS2C;
+import com.yuseix.dragonminez.common.util.LogUtil;
 import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
 import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
 import net.minecraft.core.BlockPos;
@@ -21,9 +22,11 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID)
 public class DragonBallEvents {
+
 	@SubscribeEvent
 	public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
 		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		if (DMZGeneralConfig.SHOULD_DBALL_SPAWN.get()) return;
 
 		Level level = player.level();
 		BlockPos pos = event.getPos();
@@ -43,13 +46,13 @@ public class DragonBallEvents {
 							.ifPresent(existingPos -> {
 								// Romper el bloque anterior y reemplazarlo con aire
 								level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-								LogUtil.info("[DBallEvents] Removed existing Dragon Ball at " + existingPos);
+								LogUtil.info("[DBallEvents] Removed existing Dragon Ball at {}", existingPos);
 								capability.dragonBallPositions.remove(existingPos);
 							});
 
 					// Actualizar la posición actual
 					capability.dragonBallPositions.add(pos);
-					LogUtil.info("[DBallEvents] Placed Dragon Ball at " + pos);
+					LogUtil.info("[DBallEvents] Placed Dragon Ball at {}", pos);
 
 					// Guardar datos y sincronizar con el cliente
 					capability.saveToSavedData(serverLevel);
@@ -64,13 +67,13 @@ public class DragonBallEvents {
 							.ifPresent(existingPos -> {
 								// Romper el bloque anterior y reemplazarlo con aire
 								level.setBlock(existingPos, Blocks.AIR.defaultBlockState(), 3);
-								LogUtil.info("[DBallEvents] Removed existing Namek Dragon Ball at " + existingPos);
+								LogUtil.info("[DBallEvents] Removed existing Namek Dragon Ball at {}", existingPos);
 								capability.namekDragonBallPositions.remove(existingPos);
 							});
 
 					// Actualizar la posición actual
 					capability.namekDragonBallPositions.add(pos);
-					LogUtil.info("[DBallEvents] Placed Namekian Dragon Ball at " + pos);
+					LogUtil.info("[DBallEvents] Placed Namekian Dragon Ball at {}", pos);
 
 					// Guardar datos y sincronizar con el cliente
 					capability.saveToSavedData(serverLevel);
@@ -96,7 +99,7 @@ public class DragonBallEvents {
 				level.getCapability(DragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 					// Eliminar la posición
 					capability.dragonBallPositions.removeIf(p -> p.equals(pos));
-					LogUtil.info("[DBallEvents] Breaked Dragon Ball at " + pos);
+					LogUtil.info("[DBallEvents] Breaked Dragon Ball at {}", pos);
 
 					// Guardar datos y sincronizar con el cliente
 					capability.saveToSavedData(serverLevel);
@@ -106,7 +109,7 @@ public class DragonBallEvents {
 				level.getCapability(NamekDragonBallGenProvider.CAPABILITY).ifPresent(capability -> {
 					// Eliminar la posición
 					capability.namekDragonBallPositions.removeIf(p -> p.equals(pos));
-					LogUtil.info("[DBallEvents] Breaked Namekian Dragon Ball at " + pos);
+					LogUtil.info("[DBallEvents] Breaked Namekian Dragon Ball at {}", pos);
 
 					// Guardar datos y sincronizar con el cliente
 					capability.saveToSavedData(serverLevel);

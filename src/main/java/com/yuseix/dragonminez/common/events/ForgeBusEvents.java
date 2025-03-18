@@ -13,7 +13,6 @@ import com.yuseix.dragonminez.common.network.S2C.SyncDragonBallsS2C;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.common.stats.storymode.DMZQuestProvider;
-import com.yuseix.dragonminez.common.util.PlayerInventoryManager;
 import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
 import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
@@ -21,7 +20,6 @@ import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
 import com.yuseix.dragonminez.server.command.*;
 import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -128,7 +126,6 @@ public class ForgeBusEvents {
 	public void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 		if (event.getEntity() instanceof ServerPlayer player) {
 			sendDragonBallData(player, "both");
-			ServerLevel level = player.serverLevel();
 
 			// Desactivar al cambiar de dimensión para evitar bugs de que el aura no haga sonido, el turbo no aumente velocidad, etc, etc, etc.
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
@@ -138,17 +135,6 @@ public class ForgeBusEvents {
 				if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
 				if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
 				if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
-
-				if (DMZGeneralConfig.SAVE_INVENTORY.get()) {
-					PlayerInventoryManager inventoryManager = PlayerInventoryManager.get(level);
-					if (event.getFrom() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-						ListTag mainInventory = inventoryManager.getMainInventory(player.getUUID());
-						player.getInventory().save(mainInventory);
-						inventoryManager.setMainInventory(player.getUUID(), mainInventory);
-						player.getInventory().load(mainInventory);
-					}
-					player.inventoryMenu.broadcastChanges();
-				}
 			});
 		}
 	}
@@ -364,23 +350,6 @@ public class ForgeBusEvents {
 					if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
 					if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
 				}
-				if (DMZGeneralConfig.SAVE_INVENTORY.get()) {
-					PlayerInventoryManager inventoryManager = PlayerInventoryManager.get(level);
-
-					// Guardar el inventario actual en el almacenamiento principal
-					ListTag mainInventory = new ListTag();
-					player.getInventory().save(mainInventory);
-					inventoryManager.setMainInventory(player.getUUID(), mainInventory);
-
-					// Limpiar el inventario del jugador
-					player.getInventory().clearContent();
-
-					// Asignar el inventario del Otherworld
-					ListTag otherworldInventory = inventoryManager.getOtherworldInventory(player.getUUID());
-					player.getInventory().load(otherworldInventory);
-
-					player.inventoryMenu.broadcastChanges();
-				}
 			});
 		}
 	}
@@ -390,7 +359,6 @@ public class ForgeBusEvents {
 		if (!DMZGeneralConfig.OTHERWORLD_ENABLED.get()) return;
 		if (event.getEntity() instanceof ServerPlayer player) {
 			ServerLevel otherWorld = player.server.getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
-			ServerLevel level = player.serverLevel();
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 				if (stats.getBoolean("dmzuser")) {

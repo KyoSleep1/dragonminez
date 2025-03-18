@@ -56,7 +56,7 @@ public class ClientEvents {
     private static final String MOD_VERSION = System.getProperty("mod_version", "unknown");
 
     private static final Random RANDOM = new Random();
-    private static final String title = "DragonMine Z v" + "1.2.1 - StoryMode and Skills!";
+    private static final String title = "DragonMine Z v" + "1.2.3 - StoryMode and Skills!";
     private static boolean isDescending = false;
 
     private static final int teleportTime = 5; // Segundos
@@ -69,15 +69,16 @@ public class ClientEvents {
             "Dev",
             "ezShokkoh",
             "ImYuseix",
+            "KyoSleep",
+            "InmortalPix",
+            "LecuTheAnimator",
             "Toji71_",
             "Baby_Poop12311",
             "SpaceCarp",
             "prolazorbema10",
             "iLalox",
             "Robberto10",
-            "Athrizel",
-            "InmortalPix",
-            "LecuTheAnimator"
+            "Athrizel"
     ));
     @SubscribeEvent
     public static void onRenderTick(TickEvent.RenderTickEvent event) {

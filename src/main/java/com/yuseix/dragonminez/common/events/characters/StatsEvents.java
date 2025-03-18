@@ -1,6 +1,5 @@
 package com.yuseix.dragonminez.common.events.characters;
 
-
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.common.config.races.DMZBioAndroidConfig;
@@ -55,8 +54,8 @@ public class StatsEvents {
     //Teclas
     private static boolean previousKeyDescendState = false;
     private static boolean previousKiChargeState = false;
-    private static boolean transformOn = false;
     private static boolean turboOn = false, hasPressedTurbo = false;
+    private static boolean transformOn = false;
     private static double previousFov = 1.0;
 
     //Sonidos
@@ -157,10 +156,8 @@ public class StatsEvents {
                     // Si el jugador está en y < -70, perderá 1% hp cada tick hasta matarlo (por si se cae al vacío)
                 }
 
-                if (playerstats.getIntValue("babacooldown") > 0)
-                    playerstats.setIntValue("babacooldown", babaCooldown(playerstats.getIntValue("babacooldown")));
-                if (playerstats.getIntValue("babaalivetimer") > 0)
-                    playerstats.setIntValue("babaalivetimer", babaDuration(playerstats.getIntValue("babaalivetimer")));
+                if (playerstats.getIntValue("babacooldown") > 0) playerstats.setIntValue("babacooldown", babaCooldown(playerstats.getIntValue("babacooldown")));
+                if (playerstats.getIntValue("babaalivetimer") > 0) playerstats.setIntValue("babaalivetimer", babaDuration(playerstats.getIntValue("babaalivetimer")));
 
                 AttributeInstance reachAttribute = serverPlayer.getAttribute(ForgeMod.ENTITY_REACH.get());
                 AttributeInstance blockReachAttribute = serverPlayer.getAttribute(ForgeMod.BLOCK_REACH.get());
@@ -182,8 +179,7 @@ public class StatsEvents {
                 }
 
             } else {
-                if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != 20)
-                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
+                if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != 20) serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
             }
 
             //Tiempo para reclamar una senzu
@@ -191,6 +187,7 @@ public class StatsEvents {
 
         });
     }
+
 
     private static void updateTemporaryEffects(Player player) {
         DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
@@ -426,11 +423,11 @@ public class StatsEvents {
                     if (isTurboKeypressed) {
                         if (!hasPressedTurbo) {
                             previousFov = Minecraft.getInstance().options.fovEffectScale().get();
+                            System.out.println("Previous FOV: " + previousFov);
                             hasPressedTurbo = true;
                         }
                         if (!turboOn && porcentaje > 10) {
-                            if (Minecraft.getInstance().options.fovEffectScale().get() != 0.0)
-                                Minecraft.getInstance().options.fovEffectScale().set(0.0);
+                            if (Minecraft.getInstance().options.fovEffectScale().get() != 0.0) Minecraft.getInstance().options.fovEffectScale().set(0.0);
                             // Solo activar Turbo si tiene más del 10% de energía
                             turboOn = true;
                             ModMessages.sendToServer(new CharacterC2S("isTurboOn", 1));
@@ -500,10 +497,14 @@ public class StatsEvents {
         }
     }
 
+    public static double getPreviousFov() {
+        return previousFov;
+    }
+
     @SubscribeEvent
     @SuppressWarnings("removal")
     public static void onPlayerSizeChange(EntityEvent.Size event) {
-        if (event.getEntity() instanceof Player player) {
+        if(event.getEntity() instanceof Player player){
             DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
                 var raza = cap.getIntValue("race");
                 var transf = cap.getStringValue("form");
@@ -519,7 +520,7 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
                                     event.setNewEyeHeight(5.5F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()){
                                     event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
                                     event.setNewEyeHeight(1.7F);
                                 } else {
@@ -534,7 +535,7 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.5F, 1.6F, true));
                                     event.setNewEyeHeight(1.3f);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()){
                                     event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
                                     event.setNewEyeHeight(0.4f);
                                 } else {
@@ -550,10 +551,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 1.5F, true));
                                     event.setNewEyeHeight(1.4F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
                                     event.setNewEyeHeight(0.4F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.7F, 2.0F, true));
                                     event.setNewEyeHeight(1.7F);
                                 }
@@ -565,10 +566,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 1.7F, true));
                                     event.setNewEyeHeight(1.6F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
                                     event.setNewEyeHeight(0.5F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.7F, 2.2F, true));
                                     event.setNewEyeHeight(1.9F);
                                 }
@@ -586,7 +587,7 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(2.3F, 6.2F, true));
                                     event.setNewEyeHeight(5.5F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()){
                                     event.setNewSize(new EntityDimensions(2.3F, 2.4F, true));
                                     event.setNewEyeHeight(1.7F);
                                 } else {
@@ -601,7 +602,7 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.5F, 1.6F, true));
                                     event.setNewEyeHeight(1.3f);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()){
                                     event.setNewSize(new EntityDimensions(0.6F, 0.6F, true));
                                     event.setNewEyeHeight(0.4f);
                                 } else {
@@ -622,10 +623,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 1.5F, true));
                                     event.setNewEyeHeight(1.4F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 0.6F, true));
                                     event.setNewEyeHeight(0.4F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.7F, 2.0F, true));
                                     event.setNewEyeHeight(1.7F);
                                 }
@@ -644,10 +645,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.9F, 2.4F, true));
                                     event.setNewEyeHeight(2.0F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
                                     event.setNewEyeHeight(0.5F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.9F, 2.8F, true));
                                     event.setNewEyeHeight(2.4F);
                                 }
@@ -659,10 +660,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.9F, 2.2F, true));
                                     event.setNewEyeHeight(1.8F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(1.0F, 0.9F, true));
                                     event.setNewEyeHeight(0.5F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.8F, 2.6F, true));
                                     event.setNewEyeHeight(2.1F);
                                 }
@@ -672,7 +673,7 @@ public class StatsEvents {
                         }
                         break;
                     case 5: // Majin
-                        switch (transf) {
+                        switch (transf){
                             case "kid":
                                 if (player.isSwimming()) {
                                     event.setNewSize(new EntityDimensions(0.4F, 0.4F, true));
@@ -680,10 +681,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.4F, 1.5F, true));
                                     event.setNewEyeHeight(1.2F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(0.4F, 0.4F, true));
                                     event.setNewEyeHeight(0.3F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.4F, 1.7F, true));
                                     event.setNewEyeHeight(1.4F);
                                 }
@@ -701,10 +702,10 @@ public class StatsEvents {
                                 } else if (player.isCrouching()) {
                                     event.setNewSize(new EntityDimensions(0.7F, 1.7F, true));
                                     event.setNewEyeHeight(1.6F);
-                                } else if (player.isVisuallyCrawling()) {
+                                } else if(player.isVisuallyCrawling()) {
                                     event.setNewSize(new EntityDimensions(0.8F, 0.8F, true));
                                     event.setNewEyeHeight(0.5F);
-                                } else {
+                                }else {
                                     event.setNewSize(new EntityDimensions(0.7F, 2.2F, true));
                                     event.setNewEyeHeight(1.9F);
                                 }
@@ -866,53 +867,29 @@ public class StatsEvents {
 
         // Lógica de transformación para Bioandroides
         if (race == 3 && groupForm.equals("")) {
-            if (superFormLvl >= 2 && dmzForm.equals("base")) {
-                return "semi_perfect";
-            }
-            if (superFormLvl >= 4 && dmzForm.equals("semi_perfect")) {
-                return "perfect";
-            }
+            if (superFormLvl >= 2 && dmzForm.equals("base")) return "semi_perfect";
+            if (superFormLvl >= 4 && dmzForm.equals("semi_perfect")) return "perfect";
         }
 
         // Lógica de transformación para Cold Demons
         if (race == 4 && groupForm.equals("")) {
-            if (superFormLvl >= 2 && dmzForm.equals("base")) {
-                return "second_form";
-            }
-            if (superFormLvl >= 4 && dmzForm.equals("second_form")) {
-                return "third_form";
-            }
-            if (superFormLvl >= 6 && dmzForm.equals("third_form")) {
-                return "final_form";
-            }
-            if (superFormLvl >= 8 && dmzForm.equals("final_form")) {
-                return "full_power";
-            }
+            if (superFormLvl >= 2 && dmzForm.equals("base")) return "second_form";
+            if (superFormLvl >= 4 && dmzForm.equals("second_form")) return "third_form";
+            if (superFormLvl >= 6 && dmzForm.equals("third_form")) return "final_form";
+            if (superFormLvl >= 8 && dmzForm.equals("final_form")) return "full_power";
         }
 
         // Lógica de transformación para Majins
         if (race == 5 && groupForm.equals("")) {
-            if (superFormLvl >= 2 && dmzForm.equals("base")) {
-                return "evil";
-            }
-            if (superFormLvl >= 4 && dmzForm.equals("evil")) {
-                return "kid";
-            }
-            if (superFormLvl >= 6 && dmzForm.equals("kid")) {
-                return "super";
-            }
-            if (superFormLvl >= 8 && dmzForm.equals("super")) {
-                return "ultra";
-            }
+            if (superFormLvl >= 2 && dmzForm.equals("base")) return "evil";
+            if (superFormLvl >= 4 && dmzForm.equals("evil")) return "kid";
+            if (superFormLvl >= 6 && dmzForm.equals("kid")) return "super";
+            if (superFormLvl >= 8 && dmzForm.equals("super")) return "ultra";
         }
 
         return null; // No hay transformación disponible
     }
 
-    public static double getPreviousFov() {
-        return previousFov;
-
-    }
 }
 
 

@@ -42,9 +42,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public static void mobDeath(LivingDeathEvent event) {
 		// Verificar si la entidad muerta es un aldeano, namekianentity,etc
-		if (event.getEntity() instanceof NamekianEntity ||
-				event.getEntity() instanceof Villager ||
-				event.getEntity() instanceof Player) {
+		if (event.getEntity() instanceof NamekianEntity || event.getEntity() instanceof Villager || event.getEntity() instanceof Player) {
 
 			// Verificar si el atacante es un jugador
 			if (event.getSource().getEntity() instanceof Player) {
@@ -54,7 +52,7 @@ public class EntityEvents {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					boolean isDmzUser = cap.getBoolean("dmzuser");
 
-					if (isDmzUser) { cap.removeIntValue("alignment", 5); } //Remover puntos te hace maligno
+					if (isDmzUser) cap.removeIntValue("alignment", 5); //Remover puntos te hace maligno
 				});
 
 				player.displayClientMessage(Component.translatable("lines.alignment.evil"), true);
@@ -70,7 +68,7 @@ public class EntityEvents {
 				DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(cap -> {
 					boolean isDmzUser = cap.getBoolean("dmzuser");
 
-					if (isDmzUser) { cap.addIntValue("alignment", 2); } //Agregar puntos te hace bueno
+					if (isDmzUser) cap.addIntValue("alignment", 2); //Agregar puntos te hace bueno
 				});
 
 			}
@@ -81,7 +79,7 @@ public class EntityEvents {
 			if (event.getSource().getEntity() instanceof Player) {
 				Player player = (Player) event.getSource().getEntity();
 				var vidaTps = (int) (event.getEntity().getMaxHealth() * DMZGeneralConfig.PERKILL_ZPOINTS_GAIN.get());
-				var calculoTps = (int) Math.round((10 + vidaTps) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_GAIN.get()); // (10 + 50% hp) * config
+				var calculoTps = (int) Math.round((10 + vidaTps) * DMZGeneralConfig.MULTIPLIER_ZPOINTS_GAIN.get());
 
 				// multiplicar si está en la hab del tiempo pes
 				if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
@@ -97,10 +95,6 @@ public class EntityEvents {
 					if (cap.getIntValue("race") == 4)  finalTps *= DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get();
 
 					if (isDmzUser) cap.addIntValue("tps", finalTps);
-					// Testing
-              /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
-                    player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
-                    else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
 				});
 			}
 		}
@@ -144,12 +138,7 @@ public class EntityEvents {
 				boolean isDmzUser = cap.getBoolean("dmzuser");
 				int finalTps = (int) Math.round(finalBaseTps);
 				if (cap.getIntValue("race") == 4) finalTps = (int) (finalTps * DMZColdDemonConfig.TP_MULTIPLER_PASSIVE.get());
-				if (isDmzUser) { cap.addIntValue("tps", finalTps); }
-
-				// Testing
-              /* if (player.level().dimension().equals(ModDimensions.TIME_CHAMBER_DIM_LEVEL_KEY)) {
-                    player.sendSystemMessage(Component.literal("TPS: " + finalTps + " (HTC)")); }
-                    else {player.sendSystemMessage(Component.literal("TPS: " + finalTps)); } */
+				if (isDmzUser) cap.addIntValue("tps", finalTps);
 			});
 		}
 	}
@@ -167,7 +156,7 @@ public class EntityEvents {
 		return listaEnemigos.stream().anyMatch(clase -> clase.isInstance(entity));
 	}
 
-	private static final double HEAL_PERCENTAGE = 0.05; // 5% por segundo
+	private static final double HEAL_PERCENTAGE = 0.08; // 8% por segundo
 	private static final int HEAL_TICKS = 3 * 20; // 3 segundos
 
 	private static final Map<Player, Long> lastHealingTime = new WeakHashMap<>();

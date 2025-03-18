@@ -37,6 +37,15 @@ public final class LogUtil {
     }
 
     /**
+     * Logs an informational message with one parameter.
+     *
+     * @param message The message to log.
+     */
+    public static void info(String message, Object p0) {
+        LOGGER.info(message, p0);
+    }
+
+    /**
      * Logs a warning message.
      *
      * @param message The warning message to log.

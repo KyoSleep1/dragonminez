@@ -12,7 +12,6 @@ import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.client.config.DMZClientConfig;
 import com.yuseix.dragonminez.common.util.DMZDatos;
-import com.yuseix.dragonminez.common.util.TranslateManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -217,7 +216,7 @@ public class CCustomizationPage extends Screen {
 
             if (currentPage == 0) {
                 //BOTON VOLVER
-                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, Component.translatable("dmz.ccreation.back").withStyle(ChatFormatting.BOLD), button -> {
 
                     ModMessages.sendToServer(new CharacterC2S("hairID", 0));
                     ModMessages.sendToServer(new CharacterC2S("BodyType", 0));
@@ -227,7 +226,7 @@ public class CCustomizationPage extends Screen {
                 }));
 
                 //BOTON SIGUIENTE
-                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, TranslateManager.NEXT.withStyle(ChatFormatting.BOLD), button -> {
+                this.nextButton = (TextButton) this.addRenderableWidget(new TextButton(this.width - 85, posY, Component.translatable("dmz.ccreation.next").withStyle(ChatFormatting.BOLD), button -> {
                     this.removeWidget(eyesButtonColor);
                     this.removeWidget(eyesButtonColor2);
                     this.removeWidget(bodyButtonColor1);
@@ -254,7 +253,7 @@ public class CCustomizationPage extends Screen {
                 }));
             } else if (currentPage == 1) {
                 //BOTON VOLVER
-                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, TranslateManager.BACK.withStyle(ChatFormatting.BOLD), button -> {
+                this.backButton = (TextButton) this.addRenderableWidget(new TextButton(20, posY, Component.translatable("dmz.ccreation.back").withStyle(ChatFormatting.BOLD), button -> {
                     currentPage = 0;
                     this.removeWidget(eyesButtonColor);
                     this.removeWidget(eyesButtonColor2);
@@ -341,7 +340,7 @@ public class CCustomizationPage extends Screen {
 
                             break;
                         case 4: //Cold Demon
-                                ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("cold","warrior")));
+                            ModMessages.sendToServer(new CharacterC2S("str", DMZClientConfig.getInit_StrStat("cold","warrior")));
                             ModMessages.sendToServer(new CharacterC2S("def", DMZClientConfig.getInit_DefStat("cold","warrior")));
                             ModMessages.sendToServer(new CharacterC2S("con", DMZClientConfig.getInit_ConStat("cold","warrior")));
                             ModMessages.sendToServer(new CharacterC2S("pwr", DMZClientConfig.getInit_PWRStat("cold", "warrior")));
@@ -649,7 +648,7 @@ public class CCustomizationPage extends Screen {
                             this.removeWidget(hairRigthButton);
                             this.removeWidget(hairLeftButton);
                         }));
-}
+                    }
                     break;
                 case 2:
                     if (cap.getIntValue("hairid") == 0) {
