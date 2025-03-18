@@ -2,7 +2,6 @@ package com.yuseix.dragonminez.common.events;
 
 import com.mojang.logging.LogUtils;
 import com.yuseix.dragonminez.common.Reference;
-import com.yuseix.dragonminez.server.command.*;
 import com.yuseix.dragonminez.common.config.DMZGeneralConfig;
 import com.yuseix.dragonminez.common.init.MainBlocks;
 import com.yuseix.dragonminez.common.init.MainEntity;
@@ -15,10 +14,11 @@ import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.common.stats.storymode.DMZQuestProvider;
 import com.yuseix.dragonminez.common.util.PlayerInventoryManager;
+import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import com.yuseix.dragonminez.common.world.cap.provider.DragonBallGenProvider;
 import com.yuseix.dragonminez.common.world.cap.provider.NamekDragonBallGenProvider;
-import com.yuseix.dragonminez.common.world.cap.StructuresCapability;
 import com.yuseix.dragonminez.common.world.cap.provider.StructuresProvider;
+import com.yuseix.dragonminez.server.command.*;
 import com.yuseix.dragonminez.server.worldgen.dimension.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.ListTag;
@@ -137,13 +137,13 @@ public class ForgeBusEvents {
 				if (stats.getBoolean("porungarevive")) stats.setBoolean("porungarevive", false);
 				if (stats.getBoolean("shenronrevive")) stats.setBoolean("shenronrevive", false);
 				if (stats.getBoolean("descend")) stats.setBoolean("descend", false);
+
 				if (DMZGeneralConfig.SAVE_INVENTORY.get()) {
 					PlayerInventoryManager inventoryManager = PlayerInventoryManager.get(level);
-					if (level.dimension() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
-						ListTag otherworldInventory = inventoryManager.getOtherworldInventory(player.getUUID());
-						player.getInventory().load(otherworldInventory);
-					} else {
+					if (event.getFrom() == ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 						ListTag mainInventory = inventoryManager.getMainInventory(player.getUUID());
+						player.getInventory().save(mainInventory);
+						inventoryManager.setMainInventory(player.getUUID(), mainInventory);
 						player.getInventory().load(mainInventory);
 					}
 					player.inventoryMenu.broadcastChanges();
