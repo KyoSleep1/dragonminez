@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.client.datagen;
 
 import com.yuseix.dragonminez.client.datagen.impl.ItemModelProvider;
 import com.yuseix.dragonminez.common.datagen.DatagenManager;
+import com.yuseix.dragonminez.common.datagen.impl.BlockStateProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -45,6 +46,7 @@ public class ClientDatagenManager {
     public static void register(GatherDataEvent event, PackOutput packOutput,
                                 CompletableFuture<HolderLookup.Provider> lookupProvider,
                                 ExistingFileHelper existingFileHelper) {
+        DatagenManager.register(new BlockStateProvider(packOutput, existingFileHelper), event.includeClient());
         DatagenManager.register(new ItemModelProvider(packOutput, existingFileHelper), event.includeClient());
     }
 }

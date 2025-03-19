@@ -58,7 +58,6 @@ public class ServerDatagenManager {
 
         DatagenManager.register(new RecipeProvider(packOutput), event.includeServer());
         DatagenManager.register(LootTableProvider.create(packOutput), event.includeServer());
-        DatagenManager.register(new BlockStateProvider(packOutput, existingFileHelper), event.includeServer());
 
         final BlockTagGenerator blockTagGenerator = DatagenManager.register(
                 new BlockTagGenerator(packOutput, lookupProvider, existingFileHelper), event.includeServer());
