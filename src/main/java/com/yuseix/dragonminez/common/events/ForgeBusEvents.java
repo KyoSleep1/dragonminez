@@ -355,7 +355,6 @@ public class ForgeBusEvents {
 		if (level.dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 				if (stats.getBoolean("dmzuser")) {
-					stats.setBoolean("alive", false);
 					if (stats.getBoolean("transform")) stats.setBoolean("transform", false);
 					if (stats.getBoolean("turbo")) stats.setBoolean("turbo", false);
 					if (stats.getBoolean("aura")) stats.setBoolean("aura", false);
@@ -375,6 +374,8 @@ public class ForgeBusEvents {
 
 			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(stats -> {
 				if (stats.getBoolean("dmzuser")) {
+					stats.setBoolean("alive", false);
+
 					BlockPos spawnPos = new BlockPos(0, 41, -101); // Ajusta la posición de spawn
 					player.setRespawnPosition(otherWorld.dimension(), spawnPos, 0.0F, true, false);
 					player.teleportTo(otherWorld, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), 0, 0);

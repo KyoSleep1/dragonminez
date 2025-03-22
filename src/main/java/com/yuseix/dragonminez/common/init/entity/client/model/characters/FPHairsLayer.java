@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.yuseix.dragonminez.client.character.layer.HairsLayer;
 import com.yuseix.dragonminez.client.character.models.hair.*;
 import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.common.init.MainItems;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import net.minecraft.client.Minecraft;
@@ -36,12 +37,12 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
 
     public FPHairsLayer(RenderLayerParent<T, M> pRenderer) {
         super(pRenderer);
-            this.gokuhair = new GokuHairModel(GokuHairModel.createBodyLayer().bakeRoot());
-            this.earsNamek = new EarsNamek(EarsNamek.createBodyLayer().bakeRoot());
-            this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
-            this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
-            this.vegetahair = new VegetaHairModel(VegetaHairModel.createBodyLayer().bakeRoot());
-            this.gohandbshair = new GohanDBSHairModel(GohanDBSHairModel.createBodyLayer().bakeRoot());
+        this.gokuhair = new GokuHairModel(GokuHairModel.createBodyLayer().bakeRoot());
+        this.earsNamek = new EarsNamek(EarsNamek.createBodyLayer().bakeRoot());
+        this.femhair = new FemHairModel(FemHairModel.createBodyLayer().bakeRoot());
+        this.cola = new TailModel(TailModel.createBodyLayer().bakeRoot());
+        this.vegetahair = new VegetaHairModel(VegetaHairModel.createBodyLayer().bakeRoot());
+        this.gohandbshair = new GohanDBSHairModel(GohanDBSHairModel.createBodyLayer().bakeRoot());
         this.gohanteenhair = new GohanTeenHairModel(GohanTeenHairModel.createBodyLayer().bakeRoot());
         this.trunkshair = new TrunksHairModel(TrunksHairModel.createBodyLayer().bakeRoot());
     }
@@ -68,7 +69,8 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
             // Si el jugador tiene invisibilidad, no renderizamos nada.
             if (Minecraft.getInstance().player.hasEffect(MobEffects.INVISIBILITY)) return;
             // Si el jugador tiene un casco, no renderizamos nada.
-            if (!(Minecraft.getInstance().player.getItemBySlot(EquipmentSlot.HEAD).isEmpty())) return;
+            if (!(Minecraft.getInstance().player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) &&
+                    !Minecraft.getInstance().player.getItemBySlot(EquipmentSlot.HEAD).is(MainItems.INVENCIBLE_ARMOR_HELMET.get())) return;
 
             switch (raza){
                 case 0: //Humano
@@ -102,32 +104,32 @@ public class FPHairsLayer<T extends LivingEntity, M extends PlayerModel<T>> exte
                     //Cola
                     this.cola.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY,0.410f,0.119f,0.00410f,1.0f);
                     //Cabellos
-                        if(hairId == 1){
-                            VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOKUHAIR_TEXT1));
-                            this.gokuhair.renderToBuffer(poseStack,gokubase, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    if(hairId == 1){
+                        VertexConsumer gokubase = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOKUHAIR_TEXT1));
+                        this.gokuhair.renderToBuffer(poseStack,gokubase, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
-                        } else if(hairId == 2){
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.femhair.renderToBuffer(poseStack,vertexConsumer, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 2){
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.femhair.renderToBuffer(poseStack,vertexConsumer, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
-                        } else if(hairId == 3){
-                            VertexConsumer cabello = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.VEGETAHAIR_TEXT1));
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.vegetahair.renderToBuffer(poseStack,cabello, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 3){
+                        VertexConsumer cabello = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.VEGETAHAIR_TEXT1));
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.vegetahair.renderToBuffer(poseStack,cabello, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
 
-                        } else if(hairId == 4){
-                            VertexConsumer cabello = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOHANDBSHAIR_TEXT1));
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.gohandbshair.renderToBuffer(poseStack,cabello, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-                        } else if(hairId == 5){
-                            VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOHAN_TEEN_HAIR_TEXT1));
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.gohanteenhair.renderToBuffer(poseStack,tex, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-                        } else if(hairId == 6){
-                            VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.TRUNKS_HAIR_TEXT1));
-                            this.getParentModel().getHead().translateAndRotate(poseStack);
-                            this.trunkshair.renderToBuffer(poseStack,tex, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
-                        }
+                    } else if(hairId == 4){
+                        VertexConsumer cabello = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOHANDBSHAIR_TEXT1));
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.gohandbshair.renderToBuffer(poseStack,cabello, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 5){
+                        VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.GOHAN_TEEN_HAIR_TEXT1));
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.gohanteenhair.renderToBuffer(poseStack,tex, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    } else if(hairId == 6){
+                        VertexConsumer tex = multiBufferSource.getBuffer(RenderType.entityTranslucent(HairsLayer.TRUNKS_HAIR_TEXT1));
+                        this.getParentModel().getHead().translateAndRotate(poseStack);
+                        this.trunkshair.renderToBuffer(poseStack,tex, i, OverlayTexture.NO_OVERLAY, colorR,colorG,colorB,1.0f);
+                    }
                     break;
                 case 2: //Namek
                     if(hairId == 0){

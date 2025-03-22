@@ -25,6 +25,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -100,6 +101,10 @@ public class StatsEvents {
                         hasHealed = true;
                     }
                 }
+                if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() > dmzdatos.calcConstitution(playerstats)
+                        && (serverPlayer.getEffect(MobEffects.ABSORPTION) == null || serverPlayer.getEffect(MobEffects.HEALTH_BOOST) == null)) {
+                    serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(dmzdatos.calcConstitution(playerstats));
+                }
                 // Tickhandler
                 tickHandler.tickRegenConsume(playerstats, dmzdatos, serverPlayer);
 
@@ -142,6 +147,7 @@ public class StatsEvents {
                 }
 
                 if (DMZGeneralConfig.OTHERWORLD_ENABLED.get()) {
+                    if (!playerstats.getBoolean("alive") && hasHealed) hasHealed = false;
                     if (!playerstats.getBoolean("alive") && playerstats.getIntValue("babaalivetimer") <= 0) {
                         if (serverPlayer.level().dimension() != ModDimensions.OTHERWORLD_DIM_LEVEL_KEY) {
                             ServerLevel serverLevel = serverPlayer.getServer().getLevel(ModDimensions.OTHERWORLD_DIM_LEVEL_KEY);
@@ -184,6 +190,7 @@ public class StatsEvents {
                 }
 
             } else {
+                if (hasHealed) hasHealed = false;
                 if (serverPlayer.getAttribute(Attributes.MAX_HEALTH).getBaseValue() != 20) serverPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
             }
 
@@ -225,9 +232,9 @@ public class StatsEvents {
 
                     // Calcular el daño basado en la fuerza del atacante
                     float baseMCDamage = event.getAmount();
+                    int baseDamage = dmzdatos.getBaseStrength(cap);
                     int maxDamage = dmzdatos.calcStrength(cap);
 
-                    int staminacost = maxDamage / 12;
                     int danoKiWeapon = dmzdatos.calcKiPower(cap) / 2;
                     var ki_control = cap.hasSkill("ki_control");
                     var ki_manipulation = cap.hasSkill("ki_manipulation");
@@ -236,7 +243,7 @@ public class StatsEvents {
                     int kiManipLevel = cap.getSkillLevel("ki_manipulation");
                     int maxKi = cap.getIntValue("maxenergy");
                     int currKi = cap.getIntValue("curenergy");
-                    int staminaCost = maxDamage / 5;
+                    int staminaCost = (int) (baseDamage / 4.5);
 
                     // Si el usuario creó su personaje, entonces aplica la lógica del Daño del Mod + Consumo de Stamina
                     if (isDmzUser) {
@@ -250,7 +257,7 @@ public class StatsEvents {
                             // Consume lo que se puede
                             float damageMultiplier = (float) staminaToConsume / staminaCost; // Factor de daño basado en Stamina disponible
 
-                            if (curStamina >= staminacost) {
+                            if (curStamina >= staminaCost) {
                                 // Aplicar daño ajustado si la Stamina no alcanza
                                 float adjustedDamage = maxDamage * damageMultiplier;
                                 if (cap.getIntValue("race") == 3) {
@@ -428,7 +435,6 @@ public class StatsEvents {
                     if (isTurboKeypressed) {
                         if (!hasPressedTurbo) {
                             previousFov = Minecraft.getInstance().options.fovEffectScale().get();
-                            System.out.println("Previous FOV: " + previousFov);
                             hasPressedTurbo = true;
                         }
                         if (!turboOn && porcentaje > 10) {
@@ -445,6 +451,7 @@ public class StatsEvents {
                             ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                             ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                             stopLoopSound("turbo");
+                            hasPressedTurbo = false;
                         } else {
                             player.displayClientMessage(Component.translatable("ui.dmz.turbo_fail"), true);
                         }
@@ -456,6 +463,7 @@ public class StatsEvents {
                         ModMessages.sendToServer(new CharacterC2S("isTurboOn", 0));
                         ModMessages.sendToServer(new PermaEffC2S("remove", "turbo", 1));
                         stopLoopSound("turbo");
+                        hasPressedTurbo = false;
                     }
 
                     // Transformación
@@ -896,6 +904,5 @@ public class StatsEvents {
     }
 
 }
-
 
 

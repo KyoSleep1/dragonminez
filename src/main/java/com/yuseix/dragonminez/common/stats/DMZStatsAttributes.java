@@ -1,8 +1,8 @@
 package com.yuseix.dragonminez.common.stats;
 
+import com.yuseix.dragonminez.client.config.DMZClientConfig;
 import com.yuseix.dragonminez.common.stats.forms.FormsData;
 import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
-import com.yuseix.dragonminez.client.config.DMZClientConfig;
 import com.yuseix.dragonminez.common.util.DMZDatos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +31,7 @@ public class DMZStatsAttributes {
 
     private String gender = "male", dmzClass = "warrior", dmzKiWeapon = "sword";
     private String dmzForm = "base", dmzGroupForm = "";
-    
+
     private boolean AcceptCharacter = false, isAuraOn = false, isTurboOn = false, isDmzAlive = true, tailMode = false;
     private boolean isTransforming = false, isDescendkeyon = false, compactMenu = false, isKaioPlanet = false, isPorungaRevive = false, isShenronRevive = false;
 
@@ -44,94 +44,94 @@ public class DMZStatsAttributes {
     public int getStat(String stat) {
         int value = 0;
         switch (stat.toUpperCase(Locale.ROOT)) {
-          case "STR" -> value = strength;
-          case "DEF" -> value = defense;
-          case "CON" -> value = constitution;
-          case "PWR" -> value = KiPower;
-          case "ENE" -> value = energy;
-		}
+            case "STR" -> value = strength;
+            case "DEF" -> value = defense;
+            case "CON" -> value = constitution;
+            case "PWR" -> value = KiPower;
+            case "ENE" -> value = energy;
+        }
         return value;
     }
 
     public void setStat(String stat, int value) {
         switch (stat.toUpperCase(Locale.ROOT)) {
-          case "STR" -> {
-              this.strength = value;
-              if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
-              else this.strength = value;
-          }
-          case "DEF" -> {
+            case "STR" -> {
+                this.strength = value;
+                if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
+                else this.strength = value;
+            }
+            case "DEF" -> {
                 this.defense = value;
                 if (this.defense >= DMZClientConfig.getMaxStats()) this.defense = DMZClientConfig.getMaxStats();
                 else this.defense = value;
-          }
-          case "CON" -> {
-              this.constitution = value;
-              if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
-              else this.constitution = value;
-          }
-          case "PWR" -> {
-              this.KiPower = value;
-              if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
-              else this.KiPower = value;
-          }
-          case "ENE" -> {
-              this.energy = value;
-              if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
-              else this.energy = value;
-          }
+            }
+            case "CON" -> {
+                this.constitution = value;
+                if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
+                else this.constitution = value;
+            }
+            case "PWR" -> {
+                this.KiPower = value;
+                if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
+                else this.KiPower = value;
+            }
+            case "ENE" -> {
+                this.energy = value;
+                if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
+                else this.energy = value;
+            }
         }
         DMZStatsCapabilities.syncStats(player);
     }
 
     public void addStat(String stat, int points) {
         switch (stat.toUpperCase(Locale.ROOT)) {
-          case "STR" -> {
-              if (strength <= DMZClientConfig.getMaxStats()) strength += points;
-              if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
-          }
-          case "DEF" -> {
-              if (defense <= DMZClientConfig.getMaxStats()) defense += points;
-              if (this.defense >= DMZClientConfig.getMaxStats()) this.defense = DMZClientConfig.getMaxStats();
-          }
-          case "CON" -> {
-              if (constitution <= DMZClientConfig.getMaxStats()) constitution += points;
-              if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
-          }
-          case "PWR" -> {
-              if (KiPower <= DMZClientConfig.getMaxStats()) KiPower += points;
-              if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
-          }
-          case "ENE" -> {
-              if (energy <= DMZClientConfig.getMaxStats()) energy += points;
-              if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
-          }
+            case "STR" -> {
+                if (strength <= DMZClientConfig.getMaxStats()) strength += points;
+                if (this.strength >= DMZClientConfig.getMaxStats()) this.strength = DMZClientConfig.getMaxStats();
+            }
+            case "DEF" -> {
+                if (defense <= DMZClientConfig.getMaxStats()) defense += points;
+                if (this.defense >= DMZClientConfig.getMaxStats()) this.defense = DMZClientConfig.getMaxStats();
+            }
+            case "CON" -> {
+                if (constitution <= DMZClientConfig.getMaxStats()) constitution += points;
+                if (this.constitution >= DMZClientConfig.getMaxStats()) this.constitution = DMZClientConfig.getMaxStats();
+            }
+            case "PWR" -> {
+                if (KiPower <= DMZClientConfig.getMaxStats()) KiPower += points;
+                if (this.KiPower >= DMZClientConfig.getMaxStats()) this.KiPower = DMZClientConfig.getMaxStats();
+            }
+            case "ENE" -> {
+                if (energy <= DMZClientConfig.getMaxStats()) energy += points;
+                if (this.energy >= DMZClientConfig.getMaxStats()) this.energy = DMZClientConfig.getMaxStats();
+            }
         }
         DMZStatsCapabilities.syncStats(player);
     }
 
     public void removeStat(String stat, int points) {
         switch (stat.toUpperCase(Locale.ROOT)) {
-          case "STR" -> {
-              strength -= points;
-              if (strength < 5) strength = 5;
-          }
-          case "DEF" -> {
-              defense -= points;
-              if (defense < 5) defense = 5;
-          }
-          case "CON" -> {
-              constitution -= points;
-              if (constitution < 5) constitution = 5;
-          }
-          case "PWR" -> {
-              KiPower -= points;
-              if (KiPower < 5) KiPower = 5;
-          }
-          case "ENE" -> {
-              energy -= points;
-              if (energy < 5) energy = 5;
-          }
+            case "STR" -> {
+                strength -= points;
+                if (strength < 5) strength = 5;
+            }
+            case "DEF" -> {
+                defense -= points;
+                if (defense < 5) defense = 5;
+            }
+            case "CON" -> {
+                constitution -= points;
+                if (constitution < 5) constitution = 5;
+            }
+            case "PWR" -> {
+                KiPower -= points;
+                if (KiPower < 5) KiPower = 5;
+            }
+            case "ENE" -> {
+                energy -= points;
+                if (energy < 5) energy = 5;
+            }
         }
         DMZStatsCapabilities.syncStats(player);
     }
@@ -198,6 +198,7 @@ public class DMZStatsAttributes {
             case "babaalivetimer" -> result = babaAliveTimer;
             case "maxhealth" -> result = dmzdatos.calcConstitution(this);
             case "maxenergy" -> result = dmzdatos.calcEnergy(this);
+            case "maxstam" -> result = dmzdatos.calcStamina(this);
             case "curstam" -> result = curStam;
             case "curenergy" -> result = currentEnergy;
             default -> System.out.println("The INT value " + value + "could not be found");
@@ -486,7 +487,7 @@ public class DMZStatsAttributes {
         int kiDamage = dmzdatos.calcMultipliedKiPower(this);
         int totalDefense = dmzdatos.calcMultipliedDefense(this);
         double release = (double) getIntValue("release") / 100;
-		return (int) ((damage + kiDamage + totalDefense + getIntValue("maxhealth")) * release);
+        return (int) ((damage + kiDamage + totalDefense + getIntValue("maxhealth")) * release);
     }
 
     public CompoundTag saveNBTData() {

@@ -36,24 +36,20 @@
     "minecraft:stony_peaks",
     "minecraft:snowy_slopes"
   ],
-  "spawners": [
-    {
-      "type": "dragonminez:soldier01",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 1
-    },
-    {
-      "type": "dragonminez:soldier02",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 1
-    },
-    {
-      "type": "dragonminez:soldier03",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 2
-    }
-  ]
+  "spawners": [{
+    "type": "dragonminez:soldier01",
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 1
+  },{
+    "type": "dragonminez:soldier02",
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 1
+  },{
+    "type": "dragonminez:soldier03",
+    "weight": 1,
+    "minCount": 1,
+    "maxCount": 2
+  }]
 }

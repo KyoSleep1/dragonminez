@@ -1,16 +1,19 @@
 package com.yuseix.dragonminez.common.events;
 
+import com.yuseix.dragonminez.client.util.Keys;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.network.C2S.MenuC2S;
 import com.yuseix.dragonminez.common.network.ModMessages;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
-import com.yuseix.dragonminez.client.util.Keys;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -24,6 +27,36 @@ public class ForgeClientEvents {
 		}
 		if (Keys.UTILITY_PANEL.consumeClick()) {
 			ModMessages.sendToServer(new MenuC2S("utility"));
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+		Player player = event.getEntity();
+		if (player instanceof LocalPlayer) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				ModMessages.sendToServer(new ConfigValuesC2S());
+			});
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerDisconnect(PlayerEvent.PlayerLoggedOutEvent event) {
+		Player player = event.getEntity();
+		if (player instanceof LocalPlayer) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				ModMessages.sendToServer(new ConfigValuesC2S());
+			});
+		}
+	}
+
+	@SubscribeEvent
+	public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		Player player = event.getEntity();
+		if (player instanceof LocalPlayer) {
+			DMZStatsProvider.getCap(DMZStatsCapabilities.INSTANCE, player).ifPresent(playerstats -> {
+				ModMessages.sendToServer(new ConfigValuesC2S());
+			});
 		}
 	}
 

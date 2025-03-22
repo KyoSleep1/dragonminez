@@ -3,13 +3,15 @@ package com.yuseix.dragonminez.common.events;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.yuseix.dragonminez.client.character.renders.DmzRenderer;
 import com.yuseix.dragonminez.client.hud.spaceship.SaiyanSpacePodOverlay;
+import com.yuseix.dragonminez.client.util.Keys;
+import com.yuseix.dragonminez.client.util.render.DMZRenders;
 import com.yuseix.dragonminez.common.Reference;
 import com.yuseix.dragonminez.common.events.characters.StatsEvents;
 import com.yuseix.dragonminez.common.init.MainParticles;
 import com.yuseix.dragonminez.common.init.MainSounds;
 import com.yuseix.dragonminez.common.init.entity.custom.NaveSaiyanEntity;
-import com.yuseix.dragonminez.common.init.particles.particleoptions.KiStarParticleOptions;
 import com.yuseix.dragonminez.common.init.particles.particleoptions.AjissaLeavesParticleOptions;
+import com.yuseix.dragonminez.common.init.particles.particleoptions.KiStarParticleOptions;
 import com.yuseix.dragonminez.common.init.particles.particleoptions.SacredLeavesParticleOptions;
 import com.yuseix.dragonminez.common.network.C2S.FlyToggleC2S;
 import com.yuseix.dragonminez.common.network.C2S.PermaEffC2S;
@@ -18,8 +20,6 @@ import com.yuseix.dragonminez.common.network.ModMessages;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;
 import com.yuseix.dragonminez.common.stats.skills.DMZSkill;
-import com.yuseix.dragonminez.client.util.render.DMZRenders;
-import com.yuseix.dragonminez.client.util.Keys;
 import com.yuseix.dragonminez.server.worldgen.biome.ModBiomes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -49,7 +49,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
@@ -289,7 +288,8 @@ public class ClientEvents {
                         }
                     }
                 }
-                if (cap.getBoolean("transform") || (!cap.getStringValue("form").equals("base") && (cap.getBoolean("aura") || cap.getBoolean("turbo")))) {                    if (player.onGround()) {
+                if (cap.getBoolean("transform") || (!cap.getStringValue("form").equals("base") && (cap.getBoolean("aura") || cap.getBoolean("turbo")))) {
+                    if (player.onGround()) {
                         for (int i = 0; i < 1; i++) {
                             double xSpeed = (Math.random() - 0.5) * 0.02;
                             double ySpeed = Math.random() * 0.01;
@@ -407,17 +407,17 @@ public class ClientEvents {
                 if (cap.getBoolean("turbo")) {
                     if (player.getAbilities().flying) {
                         if (player.isSprinting()) {
-                            player.getAbilities().setFlyingSpeed(flySpeed + 0.06f);
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.03f);
                             player.onUpdateAbilities();
                         } else {
-                            player.getAbilities().setFlyingSpeed(flySpeed + 0.03f);
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.015f);
                             player.onUpdateAbilities();
                         }
                     }
                 } else {
                     if (player.getAbilities().flying) {
                         if (player.isSprinting()) {
-                            player.getAbilities().setFlyingSpeed(flySpeed + 0.03f);
+                            player.getAbilities().setFlyingSpeed(flySpeed + 0.01f);
                             player.onUpdateAbilities();
                         } else {
                             player.getAbilities().setFlyingSpeed(flySpeed);
@@ -450,9 +450,9 @@ public class ClientEvents {
 
             if (cap.getBoolean("turbo")) {
                 if (player.isSprinting()) {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.75);
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.30);
                 } else {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.5);
+                    player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.24);
                 }
             } else {
                 if (player.isSprinting()) {

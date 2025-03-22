@@ -38,31 +38,7 @@ import terrablender.api.SurfaceRuleManager;
 public class DragonMineZ {
 
 	public DragonMineZ() {
-
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-		/*
-		 * Se verifica la versión de GeckoLib, si no es la 4.7, muestra una advertencia, pero
-		 * igualmente se puede correr el mod con otras versiones, aunque se recomienda usar la 4.7.
-		 */
-
-		ModList.get().getModContainerById("geckolib").ifPresent(modContainer -> {
-			int geckoLibMajorVersion = modContainer.getModInfo().getVersion().getMajorVersion();
-			int geckoLibMinorVersion = modContainer.getModInfo().getVersion().getMinorVersion();
-			String geckoLibVersion = geckoLibMajorVersion + "." + geckoLibMinorVersion;
-
-			if (!geckoLibVersion.equals("4.7")) {
-				// GeckoLib Version Mismatch Warning
-				String warningMessage = String.format("""
-						DragonMineZ:
-						We have detected that you are using an outdated version of GeckoLib, although the mod will work correctly,
-						it is recommended to update to the latest version of GeckoLib (4.7).
-						Proceed at your own risk. DragonMineZ will load with GeckoLib version %s.
-						""", geckoLibVersion);
-				LogUtil.warn(warningMessage);
-			}
-		});
-
 		GeckoLib.initialize();
 
 		//Registramos Items
