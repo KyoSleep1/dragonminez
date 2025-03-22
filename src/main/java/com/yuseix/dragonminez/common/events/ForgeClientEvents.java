@@ -2,6 +2,7 @@ package com.yuseix.dragonminez.common.events;
 
 import com.yuseix.dragonminez.client.util.Keys;
 import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.common.network.C2S.ConfigValuesC2S;
 import com.yuseix.dragonminez.common.network.C2S.MenuC2S;
 import com.yuseix.dragonminez.common.network.ModMessages;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;

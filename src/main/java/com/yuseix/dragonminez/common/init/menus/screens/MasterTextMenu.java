@@ -10,6 +10,7 @@ import com.yuseix.dragonminez.client.gui.buttons.DMZRightButton;
 import com.yuseix.dragonminez.client.gui.buttons.GlowButton;
 import com.yuseix.dragonminez.client.gui.MasterMenu;
 import com.yuseix.dragonminez.common.Reference;
+import com.yuseix.dragonminez.common.network.C2S.ConfigValuesC2S;
 import com.yuseix.dragonminez.common.network.ModMessages;
 import com.yuseix.dragonminez.common.stats.DMZStatsCapabilities;
 import com.yuseix.dragonminez.common.stats.DMZStatsProvider;

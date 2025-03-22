@@ -235,7 +235,7 @@ public class EntityEvents {
 	}
 
 	private static void grantAdvancement(ServerPlayer player, String advancementPath) {
-		Advancement advancementToGive = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(DragonMineZ.MOD_ID, advancementPath));
+		Advancement advancementToGive = player.getServer().getAdvancements().getAdvancement(new ResourceLocation(Reference.MOD_ID, advancementPath));
 		if (advancementToGive != null) {
 			AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancementToGive);
 			if (!progress.isDone()) {
